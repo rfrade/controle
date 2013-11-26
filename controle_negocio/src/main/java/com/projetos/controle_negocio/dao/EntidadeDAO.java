@@ -1,6 +1,6 @@
 package com.projetos.controle_negocio.dao;
 
-import com.projetos.controle_entiies.base.Entidade;
+import com.projetos.controle_entities.base.Entidade;
 import java.util.List;
 
 /**
