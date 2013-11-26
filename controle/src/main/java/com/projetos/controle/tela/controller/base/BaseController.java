@@ -1,23 +1,25 @@
 package com.projetos.controle.tela.controller.base;
 
-import com.projetos.controle.tela.base.AbstractController;
-import com.projetos.controle_entiies.base.Entidade;
-import com.projetos.controle_negocio.service.base.EntidadeService;
+import java.io.Serializable;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import com.projetos.controle.tela.base.AbstractController;
+import com.projetos.controle_entities.base.Entidade;
+import com.projetos.controle_negocio.service.base.EntidadeService;
 
 /**
  * @author Rafael
  * @param <T> Entidade à qual a controller realizará manutenção
  */
-public abstract class BaseController<T extends Entidade> extends AbstractController {
+public abstract class BaseController<T extends Entidade, K extends Serializable> extends AbstractController {
 
     private T entidadeSelecionada;
     private List<T> listaEntidades;
     private Logger logger = Logger.getLogger(this.getClass().getName());
 
-    private EntidadeService<T> service;
+    private EntidadeService<T, K> service;
 
     public void filtrar() {
     }
