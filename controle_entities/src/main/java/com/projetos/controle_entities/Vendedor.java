@@ -4,7 +4,7 @@
  */
 package com.projetos.controle_entities;
 
-import com.projetos.controle_entiies.base.Entidade;
+import com.projetos.controle_entities.base.Entidade;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
