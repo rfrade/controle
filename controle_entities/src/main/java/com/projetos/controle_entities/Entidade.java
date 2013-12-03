@@ -10,8 +10,8 @@ import java.io.Serializable;
  *
  * @author Rafael
  */
-public interface Entidade<K> extends Serializable {
+public interface Entidade extends Serializable {
 
-    public K getId();
+    public Integer getId();
 
 }

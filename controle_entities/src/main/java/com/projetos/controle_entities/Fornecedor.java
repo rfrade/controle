@@ -11,12 +11,12 @@ import javax.persistence.*;
 @Entity
 @Table(name="fornecedor")
 @NamedQuery(name="Fornecedor.findAll", query="SELECT f FROM Fornecedor f")
-public class Fornecedor implements Serializable {
+public class Fornecedor implements Entidade, Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@Column(unique=true, nullable=false)
-	private int id;
+	private Integer id;
 
 	private byte ativo;
 
@@ -40,11 +40,11 @@ public class Fornecedor implements Serializable {
 	public Fornecedor() {
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return this.id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

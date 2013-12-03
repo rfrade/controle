@@ -6,7 +6,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.projetos.controle.tela.base.AbstractController;
-import com.projetos.controle_entities.base.Entidade;
+import com.projetos.controle_entities.Entidade;
 import com.projetos.controle_negocio.service.base.EntidadeService;
 
 /**

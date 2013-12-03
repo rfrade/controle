@@ -1,7 +1,7 @@
 create schema if not exists controle;
 
 create table logradouro (
-	id integer,
+	id integer not null auto_increment,
 	endereco varchar(120),
 	numero integer(6),
 	complemento varchar(20),
@@ -11,43 +11,46 @@ create table logradouro (
 	estado varchar(2),
 	email varchar(100),
 	ddd varchar(3),
-	telefone varchar(9)
+	telefone varchar(9),
+	primary key(id)
 );
 
-create table empresa (
-	id integer,
+create table fornecedor (
+	id integer not null auto_increment,
 	firma varchar(100),
 	comprador varchar(50),
 	cnpj varchar(15),
 	inscricao varchar(15),
 	ativo boolean,
 	id_logradouro integer,
-	id_tipo_empresa integer
+	primary key(id)
 );
 
-create table tipo_empresa (
-	id integer,
-	indicador_tipo varchar(1)
+create table cliente (
+	id integer not null auto_increment,
+	firma varchar(100),
+	comprador varchar(50),
+	cnpj varchar(15),
+	inscricao varchar(15),
+	ativo boolean,
+	id_logradouro integer,
+	primary key(id)
 );
 
 create table vendedor (
-	id integer,
+	id integer not null auto_increment,
 	nome varchar(50),
-	id_logradouro integer
+	id_logradouro integer,
+	primary key(id)
 );
 
-alter table logradouro
-	add constraint pk_logradouro primary key(id);
-alter table empresa
-	add constraint pk_empresa primary key(id);
-alter table tipo_empresa
-	add constraint pk_tipo_empresa primary key(id);
-alter table tipo_vendedor
-	add constraint pk_vendedor primary key(id);
 
-alter table empresa
-	add constraint fk_logradouro foreign key(id)
+alter table fornecedor
+	add constraint fk_fornecedor_logradouro foreign key(id_logradouro)
+	references logradouro(id);
+alter table cliente
+	add constraint fk_cliente_logradouro foreign key(id_logradouro)
 	references logradouro(id);
 alter table vendedor
-	add constraint fk_vendedor foreign key(id)
+	add constraint fk_vendedor foreign key(id_logradouro)
 	references logradouro(id);

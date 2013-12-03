@@ -11,41 +11,30 @@ import javax.persistence.*;
 @Entity
 @Table(name="vendedor")
 @NamedQuery(name="Vendedor.findAll", query="SELECT v FROM Vendedor v")
-public class Vendedor implements Serializable {
+public class Vendedor implements Entidade, Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@Column(unique=true, nullable=false)
-	private int id;
-
-	@Column(name="id_logradouro")
-	private int idLogradouro;
+	private Integer id;
 
 	@Column(length=50)
 	private String nome;
 
 	//bi-directional one-to-one association to Logradouro
 	@OneToOne
-	@JoinColumn(name="id", nullable=false, insertable=false, updatable=false)
+	@JoinColumn(name="id_logradouro")
 	private Logradouro logradouro;
 
 	public Vendedor() {
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return this.id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
-	}
-
-	public int getIdLogradouro() {
-		return this.idLogradouro;
-	}
-
-	public void setIdLogradouro(int idLogradouro) {
-		this.idLogradouro = idLogradouro;
 	}
 
 	public String getNome() {

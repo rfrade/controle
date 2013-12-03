@@ -12,12 +12,12 @@ import java.util.List;
 @Entity
 @Table(name="logradouro")
 @NamedQuery(name="Logradouro.findAll", query="SELECT l FROM Logradouro l")
-public class Logradouro implements Serializable {
+public class Logradouro implements Entidade, Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@Column(unique=true, nullable=false)
-	private int id;
+	private Integer id;
 
 	@Column(length=30)
 	private String bairro;
@@ -63,11 +63,11 @@ public class Logradouro implements Serializable {
 	public Logradouro() {
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return this.id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
