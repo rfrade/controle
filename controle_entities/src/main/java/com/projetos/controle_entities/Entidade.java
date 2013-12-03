@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.projetos.controle_entities.base;
+package com.projetos.controle_entities;
 
 import java.io.Serializable;
 
@@ -10,8 +10,8 @@ import java.io.Serializable;
  *
  * @author Rafael
  */
-public interface Entidade extends Serializable {
+public interface Entidade<K> extends Serializable {
 
-    public Number getId();
+    public K getId();
 
 }

@@ -1,189 +1,206 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.projetos.controle_entities;
 
-import com.projetos.controle_entities.base.Entidade;
-import javax.persistence.Basic;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import java.io.Serializable;
+import javax.persistence.*;
+import java.util.List;
+
 
 /**
- *
- * @author Rafael
+ * The persistent class for the logradouro database table.
+ * 
  */
 @Entity
-@Table(name = "logradouro")
-public class Logradouro implements Entidade {
-    private static final long serialVersionUID = 1L;
-    @Id
-    @Basic(optional = false)
-    @Column(name = "id")
-    private Integer id;
-    @Column(name = "endereco")
-    private String endereco;
-    @Column(name = "numero")
-    private Integer numero;
-    @Column(name = "complemento")
-    private String complemento;
-    @Column(name = "bairro")
-    private String bairro;
-    @Column(name = "cep")
-    private String cep;
-    @Column(name = "cidade")
-    private String cidade;
-    @Column(name = "estado")
-    private String estado;
-    @Column(name = "email")
-    private String email;
-    @Column(name = "ddd")
-    private String ddd;
-    @Column(name = "telefone")
-    private String telefone;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "logradouro")
-    private Vendedor vendedor;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "logradouro")
-    private Empresa empresa;
+@Table(name="logradouro")
+@NamedQuery(name="Logradouro.findAll", query="SELECT l FROM Logradouro l")
+public class Logradouro implements Serializable {
+	private static final long serialVersionUID = 1L;
 
-    public Logradouro() {
-    }
+	@Id
+	@Column(unique=true, nullable=false)
+	private int id;
 
-    public Logradouro(Integer id) {
-        this.id = id;
-    }
+	@Column(length=30)
+	private String bairro;
 
-    public Integer getId() {
-        return id;
-    }
+	@Column(length=8)
+	private String cep;
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+	@Column(length=30)
+	private String cidade;
 
-    public String getEndereco() {
-        return endereco;
-    }
+	@Column(length=20)
+	private String complemento;
 
-    public void setEndereco(String endereco) {
-        this.endereco = endereco;
-    }
+	@Column(length=3)
+	private String ddd;
 
-    public Integer getNumero() {
-        return numero;
-    }
+	@Column(length=100)
+	private String email;
 
-    public void setNumero(Integer numero) {
-        this.numero = numero;
-    }
+	@Column(length=120)
+	private String endereco;
 
-    public String getComplemento() {
-        return complemento;
-    }
+	@Column(length=2)
+	private String estado;
 
-    public void setComplemento(String complemento) {
-        this.complemento = complemento;
-    }
+	private int numero;
 
-    public String getBairro() {
-        return bairro;
-    }
+	@Column(length=9)
+	private String telefone;
 
-    public void setBairro(String bairro) {
-        this.bairro = bairro;
-    }
+	//bi-directional many-to-one association to Cliente
+	@OneToMany(mappedBy="logradouro")
+	private List<Cliente> clientes;
 
-    public String getCep() {
-        return cep;
-    }
+	//bi-directional many-to-one association to Fornecedor
+	@OneToMany(mappedBy="logradouro")
+	private List<Fornecedor> fornecedors;
 
-    public void setCep(String cep) {
-        this.cep = cep;
-    }
+	//bi-directional one-to-one association to Vendedor
+	@OneToOne(mappedBy="logradouro")
+	private Vendedor vendedor;
 
-    public String getCidade() {
-        return cidade;
-    }
+	public Logradouro() {
+	}
 
-    public void setCidade(String cidade) {
-        this.cidade = cidade;
-    }
+	public int getId() {
+		return this.id;
+	}
 
-    public String getEstado() {
-        return estado;
-    }
+	public void setId(int id) {
+		this.id = id;
+	}
 
-    public void setEstado(String estado) {
-        this.estado = estado;
-    }
+	public String getBairro() {
+		return this.bairro;
+	}
 
-    public String getEmail() {
-        return email;
-    }
+	public void setBairro(String bairro) {
+		this.bairro = bairro;
+	}
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+	public String getCep() {
+		return this.cep;
+	}
 
-    public String getDdd() {
-        return ddd;
-    }
+	public void setCep(String cep) {
+		this.cep = cep;
+	}
 
-    public void setDdd(String ddd) {
-        this.ddd = ddd;
-    }
+	public String getCidade() {
+		return this.cidade;
+	}
 
-    public String getTelefone() {
-        return telefone;
-    }
+	public void setCidade(String cidade) {
+		this.cidade = cidade;
+	}
 
-    public void setTelefone(String telefone) {
-        this.telefone = telefone;
-    }
+	public String getComplemento() {
+		return this.complemento;
+	}
 
-    public Vendedor getVendedor() {
-        return vendedor;
-    }
+	public void setComplemento(String complemento) {
+		this.complemento = complemento;
+	}
 
-    public void setVendedor(Vendedor vendedor) {
-        this.vendedor = vendedor;
-    }
+	public String getDdd() {
+		return this.ddd;
+	}
 
-    public Empresa getEmpresa() {
-        return empresa;
-    }
+	public void setDdd(String ddd) {
+		this.ddd = ddd;
+	}
 
-    public void setEmpresa(Empresa empresa) {
-        this.empresa = empresa;
-    }
+	public String getEmail() {
+		return this.email;
+	}
 
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
-    }
+	public void setEmail(String email) {
+		this.email = email;
+	}
 
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Logradouro)) {
-            return false;
-        }
-        Logradouro other = (Logradouro) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
-    }
+	public String getEndereco() {
+		return this.endereco;
+	}
 
-    @Override
-    public String toString() {
-        return "com.projetos.controle_entiies.Logradouro[ id=" + id + " ]";
-    }
-    
+	public void setEndereco(String endereco) {
+		this.endereco = endereco;
+	}
+
+	public String getEstado() {
+		return this.estado;
+	}
+
+	public void setEstado(String estado) {
+		this.estado = estado;
+	}
+
+	public int getNumero() {
+		return this.numero;
+	}
+
+	public void setNumero(int numero) {
+		this.numero = numero;
+	}
+
+	public String getTelefone() {
+		return this.telefone;
+	}
+
+	public void setTelefone(String telefone) {
+		this.telefone = telefone;
+	}
+
+	public List<Cliente> getClientes() {
+		return this.clientes;
+	}
+
+	public void setClientes(List<Cliente> clientes) {
+		this.clientes = clientes;
+	}
+
+	public Cliente addCliente(Cliente cliente) {
+		getClientes().add(cliente);
+		cliente.setLogradouro(this);
+
+		return cliente;
+	}
+
+	public Cliente removeCliente(Cliente cliente) {
+		getClientes().remove(cliente);
+		cliente.setLogradouro(null);
+
+		return cliente;
+	}
+
+	public List<Fornecedor> getFornecedors() {
+		return this.fornecedors;
+	}
+
+	public void setFornecedors(List<Fornecedor> fornecedors) {
+		this.fornecedors = fornecedors;
+	}
+
+	public Fornecedor addFornecedor(Fornecedor fornecedor) {
+		getFornecedors().add(fornecedor);
+		fornecedor.setLogradouro(this);
+
+		return fornecedor;
+	}
+
+	public Fornecedor removeFornecedor(Fornecedor fornecedor) {
+		getFornecedors().remove(fornecedor);
+		fornecedor.setLogradouro(null);
+
+		return fornecedor;
+	}
+
+	public Vendedor getVendedor() {
+		return this.vendedor;
+	}
+
+	public void setVendedor(Vendedor vendedor) {
+		this.vendedor = vendedor;
+	}
+
 }

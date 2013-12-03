@@ -22,8 +22,8 @@ public class ConfiguracaoJPATeste {
 	public void testarConfiguracaoJPA() {
 		EntityManagerFactory factory = Persistence.createEntityManagerFactory("com.inovacao.controle_entities");
 		EntityManager em = factory.createEntityManager();
-		Query q = em.createQuery("select t from com.projetos.controle_entities.Empresa t");
-		List<Empresa> todoList = q.getResultList();
+		Query q = em.createQuery("select t from Logradouro t");
+		List<Logradouro> todoList = q.getResultList();
 	    System.out.println(todoList);
 	}
 	

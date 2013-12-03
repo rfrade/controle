@@ -1,100 +1,67 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.projetos.controle_entities;
 
-import com.projetos.controle_entities.base.Entidade;
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import java.io.Serializable;
+import javax.persistence.*;
+
 
 /**
- *
- * @author Rafael
+ * The persistent class for the vendedor database table.
+ * 
  */
 @Entity
-@Table(name = "vendedor")
-public class Vendedor implements Entidade {
-    private static final long serialVersionUID = 1L;
-    @Id
-    @Basic(optional = false)
-    @Column(name = "id")
-    private Integer id;
-    @Column(name = "nome")
-    private String nome;
-    @Column(name = "id_logradouro")
-    private Integer idLogradouro;
-    @JoinColumn(name = "id", referencedColumnName = "id", insertable = false, updatable = false)
-    @OneToOne(optional = false)
-    private Logradouro logradouro;
+@Table(name="vendedor")
+@NamedQuery(name="Vendedor.findAll", query="SELECT v FROM Vendedor v")
+public class Vendedor implements Serializable {
+	private static final long serialVersionUID = 1L;
 
-    public Vendedor() {
-    }
+	@Id
+	@Column(unique=true, nullable=false)
+	private int id;
 
-    public Vendedor(Integer id) {
-        this.id = id;
-    }
+	@Column(name="id_logradouro")
+	private int idLogradouro;
 
-    public Integer getId() {
-        return id;
-    }
+	@Column(length=50)
+	private String nome;
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+	//bi-directional one-to-one association to Logradouro
+	@OneToOne
+	@JoinColumn(name="id", nullable=false, insertable=false, updatable=false)
+	private Logradouro logradouro;
 
-    public String getNome() {
-        return nome;
-    }
+	public Vendedor() {
+	}
 
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
+	public int getId() {
+		return this.id;
+	}
 
-    public Integer getIdLogradouro() {
-        return idLogradouro;
-    }
+	public void setId(int id) {
+		this.id = id;
+	}
 
-    public void setIdLogradouro(Integer idLogradouro) {
-        this.idLogradouro = idLogradouro;
-    }
+	public int getIdLogradouro() {
+		return this.idLogradouro;
+	}
 
-    public Logradouro getLogradouro() {
-        return logradouro;
-    }
+	public void setIdLogradouro(int idLogradouro) {
+		this.idLogradouro = idLogradouro;
+	}
 
-    public void setLogradouro(Logradouro logradouro) {
-        this.logradouro = logradouro;
-    }
+	public String getNome() {
+		return this.nome;
+	}
 
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
-    }
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
 
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Vendedor)) {
-            return false;
-        }
-        Vendedor other = (Vendedor) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
-    }
+	public Logradouro getLogradouro() {
+		return this.logradouro;
+	}
 
-    @Override
-    public String toString() {
-        return "com.projetos.controle_entiies.Vendedor[ id=" + id + " ]";
-    }
-    
+	public void setLogradouro(Logradouro logradouro) {
+		this.logradouro = logradouro;
+	}
+
 }
