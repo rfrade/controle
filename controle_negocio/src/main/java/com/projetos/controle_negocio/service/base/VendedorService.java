@@ -1,7 +1,7 @@
 package com.projetos.controle_negocio.service.base;
 
-import com.projetos.controle_entities.Logradouro;
+import com.projetos.controle_entities.Vendedor;
 
-public abstract class VendedorService extends EntidadeService<Logradouro> {
+public interface VendedorService extends EntidadeService<Vendedor> {
 
 }

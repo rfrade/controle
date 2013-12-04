@@ -1,6 +1,7 @@
 package com.projetos.controle_entities;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
 
 
@@ -37,6 +38,11 @@ public class Cliente implements Entidade, Serializable {
 	@ManyToOne
 	@JoinColumn(name="id_logradouro")
 	private Logradouro logradouro;
+
+	@Override
+	public String toString() {
+		return "Cliente [id=" + id + ", cnpj=" + cnpj + ", firma=" + firma + "]";
+	}
 
 	public Cliente() {
 	}

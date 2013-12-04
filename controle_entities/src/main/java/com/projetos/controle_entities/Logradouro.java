@@ -1,8 +1,12 @@
 package com.projetos.controle_entities;
 
 import java.io.Serializable;
-import javax.persistence.*;
-import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 
 
 /**
@@ -48,28 +52,21 @@ public class Logradouro implements Entidade, Serializable {
 	@Column(length=9)
 	private String telefone;
 
-	//bi-directional many-to-one association to Cliente
-	@OneToMany(mappedBy="logradouro")
-	private List<Cliente> clientes;
-
-	//bi-directional many-to-one association to Fornecedor
-	@OneToMany(mappedBy="logradouro")
-	private List<Fornecedor> fornecedors;
-
-	//bi-directional one-to-one association to Vendedor
-	@OneToOne(mappedBy="logradouro")
-	private Vendedor vendedor;
-
 	public Logradouro() {
+	}
+
+	@Override
+	public String toString() {
+		return "Logradouro [id=" + id + ", cidade=" + cidade + ", endereco=" + endereco + ", numero=" + numero + "]";
 	}
 
 	public Integer getId() {
 		return this.id;
 	}
 
-	public void setId(Integer id) {
+	/*public void setId(Integer id) {
 		this.id = id;
-	}
+	}*/
 
 	public String getBairro() {
 		return this.bairro;
@@ -149,58 +146,6 @@ public class Logradouro implements Entidade, Serializable {
 
 	public void setTelefone(String telefone) {
 		this.telefone = telefone;
-	}
-
-	public List<Cliente> getClientes() {
-		return this.clientes;
-	}
-
-	public void setClientes(List<Cliente> clientes) {
-		this.clientes = clientes;
-	}
-
-	public Cliente addCliente(Cliente cliente) {
-		getClientes().add(cliente);
-		cliente.setLogradouro(this);
-
-		return cliente;
-	}
-
-	public Cliente removeCliente(Cliente cliente) {
-		getClientes().remove(cliente);
-		cliente.setLogradouro(null);
-
-		return cliente;
-	}
-
-	public List<Fornecedor> getFornecedors() {
-		return this.fornecedors;
-	}
-
-	public void setFornecedors(List<Fornecedor> fornecedors) {
-		this.fornecedors = fornecedors;
-	}
-
-	public Fornecedor addFornecedor(Fornecedor fornecedor) {
-		getFornecedors().add(fornecedor);
-		fornecedor.setLogradouro(this);
-
-		return fornecedor;
-	}
-
-	public Fornecedor removeFornecedor(Fornecedor fornecedor) {
-		getFornecedors().remove(fornecedor);
-		fornecedor.setLogradouro(null);
-
-		return fornecedor;
-	}
-
-	public Vendedor getVendedor() {
-		return this.vendedor;
-	}
-
-	public void setVendedor(Vendedor vendedor) {
-		this.vendedor = vendedor;
 	}
 
 }

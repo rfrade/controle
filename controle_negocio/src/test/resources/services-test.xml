@@ -20,4 +20,20 @@
     <context:annotation-config/>
     <context:component-scan base-package="com.projetos.controle_negocio"/>
 
+	<!-- Spring Data JPA Config -->
+	<jpa:repositories base-package="com.projetos.controle_negocio.repositoy"/>
+
+	<bean id="entityManagerFactory"
+	   class="org.springframework.orm.jpa.LocalEntityManagerFactoryBean">
+	   <property name="persistenceUnitName" value="com.inovacao.controle_entities" />
+	</bean>
+	
+	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+		<property name="entityManagerFactory" ref="entityManagerFactory" />
+	</bean>
+	
+	<!-- <bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" /> -->
+	
+	<tx:annotation-driven transaction-manager="transactionManager" />
+
 </beans>

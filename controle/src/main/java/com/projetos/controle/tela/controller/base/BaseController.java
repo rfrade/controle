@@ -7,7 +7,7 @@ import java.util.logging.Logger;
 
 import com.projetos.controle.tela.base.AbstractController;
 import com.projetos.controle_entities.Entidade;
-import com.projetos.controle_negocio.service.base.EntidadeService;
+import com.projetos.controle_negocio.service.impl.EntidadeServiceImpl;
 
 /**
  * @author Rafael
@@ -19,7 +19,7 @@ public abstract class BaseController<T extends Entidade, K extends Serializable>
     private List<T> listaEntidades;
     private Logger logger = Logger.getLogger(this.getClass().getName());
 
-    private EntidadeService<T, K> service;
+    private EntidadeServiceImpl<T, K> service;
 
     public void filtrar() {
     }

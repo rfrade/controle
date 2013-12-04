@@ -1,7 +1,22 @@
 package com.projetos.controle_negocio.service.impl;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.projetos.controle_entities.Cliente;
+import com.projetos.controle_negocio.repositoy.ClienteRepository;
+import com.projetos.controle_negocio.repositoy.EntidadeRepository;
 import com.projetos.controle_negocio.service.base.ClienteService;
 
-public class ClienteServiceImpl extends ClienteService {
+@Service
+public class ClienteServiceImpl extends EntidadeServiceImpl<Cliente> implements ClienteService {
+
+	@Autowired
+	private ClienteRepository clienteRepository;
+
+	@Override
+	protected EntidadeRepository<Cliente> getRepository() {
+		return clienteRepository;
+	}
 
 }

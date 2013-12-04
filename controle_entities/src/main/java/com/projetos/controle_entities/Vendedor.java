@@ -29,6 +29,11 @@ public class Vendedor implements Entidade, Serializable {
 	public Vendedor() {
 	}
 
+	@Override
+	public String toString() {
+		return "Vendedor [id=" + id + ", nome=" + nome + "]";
+	}
+
 	public Integer getId() {
 		return this.id;
 	}

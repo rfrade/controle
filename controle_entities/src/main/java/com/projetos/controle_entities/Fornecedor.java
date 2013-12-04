@@ -40,6 +40,11 @@ public class Fornecedor implements Entidade, Serializable {
 	public Fornecedor() {
 	}
 
+	@Override
+	public String toString() {
+		return "Fornecedor [id=" + id + ", cnpj=" + cnpj + ", firma=" + firma + "]";
+	}
+
 	public Integer getId() {
 		return this.id;
 	}
