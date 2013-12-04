@@ -6,7 +6,7 @@ import com.projetos.controle_entities.Entidade;
 
 public interface EntidadeService<T extends Entidade> {
 
-    public void salvar(T t);
+    public T salvar(T t);
     
     public void remover(T t);
 

@@ -358,7 +358,7 @@ public class ClienteFrame extends BaseFrame {
 
     private void txtFirmaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFirmaActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtFirmaActionPerformed
+    }
 
     private void txtEnderecoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEnderecoActionPerformed
         // TODO add your handling code here:

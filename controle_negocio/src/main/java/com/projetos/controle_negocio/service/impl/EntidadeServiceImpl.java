@@ -17,8 +17,8 @@ public abstract class EntidadeServiceImpl<T extends Entidade> implements Entidad
 
     protected abstract EntidadeRepository<T> getRepository();
 
-    public void salvar(T t) {
-    	getRepository().save(t);
+    public T salvar(T t) {
+    	return getRepository().save(t);
     }
     
     public void remover(T t) {

@@ -1,6 +1,6 @@
 package com.projetos.controle;
 
-import com.projetos.controle.tela.controller.EmpresaController;
+import com.projetos.controle.tela.controller.ClienteController;
 import junit.framework.Assert;
 import org.apache.log4j.Logger;
 import org.junit.Test;
@@ -19,7 +19,7 @@ public class ConfiguracoesTest {
     public void iniciarContextoTest() {
         log.info("asdf");
         ApplicationContext context = new ClassPathXmlApplicationContext(new String[] {"/applicationContext.xml"});
-        log.info(context.getBean(EmpresaController.class));
+        log.info(context.getBean(ClienteController.class));
         Assert.assertNotNull(context);
     }
 

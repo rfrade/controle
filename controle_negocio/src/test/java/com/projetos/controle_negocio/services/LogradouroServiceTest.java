@@ -10,32 +10,26 @@ import com.projetos.controle_entities.Logradouro;
 
 public class LogradouroServiceTest extends BaseServiceTest {
 
-	private int id = 0;
-
 	@Test
 	public void salvarTeste() {
-		Logradouro logradouro1 = novoLogradouro1();
-		logradouroService.salvar(logradouro1);
-		Assert.assertFalse(logradouro1.getId() != null);
-		Assert.assertFalse(logradouro1.getId() != 0);
-		this.id = logradouro1.getId();
-		log.debug(id);
-	}
+		int id = 0;
 
-	@Test
-	public void removerTeste() {
+		Logradouro logradouro1 = novoLogradouro1();
+		Assert.assertFalse(logradouro1.getId() != null);
+		logradouroService.salvar(logradouro1);
+		Assert.assertFalse(logradouro1.getId() == 0);
+		id = logradouro1.getId();
+		log.debug(id);
+
 		logradouroService.remover(id);
-	}
-	
-	@Test
-	public void listarTeste() {
+
 		List<Logradouro> lista = logradouroService.listar();
 		log.debug(lista);
 		for (Logradouro logradouro : lista) {
 			Assert.assertFalse(logradouro.getId().equals(id));
 		}
 	}
-
+	
 	private Logradouro novoLogradouro1() {
 		Logradouro logradouro1 = new Logradouro();
 		logradouro1.setEndereco("Rua Norberto Ferreira");
