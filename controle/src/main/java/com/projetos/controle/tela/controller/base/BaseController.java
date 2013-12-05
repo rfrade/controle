@@ -2,11 +2,12 @@ package com.projetos.controle.tela.controller.base;
 
 import java.util.List;
 import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 import com.projetos.controle.tela.base.AbstractController;
 import com.projetos.controle_entities.Entidade;
 import com.projetos.controle_negocio.service.base.EntidadeService;
+import com.projetos.controle_util.validacao.MensagemValidacao;
 
 /**
  * @author Rafael
@@ -18,7 +19,7 @@ public abstract class BaseController<T extends Entidade> extends AbstractControl
     private List<T> listaEntidades;
     private Logger logger = Logger.getLogger(this.getClass().getName());
 
-    private 
+    private MensagemValidacao mensagemValidacao;
 
     public void filtrar() {
     }
@@ -29,17 +30,30 @@ public abstract class BaseController<T extends Entidade> extends AbstractControl
             Class<? extends Object> classe = entidadeSelecionada.getClass();
             entidadeSelecionada = (T) classe.newInstance();
         } catch (InstantiationException ex) {
-            logger.log(Level.SEVERE, null, ex);
+            logger.error(ex.getMessage(), ex);
         } catch (IllegalAccessException ex) {
-            logger.log(Level.SEVERE, null, ex);
+            logger.error(ex.getMessage(), ex);
         }
     }
 
     public void salvar() {
+    	if (entidadeSelecionada.getId() != null) {
+    		validaInclusao();
+    	} else {
+    		validaAlteracao();
+    	}
     	getEntidadeService().salvar(entidadeSelecionada);
     }
 
-    public void remover() {
+    private void validaAlteracao() {
+		
+	}
+
+	private void validaInclusao() {
+		
+	}
+
+	public void remover() {
     	getEntidadeService().remover(entidadeSelecionada);
     }
 
