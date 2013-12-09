@@ -1,13 +1,14 @@
 package com.projetos.controle.tela.controller.base;
 
 import java.util.List;
-import java.util.logging.Level;
+
 import org.apache.log4j.Logger;
 
 import com.projetos.controle.tela.base.AbstractController;
 import com.projetos.controle_entities.Entidade;
 import com.projetos.controle_negocio.service.base.EntidadeService;
 import com.projetos.controle_util.validacao.MensagemValidacao;
+import com.projetos.controle_util.validacao.ValidacaoException;
 
 /**
  * @author Rafael
@@ -17,7 +18,7 @@ public abstract class BaseController<T extends Entidade> extends AbstractControl
 
     private T entidadeSelecionada;
     private List<T> listaEntidades;
-    private Logger logger = Logger.getLogger(this.getClass().getName());
+	protected Logger log = Logger.getLogger(this.getClass());
 
     private MensagemValidacao mensagemValidacao;
 
@@ -30,27 +31,35 @@ public abstract class BaseController<T extends Entidade> extends AbstractControl
             Class<? extends Object> classe = entidadeSelecionada.getClass();
             entidadeSelecionada = (T) classe.newInstance();
         } catch (InstantiationException ex) {
-            logger.error(ex.getMessage(), ex);
+        	tratarErro(ex);
         } catch (IllegalAccessException ex) {
-            logger.error(ex.getMessage(), ex);
+        	tratarErro(ex);
         }
     }
 
-    public void salvar() {
-    	if (entidadeSelecionada.getId() != null) {
-    		validaInclusao();
-    	} else {
-    		validaAlteracao();
-    	}
-    	getEntidadeService().salvar(entidadeSelecionada);
-    }
-
-    private void validaAlteracao() {
-		
+	public void salvar() {
+		try {
+			if (entidadeSelecionada.getId() != null) {
+				validaInclusao();
+			} else {
+				validaAlteracao();
+			}
+			getEntidadeService().salvar(entidadeSelecionada);
+		} catch (ValidacaoException e) {
+			tratarErro(e);
+		}
 	}
 
-	private void validaInclusao() {
-		
+	private void tratarErro(Exception e) {
+		log.error(e.getMessage(), e);
+	}
+
+    protected void validaAlteracao() throws ValidacaoException {
+		throw new ValidacaoException(null, null);
+	}
+
+    protected void validaInclusao() throws ValidacaoException {
+    	throw new ValidacaoException(null, null);
 	}
 
 	public void remover() {

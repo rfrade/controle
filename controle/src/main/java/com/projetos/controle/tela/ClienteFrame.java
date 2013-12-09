@@ -4,17 +4,27 @@
  */
 package com.projetos.controle.tela;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import com.projetos.controle.tela.base.BaseFrame;
+import com.projetos.controle.tela.controller.ClienteController;
 
 /**
  *
  * @author Rafael
  */
+@Component
 public class ClienteFrame extends BaseFrame {
 
     
 
-    /**
+	private static final long serialVersionUID = 1L;
+
+	@Autowired
+	private ClienteController clienteController;
+
+	/**
      * Creates new form ClienteFrame
      */
     public ClienteFrame() {
