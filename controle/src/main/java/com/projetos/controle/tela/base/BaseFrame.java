@@ -1,24 +1,18 @@
 package com.projetos.controle.tela.base;
 
 import com.projetos.controle.tela.controller.base.BaseController;
+import com.projetos.controle_entities.Entidade;
 
 /**
  * @author Rafael
  */
-public abstract class BaseFrame extends AbstractFrame {
+public abstract class BaseFrame<T extends Entidade> extends AbstractFrame {
 
-    private BaseController controller;
+	private static final long serialVersionUID = 1L;
 
     public BaseFrame() {
-        super.controller = this.controller;
     }
 
-    public BaseController getController() {
-        return controller;
-    }
-
-    public void setController(BaseController controller) {
-        this.controller = controller;
-    }
+    protected abstract BaseController<T> getController();
 
 }

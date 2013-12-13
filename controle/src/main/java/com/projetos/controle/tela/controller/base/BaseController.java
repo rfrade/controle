@@ -16,7 +16,7 @@ import com.projetos.controle_util.validacao.ValidacaoException;
  */
 public abstract class BaseController<T extends Entidade> extends AbstractController<T> {
 
-    private T entidadeSelecionada;
+    private T entidadeForm;
     private List<T> listaEntidades;
 	protected Logger log = Logger.getLogger(this.getClass());
 
@@ -28,8 +28,8 @@ public abstract class BaseController<T extends Entidade> extends AbstractControl
     @SuppressWarnings("unchecked")
 	public void novo() {
         try {
-            Class<? extends Object> classe = entidadeSelecionada.getClass();
-            entidadeSelecionada = (T) classe.newInstance();
+            Class<? extends Object> classe = entidadeForm.getClass();
+            entidadeForm = (T) classe.newInstance();
         } catch (InstantiationException ex) {
         	tratarErro(ex);
         } catch (IllegalAccessException ex) {
@@ -39,12 +39,12 @@ public abstract class BaseController<T extends Entidade> extends AbstractControl
 
 	public void salvar() {
 		try {
-			if (entidadeSelecionada.getId() != null) {
+			if (entidadeForm.getId() != null) {
 				validaInclusao();
 			} else {
 				validaAlteracao();
 			}
-			getEntidadeService().salvar(entidadeSelecionada);
+			getEntidadeService().salvar(entidadeForm);
 		} catch (ValidacaoException e) {
 			tratarErro(e);
 		}
@@ -63,17 +63,17 @@ public abstract class BaseController<T extends Entidade> extends AbstractControl
 	}
 
 	public void remover() {
-    	getEntidadeService().remover(entidadeSelecionada);
+    	getEntidadeService().remover(entidadeForm);
     }
 
     protected abstract EntidadeService<T> getEntidadeService();
 
-    public T getEntidadeSelecionada() {
-        return entidadeSelecionada;
+    public T getEntidadeForm() {
+        return entidadeForm;
     }
 
-    public void setEntidadeSelecionada(T entidadeSelecionada) {
-        this.entidadeSelecionada = entidadeSelecionada;
+    public void setEntidadeForm(T entidadeForm) {
+        this.entidadeForm = entidadeForm;
     }
 
     public List<T> getListaEntidades() {

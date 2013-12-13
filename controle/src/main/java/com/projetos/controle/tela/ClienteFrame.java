@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.projetos.controle.tela;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,13 +5,14 @@ import org.springframework.stereotype.Component;
 
 import com.projetos.controle.tela.base.BaseFrame;
 import com.projetos.controle.tela.controller.ClienteController;
+import com.projetos.controle_entities.Cliente;
 
 /**
  *
  * @author Rafael
  */
 @Component
-public class ClienteFrame extends BaseFrame {
+public class ClienteFrame extends BaseFrame<Cliente> {
 
     
 
@@ -212,7 +209,9 @@ public class ClienteFrame extends BaseFrame {
                 "Firma", "Endereço", "Número", "Bairro", "Cidade"
             }
         ) {
-            Class[] types = new Class [] {
+
+        	private static final long serialVersionUID = 1L;
+			Class[] types = new Class [] {
                 java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
 
@@ -491,4 +490,9 @@ public class ClienteFrame extends BaseFrame {
     private javax.swing.JTextField txtTelefone;
     private javax.swing.JTextField txtTelefonePrefixo;
     // End of variables declaration//GEN-END:variables
+
+	@Override
+	protected ClienteController getController() {
+		return clienteController;
+	}
 }
