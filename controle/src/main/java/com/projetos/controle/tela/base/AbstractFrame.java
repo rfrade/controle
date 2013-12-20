@@ -1,12 +1,15 @@
 package com.projetos.controle.tela.base;
 
 import java.lang.reflect.Field;
+
 import javax.swing.JFrame;
 import javax.swing.JTextField;
 
 /**
  * @author Rafael
  */
+//TODO: Excluir essa classe
+@Deprecated
 public class AbstractFrame extends JFrame {
 
     protected AbstractController controller;

@@ -1,6 +1,7 @@
 package com.projetos.controle.tela.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Controller;
 
 import com.projetos.controle.tela.controller.base.BaseController;
@@ -13,6 +14,7 @@ import com.projetos.controle_negocio.service.base.EntidadeService;
  * @author Rafael
  */
 @Controller
+@Lazy
 public class ClienteController extends BaseController<Cliente> {
 
 	@Autowired
