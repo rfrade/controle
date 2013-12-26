@@ -24,5 +24,5 @@ public class ClienteController extends BaseController<Cliente> {
     protected EntidadeService<Cliente> getEntidadeService() {
     	return clienteService;
     }
-    
+
 }

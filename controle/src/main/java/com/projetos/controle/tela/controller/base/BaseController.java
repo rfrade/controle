@@ -25,7 +25,7 @@ public abstract class BaseController<T extends Entidade> extends AbstractControl
     public void filtrar() {
     }
 
-    @SuppressWarnings("unchecked")
+    /*@SuppressWarnings("unchecked")*/
 	public void novo() {
         try {
             Class<? extends Object> classe = entidadeForm.getClass();
@@ -76,12 +76,12 @@ public abstract class BaseController<T extends Entidade> extends AbstractControl
         this.entidadeForm = entidadeForm;
     }
 
-    public List<T> getListaEntidades() {
-        return listaEntidades;
-    }
+	public List<T> getListaEntidades() {
+		return listaEntidades;
+	}
 
-    public void setListaEntidades(List<T> listaEntidades) {
-        this.listaEntidades = listaEntidades;
-    }
-    
+	public void setListaEntidades(List<T> listaEntidades) {
+		this.listaEntidades = listaEntidades;
+	}
+
 }
