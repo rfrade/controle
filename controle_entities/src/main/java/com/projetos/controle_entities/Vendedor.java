@@ -25,7 +25,7 @@ public class Vendedor implements Entidade, Serializable {
 
 	//bi-directional one-to-one association to Logradouro
 	@OneToOne
-	@JoinColumn(name="id_logradouro")
+	@JoinColumn(name="id_logradouro", insertable=true, updatable=true)
 	private Logradouro logradouro;
 
 	public Vendedor() {

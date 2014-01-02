@@ -20,7 +20,7 @@ public class Cliente implements Entidade, Serializable {
 	@Column(unique=true, nullable=false)
 	private Integer id;
 
-	private byte ativo;
+	private boolean ativo;
 
 	@Column(length=15)
 	private String cnpj;
@@ -35,8 +35,8 @@ public class Cliente implements Entidade, Serializable {
 	private String inscricao;
 
 	//bi-directional many-to-one association to Logradouro
-	@ManyToOne
-	@JoinColumn(name="id_logradouro")
+	@ManyToOne(cascade = CascadeType.PERSIST)
+	@JoinColumn(name="id_logradouro", insertable=true, updatable=true)
 	private Logradouro logradouro;
 
 	@Override
@@ -55,11 +55,11 @@ public class Cliente implements Entidade, Serializable {
 		this.id = id;
 	}
 
-	public byte getAtivo() {
+	public boolean getAtivo() {
 		return this.ativo;
 	}
 
-	public void setAtivo(byte ativo) {
+	public void setAtivo(boolean ativo) {
 		this.ativo = ativo;
 	}
 

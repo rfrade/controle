@@ -36,7 +36,7 @@ public class Fornecedor implements Entidade, Serializable {
 
 	//bi-directional many-to-one association to Logradouro
 	@ManyToOne
-	@JoinColumn(name="id_logradouro")
+	@JoinColumn(name="id_logradouro", insertable=true, updatable=true)
 	private Logradouro logradouro;
 
 	public Fornecedor() {

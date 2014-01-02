@@ -2,14 +2,14 @@ package com.projetos.controle.tela;
 
 import java.util.Calendar;
 
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 import org.apache.log4j.Logger;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.projetos.controle.tela.base.BaseApplication;
+import com.projetos.controle.tela.base.GerenciadorTela;
 
 public class InicioAplicacao extends BaseApplication {
 
@@ -19,17 +19,19 @@ public class InicioAplicacao extends BaseApplication {
 		log.info("Aplicação iniciada em " + Calendar.getInstance().getTime());
 		launch("Controle 1.0");
 
-		/*ApplicationContext context = new ClassPathXmlApplicationContext("");*/
-		
 	}
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		primaryStage.setTitle("Teste");
-		Pane pane = (Pane)FXMLLoader.load(getClass().getResource("/fxml/ClienteCadastro.fxml"));
-		Scene scene = new Scene(pane);
-		primaryStage.setScene(scene);
-		primaryStage.show();
+		
+		@SuppressWarnings("resource")
+		ApplicationContext context = new ClassPathXmlApplicationContext("classpath:applicationContext.xml");
+		GerenciadorTela gerenciadorTela = context.getBean(GerenciadorTela.class);
+
+		gerenciadorTela.setPrimaryStage(primaryStage);
+		primaryStage.setTitle("Aplicação Controle 1.0");
+
+		gerenciadorTela.exibirTelaPrincipal();
 	}
 
 }

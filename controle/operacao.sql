@@ -1,3 +1,4 @@
+drop table empresa;
 drop table fornecedor;
 drop table cliente;
 drop table vendedor;

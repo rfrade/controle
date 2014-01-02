@@ -1,8 +1,5 @@
 package com.projetos.controle.tela;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import com.projetos.controle.tela.base.BaseFrame;
 import com.projetos.controle.tela.controller.ClienteController;
 import com.projetos.controle_entities.Cliente;
@@ -11,14 +8,14 @@ import com.projetos.controle_entities.Cliente;
  *
  * @author Rafael
  */
-@Component
+/*@Component*/
 public class ClienteFrame extends BaseFrame<Cliente> {
 
     
 
 	private static final long serialVersionUID = 1L;
 
-	@Autowired
+	/*@Autowired*/
 	private ClienteController clienteController;
 
 	/**
@@ -418,7 +415,7 @@ public class ClienteFrame extends BaseFrame<Cliente> {
     }//GEN-LAST:event_txtNumeroActionPerformed
 
     private void btnNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovoActionPerformed
-        getController().novo();
+        /*getController().novo();*/
     }//GEN-LAST:event_btnNovoActionPerformed
 
     /**
