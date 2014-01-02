@@ -80,6 +80,9 @@ public class ClienteController extends BaseController<Cliente> {
 	
 	@FXML
 	private RadioButton ativo;
+
+	@FXML
+	private RadioButton inativo;
 	
 	@FXML
 	private Label mensagem;
@@ -117,13 +120,14 @@ public class ClienteController extends BaseController<Cliente> {
 
 	@Override
 	public void initialize(URL url, ResourceBundle resource) {
-		entidadeForm = new Cliente();
 		listaClientes = FXCollections.observableArrayList(clienteService.listar());
 		clienteTable = new TableView<Cliente>();
 		clienteTable.setItems(listaClientes);
+		ddd.setPromptText(paramString);
 	}
 
 	public void exibirTelaClienteLista() {
+		entidadeForm = new Cliente();
 		gerenciadorTela.exibirTelaClienteLista();
 	}
 
@@ -147,7 +151,6 @@ public class ClienteController extends BaseController<Cliente> {
 	public void setClienteTable(TableView<Cliente> clienteTable) {
 		this.clienteTable = clienteTable;
 	}
-
 
 	public TextField getFirma() {
 		return firma;
@@ -267,6 +270,14 @@ public class ClienteController extends BaseController<Cliente> {
 
 	public void setMensagem(Label mensagem) {
 		this.mensagem = mensagem;
+	}
+
+	public RadioButton getInativo() {
+		return inativo;
+	}
+
+	public void setInativo(RadioButton inativo) {
+		this.inativo = inativo;
 	}
 
 }

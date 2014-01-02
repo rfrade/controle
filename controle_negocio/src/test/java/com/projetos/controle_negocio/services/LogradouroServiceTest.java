@@ -5,31 +5,40 @@ import java.util.List;
 import junit.framework.Assert;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.projetos.controle_entities.Logradouro;
 
 public class LogradouroServiceTest extends BaseServiceTest {
 
 	@Test
-	public void salvarTeste() {
-		int id = 0;
+	public void salvarTeste() throws Exception {
+		try {
 
-		Logradouro logradouro1 = novoLogradouro1();
-		Assert.assertFalse(logradouro1.getId() != null);
-		logradouroService.salvar(logradouro1);
-		Assert.assertFalse(logradouro1.getId() == 0);
-		id = logradouro1.getId();
-		log.debug(id);
+			int id = 0;
 
-		logradouroService.remover(id);
+			Logradouro logradouro1 = novoLogradouro1();
+			Assert.assertFalse(logradouro1.getId() != null);
+			logradouroService.salvar(logradouro1);
+			Assert.assertFalse(logradouro1.getId() == 0);
+			id = logradouro1.getId();
+			log.debug(id);
 
-		List<Logradouro> lista = logradouroService.listar();
-		log.debug(lista);
-		for (Logradouro logradouro : lista) {
-			Assert.assertFalse(logradouro.getId().equals(id));
+			logradouroService.remover(id);
+
+			List<Logradouro> lista = logradouroService.listar();
+			log.debug(lista);
+			for (Logradouro logradouro : lista) {
+				Assert.assertFalse(logradouro.getId().equals(id));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
 		}
 	}
-	
+
 	private Logradouro novoLogradouro1() {
 		Logradouro logradouro1 = new Logradouro();
 		logradouro1.setEndereco("Rua Norberto Ferreira");
@@ -44,7 +53,7 @@ public class LogradouroServiceTest extends BaseServiceTest {
 		logradouro1.setEmail("noberto@email.com");
 		return logradouro1;
 	}
-	
+
 	@SuppressWarnings("unused")
 	private Logradouro novoLogradouro2() {
 		Logradouro logradouro1 = new Logradouro();

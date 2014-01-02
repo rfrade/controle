@@ -10,7 +10,6 @@ public class CallbackTela implements Callback<Class<?>, Object> {
 		this.controller = controller;
 	}
 
-	@Override
 	public Object call(Class<?> arg0) {
 		return controller;
 	}

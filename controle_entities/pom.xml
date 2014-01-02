@@ -9,14 +9,6 @@
 
 	<name>controle_entities</name>
 	<url>http://maven.apache.org</url>
-	<repositories>
-		<repository>
-			<url>http://download.eclipse.org/rt/eclipselink/maven.repo/</url>
-			<id>eclipselink</id>
-			<layout>default</layout>
-			<name>Repository for library EclipseLink (JPA 2.1)</name>
-		</repository>
-	</repositories>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
@@ -34,15 +26,27 @@
 			<version>1.2.17</version>
 		</dependency>
 		<dependency>
-			<groupId>org.eclipse.persistence</groupId>
-			<artifactId>eclipselink</artifactId>
-			<version>2.5.0-SNAPSHOT</version>
+		   <groupId>org.hibernate</groupId>
+		   <artifactId>hibernate-core</artifactId>
+		   <version>4.3.0.Final</version>
+		   <!-- <scope>provided</scope> -->
 		</dependency>
 		<dependency>
-			<groupId>org.eclipse.persistence</groupId>
-			<artifactId>javax.persistence</artifactId>
-			<version>2.1.0-SNAPSHOT</version>
-		</dependency>
+	       <groupId>org.hibernate</groupId>
+	       <artifactId>hibernate-validator</artifactId>
+	       <version>5.1.0.Alpha1</version>
+	       <!-- <scope>provided</scope> -->
+	    </dependency>
+	    <dependency>
+            <groupId>javax.el</groupId>
+            <artifactId>javax.el-api</artifactId>
+            <version>2.2.4</version>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.web</groupId>
+            <artifactId>javax.el</artifactId>
+            <version>2.2.4</version>
+         </dependency>
 		<dependency>
 			<groupId>com.projetos</groupId>
 			<artifactId>controle_util</artifactId>

@@ -63,7 +63,9 @@ public abstract class BaseController<T extends Entidade> extends AbstractControl
 	}
 
     protected void validaInclusao() throws ValidacaoException {
-    	/*throw new ValidacaoException(null, null);*/
+    	if (false) {
+    		throw new ValidacaoException(null, null);
+    	}
 	}
 
 	public void remover() {
