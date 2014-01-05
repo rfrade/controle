@@ -8,11 +8,8 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
-import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.MouseEvent;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -40,23 +37,8 @@ public class ClienteController extends BaseController<Cliente> {
 	private GerenciadorTela gerenciadorTela;
 
 	@FXML
-	private TableView<Cliente> tabelaCliente;
-
-	@FXML
-	private TableColumn<Cliente, String> colunaFirma;
+	private TableView<Cliente> clienteTable;
 	
-	@FXML
-	private TableColumn<Cliente, String> colunaEndereco;
-	
-	@FXML
-	private TableColumn<Cliente, Integer> colunaNumero;
-	
-	@FXML
-	private TableColumn<Cliente, String> colunaBairro;
-	
-	@FXML
-	private TableColumn<Cliente, String> colunaCep;
-
 	@FXML
 	private TextField firma;
 	
@@ -139,65 +121,10 @@ public class ClienteController extends BaseController<Cliente> {
 	@Override
 	public void initialize(URL url, ResourceBundle resource) {
 		listaClientes = FXCollections.observableArrayList(clienteService.listar());
-		tabelaCliente.setItems(listaClientes);
-		iniciarColunas();
+		clienteTable = new TableView<Cliente>();
+		clienteTable.setItems(listaClientes);
+		ddd.setPromptText(paramString);
 	}
-
-	public void exibirTelaClienteCadastroModoAlteracao(MouseEvent event) {
-	    if (event.getClickCount() > 1) {
-	    	entidadeForm = tabelaCliente.getSelectionModel().getSelectedItem();
-	    	exibirTelaClienteCadastro();
-	    }
-	}
-
-	private void iniciarColunas() {
-		/*colunaFirma = new TableColumn<Cliente, String>();
-		colunaEndereco = new TableColumn<Cliente, String>();
-		colunaNumero = new TableColumn<Cliente, Integer>();
-		colunaBairro = new TableColumn<Cliente, String>();
-		colunaCep = new TableColumn<Cliente, String>();*/
-		colunaFirma.setCellValueFactory(new PropertyValueFactory<Cliente, String>("firma"));
-		/*colunaEndereco.setCellValueFactory(new Callback<CellDataFeatures<Cliente, String>, ObservableValue<String>>() {
-		     public ObservableValue<String> call(CellDataFeatures<Cliente, String> cliente) {
-		         // p.getValue() returns the Person instance for a particular TableView row
-		         return null;
-		     }
-		  });
-		colunaNumero.setCellValueFactory(new PropertyValueFactory<Cliente, Integer>("logradouro.numero"));
-		colunaBairro.setCellValueFactory(new PropertyValueFactory<Cliente, String>("logradouro.bairro"));
-		colunaCep.setCellValueFactory(new PropertyValueFactory<Cliente, String>("logradouro.cep"));*/
-	}
-
-	/*public class TabelaClienteCelulaFactory implements Callback<CellDataFeatures<Cliente, String>, ObservableValue<String>> {
-		
-		private String nomePropriedade;
-		
-		public TabelaClienteCelulaFactory(String nomePropriedade) {
-			this.nomePropriedade = nomePropriedade;
-		}
-		
-		public ObservableValue<String> call(CellDataFeatures<Cliente, String> cliente) {
-			return new ReadOnlyObjectWrapper<>();
-		}
-		
-	}*/
-
-	/*public class TabelaClienteObject {
-		private SimpleStringProperty firma;
-		private SimpleStringProperty endereco;
-		private SimpleIntegerProperty numero;
-		private SimpleStringProperty bairro;
-		private SimpleStringProperty cep;
-		
-		public TabelaClienteObject(Cliente cliente, Logradouro logradouro) {
-			firma = new SimpleStringProperty(initialValue);
-			endereco = new SimpleStringProperty();
-			numero =;
-			bairro = new SimpleStringProperty();
-			cep = new SimpleStringProperty;
-		}
-		
-	}*/
 
 	public void exibirTelaClienteLista() {
 		entidadeForm = new Cliente();
@@ -215,6 +142,14 @@ public class ClienteController extends BaseController<Cliente> {
 
 	public void setListaClientes(ObservableList<Cliente> listaClientes) {
 		this.listaClientes = listaClientes;
+	}
+
+	public TableView<Cliente> getClienteTable() {
+		return clienteTable;
+	}
+
+	public void setClienteTable(TableView<Cliente> clienteTable) {
+		this.clienteTable = clienteTable;
 	}
 
 	public TextField getFirma() {
@@ -337,54 +272,6 @@ public class ClienteController extends BaseController<Cliente> {
 		this.mensagem = mensagem;
 	}
 
-	public TableColumn<Cliente, String> getColunaFirma() {
-		return colunaFirma;
-	}
-
-	public void setColunaFirma(TableColumn<Cliente, String> colunaFirma) {
-		this.colunaFirma = colunaFirma;
-	}
-
-	public TableColumn<Cliente, String> getColunaEndereco() {
-		return colunaEndereco;
-	}
-
-	public void setColunaEndereco(TableColumn<Cliente, String> colunaEndereco) {
-		this.colunaEndereco = colunaEndereco;
-	}
-
-	public TableColumn<Cliente, Integer> getColunaNumero() {
-		return colunaNumero;
-	}
-
-	public void setColunaNumero(TableColumn<Cliente, Integer> colunaNumero) {
-		this.colunaNumero = colunaNumero;
-	}
-
-	public TableColumn<Cliente, String> getColunaBairro() {
-		return colunaBairro;
-	}
-
-	public void setColunaBairro(TableColumn<Cliente, String> colunaBairro) {
-		this.colunaBairro = colunaBairro;
-	}
-
-	public TableColumn<Cliente, String> getColunaCep() {
-		return colunaCep;
-	}
-
-	public void setColunaCep(TableColumn<Cliente, String> colunaCep) {
-		this.colunaCep = colunaCep;
-	}
-
-	public TableView<Cliente> getTabelaCliente() {
-		return tabelaCliente;
-	}
-
-	public void setTabelaCliente(TableView<Cliente> tabelaCliente) {
-		this.tabelaCliente = tabelaCliente;
-	}
-	
 	public RadioButton getInativo() {
 		return inativo;
 	}

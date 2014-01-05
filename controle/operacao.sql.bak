@@ -4,8 +4,6 @@ drop table cliente;
 drop table vendedor;
 drop table logradouro;
 
-select * from logradouro;
-
 --alter table vendedor
 --	drop foreign key fk_vendedor;
 	

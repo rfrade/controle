@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="664.0" prefWidth="1095.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.projetos.controle.tela.controller.TelaPrincipalController">
+	<children>
+		<Button layoutX="61.0" layoutY="50.0" mnemonicParsing="false" onAction="#exibirTelaClienteLista" text="Clientes" />
+	</children>
+</AnchorPane>
