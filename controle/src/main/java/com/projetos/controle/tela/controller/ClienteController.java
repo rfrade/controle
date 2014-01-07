@@ -18,7 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Controller;
 
-import com.projetos.controle.tela.base.GerenciadorTela;
 import com.projetos.controle.tela.controller.base.BaseController;
 import com.projetos.controle_entities.Cliente;
 import com.projetos.controle_entities.Logradouro;
@@ -37,7 +36,7 @@ public class ClienteController extends BaseController<Cliente> {
 	private ClienteService clienteService;
 
 	@Autowired
-	private GerenciadorTela gerenciadorTela;
+	private TelaPrincipalController telaPrincipalController;
 
 	@FXML
 	private TableView<Cliente> tabelaCliente;
@@ -133,7 +132,7 @@ public class ClienteController extends BaseController<Cliente> {
 	}
 
 	public void exibirTelaClienteCadastro() {
-		gerenciadorTela.exibirTelaClienteCadastro();
+		telaPrincipalController.exibirTelaClienteCadastro();
 	}
 
 	@Override
@@ -201,7 +200,7 @@ public class ClienteController extends BaseController<Cliente> {
 
 	public void exibirTelaClienteLista() {
 		entidadeForm = new Cliente();
-		gerenciadorTela.exibirTelaClienteLista();
+		telaPrincipalController.exibirTelaClienteLista();
 	}
 
 	@Override

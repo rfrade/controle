@@ -9,7 +9,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.projetos.controle.tela.base.BaseApplication;
-import com.projetos.controle.tela.base.GerenciadorTela;
+import com.projetos.controle.tela.controller.TelaPrincipalController;
 
 public class InicioAplicacao extends BaseApplication {
 
@@ -26,12 +26,12 @@ public class InicioAplicacao extends BaseApplication {
 		
 		@SuppressWarnings("resource")
 		ApplicationContext context = new ClassPathXmlApplicationContext("classpath:applicationContext.xml");
-		GerenciadorTela gerenciadorTela = context.getBean(GerenciadorTela.class);
+		TelaPrincipalController telaPrincipalController = context.getBean(TelaPrincipalController.class);
 
-		gerenciadorTela.setPrimaryStage(primaryStage);
+		telaPrincipalController.setPrimaryStage(primaryStage);
 		primaryStage.setTitle("Aplicação Controle 1.0");
 
-		gerenciadorTela.exibirTelaPrincipal();
+		telaPrincipalController.exibirTelaPrincipal();
 	}
 
 }

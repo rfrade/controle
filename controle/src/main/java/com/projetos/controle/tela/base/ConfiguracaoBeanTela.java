@@ -4,11 +4,6 @@ import java.io.IOException;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
-import javafx.stage.Window;
-import javafx.util.Callback;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,40 +20,13 @@ import com.projetos.controle.tela.controller.TelaPrincipalController;
 
 @Configuration
 @Scope(ConfigurableBeanFactory.SCOPE_SINGLETON)
-public class GerenciadorTela {
+public class ConfiguracaoBeanTela {
 
-	private Stage primaryStage;
 	private static Logger log = Logger.getLogger(InicioAplicacao.class);
 
 	@Autowired
 	private ApplicationContext applicationContext;
 
-	private void exibirTela(Parent tela) {
-		Scene scene = new Scene(tela);
-		primaryStage.setScene(scene);
-		primaryStage.show();
-	}
-
-	private void exibirPopup(Parent tela) {
-		Stage popup = new Stage();
-		popup.initOwner(primaryStage);
-		popup.initModality(Modality.WINDOW_MODAL);
-		Scene scene = new Scene(tela);
-		popup.setScene(scene);
-		popup.show();
-	}
-	
-	public void exibirTelaPrincipal() {
-		this.exibirTela(carregarTelaPrincipal());
-	}
-
-	public void exibirTelaClienteLista() {
-		this.exibirTela(carregarTelaClienteLista());
-	}
-	
-	public void exibirTelaClienteCadastro() {
-		this.exibirPopup(carregarTelaClienteCadastro());
-	}
 	
 	@Bean(name = "telaPrincipal")
 	@Scope(ConfigurableBeanFactory.SCOPE_SINGLETON)
@@ -90,17 +58,6 @@ public class GerenciadorTela {
 		}
 	}
 	
-	/*private <T extends AbstractController> Window carregarPopup(String fxml, Class<T> classe) {
-		try {
-			FXMLLoader loader = getLoader(fxml, classe);
-			Window popup = (Window) loader.load();
-			return popup;
-		} catch (IOException e) {
-			log.error("Não foi possível carregar o arquivo: " + fxml);
-			throw new RuntimeException(e);
-		}
-	}*/
-
 	private <T extends AbstractController> FXMLLoader getLoader(String fxml, Class<T> classe) {
 		AbstractController controller = applicationContext.getBean(classe);
 		CallbackTela callback = new CallbackTela(controller);
@@ -108,10 +65,6 @@ public class GerenciadorTela {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource(fxml));
 		loader.setControllerFactory(callback);
 		return loader;
-	}
-
-	public void setPrimaryStage(Stage primaryStage) {
-		this.primaryStage = primaryStage;
 	}
 
 }
