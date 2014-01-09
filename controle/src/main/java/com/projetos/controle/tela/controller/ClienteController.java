@@ -19,6 +19,7 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Controller;
 
 import com.projetos.controle.tela.controller.base.BaseController;
+import com.projetos.controle.tela.util.CelulaFactory;
 import com.projetos.controle_entities.Cliente;
 import com.projetos.controle_entities.Logradouro;
 import com.projetos.controle_negocio.service.base.ClienteService;
@@ -145,7 +146,9 @@ public class ClienteController extends BaseController<Cliente> {
 	public void exibirTelaClienteCadastroModoAlteracao(MouseEvent event) {
 	    if (event.getClickCount() > 1) {
 	    	entidadeForm = tabelaCliente.getSelectionModel().getSelectedItem();
-	    	exibirTelaClienteCadastro();
+	    	if (entidadeForm != null) {
+	    		exibirTelaClienteCadastro();
+	    	}
 	    }
 	}
 
@@ -155,7 +158,11 @@ public class ClienteController extends BaseController<Cliente> {
 		colunaNumero = new TableColumn<Cliente, Integer>();
 		colunaBairro = new TableColumn<Cliente, String>();
 		colunaCep = new TableColumn<Cliente, String>();*/
-		colunaFirma.setCellValueFactory(new PropertyValueFactory<Cliente, String>("firma"));
+		colunaFirma.setCellValueFactory(new CelulaFactory<Cliente, String>("firma"));
+		colunaEndereco.setCellValueFactory(new CelulaFactory<Cliente, String>("logradouro.endereco"));
+		colunaBairro.setCellValueFactory(new CelulaFactory<Cliente, String>("logradouro.bairro"));
+		colunaCep.setCellValueFactory(new CelulaFactory<Cliente, String>("logradouro.cep"));
+		colunaNumero.setCellValueFactory(new CelulaFactory<Cliente, Integer>("logradouro.numero"));
 		/*colunaEndereco.setCellValueFactory(new Callback<CellDataFeatures<Cliente, String>, ObservableValue<String>>() {
 		     public ObservableValue<String> call(CellDataFeatures<Cliente, String> cliente) {
 		         // p.getValue() returns the Person instance for a particular TableView row
@@ -166,20 +173,6 @@ public class ClienteController extends BaseController<Cliente> {
 		colunaBairro.setCellValueFactory(new PropertyValueFactory<Cliente, String>("logradouro.bairro"));
 		colunaCep.setCellValueFactory(new PropertyValueFactory<Cliente, String>("logradouro.cep"));*/
 	}
-
-	/*public class TabelaClienteCelulaFactory implements Callback<CellDataFeatures<Cliente, String>, ObservableValue<String>> {
-		
-		private String nomePropriedade;
-		
-		public TabelaClienteCelulaFactory(String nomePropriedade) {
-			this.nomePropriedade = nomePropriedade;
-		}
-		
-		public ObservableValue<String> call(CellDataFeatures<Cliente, String> cliente) {
-			return new ReadOnlyObjectWrapper<>();
-		}
-		
-	}*/
 
 	/*public class TabelaClienteObject {
 		private SimpleStringProperty firma;
