@@ -44,6 +44,47 @@ create table vendedor (
 	primary key(id)
 );
 
+create table pedido (
+	id integer not null auto_increment,
+	transportador varchar(60),
+	condicoes varchar(60),
+	cobranca varchar(60),
+	data_pedido date,
+	comicao double,
+	entrega varchar(60),
+	colecao varchar(30),
+	id_fornecedor integer,
+	id_vendedor integer,
+	id_cliente integer,
+	primary key(id)
+);
+
+create table item_pedido (
+	id integer not null auto_increment,
+	referencia varchar(10),
+	cor varchar(20),
+	descricao varchar(100),
+	observacao varchar(100),
+	valor_unitario double,
+	id_pedido integer,
+	primary key(id)
+);
+
+create table produto_item_pedido (
+	id integer not null auto_increment,
+	id_item_pedido integer,
+	id_tamanho integer,
+	quantidade integer,
+	primary key(id)
+);
+
+create table recebimento (
+	id integer not null auto_increment,
+	id_pedido integer,
+	data_recebimento date,
+	recebido boolean,
+	primary key(id)
+);
 
 alter table fornecedor
 	add constraint fk_fornecedor_logradouro foreign key(id_logradouro)
@@ -54,3 +95,21 @@ alter table cliente
 alter table vendedor
 	add constraint fk_vendedor foreign key(id_logradouro)
 	references logradouro(id);
+alter table pedido
+	add constraint fk_pedido_fornecedor foreign key(id_fornecedor)
+	references fornecedor(id);
+alter table pedido
+	add constraint fk_pedido_vendedor foreign key(id_vendedor)
+	references vendedor(id);
+alter table pedido
+	add constraint fk_pedido_cliente foreign key(id_cliente)
+	references cliente(id);
+alter table item_pedido
+	add constraint fk_item_pedido_pedido foreign key(id_pedido)
+	references pedido(id);
+alter table produto_item_pedido
+	add constraint fk_produto_item_pedido_item_pedido foreign key(id_item_pedido)
+	references item_pedido(id);
+alter table recebimento
+	add constraint fk_recebimento_pedido foreign key(id_pedido)
+	references pedido(id);
