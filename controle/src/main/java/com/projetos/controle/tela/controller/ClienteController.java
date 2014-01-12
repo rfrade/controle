@@ -1,5 +1,6 @@
 package com.projetos.controle.tela.controller;
 
+import java.lang.reflect.Field;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -11,19 +12,22 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import net.vidageek.mirror.dsl.Mirror;
+import net.vidageek.mirror.list.dsl.MirrorList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Controller;
 
+import com.projetos.controle.tela.base.CampoTela;
+import com.projetos.controle.tela.base.Coluna;
 import com.projetos.controle.tela.controller.base.BaseController;
 import com.projetos.controle.tela.util.CelulaFactory;
 import com.projetos.controle_entities.Cliente;
-import com.projetos.controle_entities.Logradouro;
 import com.projetos.controle_negocio.service.base.ClienteService;
 import com.projetos.controle_negocio.service.base.EntidadeService;
+import com.projetos.controle_util.reflection.BeanUtil;
 
 /**
  * 
@@ -43,63 +47,83 @@ public class ClienteController extends BaseController<Cliente> {
 	private TableView<Cliente> tabelaCliente;
 
 	@FXML
+	@Coluna(bean = "firma")
 	private TableColumn<Cliente, String> colunaFirma;
 	
 	@FXML
+	@Coluna(bean = "logradouro.endereco")
 	private TableColumn<Cliente, String> colunaEndereco;
 	
 	@FXML
+	@Coluna(bean = "logradouro.numero")
 	private TableColumn<Cliente, Integer> colunaNumero;
 	
 	@FXML
+	@Coluna(bean = "logradouro.bairro")
 	private TableColumn<Cliente, String> colunaBairro;
 	
 	@FXML
+	@Coluna(bean = "logradouro.cep")
 	private TableColumn<Cliente, String> colunaCep;
 
 	@FXML
+	@CampoTela(bean = "firma")
 	private TextField firma;
 	
 	@FXML
+	@CampoTela(bean = "logradouro.endereco")
 	private TextField endereco;
 	
 	@FXML
+	@CampoTela(bean = "logradouro.numero")
 	private TextField numero;
 	
 	@FXML
+	@CampoTela(bean = "logradouro.bairro")
 	private TextField bairro;
 	
 	@FXML
+	@CampoTela(bean = "logradouro.cep")
 	private TextField cep;
 	
 	@FXML
+	@CampoTela(bean = "logradouro.estado")
 	private TextField estado;
 	
 	@FXML
+	@CampoTela(bean = "logradouro.cidade")
 	private TextField cidade;
 	
 	@FXML
+	@CampoTela(bean = "logradouro.ddd")
 	private TextField ddd;
 	
 	@FXML
+	@CampoTela(bean = "logradouro.telefone")
 	private TextField telefone;
 	
 	@FXML
+	@CampoTela(bean = "cnpj")
 	private TextField cnpj;
 	
 	@FXML
+	@CampoTela(bean = "inscricao")
 	private TextField inscricaoEstadual;
 	
 	@FXML
+	@CampoTela(bean = "comprador")
 	private TextField comprador;
 	
 	@FXML
+	@CampoTela(bean = "logradouro.email")
 	private TextField email;
 	
 	@FXML
+	@CampoTela(bean = "ativo")
 	private RadioButton ativo;
 
-	@FXML
+	/*@FXML
+	@CampoTela(bean = "inativo")*/
 	private RadioButton inativo;
 	
 	@FXML
@@ -109,30 +133,47 @@ public class ClienteController extends BaseController<Cliente> {
 
 	@Override
 	public void salvar() {
-		entidadeForm.setAtivo(ativo.isSelected());
-		entidadeForm.setCnpj(cnpj.getText());
-		entidadeForm.setComprador(comprador.getText());
-		entidadeForm.setFirma(firma.getText());
-		entidadeForm.setInscricao(inscricaoEstadual.getText());
-		
-		Logradouro logradouro = new Logradouro();
-		logradouro.setBairro(bairro.getText());
-		logradouro.setCep(cep.getText());
-		logradouro.setCidade(cidade.getText());
-//		logradouro.setComplemento(complemento.getText());
-		logradouro.setDdd(ddd.getText());
-		logradouro.setEmail(email.getText());
-		logradouro.setEndereco(endereco.getText());
-		logradouro.setEstado(estado.getText());
-		logradouro.setNumero(Integer.valueOf(numero.getText()));
-		logradouro.setTelefone(telefone.getText());
-		entidadeForm.setLogradouro(logradouro);
-		
+		bindFormToBean();
 		super.salvar();
 		mensagem.setText("Salvo com sucesso!");
 	}
 
+	public void bindBeanToForm() {
+		MirrorList<Field> campos = new Mirror().on(this.getClass()).reflectAll().fields();
+		for (Field field : campos) {
+			if (field.isAnnotationPresent(CampoTela.class)) {
+				Object campo = new Mirror().on(this).get().field(field);
+				String bean = field.getAnnotation(CampoTela.class).bean();
+				Object value = BeanUtil.getPropriedade(entidadeForm, bean);
+				
+				if (campo instanceof TextField && value != null) {
+					((TextField) campo).setText(value.toString());
+				} else if (campo instanceof RadioButton  && value != null) {
+					((RadioButton) campo).setSelected((Boolean)value);
+				}
+				
+			}
+		}
+	}
+
+	public void bindFormToBean() {
+		MirrorList<Field> campos = new Mirror().on(this.getClass()).reflectAll().fields();
+		for (Field field : campos) {
+			if (field.isAnnotationPresent(CampoTela.class)) {
+				Object campo = new Mirror().on(this).get().field(field);
+				String bean = field.getAnnotation(CampoTela.class).bean();
+				
+				if (campo instanceof TextField) {
+					BeanUtil.setPropriedade(entidadeForm, bean, ((TextField) campo).getText());
+				} else if (campo instanceof RadioButton) {
+					BeanUtil.setPropriedade(entidadeForm, bean, ((RadioButton) campo).isSelected());
+				}
+			}
+		}
+	}
+
 	public void exibirTelaClienteCadastro() {
+		entidadeForm = new Cliente();
 		telaPrincipalController.exibirTelaClienteCadastro();
 	}
 
@@ -145,51 +186,33 @@ public class ClienteController extends BaseController<Cliente> {
 
 	public void exibirTelaClienteCadastroModoAlteracao(MouseEvent event) {
 	    if (event.getClickCount() > 1) {
-	    	entidadeForm = tabelaCliente.getSelectionModel().getSelectedItem();
-	    	if (entidadeForm != null) {
+	    	Cliente selectedItem = tabelaCliente.getSelectionModel().getSelectedItem();
+	    	if (selectedItem != null) {
 	    		exibirTelaClienteCadastro();
+	    		entidadeForm = selectedItem;
+	    		bindBeanToForm();
 	    	}
 	    }
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private void iniciarColunas() {
-		/*colunaFirma = new TableColumn<Cliente, String>();
-		colunaEndereco = new TableColumn<Cliente, String>();
-		colunaNumero = new TableColumn<Cliente, Integer>();
-		colunaBairro = new TableColumn<Cliente, String>();
-		colunaCep = new TableColumn<Cliente, String>();*/
-		colunaFirma.setCellValueFactory(new CelulaFactory<Cliente, String>("firma"));
-		colunaEndereco.setCellValueFactory(new CelulaFactory<Cliente, String>("logradouro.endereco"));
-		colunaBairro.setCellValueFactory(new CelulaFactory<Cliente, String>("logradouro.bairro"));
-		colunaCep.setCellValueFactory(new CelulaFactory<Cliente, String>("logradouro.cep"));
-		colunaNumero.setCellValueFactory(new CelulaFactory<Cliente, Integer>("logradouro.numero"));
-		/*colunaEndereco.setCellValueFactory(new Callback<CellDataFeatures<Cliente, String>, ObservableValue<String>>() {
-		     public ObservableValue<String> call(CellDataFeatures<Cliente, String> cliente) {
-		         // p.getValue() returns the Person instance for a particular TableView row
-		         return null;
-		     }
-		  });
-		colunaNumero.setCellValueFactory(new PropertyValueFactory<Cliente, Integer>("logradouro.numero"));
-		colunaBairro.setCellValueFactory(new PropertyValueFactory<Cliente, String>("logradouro.bairro"));
-		colunaCep.setCellValueFactory(new PropertyValueFactory<Cliente, String>("logradouro.cep"));*/
-	}
-
-	/*public class TabelaClienteObject {
-		private SimpleStringProperty firma;
-		private SimpleStringProperty endereco;
-		private SimpleIntegerProperty numero;
-		private SimpleStringProperty bairro;
-		private SimpleStringProperty cep;
 		
-		public TabelaClienteObject(Cliente cliente, Logradouro logradouro) {
-			firma = new SimpleStringProperty(initialValue);
-			endereco = new SimpleStringProperty();
-			numero =;
-			bairro = new SimpleStringProperty();
-			cep = new SimpleStringProperty;
+		MirrorList<Field> campos = new Mirror().on(this.getClass()).reflectAll().fields();
+		for (Field field : campos) {
+			if (field.isAnnotationPresent(Coluna.class)) {
+				Object campo = new Mirror().on(this).get().field(field);
+				String bean = field.getAnnotation(Coluna.class).bean();
+				
+				CelulaFactory<Cliente, ?> celulaFactory = new CelulaFactory<>(bean);
+				if (campo instanceof TableColumn) {
+					((TableColumn) campo).setCellValueFactory(celulaFactory);
+				} else {
+					throw new IllegalArgumentException("Field: " + campo + " on class: " + this.getClass() + " must be of type TableColumn.");
+				}
+			}
 		}
-		
-	}*/
+	}
 
 	public void exibirTelaClienteLista() {
 		entidadeForm = new Cliente();
