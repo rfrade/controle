@@ -1,14 +1,33 @@
 package com.projetos.controle.tela.controller.base;
 
-import java.util.List;
+import java.lang.reflect.Field;
+import java.net.URL;
+import java.util.ResourceBundle;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
+import net.vidageek.mirror.dsl.Mirror;
+import net.vidageek.mirror.list.dsl.MirrorList;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.projetos.controle.tela.base.AbstractController;
+import com.projetos.controle.tela.base.CampoTela;
+import com.projetos.controle.tela.base.Coluna;
+import com.projetos.controle.tela.controller.TelaPrincipalController;
+import com.projetos.controle.tela.util.CelulaFactory;
 import com.projetos.controle_entities.Entidade;
 import com.projetos.controle_negocio.service.base.EntidadeService;
+import com.projetos.controle_util.reflection.BeanUtil;
 import com.projetos.controle_util.validacao.MensagemValidacao;
 import com.projetos.controle_util.validacao.ValidacaoException;
 
@@ -19,36 +38,61 @@ import com.projetos.controle_util.validacao.ValidacaoException;
 public abstract class BaseController<T extends Entidade> extends AbstractController implements Initializable {
 
     protected T entidadeForm;
-    protected List<T> listaEntidades;
+    protected ObservableList<T> listaEntidades;
 	protected Logger log = Logger.getLogger(this.getClass());
 
     private MensagemValidacao mensagemValidacao;
-
     
+    @Autowired
+    protected TelaPrincipalController telaPrincipalController;
+
+    @FXML
+	private Label mensagem;
+
+    @FXML
+	private TableView<T> tabela;
 
     public void filtrar() {
     }
 
-    /*@SuppressWarnings("unchecked")
-	public void novo() {
-        try {
-            Class<? extends Object> classe = this.getClass().getComponentType();
-            entidadeForm = (T) classe.newInstance();
-        } catch (InstantiationException ex) {
-        	tratarErro(ex);
-        } catch (IllegalAccessException ex) {
-        	tratarErro(ex);
-        }
-    }*/
+	@Override
+	public void initialize(URL url, ResourceBundle resource) {
+		listaEntidades = FXCollections.observableArrayList(getEntidadeService().listar());
+		tabela.setItems(listaEntidades);
+		loadColumns();
+	}
+
+	public void prepararAlteracao(MouseEvent event) {
+	    if (event.getClickCount() > 1) {
+	    	T selectedItem = tabela.getSelectionModel().getSelectedItem();
+	    	if (selectedItem != null) {
+	    		exibirTelaLista();
+	    		entidadeForm = selectedItem;
+	    		bindBeanToForm();
+	    	}
+	    }
+	}
+
+	@SuppressWarnings("unchecked")
+	public void prepararInclusao() {
+		Class<?> classe = new Mirror().on(this.getClass()).reflect().field("entidadeForm").getType();
+		entidadeForm = (T) new Mirror().on(classe).invoke().constructor().bypasser();
+		exibirTelaCadastro();
+	}
+
+	protected abstract void exibirTelaCadastro();
+	protected abstract void exibirTelaLista();
 
 	public void salvar() {
 		try {
+			bindFormToBean();
 			if (entidadeForm.getId() == null) {
 				validaInclusao();
 			} else {
 				validaAlteracao();
 			}
 			getEntidadeService().salvar(entidadeForm);
+			mensagem.setText("Salvo com sucesso!");
 		} catch (ValidacaoException e) {
 			tratarErro(e);
 		}
@@ -70,11 +114,69 @@ public abstract class BaseController<T extends Entidade> extends AbstractControl
 
 	public void remover() {
     	getEntidadeService().remover(entidadeForm);
+    	if (entidadeForm == null) {
+			entidadeForm = tabela.getSelectionModel().getSelectedItem();
+		}
+    	getEntidadeService().remover(entidadeForm);
+		mensagem.setText("Removido com sucesso!");
     }
 
     protected abstract EntidadeService<T> getEntidadeService();
 
-    public T getEntidadeForm() {
+
+	public void bindBeanToForm() {
+		MirrorList<Field> campos = new Mirror().on(this.getClass()).reflectAll().fields();
+		for (Field field : campos) {
+			if (field.isAnnotationPresent(CampoTela.class)) {
+				Object campo = new Mirror().on(this).get().field(field);
+				String bean = field.getAnnotation(CampoTela.class).bean();
+				Object value = BeanUtil.getPropriedade(entidadeForm, bean);
+				
+				if (campo instanceof TextField && value != null) {
+					((TextField) campo).setText(value.toString());
+				} else if (campo instanceof RadioButton  && value != null) {
+					((RadioButton) campo).setSelected((Boolean)value);
+				}
+				
+			}
+		}
+	}
+
+	public void bindFormToBean() {
+		MirrorList<Field> campos = new Mirror().on(this.getClass()).reflectAll().fields();
+		for (Field field : campos) {
+			if (field.isAnnotationPresent(CampoTela.class)) {
+				Object campo = new Mirror().on(this).get().field(field);
+				String bean = field.getAnnotation(CampoTela.class).bean();
+				
+				if (campo instanceof TextField) {
+					BeanUtil.setPropriedade(entidadeForm, bean, ((TextField) campo).getText());
+				} else if (campo instanceof RadioButton) {
+					BeanUtil.setPropriedade(entidadeForm, bean, ((RadioButton) campo).isSelected());
+				}
+			}
+		}
+	}
+
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	protected void loadColumns() {
+		MirrorList<Field> campos = new Mirror().on(this.getClass()).reflectAll().fields();
+		for (Field field : campos) {
+			if (field.isAnnotationPresent(Coluna.class)) {
+				Object campo = new Mirror().on(this).get().field(field);
+				String bean = field.getAnnotation(Coluna.class).bean();
+				
+				CelulaFactory<T, ?> celulaFactory = new CelulaFactory<>(bean);
+				if (campo instanceof TableColumn) {
+					((TableColumn) campo).setCellValueFactory(celulaFactory);
+				} else {
+					throw new IllegalArgumentException("Field: " + campo + " on class: " + this.getClass() + " must be of type TableColumn.");
+				}
+			}
+		}
+	}
+
+	public T getEntidadeForm() {
         return entidadeForm;
     }
 
@@ -82,12 +184,20 @@ public abstract class BaseController<T extends Entidade> extends AbstractControl
         this.entidadeForm = entidadeForm;
     }
 
-	public List<T> getListaEntidades() {
+	public ObservableList<T> getListaEntidades() {
 		return listaEntidades;
 	}
 
-	public void setListaEntidades(List<T> listaEntidades) {
+	public void setListaEntidades(ObservableList<T> listaEntidades) {
 		this.listaEntidades = listaEntidades;
+	}
+
+	public Label getMensagem() {
+		return mensagem;
+	}
+
+	public void setMensagem(Label mensagem) {
+		this.mensagem = mensagem;
 	}
 
 }

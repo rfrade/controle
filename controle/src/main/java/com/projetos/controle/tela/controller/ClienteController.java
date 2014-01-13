@@ -1,20 +1,9 @@
 package com.projetos.controle.tela.controller;
 
-import java.lang.reflect.Field;
-import java.net.URL;
-import java.util.ResourceBundle;
-
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.input.MouseEvent;
-import net.vidageek.mirror.dsl.Mirror;
-import net.vidageek.mirror.list.dsl.MirrorList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -23,11 +12,9 @@ import org.springframework.stereotype.Controller;
 import com.projetos.controle.tela.base.CampoTela;
 import com.projetos.controle.tela.base.Coluna;
 import com.projetos.controle.tela.controller.base.BaseController;
-import com.projetos.controle.tela.util.CelulaFactory;
 import com.projetos.controle_entities.Cliente;
 import com.projetos.controle_negocio.service.base.ClienteService;
 import com.projetos.controle_negocio.service.base.EntidadeService;
-import com.projetos.controle_util.reflection.BeanUtil;
 
 /**
  * 
@@ -39,12 +26,6 @@ public class ClienteController extends BaseController<Cliente> {
 
 	@Autowired
 	private ClienteService clienteService;
-
-	@Autowired
-	private TelaPrincipalController telaPrincipalController;
-
-	@FXML
-	private TableView<Cliente> tabelaCliente;
 
 	@FXML
 	@Coluna(bean = "firma")
@@ -126,119 +107,23 @@ public class ClienteController extends BaseController<Cliente> {
 	@CampoTela(bean = "inativo")*/
 	private RadioButton inativo;
 	
-	@FXML
-	private Label mensagem;
-
-	private ObservableList<Cliente> listaClientes;
-
-	@Override
-	public void salvar() {
-		bindFormToBean();
-		super.salvar();
-		mensagem.setText("Salvo com sucesso!");
-	}
-
-	@Override
-	public void remover() {
-		if (entidadeForm == null) {
-			entidadeForm = tabelaCliente.getSelectionModel().getSelectedItem();
-		}
-		super.remover();
-		mensagem.setText("Removido com sucesso!");
-	}
-
-	public void bindBeanToForm() {
-		MirrorList<Field> campos = new Mirror().on(this.getClass()).reflectAll().fields();
-		for (Field field : campos) {
-			if (field.isAnnotationPresent(CampoTela.class)) {
-				Object campo = new Mirror().on(this).get().field(field);
-				String bean = field.getAnnotation(CampoTela.class).bean();
-				Object value = BeanUtil.getPropriedade(entidadeForm, bean);
-				
-				if (campo instanceof TextField && value != null) {
-					((TextField) campo).setText(value.toString());
-				} else if (campo instanceof RadioButton  && value != null) {
-					((RadioButton) campo).setSelected((Boolean)value);
-				}
-				
-			}
-		}
-	}
-
-	public void bindFormToBean() {
-		MirrorList<Field> campos = new Mirror().on(this.getClass()).reflectAll().fields();
-		for (Field field : campos) {
-			if (field.isAnnotationPresent(CampoTela.class)) {
-				Object campo = new Mirror().on(this).get().field(field);
-				String bean = field.getAnnotation(CampoTela.class).bean();
-				
-				if (campo instanceof TextField) {
-					BeanUtil.setPropriedade(entidadeForm, bean, ((TextField) campo).getText());
-				} else if (campo instanceof RadioButton) {
-					BeanUtil.setPropriedade(entidadeForm, bean, ((RadioButton) campo).isSelected());
-				}
-			}
-		}
-	}
-
 	public void exibirTelaClienteCadastro() {
 		entidadeForm = new Cliente();
+	}
+	
+	@Override
+	protected void exibirTelaCadastro() {
 		telaPrincipalController.exibirTelaClienteCadastro();
 	}
 
 	@Override
-	public void initialize(URL url, ResourceBundle resource) {
-		listaClientes = FXCollections.observableArrayList(clienteService.listar());
-		tabelaCliente.setItems(listaClientes);
-		iniciarColunas();
-	}
-
-	public void exibirTelaClienteCadastroModoAlteracao(MouseEvent event) {
-	    if (event.getClickCount() > 1) {
-	    	Cliente selectedItem = tabelaCliente.getSelectionModel().getSelectedItem();
-	    	if (selectedItem != null) {
-	    		exibirTelaClienteCadastro();
-	    		entidadeForm = selectedItem;
-	    		bindBeanToForm();
-	    	}
-	    }
-	}
-
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	private void iniciarColunas() {
-		
-		MirrorList<Field> campos = new Mirror().on(this.getClass()).reflectAll().fields();
-		for (Field field : campos) {
-			if (field.isAnnotationPresent(Coluna.class)) {
-				Object campo = new Mirror().on(this).get().field(field);
-				String bean = field.getAnnotation(Coluna.class).bean();
-				
-				CelulaFactory<Cliente, ?> celulaFactory = new CelulaFactory<>(bean);
-				if (campo instanceof TableColumn) {
-					((TableColumn) campo).setCellValueFactory(celulaFactory);
-				} else {
-					throw new IllegalArgumentException("Field: " + campo + " on class: " + this.getClass() + " must be of type TableColumn.");
-				}
-			}
-		}
-	}
-
-	public void exibirTelaClienteLista() {
-		entidadeForm = new Cliente();
+	protected void exibirTelaLista() {
 		telaPrincipalController.exibirTelaClienteLista();
 	}
-
+	
 	@Override
 	protected EntidadeService<Cliente> getEntidadeService() {
 		return clienteService;
-	}
-
-	public ObservableList<Cliente> getListaClientes() {
-		return listaClientes;
-	}
-
-	public void setListaClientes(ObservableList<Cliente> listaClientes) {
-		this.listaClientes = listaClientes;
 	}
 
 	public TextField getFirma() {
@@ -353,14 +238,6 @@ public class ClienteController extends BaseController<Cliente> {
 		this.ativo = ativo;
 	}
 
-	public Label getMensagem() {
-		return mensagem;
-	}
-
-	public void setMensagem(Label mensagem) {
-		this.mensagem = mensagem;
-	}
-
 	public TableColumn<Cliente, String> getColunaFirma() {
 		return colunaFirma;
 	}
@@ -401,14 +278,6 @@ public class ClienteController extends BaseController<Cliente> {
 		this.colunaCep = colunaCep;
 	}
 
-	public TableView<Cliente> getTabelaCliente() {
-		return tabelaCliente;
-	}
-
-	public void setTabelaCliente(TableView<Cliente> tabelaCliente) {
-		this.tabelaCliente = tabelaCliente;
-	}
-	
 	public RadioButton getInativo() {
 		return inativo;
 	}

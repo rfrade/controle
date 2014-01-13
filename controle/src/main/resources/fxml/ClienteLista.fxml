@@ -5,11 +5,11 @@
 <?import javafx.scene.layout.*?>
 
 <AnchorPane fx:id="" prefHeight="604.0" prefWidth="1151.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.projetos.controle.tela.controller.ClienteController">
-<children><TableView fx:id="tabelaCliente" layoutX="14.0" layoutY="64.0" onMouseClicked="#exibirTelaClienteCadastroModoAlteracao" prefHeight="526.0" prefWidth="1129.0" xmlns:fx="http://javafx.com/fxml">
+<children><TableView fx:id="tabelaCliente" layoutX="14.0" layoutY="64.0" onMouseClicked="#prepararAlteracao" prefHeight="526.0" prefWidth="1129.0" xmlns:fx="http://javafx.com/fxml">
   <columns>
     <TableColumn id="" fx:id="colunaFirma" prefWidth="300.0" text="Firma" />
     <TableColumn id="" fx:id="colunaEndereco" prefWidth="400.0" text="Endereço" /><TableColumn id="" fx:id="colunaNumero" prefWidth="60.0" text="Número" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" /><TableColumn id="" fx:id="colunaBairro" prefWidth="120.0" text="Bairro" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" /><TableColumn id="" fx:id="colunaCep" prefWidth="75.0" text="CEP" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" /><TableColumn id="" fx:id="colunaCidade" prefWidth="172.0" text="Cidade" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
   </columns>
-</TableView><Button layoutX="14.0" layoutY="25.0" mnemonicParsing="false" onAction="#exibirTelaClienteCadastro" text="Adicionar Cliente" /><Button fx:id="remover" layoutX="128.0" layoutY="25.0" mnemonicParsing="false" prefHeight="3.0" prefWidth="107.0" onAction="#remover" text="Excluir Cliente" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
+</TableView><Button layoutX="14.0" layoutY="25.0" mnemonicParsing="false" onAction="#prepararInclusao" text="Adicionar Cliente" /><Button fx:id="remover" layoutX="128.0" layoutY="25.0" mnemonicParsing="false" prefHeight="3.0" prefWidth="107.0" onAction="#remover" text="Excluir Cliente" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
 </children>
 </AnchorPane>
