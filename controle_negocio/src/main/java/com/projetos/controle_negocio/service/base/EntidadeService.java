@@ -10,7 +10,9 @@ public interface EntidadeService<T extends Entidade> {
     
     public void remover(T t);
 
-    public void remover(Integer k);
+    public void remover(Integer id);
+
+    public T getById(Integer id);
 
     public List<T> listar();
 	

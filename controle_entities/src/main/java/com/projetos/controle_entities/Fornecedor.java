@@ -35,7 +35,7 @@ public class Fornecedor implements Entidade, Serializable {
 	private String inscricao;
 
 	//bi-directional many-to-one association to Logradouro
-	@ManyToOne
+	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	@JoinColumn(name="id_logradouro", insertable=true, updatable=true)
 	private Logradouro logradouro;
 

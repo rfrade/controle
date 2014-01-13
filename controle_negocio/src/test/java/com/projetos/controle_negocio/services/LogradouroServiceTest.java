@@ -5,10 +5,8 @@ import java.util.List;
 import junit.framework.Assert;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.projetos.controle_entities.Cliente;
 import com.projetos.controle_entities.Logradouro;
 
 public class LogradouroServiceTest extends BaseServiceTest {
@@ -39,6 +37,30 @@ public class LogradouroServiceTest extends BaseServiceTest {
 		}
 	}
 
+	@Test
+	public void salvarAlteracaoTeste() {
+		Cliente cliente = novoCliente();
+		Logradouro logradouro = novoLogradouro1();
+		cliente.setLogradouro(logradouro);
+		clienteService.salvar(cliente);
+		
+		String bairro = "novo bairro";
+		logradouro.setBairro(bairro);
+		clienteService.salvar(cliente);
+		
+		Logradouro logradouroConsulta = logradouroService.getById(logradouro.getId());
+		
+		Assert.assertEquals(bairro, logradouroConsulta.getBairro());
+		clienteService.remover(cliente);
+		logradouroService.remover(logradouro);
+	}
+
+	private Cliente novoCliente() {
+		Cliente cliente = new Cliente();
+		cliente.setFirma("Junit: " + this.getClass().getName());
+		return cliente;
+	}
+	
 	private Logradouro novoLogradouro1() {
 		Logradouro logradouro1 = new Logradouro();
 		logradouro1.setEndereco("Rua Norberto Ferreira");

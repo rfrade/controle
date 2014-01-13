@@ -138,6 +138,15 @@ public class ClienteController extends BaseController<Cliente> {
 		mensagem.setText("Salvo com sucesso!");
 	}
 
+	@Override
+	public void remover() {
+		if (entidadeForm == null) {
+			entidadeForm = tabelaCliente.getSelectionModel().getSelectedItem();
+		}
+		super.remover();
+		mensagem.setText("Removido com sucesso!");
+	}
+
 	public void bindBeanToForm() {
 		MirrorList<Field> campos = new Mirror().on(this.getClass()).reflectAll().fields();
 		for (Field field : campos) {

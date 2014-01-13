@@ -29,6 +29,11 @@ public abstract class EntidadeServiceImpl<T extends Entidade> implements Entidad
     	getRepository().delete(k);
     }
 
+    @Override
+    public T getById(Integer id) {
+    	return getRepository().findOne(id);
+    }
+
     public List<T> listar() {
         return getRepository().findAll();
     }
