@@ -20,7 +20,8 @@ public class Fornecedor implements Entidade, Serializable {
 	@Column(unique=true, nullable=false)
 	private Integer id;
 
-	private byte ativo;
+	@Column(columnDefinition = "BIT", length = 1)
+	private boolean ativo;
 
 	@Column(length=15)
 	private String cnpj;
@@ -55,11 +56,11 @@ public class Fornecedor implements Entidade, Serializable {
 		this.id = id;
 	}
 
-	public byte getAtivo() {
+	public boolean isAtivo() {
 		return this.ativo;
 	}
 
-	public void setAtivo(byte ativo) {
+	public void setAtivo(boolean ativo) {
 		this.ativo = ativo;
 	}
 

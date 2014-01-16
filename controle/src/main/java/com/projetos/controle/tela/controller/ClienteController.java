@@ -112,12 +112,12 @@ public class ClienteController extends BaseController<Cliente> {
 	}
 	
 	@Override
-	protected void exibirTelaCadastro() {
+	public void exibirTelaCadastro() {
 		telaPrincipalController.exibirTelaClienteCadastro();
 	}
 
 	@Override
-	protected void exibirTelaLista() {
+	public void exibirTelaLista() {
 		telaPrincipalController.exibirTelaClienteLista();
 	}
 	

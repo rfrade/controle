@@ -14,6 +14,11 @@ public class ClienteServiceImpl extends EntidadeServiceImpl<Cliente> implements 
 	@Autowired
 	private ClienteRepository clienteRepository;
 
+	public void filtrar() {
+		Cliente cliente;
+		/*QCliente qcliente;*/
+	}
+
 	@Override
 	protected EntidadeRepository<Cliente> getRepository() {
 		return clienteRepository;

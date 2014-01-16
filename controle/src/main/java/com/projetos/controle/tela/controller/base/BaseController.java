@@ -80,8 +80,8 @@ public abstract class BaseController<T extends Entidade> extends AbstractControl
 		exibirTelaCadastro();
 	}
 
-	protected abstract void exibirTelaCadastro();
-	protected abstract void exibirTelaLista();
+	public abstract void exibirTelaCadastro();
+	public abstract void exibirTelaLista();
 
 	public void salvar() {
 		try {

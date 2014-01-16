@@ -20,6 +20,7 @@ public class Cliente implements Entidade, Serializable {
 	@Column(unique=true, nullable=false)
 	private Integer id;
 
+	@Column(columnDefinition = "BIT", length = 1)
 	private boolean ativo;
 
 	@Column(length=15)

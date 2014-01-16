@@ -13,6 +13,7 @@ public class BaseControllerTest {
 
 	@Autowired
 	protected ClienteController clienteController;
-	
+
+	public void test(){}
 
 }
