@@ -15,5 +15,5 @@ public interface EntidadeService<T extends Entidade> {
     public T getById(Integer id);
 
     public List<T> listar();
-	
+
 }

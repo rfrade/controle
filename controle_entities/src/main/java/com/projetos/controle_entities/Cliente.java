@@ -56,7 +56,7 @@ public class Cliente implements Entidade, Serializable {
 		this.id = id;
 	}
 
-	public boolean getAtivo() {
+	public boolean isAtivo() {
 		return this.ativo;
 	}
 

@@ -2,6 +2,7 @@ package com.projetos.controle.tela.controller.base;
 
 import java.lang.reflect.Field;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import javafx.collections.FXCollections;
@@ -38,6 +39,7 @@ import com.projetos.controle_util.validacao.ValidacaoException;
 public abstract class BaseController<T extends Entidade> extends AbstractController implements Initializable {
 
     protected T entidadeForm;
+    protected T entidadeFiltro;
     protected ObservableList<T> listaEntidades;
 	protected Logger log = Logger.getLogger(this.getClass());
 
@@ -52,12 +54,20 @@ public abstract class BaseController<T extends Entidade> extends AbstractControl
     @FXML
 	private TableView<T> tabela;
 
-    public void filtrar() {
+    public void pesquisar() {
+    	bindFormToBean();
+    	loadTable(filtrar());
     }
 
-	@Override
+    public abstract List<T> filtrar();
+
+    @Override
 	public void initialize(URL url, ResourceBundle resource) {
-		listaEntidades = FXCollections.observableArrayList(getEntidadeService().listar());
+		loadTable(getEntidadeService().listar());
+	}
+
+	private void loadTable(List<T> lista) {
+		listaEntidades = FXCollections.observableArrayList(lista);
 		tabela.setItems(listaEntidades);
 		loadColumns();
 	}
@@ -159,7 +169,7 @@ public abstract class BaseController<T extends Entidade> extends AbstractControl
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	protected void loadColumns() {
+	private void loadColumns() {
 		MirrorList<Field> campos = new Mirror().on(this.getClass()).reflectAll().fields();
 		for (Field field : campos) {
 			if (field.isAnnotationPresent(Coluna.class)) {
@@ -198,6 +208,14 @@ public abstract class BaseController<T extends Entidade> extends AbstractControl
 
 	public void setMensagem(Label mensagem) {
 		this.mensagem = mensagem;
+	}
+
+	public T getEntidadeFiltro() {
+		return entidadeFiltro;
+	}
+
+	public void setEntidadeFiltro(T entidadeFiltro) {
+		this.entidadeFiltro = entidadeFiltro;
 	}
 
 }

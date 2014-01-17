@@ -54,7 +54,7 @@ public class LogradouroRepositoryTest {
 		logradouro1.setEstado("SP");
 		logradouro1.setDdd("11");
 		logradouro1.setTelefone("32014568");
-		logradouro1.setEmail("noberto@email.com");
+		logradouro1.setEmail("roberto@email.com");
 		return logradouro1;
 	}
 

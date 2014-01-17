@@ -1,5 +1,7 @@
 package com.projetos.controle.tela.controller;
 
+import java.util.List;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
@@ -106,13 +108,15 @@ public class ClienteController extends BaseController<Cliente> {
 	/*@FXML
 	@CampoTela(bean = "inativo")*/
 	private RadioButton inativo;
-	
-	public void exibirTelaClienteCadastro() {
-		entidadeForm = new Cliente();
+
+	@Override
+	public List<Cliente> filtrar() {
+		return clienteService.filtrar(entidadeFiltro);
 	}
 	
 	@Override
 	public void exibirTelaCadastro() {
+		entidadeForm = new Cliente();
 		telaPrincipalController.exibirTelaClienteCadastro();
 	}
 
