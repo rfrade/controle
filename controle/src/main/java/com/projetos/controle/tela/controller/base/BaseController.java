@@ -1,7 +1,9 @@
 package com.projetos.controle.tela.controller.base;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -24,9 +26,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.projetos.controle.tela.base.AbstractController;
 import com.projetos.controle.tela.base.CampoTela;
 import com.projetos.controle.tela.base.Coluna;
+import com.projetos.controle.tela.base.FiltroTela;
 import com.projetos.controle.tela.controller.TelaPrincipalController;
 import com.projetos.controle.tela.util.CelulaFactory;
 import com.projetos.controle_entities.Entidade;
+import com.projetos.controle_negocio.filtro.Filtro;
 import com.projetos.controle_negocio.service.base.EntidadeService;
 import com.projetos.controle_util.reflection.BeanUtil;
 import com.projetos.controle_util.validacao.MensagemValidacao;
@@ -39,7 +43,6 @@ import com.projetos.controle_util.validacao.ValidacaoException;
 public abstract class BaseController<T extends Entidade> extends AbstractController implements Initializable {
 
     protected T entidadeForm;
-    protected T entidadeFiltro;
     protected ObservableList<T> listaEntidades;
 	protected Logger log = Logger.getLogger(this.getClass());
 
@@ -55,8 +58,30 @@ public abstract class BaseController<T extends Entidade> extends AbstractControl
 	private TableView<T> tabela;
 
     public void pesquisar() {
-    	bindFormToBean();
-    	loadTable(filtrar());
+    	bindFiltros();
+    	List<Filtro> filtros = new ArrayList<>();
+    	List<T> listaTabela = filtrar();
+		loadTable(listaTabela);
+    }
+
+    private List<Filtro> getCamposFiltro() {
+    	MirrorList<Field> campos = new Mirror().on(this.getClass()).reflectAll().fields();
+		for (Field field : campos) {
+			if (field.isAnnotationPresent(FiltroTela.class)) {
+				Object campo = new Mirror().on(this).get().field(field);
+				String beanName = field.getAnnotation(FiltroTela.class).campo();
+
+				if (campo instanceof TextField) {
+					String valor = ((TextField) campo).getText();
+					
+				} else if (campo instanceof RadioButton) {
+					Boolean valor = ((RadioButton) campo).isSelected();
+					
+				}
+			}
+		}
+		
+		return null;
     }
 
     public abstract List<T> filtrar();
@@ -152,17 +177,21 @@ public abstract class BaseController<T extends Entidade> extends AbstractControl
 		}
 	}
 
-	public void bindFormToBean() {
+	/*public void bindFiltros() {
+		bindFieldAnnotation(FiltroTela.class, entidadeFiltro);
+	}*/
+	
+	private void bindFormToBean() {
 		MirrorList<Field> campos = new Mirror().on(this.getClass()).reflectAll().fields();
 		for (Field field : campos) {
 			if (field.isAnnotationPresent(CampoTela.class)) {
 				Object campo = new Mirror().on(this).get().field(field);
-				String bean = field.getAnnotation(CampoTela.class).bean();
+				String beanName = field.getAnnotation(CampoTela.class).bean();
 				
 				if (campo instanceof TextField) {
-					BeanUtil.setPropriedade(entidadeForm, bean, ((TextField) campo).getText());
+					BeanUtil.setPropriedade(entidadeForm, beanName, ((TextField) campo).getText());
 				} else if (campo instanceof RadioButton) {
-					BeanUtil.setPropriedade(entidadeForm, bean, ((RadioButton) campo).isSelected());
+					BeanUtil.setPropriedade(entidadeForm, beanName, ((RadioButton) campo).isSelected());
 				}
 			}
 		}
@@ -208,14 +237,6 @@ public abstract class BaseController<T extends Entidade> extends AbstractControl
 
 	public void setMensagem(Label mensagem) {
 		this.mensagem = mensagem;
-	}
-
-	public T getEntidadeFiltro() {
-		return entidadeFiltro;
-	}
-
-	public void setEntidadeFiltro(T entidadeFiltro) {
-		this.entidadeFiltro = entidadeFiltro;
 	}
 
 }
