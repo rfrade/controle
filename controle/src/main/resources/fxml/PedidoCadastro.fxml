@@ -6,7 +6,12 @@
 <?import javafx.scene.layout.*?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
-<children><Label layoutX="448.0" layoutY="14.0" text="Cadastro de Pedido" /><Label layoutX="194.0" layoutY="44.0" text="Fornecedor" /><ChoiceBox layoutX="273.0" layoutY="40.0" prefHeight="25.0" prefWidth="205.0" xmlns:fx="http://javafx.com/fxml">
+<children><TabPane layoutY="-1.0" prefHeight="600.0" prefWidth="1000.0" tabClosingPolicy="UNAVAILABLE" xmlns:fx="http://javafx.com/fxml">
+  <tabs>
+    <Tab text="Pedido">
+      <content>
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="547.0" prefWidth="676.0">
+<children><Label layoutX="194.0" layoutY="44.0" text="Fornecedor" /><ChoiceBox layoutX="273.0" layoutY="40.0" prefHeight="25.0" prefWidth="205.0" xmlns:fx="http://javafx.com/fxml">
   <items>
     <FXCollections fx:factory="observableArrayList">
       <String fx:value="Item 1" />
@@ -28,4 +33,14 @@
     <TableColumn prefWidth="60.0" text="Cor" /><TableColumn prefWidth="70.0" text="Quantidade" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" /><TableColumn prefWidth="30.0" text="1" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" /><TableColumn prefWidth="30.0" text="2" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" /><TableColumn prefWidth="30.0" text="3" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" /><TableColumn prefWidth="30.0" text="32" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" /><TableColumn prefWidth="30.0" text="66" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" /><TableColumn prefWidth="30.0" text="XX1" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" /><TableColumn prefWidth="30.0" text="XX2" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" /><TableColumn prefWidth="30.0" text="XX3" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" /><TableColumn prefWidth="70.0" text="V. Unitário" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" /><TableColumn prefWidth="65.0" text="V. Total" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" /><TableColumn prefWidth="175.0" text="Descrição" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" /><TableColumn prefWidth="175.0" text="Observação" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
   </columns>
 </TableView><Button layoutX="508.0" layoutY="536.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="110.0" text="Imprimir" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" /><Label layoutX="39.0" layoutY="372.0" text="Observações Gerais do Pedido" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" /><TextArea layoutX="32.0" layoutY="396.0" prefHeight="71.0" prefWidth="421.0" /><Label layoutX="508.0" layoutY="402.0" text="Sub Total" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" /><Label layoutX="789.0" layoutY="402.0" text="2.317,90" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" /><Label layoutX="507.0" layoutY="432.0" text="Descontos" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" /><TextField layoutX="580.0" layoutY="428.0" prefHeight="25.0" prefWidth="35.0" /><TextField layoutX="622.0" layoutY="428.0" prefHeight="25.0" prefWidth="35.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" /><TextField layoutX="666.0" layoutY="428.0" prefHeight="25.0" prefWidth="35.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" /><TextField layoutX="709.0" layoutY="428.0" prefHeight="25.0" prefWidth="35.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" /><Button layoutX="752.0" layoutY="428.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="37.0" text="- &gt;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" /><TextField layoutX="803.0" layoutY="428.0" prefHeight="25.0" prefWidth="35.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" /><Label layoutX="508.0" layoutY="468.0" text="Total Pedido" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" /><Label layoutX="789.0" layoutY="468.0" text="2.317,90" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
+</children></AnchorPane>
+      </content>
+    </Tab>
+    <Tab text="Recebimento">
+      <content>
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+      </content>
+    </Tab>
+  </tabs>
+</TabPane>
 </children></AnchorPane>
