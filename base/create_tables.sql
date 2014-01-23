@@ -46,35 +46,26 @@ create table vendedor (
 
 create table pedido (
 	id integer not null auto_increment,
+	primary key(id),
+	id_fornecedor integer,
+	id_vendedor integer,
+	id_cliente integer,
 	transportador varchar(60),
 	condicoes varchar(60),
 	cobranca varchar(60),
 	data_pedido date,
 	comicao double,
 	entrega varchar(60),
-	colecao varchar(30),
-	id_fornecedor integer,
-	id_vendedor integer,
-	id_cliente integer,
-	primary key(id)
+	colecao varchar(30)
 );
 
-create table item_pedido (
+create table produto (
 	id integer not null auto_increment,
 	referencia varchar(10),
-	cor varchar(20),
 	descricao varchar(100),
-	observacao varchar(100),
 	valor_unitario double,
-	id_pedido integer,
-	primary key(id)
-);
-
-create table produto_item_pedido (
-	id integer not null auto_increment,
-	id_item_pedido integer,
-	id_tamanho integer,
 	quantidade integer,
+	tamanho varchar(50),
 	primary key(id)
 );
 
@@ -82,8 +73,28 @@ create table recebimento (
 	id integer not null auto_increment,
 	id_pedido integer,
 	data_recebimento date,
+	valor_recebimento double,
 	recebido boolean,
 	primary key(id)
+);
+
+create table item_pedido (
+	id integer not null auto_increment,
+	primary key(id),
+	id_pedido integer,
+	id_produto integer,
+	descricao varchar(100),
+	cor varchar(20),
+	observacao varchar(100),
+	quantidade_total integer,
+	quantidade_tamanho_1 integer,
+	quantidade_tamanho_2 integer,
+	quantidade_tamanho_3 integer,
+	quantidade_tamanho_4 integer,
+	quantidade_tamanho_5 integer,
+	quantidade_tamanho_6 integer,
+	quantidade_tamanho_7 integer,
+	quantidade_tamanho_8 integer
 );
 
 alter table fornecedor
@@ -107,9 +118,9 @@ alter table pedido
 alter table item_pedido
 	add constraint fk_item_pedido_pedido foreign key(id_pedido)
 	references pedido(id);
-alter table produto_item_pedido
-	add constraint fk_produto_item_pedido_item_pedido foreign key(id_item_pedido)
-	references item_pedido(id);
+alter table item_pedido
+	add constraint fk_item_pedido_produto foreign key(id_produto)
+	references produto(id);
 alter table recebimento
 	add constraint fk_recebimento_pedido foreign key(id_pedido)
 	references pedido(id);

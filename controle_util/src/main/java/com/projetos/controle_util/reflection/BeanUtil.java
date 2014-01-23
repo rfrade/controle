@@ -57,4 +57,10 @@ public class BeanUtil {
 			}
 		}
 	}
+	
+	public static Object invoke(Object objeto, String metodo, Object... args) {
+		Object result = new Mirror().on(objeto).invoke().method(metodo).withArgs(args);
+		return result;
+	}
+	
 }

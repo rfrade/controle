@@ -61,11 +61,6 @@ public class PedidoController<T> extends BaseController {
 	private TableColumn referencia;
 	
 	@Override
-	public List filtrar() {
-		return null;
-	}
-
-	@Override
 	public void exibirTelaCadastro() {
 		
 	}

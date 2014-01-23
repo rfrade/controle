@@ -1,6 +1,7 @@
 package com.projetos.controle.tela.controller;
 
-import java.util.List;
+import java.net.URL;
+import java.util.ResourceBundle;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.RadioButton;
@@ -16,6 +17,7 @@ import com.projetos.controle.tela.base.Coluna;
 import com.projetos.controle.tela.base.FiltroTela;
 import com.projetos.controle.tela.controller.base.BaseController;
 import com.projetos.controle_entities.Cliente;
+import com.projetos.controle_negocio.filtro.TipoFiltro;
 import com.projetos.controle_negocio.service.base.ClienteService;
 import com.projetos.controle_negocio.service.base.EntidadeService;
 
@@ -31,11 +33,11 @@ public class ClienteController extends BaseController<Cliente> {
 	private ClienteService clienteService;
 
 	@FXML
-	@FiltroTela(campo = "firma")
+	@FiltroTela(campo = "firma", tipo = TipoFiltro.STRING)
 	private TextField filtroFirma;
 	
 	@FXML
-	@FiltroTela(campo = "cidade")
+	@FiltroTela(campo = "cidade", tipo = TipoFiltro.STRING)
 	private TextField filtroCidade;
 
 	@FXML
@@ -119,10 +121,10 @@ public class ClienteController extends BaseController<Cliente> {
 	private RadioButton inativo;
 
 	@Override
-	public List<Cliente> filtrar() {
-		return clienteService.filtrar(entidadeFiltro);
+	public void initialize(URL url, ResourceBundle resource) {
+		super.initialize(url, resource);
 	}
-	
+
 	@Override
 	public void exibirTelaCadastro() {
 		entidadeForm = new Cliente();

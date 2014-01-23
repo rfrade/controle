@@ -1,6 +1,5 @@
 package com.projetos.controle.tela.controller.base;
 
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.net.URL;
 import java.util.ArrayList;
@@ -58,33 +57,36 @@ public abstract class BaseController<T extends Entidade> extends AbstractControl
 	private TableView<T> tabela;
 
     public void pesquisar() {
-    	bindFiltros();
-    	List<Filtro> filtros = new ArrayList<>();
-    	List<T> listaTabela = filtrar();
-		loadTable(listaTabela);
+    	List<Filtro> filtros = getCamposFiltro();
+    	List<T> listaTabela = getEntidadeService().filtrar(filtros);
+    	loadTable(listaTabela);
     }
 
     private List<Filtro> getCamposFiltro() {
+    	List<Filtro> filtros = new ArrayList<>();
     	MirrorList<Field> campos = new Mirror().on(this.getClass()).reflectAll().fields();
 		for (Field field : campos) {
 			if (field.isAnnotationPresent(FiltroTela.class)) {
 				Object campo = new Mirror().on(this).get().field(field);
-				String beanName = field.getAnnotation(FiltroTela.class).campo();
+				FiltroTela config = field.getAnnotation(FiltroTela.class);
+				String beanName = config.campo();
 
 				if (campo instanceof TextField) {
 					String valor = ((TextField) campo).getText();
-					
+					Filtro filtro = new Filtro(beanName, config.tipo(), config.comparador(), config.operador(), valor);
+					filtros.add(filtro);
+
 				} else if (campo instanceof RadioButton) {
 					Boolean valor = ((RadioButton) campo).isSelected();
-					
+					Filtro filtro = new Filtro(beanName, config.tipo(), config.comparador(), config.operador(), valor);
+					filtros.add(filtro);
 				}
+
 			}
 		}
 		
-		return null;
+		return filtros;
     }
-
-    public abstract List<T> filtrar();
 
     @Override
 	public void initialize(URL url, ResourceBundle resource) {

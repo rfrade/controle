@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.mysema.query.types.expr.BooleanExpression;
+import com.mysema.query.types.path.EntityPathBase;
 import com.projetos.controle_entities.Fornecedor;
 import com.projetos.controle_entities.QFornecedor;
 import com.projetos.controle_negocio.repositoy.EntidadeRepository;
@@ -31,6 +32,11 @@ public class FornecedorServiceImpl extends EntidadeServiceImpl<Fornecedor> imple
 	@Override
 	protected EntidadeRepository<Fornecedor> getRepository() {
 		return fornecedorRepository;
+	}
+
+	@Override
+	public EntityPathBase<Fornecedor> getEntityPathBase() {
+		return QFornecedor.fornecedor;
 	}
 
 }
