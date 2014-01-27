@@ -1,7 +1,9 @@
 package com.projetos.controle_entities;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+
 import java.util.Date;
 import java.util.List;
 
@@ -13,13 +15,13 @@ import java.util.List;
 @Entity
 @Table(name="pedido")
 @NamedQuery(name="Pedido.findAll", query="SELECT p FROM Pedido p")
-public class Pedido implements Serializable {
+public class Pedido implements Entidade, Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(unique=true, nullable=false)
-	private int id;
+	private Integer id;
 
 	@Column(length=60)
 	private String cobranca;
@@ -62,11 +64,11 @@ public class Pedido implements Serializable {
 	public Pedido() {
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return this.id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

@@ -18,13 +18,13 @@ import javax.persistence.Table;
 @Entity
 @Table(name="produto")
 @NamedQuery(name="Produto.findAll", query="SELECT p FROM Produto p")
-public class Produto implements Serializable {
+public class Produto implements Entidade, Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(unique=true, nullable=false)
-	private int id;
+	private Integer id;
 
 	@Column(length=100)
 	private String descricao;
@@ -43,11 +43,11 @@ public class Produto implements Serializable {
 	public Produto() {
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return this.id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

@@ -1,8 +1,5 @@
 package com.projetos.controle_negocio.service.impl;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,9 +15,6 @@ public class ClienteServiceImpl extends EntidadeServiceImpl<Cliente> implements 
 
 	@Autowired
 	private ClienteRepository clienteRepository;
-
-	@PersistenceContext
-	private EntityManager entityManager;
 
 	@Override
 	protected EntidadeRepository<Cliente> getRepository() {

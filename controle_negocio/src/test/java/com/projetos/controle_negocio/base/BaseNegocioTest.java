@@ -8,7 +8,7 @@ import com.projetos.controle_entities.Logradouro;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/services-test.xml" })
-public class BaseNegocioTest {
+public abstract class BaseNegocioTest {
 
 	protected Logradouro novoLogradouro(String endereco) {
 		Logradouro logradouro1 = new Logradouro();
