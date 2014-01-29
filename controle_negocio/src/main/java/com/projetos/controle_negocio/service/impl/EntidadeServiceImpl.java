@@ -6,6 +6,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.apache.log4j.Logger;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.mysema.query.jpa.impl.JPAQuery;
@@ -28,6 +29,8 @@ public abstract class EntidadeServiceImpl<T extends Entidade> implements Entidad
 
 	@PersistenceContext
 	private EntityManager entityManager;
+	
+	protected Logger log = Logger.getLogger(this.getClass());
 
 	protected abstract EntidadeRepository<T> getRepository();
 

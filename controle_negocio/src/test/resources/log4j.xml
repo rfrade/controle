@@ -20,12 +20,12 @@
     </logger>
   
     <logger name="org.springframework">
-        <level value="info"/> 
+        <level value="warn"/> 
         <appender-ref ref="stdout" />
     </logger>
   
     <logger name="org.hibernate">
-        <level value="info"/> 
+        <level value="warn"/> 
         <appender-ref ref="stdout" />
     </logger>
   

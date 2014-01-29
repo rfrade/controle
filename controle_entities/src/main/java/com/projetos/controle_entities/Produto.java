@@ -91,4 +91,9 @@ public class Produto implements Entidade, Serializable {
 		this.valorUnitario = valorUnitario;
 	}
 
+	@Override
+	public String toString() {
+		return "[" + id + ", " + referencia + ", " + descricao + "]";
+	}
+
 }
