@@ -1,11 +1,17 @@
 package com.projetos.controle.tela.controller;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +23,7 @@ import com.projetos.controle.tela.base.Coluna;
 import com.projetos.controle.tela.base.FiltroTela;
 import com.projetos.controle.tela.controller.base.BaseController;
 import com.projetos.controle_entities.Cliente;
+import com.projetos.controle_negocio.filtro.Comparador;
 import com.projetos.controle_negocio.filtro.TipoFiltro;
 import com.projetos.controle_negocio.service.base.ClienteService;
 import com.projetos.controle_negocio.service.base.EntidadeService;
@@ -33,12 +40,16 @@ public class ClienteController extends BaseController<Cliente> {
 	private ClienteService clienteService;
 
 	@FXML
-	@FiltroTela(campo = "firma", tipo = TipoFiltro.STRING)
+	@FiltroTela(campo = "firma", tipo = TipoFiltro.STRING, comparador = Comparador.CONTAINS_IGNORE_CASE)
 	private TextField filtroFirma;
 	
 	@FXML
-	@FiltroTela(campo = "cidade", tipo = TipoFiltro.STRING)
+	@FiltroTela(campo = "logradouro.cidade", tipo = TipoFiltro.STRING, comparador = Comparador.CONTAINS_IGNORE_CASE)
 	private TextField filtroCidade;
+	
+	@FXML
+	@FiltroTela(campo = "ativo", tipo = TipoFiltro.LIST, comparador = Comparador.EQUALS)
+	private ChoiceBox<ItemCombo<Boolean>> filtroAtivo;
 
 	@FXML
 	@Coluna(bean = "firma")
@@ -120,9 +131,55 @@ public class ClienteController extends BaseController<Cliente> {
 	@CampoTela(bean = "inativo")*/
 	private RadioButton inativo;
 
+	@FXML
+	private TableView<Cliente> tabela;
+
 	@Override
 	public void initialize(URL url, ResourceBundle resource) {
 		super.initialize(url, resource);
+		List<ItemCombo<Boolean>> lista = new ArrayList<>();
+		ItemCombo<Boolean> ativo = new ItemCombo<>("ATIVO", true);
+		ItemCombo<Boolean> naoAtivo = new ItemCombo<>("NÃO ATIVO", false);
+		ItemCombo<Boolean> todos = new ItemCombo<>("TODOS", null);
+		lista.add(ativo);
+		lista.add(naoAtivo);
+		lista.add(todos);
+		
+		ObservableList<ItemCombo<Boolean>> itens = FXCollections.observableArrayList(lista);
+		filtroAtivo.setItems(itens);
+	}
+
+	public class ItemCombo<T> {
+		private String label;
+		private T valor;
+		
+		public ItemCombo(String label, T valor) {
+			this.label = label;
+			this.valor = valor;
+		}
+		
+		public String getLabel() {
+			return label;
+		}
+		public void setLabel(String label) {
+			this.label = label;
+		}
+		public T getValor() {
+			return valor;
+		}
+		public void setValor(T valor) {
+			this.valor = valor;
+		}
+		@Override
+		public String toString() {
+			return label;
+		}
+	}
+
+	protected void loadTable(List<Cliente> lista) {
+		listaEntidades = FXCollections.observableArrayList(lista);
+		tabela.setItems(listaEntidades);
+		loadColumns();
 	}
 
 	@Override
@@ -299,6 +356,11 @@ public class ClienteController extends BaseController<Cliente> {
 
 	public void setInativo(RadioButton inativo) {
 		this.inativo = inativo;
+	}
+
+	@Override
+	public TableView<Cliente> getTabela() {
+		return tabela;
 	}
 
 }

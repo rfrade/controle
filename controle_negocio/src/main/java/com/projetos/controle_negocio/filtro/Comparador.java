@@ -3,7 +3,7 @@ package com.projetos.controle_negocio.filtro;
 public enum Comparador {
 
 	EQUALS("eq"),
-	EQUALS_IGNORE_CASE("equalsIgnoreCase"),
+	EQUALS_IGNORE_CASE("equals"),
 	NOT_EQUALS("ne"),
 	CONTAINS("contains"),
 	CONTAINS_IGNORE_CASE("containsIgnoreCase"),

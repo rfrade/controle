@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
@@ -67,6 +68,9 @@ public class PedidoController extends BaseController<Pedido> {
 	@Coluna(bean = "referencia")
 	private TableColumn<Produto, String> referencia;
 
+	@FXML
+	private TableView<Pedido> tabela;
+
 	@Override
 	public void exibirTelaCadastro() {
 
@@ -80,6 +84,11 @@ public class PedidoController extends BaseController<Pedido> {
 	@Override
 	protected EntidadeService<Pedido> getEntidadeService() {
 		return pedidoService;
+	}
+
+	@Override
+	public TableView<Pedido> getTabela() {
+		return tabela;
 	}
 
 }

@@ -8,35 +8,35 @@ public class Filtro {
 	private TipoFiltro tipoFiltro;
 	private Object valor;
 
-	public Filtro(String nomePropriedade, TipoFiltro tipoFiltro) {
+	public Filtro(String nomePropriedade, TipoFiltro tipoFiltro, Comparador comparador) {
 		this.nomePropriedade = nomePropriedade;
-		if (tipoFiltro == TipoFiltro.BOOLEAN) {
-			comparador = Comparador.EQUALS;
-		} else {
-			comparador = Comparador.CONTAINS_IGNORE_CASE;
-		}
-		operadorLogico = OperadorLogico.AND;
+		this.tipoFiltro = tipoFiltro;
+		this.comparador = comparador;
+		this.operadorLogico = OperadorLogico.AND;
+	}
+
+	public Filtro(String nomePropriedade, TipoFiltro tipoFiltro, Comparador comparador, OperadorLogico operadorLogico) {
+		this(nomePropriedade, tipoFiltro, comparador);
+		this.operadorLogico = operadorLogico;
 	}
 	
-	public Filtro(String nomePropriedade, TipoFiltro tipoFiltro, Object valor) {
-		this(nomePropriedade, tipoFiltro);
+	public Filtro(String nomePropriedade, TipoFiltro tipoFiltro, Comparador comparador, Object valor) {
+		this(nomePropriedade, tipoFiltro, comparador);
 		this.valor = valor;
 	}
-	
-	public Filtro(String nomePropriedade, TipoFiltro tipoFiltro, Comparador comparador, OperadorLogico operadorLogico) {
-		this(nomePropriedade, tipoFiltro);
-		this.comparador = comparador;
-		this.operadorLogico = operadorLogico;
-	}
-	
+
 	public Filtro(String nomePropriedade, TipoFiltro tipoFiltro, Comparador comparador, OperadorLogico operadorLogico, Object valor) {
-		this(nomePropriedade, tipoFiltro);
-		this.comparador = comparador;
-		this.operadorLogico = operadorLogico;
+		this(nomePropriedade, tipoFiltro, comparador, operadorLogico);
+		this.valor = valor;
 	}
 
 	public boolean isValido() {
 		return valor != null;
+	}
+
+	@Override
+	public String toString() {
+		return operadorLogico + " " + nomePropriedade + " " + comparador.getMetodo() + " " + valor;
 	}
 
 	public Object getValor() {

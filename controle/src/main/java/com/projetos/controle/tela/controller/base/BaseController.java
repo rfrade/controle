@@ -10,6 +10,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
@@ -26,6 +27,7 @@ import com.projetos.controle.tela.base.AbstractController;
 import com.projetos.controle.tela.base.CampoTela;
 import com.projetos.controle.tela.base.Coluna;
 import com.projetos.controle.tela.base.FiltroTela;
+import com.projetos.controle.tela.controller.ClienteController.ItemCombo;
 import com.projetos.controle.tela.controller.TelaPrincipalController;
 import com.projetos.controle.tela.util.CelulaFactory;
 import com.projetos.controle_entities.Entidade;
@@ -53,15 +55,18 @@ public abstract class BaseController<T extends Entidade> extends AbstractControl
     @FXML
 	private Label mensagem;
 
-    @FXML
-	private TableView<T> tabela;
-
+    public abstract TableView<T> getTabela();
+    
     public void pesquisar() {
     	List<Filtro> filtros = getCamposFiltro();
     	List<T> listaTabela = getEntidadeService().filtrar(filtros);
     	loadTable(listaTabela);
     }
 
+    public void imprimir() {
+
+	}
+    
     private List<Filtro> getCamposFiltro() {
     	List<Filtro> filtros = new ArrayList<>();
     	MirrorList<Field> campos = new Mirror().on(this.getClass()).reflectAll().fields();
@@ -73,15 +78,24 @@ public abstract class BaseController<T extends Entidade> extends AbstractControl
 
 				if (campo instanceof TextField) {
 					String valor = ((TextField) campo).getText();
-					Filtro filtro = new Filtro(beanName, config.tipo(), config.comparador(), config.operador(), valor);
-					filtros.add(filtro);
+					if (valor != null && !valor.equals("")) {
+						Filtro filtro = new Filtro(beanName, config.tipo(), config.comparador(), config.operador(), valor);
+						filtros.add(filtro);
+					}
 
 				} else if (campo instanceof RadioButton) {
 					Boolean valor = ((RadioButton) campo).isSelected();
 					Filtro filtro = new Filtro(beanName, config.tipo(), config.comparador(), config.operador(), valor);
 					filtros.add(filtro);
+				} else if (campo instanceof ChoiceBox) {
+					@SuppressWarnings("unchecked")
+					Object valor = ((ChoiceBox<ItemCombo<?>>) campo).getSelectionModel().getSelectedItem();
+					ItemCombo<?> item = (ItemCombo<?>) valor;
+					if (valor != null) {
+						Filtro filtro = new Filtro(beanName, config.tipo(), config.comparador(), config.operador(), item.getValor());
+						filtros.add(filtro);
+					}
 				}
-
 			}
 		}
 		
@@ -93,15 +107,15 @@ public abstract class BaseController<T extends Entidade> extends AbstractControl
 		loadTable(getEntidadeService().listar());
 	}
 
-	private void loadTable(List<T> lista) {
+	protected void loadTable(List<T> lista) {
 		listaEntidades = FXCollections.observableArrayList(lista);
-		tabela.setItems(listaEntidades);
+		getTabela().setItems(listaEntidades);
 		loadColumns();
 	}
 
 	public void prepararAlteracao(MouseEvent event) {
 	    if (event.getClickCount() > 1) {
-	    	T selectedItem = tabela.getSelectionModel().getSelectedItem();
+	    	T selectedItem = getTabela().getSelectionModel().getSelectedItem();
 	    	if (selectedItem != null) {
 	    		exibirTelaLista();
 	    		entidadeForm = selectedItem;
@@ -152,14 +166,13 @@ public abstract class BaseController<T extends Entidade> extends AbstractControl
 	public void remover() {
     	getEntidadeService().remover(entidadeForm);
     	if (entidadeForm == null) {
-			entidadeForm = tabela.getSelectionModel().getSelectedItem();
+			entidadeForm = getTabela().getSelectionModel().getSelectedItem();
 		}
     	getEntidadeService().remover(entidadeForm);
 		mensagem.setText("Removido com sucesso!");
     }
 
     protected abstract EntidadeService<T> getEntidadeService();
-
 
 	public void bindBeanToForm() {
 		MirrorList<Field> campos = new Mirror().on(this.getClass()).reflectAll().fields();
@@ -200,7 +213,7 @@ public abstract class BaseController<T extends Entidade> extends AbstractControl
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	private void loadColumns() {
+	protected void loadColumns() {
 		MirrorList<Field> campos = new Mirror().on(this.getClass()).reflectAll().fields();
 		for (Field field : campos) {
 			if (field.isAnnotationPresent(Coluna.class)) {

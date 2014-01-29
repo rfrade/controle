@@ -8,6 +8,7 @@ import junit.framework.Assert;
 import org.junit.Test;
 
 import com.projetos.controle_entities.Cliente;
+import com.projetos.controle_negocio.filtro.Comparador;
 import com.projetos.controle_negocio.filtro.Filtro;
 import com.projetos.controle_negocio.filtro.TipoFiltro;
 
@@ -27,13 +28,13 @@ public class ClienteServiceTest extends BaseServiceTest {
 		clienteService.salvar(cliente2);
 		
 		List<Filtro> filtros = new ArrayList<>();
-		Filtro filtro1 = new Filtro("firma", TipoFiltro.STRING, "Teste");
+		Filtro filtro1 = new Filtro("firma", TipoFiltro.STRING, Comparador.CONTAINS_IGNORE_CASE, "Teste");
 		filtros.add(filtro1);
 		List<Cliente> lista1 = clienteService.filtrar(filtros);
 		Assert.assertTrue(lista1.size() >= 2);
 		filtros.clear();
 		
-		Filtro filtro2 = new Filtro("ativo", TipoFiltro.BOOLEAN, false);
+		Filtro filtro2 = new Filtro("ativo", TipoFiltro.BOOLEAN, Comparador.CONTAINS_IGNORE_CASE, false);
 		filtros.add(filtro2);
 		List<Cliente> lista2 = clienteService.filtrar(filtros);
 		boolean encontrouCliente2 = false;

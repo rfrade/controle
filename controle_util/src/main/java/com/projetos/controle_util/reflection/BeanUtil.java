@@ -16,7 +16,10 @@ public class BeanUtil {
 
 			return getPropriedade(novaRaiz, nomeNovaPropriedade);
 		} else {
-			return new Mirror().on(objeto).get().field(nomePropriedade);
+			if (objeto != null) {
+				return new Mirror().on(objeto).get().field(nomePropriedade);
+			}
+			return null;
 		}
 	}
 

@@ -5,5 +5,6 @@ public enum TipoFiltro {
 	INTEGER,
 	LONG,
 	DATE,
-	BOOLEAN
+	BOOLEAN,
+	LIST;
 }

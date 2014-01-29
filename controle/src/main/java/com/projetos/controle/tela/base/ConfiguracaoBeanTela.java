@@ -53,7 +53,7 @@ public class ConfiguracaoBeanTela {
 			Parent tela = (Parent) loader.load();
 			return tela;
 		} catch (IOException e) {
-			log.error("Não foi possível carregar o arquivo: " + fxml);
+			log.error("Erro ao carregar o arquivo: " + fxml);
 			throw new RuntimeException(e);
 		}
 	}

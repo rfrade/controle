@@ -21,6 +21,4 @@ public class CelulaFactory<C, T> implements Callback<CellDataFeatures<C, T>, Obs
 		return new ReadOnlyObjectWrapper<T>((T)propriedade);
 	}
 	
-
-	
 }

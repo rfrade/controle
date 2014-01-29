@@ -15,7 +15,7 @@ public @interface FiltroTela {
 
 	String campo();
 	TipoFiltro tipo();
-	Comparador comparador() default Comparador.CONTAINS;
+	Comparador comparador();
 	OperadorLogico operador() default OperadorLogico.AND;
 
 }

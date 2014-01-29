@@ -9,7 +9,7 @@ import com.projetos.controle.tela.controller.ClienteController;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/services-test.xml"})
-public class BaseControllerTest {
+public abstract class BaseControllerTest {
 
 	@Autowired
 	protected ClienteController clienteController;
