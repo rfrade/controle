@@ -41,6 +41,12 @@ public class ProdutoServiceImpl extends EntidadeServiceImpl<Produto> implements 
 	}
 
 	@Override
+	public void importarProdutosPlanilha(File file) {
+		List<Produto> produtos = getProdutosImportacao(file);
+		produtoRepository.save(produtos);
+	}
+
+	@Override
 	public List<Produto> getProdutosImportacao(File file) {
 		try {
 			List<Produto> produtos = new ArrayList<>();

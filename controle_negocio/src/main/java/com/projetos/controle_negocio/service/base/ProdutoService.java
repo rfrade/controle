@@ -9,4 +9,6 @@ public interface ProdutoService extends EntidadeService<Produto> {
 
 	List<Produto> getProdutosImportacao(File file);
 
+	void importarProdutosPlanilha(File file);
+
 }
