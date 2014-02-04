@@ -6,13 +6,15 @@ public class ValidacaoException extends Exception {
 	private MensagemValidacao mensagemValidacao;
 
 	public ValidacaoException(MensagemValidacao mensagemValidacao) {
-
+		this.mensagemValidacao = mensagemValidacao;
 	}
 
-	public ValidacaoException(String campo, CodigoMensagem codigoMensagem) {
-		this.mensagemValidacao = new MensagemValidacao();
-		this.mensagemValidacao.setCampo(campo);
-		this.mensagemValidacao.setCodigoMensagem(codigoMensagem);
+	public ValidacaoException(CodigoMensagem codigoMensagem, SeveridadeMensagem severidade, String campo) {
+		this.mensagemValidacao = new MensagemValidacao(codigoMensagem, severidade, campo);
+	}
+
+	public MensagemValidacao getMensagemValidacao() {
+		return mensagemValidacao;
 	}
 
 }

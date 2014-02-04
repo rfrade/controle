@@ -6,12 +6,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import javax.swing.JOptionPane;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -27,6 +27,7 @@ import com.projetos.controle.tela.base.AbstractController;
 import com.projetos.controle.tela.base.CampoTela;
 import com.projetos.controle.tela.base.Coluna;
 import com.projetos.controle.tela.base.FiltroTela;
+import com.projetos.controle.tela.base.PropertiesLoader;
 import com.projetos.controle.tela.controller.ClienteController.ItemCombo;
 import com.projetos.controle.tela.controller.TelaPrincipalController;
 import com.projetos.controle.tela.util.CelulaFactory;
@@ -46,14 +47,14 @@ public abstract class BaseController<T extends Entidade> extends AbstractControl
     protected T entidadeForm;
     protected ObservableList<T> listaEntidades;
 	protected Logger log = Logger.getLogger(this.getClass());
+	
+	@Autowired
+	private PropertiesLoader propertiesLoader;
 
-    private MensagemValidacao mensagemValidacao;
+    protected MensagemValidacao mensagem;
     
     @Autowired
     protected TelaPrincipalController telaPrincipalController;
-
-    @FXML
-	private Label mensagem;
 
     public abstract TableView<T> getTabela();
     
@@ -126,7 +127,7 @@ public abstract class BaseController<T extends Entidade> extends AbstractControl
 
 	@SuppressWarnings("unchecked")
 	public void prepararInclusao() {
-		Class<?> classe = new Mirror().on(this.getClass()).reflect().field("entidadeForm").getType();
+		Class<?> classe = new Mirror().on(this.getClass()).reflect().parentGenericType().atPosition(0);
 		entidadeForm = (T) new Mirror().on(classe).invoke().constructor().bypasser();
 		exibirTelaCadastro();
 	}
@@ -143,7 +144,7 @@ public abstract class BaseController<T extends Entidade> extends AbstractControl
 				validaAlteracao();
 			}
 			getEntidadeService().salvar(entidadeForm);
-			mensagem.setText("Salvo com sucesso!");
+			JOptionPane.showMessageDialog(null, propertiesLoader.getProperty("cadastro.salvo_com_sucesso"));
 		} catch (ValidacaoException e) {
 			tratarErro(e);
 		}
@@ -169,7 +170,7 @@ public abstract class BaseController<T extends Entidade> extends AbstractControl
 			entidadeForm = getTabela().getSelectionModel().getSelectedItem();
 		}
     	getEntidadeService().remover(entidadeForm);
-		mensagem.setText("Removido com sucesso!");
+		/*mensagem.setText("Removido com sucesso!");*/
     }
 
     protected abstract EntidadeService<T> getEntidadeService();
@@ -246,12 +247,12 @@ public abstract class BaseController<T extends Entidade> extends AbstractControl
 		this.listaEntidades = listaEntidades;
 	}
 
-	public Label getMensagem() {
-		return mensagem;
+	public PropertiesLoader getPropertiesLoader() {
+		return propertiesLoader;
 	}
 
-	public void setMensagem(Label mensagem) {
-		this.mensagem = mensagem;
+	public void setPropertiesLoader(PropertiesLoader propertiesLoader) {
+		this.propertiesLoader = propertiesLoader;
 	}
 
 }
