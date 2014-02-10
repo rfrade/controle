@@ -29,7 +29,7 @@ public class Pedido implements Entidade, Serializable {
 	@Column(length=30)
 	private String colecao;
 
-	private double comicao;
+	private double comissao;
 
 	@Column(length=60)
 	private String condicoes;
@@ -41,17 +41,38 @@ public class Pedido implements Entidade, Serializable {
 	@Column(length=60)
 	private String entrega;
 
-	@Column(name="id_cliente")
-	private int idCliente;
+	@ManyToOne
+	@JoinColumn(name="id_cliente")
+	private Cliente cliente;
 
-	@Column(name="id_fornecedor")
-	private int idFornecedor;
-
-	@Column(name="id_vendedor")
-	private int idVendedor;
+	@ManyToOne
+	@JoinColumn(name="id_fornecedor")
+	private Fornecedor fornecedor;
+	
+	@ManyToOne
+	@JoinColumn(name="id_vendedor")
+	private Vendedor vendedor;
 
 	@Column(length=60)
 	private String transportador;
+	
+	@Column(length=180)
+	private String observacao;
+
+	@Column
+	private double desconto1;
+	
+	@Column
+	private double desconto2;
+	
+	@Column
+	private double desconto3;
+	
+	@Column
+	private double desconto4;
+	
+	@Column(name="desconto_total")
+	private double descontoTotal;
 
 	//bi-directional many-to-one association to ItemPedido
 	@OneToMany(mappedBy="pedido")
@@ -88,14 +109,6 @@ public class Pedido implements Entidade, Serializable {
 		this.colecao = colecao;
 	}
 
-	public double getComicao() {
-		return this.comicao;
-	}
-
-	public void setComicao(double comicao) {
-		this.comicao = comicao;
-	}
-
 	public String getCondicoes() {
 		return this.condicoes;
 	}
@@ -118,30 +131,6 @@ public class Pedido implements Entidade, Serializable {
 
 	public void setEntrega(String entrega) {
 		this.entrega = entrega;
-	}
-
-	public int getIdCliente() {
-		return this.idCliente;
-	}
-
-	public void setIdCliente(int idCliente) {
-		this.idCliente = idCliente;
-	}
-
-	public int getIdFornecedor() {
-		return this.idFornecedor;
-	}
-
-	public void setIdFornecedor(int idFornecedor) {
-		this.idFornecedor = idFornecedor;
-	}
-
-	public int getIdVendedor() {
-		return this.idVendedor;
-	}
-
-	public void setIdVendedor(int idVendedor) {
-		this.idVendedor = idVendedor;
 	}
 
 	public String getTransportador() {
@@ -194,6 +183,86 @@ public class Pedido implements Entidade, Serializable {
 		recebimento.setPedido(null);
 
 		return recebimento;
+	}
+
+	public double getDesconto1() {
+		return desconto1;
+	}
+
+	public void setDesconto1(double desconto1) {
+		this.desconto1 = desconto1;
+	}
+
+	public double getDesconto2() {
+		return desconto2;
+	}
+
+	public void setDesconto2(double desconto2) {
+		this.desconto2 = desconto2;
+	}
+
+	public double getDesconto3() {
+		return desconto3;
+	}
+
+	public void setDesconto3(double desconto3) {
+		this.desconto3 = desconto3;
+	}
+
+	public double getDesconto4() {
+		return desconto4;
+	}
+
+	public void setDesconto4(double desconto4) {
+		this.desconto4 = desconto4;
+	}
+
+	public Fornecedor getFornecedor() {
+		return fornecedor;
+	}
+
+	public void setFornecedor(Fornecedor fornecedor) {
+		this.fornecedor = fornecedor;
+	}
+
+	public Vendedor getVendedor() {
+		return vendedor;
+	}
+
+	public void setVendedor(Vendedor vendedor) {
+		this.vendedor = vendedor;
+	}
+
+	public Cliente getCliente() {
+		return cliente;
+	}
+
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
+	}
+
+	public double getComissao() {
+		return comissao;
+	}
+
+	public void setComissao(double comissao) {
+		this.comissao = comissao;
+	}
+
+	public String getObservacao() {
+		return observacao;
+	}
+
+	public void setObservacao(String observacao) {
+		this.observacao = observacao;
+	}
+
+	public double getDescontoTotal() {
+		return descontoTotal;
+	}
+
+	public void setDescontoTotal(double descontoTotal) {
+		this.descontoTotal = descontoTotal;
 	}
 
 }

@@ -3,9 +3,9 @@ drop table fornecedor;
 drop table cliente;
 drop table vendedor;
 drop table logradouro;
+drop table item_pedido;
 drop table produto;
 drop table recebimento;
-drop table item_pedido;
 drop table pedido;
 
 select * from logradouro;

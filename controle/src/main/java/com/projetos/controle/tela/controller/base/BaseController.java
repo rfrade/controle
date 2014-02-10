@@ -1,22 +1,17 @@
 package com.projetos.controle.tela.controller.base;
 
 import java.lang.reflect.Field;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ResourceBundle;
 
-import javax.swing.JOptionPane;
-
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.input.KeyEvent;
 import net.vidageek.mirror.dsl.Mirror;
 import net.vidageek.mirror.list.dsl.MirrorList;
 
@@ -27,8 +22,8 @@ import com.projetos.controle.tela.base.AbstractController;
 import com.projetos.controle.tela.base.CampoTela;
 import com.projetos.controle.tela.base.Coluna;
 import com.projetos.controle.tela.base.FiltroTela;
+import com.projetos.controle.tela.base.ItemCombo;
 import com.projetos.controle.tela.base.PropertiesLoader;
-import com.projetos.controle.tela.controller.ClienteController.ItemCombo;
 import com.projetos.controle.tela.controller.TelaPrincipalController;
 import com.projetos.controle.tela.util.CelulaFactory;
 import com.projetos.controle_entities.Entidade;
@@ -36,7 +31,6 @@ import com.projetos.controle_negocio.filtro.Filtro;
 import com.projetos.controle_negocio.service.base.EntidadeService;
 import com.projetos.controle_util.reflection.BeanUtil;
 import com.projetos.controle_util.validacao.MensagemValidacao;
-import com.projetos.controle_util.validacao.ValidacaoException;
 
 /**
  * @author Rafael
@@ -49,26 +43,18 @@ public abstract class BaseController<T extends Entidade> extends AbstractControl
 	protected Logger log = Logger.getLogger(this.getClass());
 	
 	@Autowired
-	private PropertiesLoader propertiesLoader;
+	protected PropertiesLoader propertiesLoader;
 
     protected MensagemValidacao mensagem;
     
     @Autowired
     protected TelaPrincipalController telaPrincipalController;
 
-    public abstract TableView<T> getTabela();
-    
-    public void pesquisar() {
-    	List<Filtro> filtros = getCamposFiltro();
-    	List<T> listaTabela = getEntidadeService().filtrar(filtros);
-    	loadTable(listaTabela);
-    }
-
     public void imprimir() {
 
 	}
     
-    private List<Filtro> getCamposFiltro() {
+    protected List<Filtro> getCamposFiltro() {
     	List<Filtro> filtros = new ArrayList<>();
     	MirrorList<Field> campos = new Mirror().on(this.getClass()).reflectAll().fields();
 		for (Field field : campos) {
@@ -103,77 +89,12 @@ public abstract class BaseController<T extends Entidade> extends AbstractControl
 		return filtros;
     }
 
-    @Override
-	public void initialize(URL url, ResourceBundle resource) {
-		loadTable(getEntidadeService().listar());
-	}
-
-	protected void loadTable(List<T> lista) {
-		listaEntidades = FXCollections.observableArrayList(lista);
-		getTabela().setItems(listaEntidades);
-		loadColumns();
-	}
-
-	public void prepararAlteracao(MouseEvent event) {
-	    if (event.getClickCount() > 1) {
-	    	T selectedItem = getTabela().getSelectionModel().getSelectedItem();
-	    	if (selectedItem != null) {
-	    		exibirTelaLista();
-	    		entidadeForm = selectedItem;
-	    		bindBeanToForm();
-	    	}
-	    }
-	}
-
-	@SuppressWarnings("unchecked")
-	public void prepararInclusao() {
-		Class<?> classe = new Mirror().on(this.getClass()).reflect().parentGenericType().atPosition(0);
-		entidadeForm = (T) new Mirror().on(classe).invoke().constructor().bypasser();
-		exibirTelaCadastro();
-	}
-
-	public abstract void exibirTelaCadastro();
-	public abstract void exibirTelaLista();
-
-	public void salvar() {
-		try {
-			bindFormToBean();
-			if (entidadeForm.getId() == null) {
-				validaInclusao();
-			} else {
-				validaAlteracao();
-			}
-			getEntidadeService().salvar(entidadeForm);
-			JOptionPane.showMessageDialog(null, propertiesLoader.getProperty("cadastro.salvo_com_sucesso"));
-		} catch (ValidacaoException e) {
-			tratarErro(e);
-		}
-	}
-
-	private void tratarErro(Exception e) {
-		log.error(e.getMessage(), e);
-	}
-
-    protected void validaAlteracao() throws ValidacaoException {
-		/*throw new ValidacaoException(null, null);*/
-	}
-
-    protected void validaInclusao() throws ValidacaoException {
-    	/*if (false) {
-    		throw new ValidacaoException(null, null);
-    	}*/
-	}
-
-	public void remover() {
-    	getEntidadeService().remover(entidadeForm);
-    	if (entidadeForm == null) {
-			entidadeForm = getTabela().getSelectionModel().getSelectedItem();
-		}
-    	getEntidadeService().remover(entidadeForm);
-		/*mensagem.setText("Removido com sucesso!");*/
+    protected void tratarErro(Exception e) {
+    	log.error(e.getMessage(), e);
     }
 
     protected abstract EntidadeService<T> getEntidadeService();
+    protected abstract void remover();
 
 	public void bindBeanToForm() {
 		MirrorList<Field> campos = new Mirror().on(this.getClass()).reflectAll().fields();
@@ -193,11 +114,7 @@ public abstract class BaseController<T extends Entidade> extends AbstractControl
 		}
 	}
 
-	/*public void bindFiltros() {
-		bindFieldAnnotation(FiltroTela.class, entidadeFiltro);
-	}*/
-	
-	private void bindFormToBean() {
+	protected void bindFormToBean() {
 		MirrorList<Field> campos = new Mirror().on(this.getClass()).reflectAll().fields();
 		for (Field field : campos) {
 			if (field.isAnnotationPresent(CampoTela.class)) {
@@ -229,6 +146,66 @@ public abstract class BaseController<T extends Entidade> extends AbstractControl
 				}
 			}
 		}
+	}
+
+	protected void mascararCampos() {
+		List<Field> camposMascara = getCamposMascara();
+		for (Field field : camposMascara) {
+			TextField campo = (TextField) new Mirror().on(this).get().field(field);
+			
+			if (campo == null) {
+				throw new RuntimeException("Campo com valor nulo: " + field.getName());
+			}
+
+			campo.setOnKeyPressed(new MaskedTextFieldEventHandler(12, "[[\\d]{3}.]"));
+		}
+
+	}
+
+	public class MaskedTextFieldEventHandler implements EventHandler<KeyEvent> {
+
+		private int maxLength;
+		private String format;
+		
+		public MaskedTextFieldEventHandler(int maxLength) {
+			this.maxLength = maxLength;
+		}
+
+		public MaskedTextFieldEventHandler(int maxLenth, String format) {
+			this(maxLenth);
+			this.format = format;
+		}
+
+		@Override
+		public void handle(KeyEvent paramT) {
+			TextField textField = (TextField) paramT.getSource();
+			String text = textField.getText();
+			String typedText = paramT.getText();
+			if (text.length() >= maxLength) {
+				return;
+			} else if (format != null) {
+				String valorMascarado = maskedInput(text + typedText);
+				textField.setText(valorMascarado);
+			}
+		}
+
+		private String maskedInput(String texto) {
+			return texto.replaceAll(format, texto);
+		}
+
+	}
+
+	private List<Field> getCamposMascara() {
+		List<Field> camposAnotados = BeanUtil.getCamposAnotados(this.getClass(), CampoTela.class);
+		List<Field> camposMascara = new ArrayList<>();
+		
+		for (Field field : camposAnotados) {
+			if (field.getType() == TextField.class) {
+				camposMascara.add(field);
+			}
+		}
+		
+		return camposMascara;
 	}
 
 	public T getEntidadeForm() {

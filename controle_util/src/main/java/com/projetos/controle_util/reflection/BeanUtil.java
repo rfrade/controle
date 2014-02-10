@@ -1,8 +1,12 @@
 package com.projetos.controle_util.reflection;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
 
 import net.vidageek.mirror.dsl.Mirror;
+import net.vidageek.mirror.list.dsl.MirrorList;
 
 public class BeanUtil {
 
@@ -65,5 +69,16 @@ public class BeanUtil {
 		Object result = new Mirror().on(objeto).invoke().method(metodo).withArgs(args);
 		return result;
 	}
-	
+
+	public static List<Field> getCamposAnotados(Class<?> classe, Class<? extends Annotation> annotation) {
+		List<Field> fields = new ArrayList<>();
+		MirrorList<Field> campos = new Mirror().on(classe).reflectAll().fields();
+		for (Field field : campos) {
+			if (field.isAnnotationPresent(annotation)) {
+				fields.add(field);
+			}
+		}
+
+		return fields;
+	}
 }

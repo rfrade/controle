@@ -54,9 +54,15 @@ create table pedido (
 	condicoes varchar(60),
 	cobranca varchar(60),
 	data_pedido date,
-	comicao double,
+	comissao double,
 	entrega varchar(60),
-	colecao varchar(30)
+	colecao varchar(30),
+	observacao varchar(180),
+	desconto1 double,
+	desconto2 double,
+	desconto3 double,
+	desconto4 double,
+	desconto_total double
 );
 
 create table produto (
