@@ -16,6 +16,11 @@ public class BeanUtil {
 			int index = nomePropriedade.indexOf(".");
 			String nomeNovaRaiz = nomePropriedade.substring(0, index);
 			String nomeNovaPropriedade = nomePropriedade.substring(index + 1);
+			
+			if (objeto == null) {
+				return null;
+			}
+			
 			Object novaRaiz = new Mirror().on(objeto).get().field(nomeNovaRaiz);
 
 			return getPropriedade(novaRaiz, nomeNovaPropriedade);
@@ -53,12 +58,16 @@ public class BeanUtil {
 				Class<?> type = field.getType();
 				if (type.getName() == "int") {
 					valor = Integer.valueOf(valor.toString());
+				} else if (type.getName() == "double") {
+					valor = Double.valueOf(valor.toString());
 				} else if (type.getName() == "long") {
-						valor = Integer.valueOf(valor.toString());
+						valor = Long.valueOf(valor.toString());
 				} else if (type == Integer.class) {
 					valor = Integer.valueOf(valor.toString());
 				} else if (type == Long.class) {
 					valor = Long.valueOf(valor.toString());
+				} else if (type == Double.class) {
+					valor = Double.valueOf(valor.toString());
 				}
 				new Mirror().on(objeto).set().field(nomePropriedade).withValue(valor);
 			}

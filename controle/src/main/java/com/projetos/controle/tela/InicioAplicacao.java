@@ -24,8 +24,8 @@ public class InicioAplicacao extends BaseApplication {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		
-		@SuppressWarnings("resource")
 		ApplicationContext context = new ClassPathXmlApplicationContext("classpath:applicationContext.xml");
+		ApplicationConfig.setContext(context);
 		TelaPrincipalController telaPrincipalController = context.getBean(TelaPrincipalController.class);
 
 		telaPrincipalController.setPrimaryStage(primaryStage);

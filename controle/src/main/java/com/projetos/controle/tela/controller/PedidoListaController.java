@@ -1,5 +1,9 @@
 package com.projetos.controle.tela.controller;
 
+import java.net.URL;
+import java.util.ResourceBundle;
+
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TableColumn;
@@ -21,6 +25,7 @@ import com.projetos.controle_entities.Produto;
 import com.projetos.controle_negocio.filtro.Comparador;
 import com.projetos.controle_negocio.filtro.TipoFiltro;
 import com.projetos.controle_negocio.service.base.EntidadeService;
+import com.projetos.controle_negocio.service.base.FornecedorService;
 import com.projetos.controle_negocio.service.base.PedidoService;
 
 @Controller
@@ -29,17 +34,19 @@ public class PedidoListaController extends BaseListController<Pedido> {
 
 	@Autowired
 	private PedidoService pedidoService;
+	
+	@Autowired
+	private FornecedorService fornecedorService;
 
 	@Autowired
 	private PedidoCadastroController pedidoCadastroController;
 
-	// Filtros
 	@FXML
-	@FiltroTela(campo = "fornecedor", tipo = TipoFiltro.STRING, comparador = Comparador.CONTAINS_IGNORE_CASE)
+	@FiltroTela(campo = "fornecedor", tipo = TipoFiltro.STRING, comparador = Comparador.EQUALS)
 	private ChoiceBox<ItemCombo<Fornecedor>> filtroFornecedor;
 	
 	@FXML
-	@FiltroTela(campo = "logradouro.cidade", tipo = TipoFiltro.STRING, comparador = Comparador.CONTAINS_IGNORE_CASE)
+	@FiltroTela(campo = "cliente.logradouro.cidade", tipo = TipoFiltro.STRING, comparador = Comparador.CONTAINS_IGNORE_CASE)
 	private TextField filtroCidade;
 
 	@FXML
@@ -50,7 +57,6 @@ public class PedidoListaController extends BaseListController<Pedido> {
 	@Coluna(bean = "id")
 	private TableColumn<Produto, String> colunaNumeroPedido;
 	
-	// Colunas Tabela
 	@FXML
 	@Coluna(bean = "dataPedido")
 	private TableColumn<Produto, String> colunaData;
@@ -64,7 +70,7 @@ public class PedidoListaController extends BaseListController<Pedido> {
 	private TableColumn<Produto, String> colunaFornecedor;
 	
 	@FXML
-	@Coluna(bean = "logradouro.cidade")
+	@Coluna(bean = "cliente.logradouro.cidade")
 	private TableColumn<Produto, String> colunaCidade;
 	
 	@FXML
@@ -81,6 +87,14 @@ public class PedidoListaController extends BaseListController<Pedido> {
 
 	@FXML
 	private TableView<Pedido> tabela;
+
+	@Override
+	public void initialize(URL url, ResourceBundle resource) {
+		super.initialize(url, resource);
+
+		ObservableList<ItemCombo<Fornecedor>> itens = ItemCombo.novaListaCombo(fornecedorService.listar(), "firma");
+		filtroFornecedor.setItems(itens);
+	}
 
 	@Override
 	public void exibirTelaCadastro() {

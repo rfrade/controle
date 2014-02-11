@@ -8,6 +8,7 @@ import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TextField;
@@ -21,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.projetos.controle.tela.base.AbstractController;
 import com.projetos.controle.tela.base.CampoTela;
 import com.projetos.controle.tela.base.Coluna;
+import com.projetos.controle.tela.base.ConfiguracaoBeanTela;
 import com.projetos.controle.tela.base.FiltroTela;
 import com.projetos.controle.tela.base.ItemCombo;
 import com.projetos.controle.tela.base.PropertiesLoader;
@@ -50,10 +52,9 @@ public abstract class BaseController<T extends Entidade> extends AbstractControl
     @Autowired
     protected TelaPrincipalController telaPrincipalController;
 
-    public void imprimir() {
+    @Autowired
+    protected ConfiguracaoBeanTela configuracaoBeanTela;
 
-	}
-    
     protected List<Filtro> getCamposFiltro() {
     	List<Filtro> filtros = new ArrayList<>();
     	MirrorList<Field> campos = new Mirror().on(this.getClass()).reflectAll().fields();
@@ -96,6 +97,7 @@ public abstract class BaseController<T extends Entidade> extends AbstractControl
     protected abstract EntidadeService<T> getEntidadeService();
     protected abstract void remover();
 
+	@SuppressWarnings("unchecked")
 	public void bindBeanToForm() {
 		MirrorList<Field> campos = new Mirror().on(this.getClass()).reflectAll().fields();
 		for (Field field : campos) {
@@ -106,8 +108,15 @@ public abstract class BaseController<T extends Entidade> extends AbstractControl
 				
 				if (campo instanceof TextField && value != null) {
 					((TextField) campo).setText(value.toString());
+				} else if (campo instanceof Label && value != null) {
+					((Label) campo).setText(value.toString());
 				} else if (campo instanceof RadioButton  && value != null) {
 					((RadioButton) campo).setSelected((Boolean)value);
+				} else if (campo instanceof ChoiceBox) {
+//					Object valor = ((ChoiceBox<ItemCombo<?>>) campo).getSelectionModel().getSelectedItem();
+					ItemCombo<?> item = new ItemCombo<>(null, value);
+					((ChoiceBox<ItemCombo<?>>) campo).getSelectionModel().select(item);
+					
 				}
 				
 			}
@@ -125,6 +134,11 @@ public abstract class BaseController<T extends Entidade> extends AbstractControl
 					BeanUtil.setPropriedade(entidadeForm, beanName, ((TextField) campo).getText());
 				} else if (campo instanceof RadioButton) {
 					BeanUtil.setPropriedade(entidadeForm, beanName, ((RadioButton) campo).isSelected());
+				} else if (campo instanceof ChoiceBox) {
+					@SuppressWarnings("unchecked")
+					Object valor = ((ChoiceBox<ItemCombo<?>>) campo).getSelectionModel().getSelectedItem();
+					ItemCombo<?> item = (ItemCombo<?>) valor;
+					BeanUtil.setPropriedade(entidadeForm, beanName, item.getValor());
 				}
 			}
 		}
@@ -157,7 +171,7 @@ public abstract class BaseController<T extends Entidade> extends AbstractControl
 				throw new RuntimeException("Campo com valor nulo: " + field.getName());
 			}
 
-			campo.setOnKeyPressed(new MaskedTextFieldEventHandler(12, "[[\\d]{3}.]"));
+			campo.setOnKeyReleased(new MaskedTextFieldEventHandler(12));
 		}
 
 	}
@@ -182,6 +196,7 @@ public abstract class BaseController<T extends Entidade> extends AbstractControl
 			String text = textField.getText();
 			String typedText = paramT.getText();
 			if (text.length() >= maxLength) {
+				textField.setText(text.substring(0, maxLength));
 				return;
 			} else if (format != null) {
 				String valorMascarado = maskedInput(text + typedText);

@@ -20,9 +20,6 @@ import com.projetos.controle.tela.base.ConfiguracaoBeanTela;
 public class TelaPrincipalController extends AbstractController {
 
 	@Autowired
-	private ClienteController clienteController;
-
-	@Autowired
 	private ConfiguracaoBeanTela configuracaoBeanTela;
 
 	private Stage primaryStage;
@@ -44,13 +41,14 @@ public class TelaPrincipalController extends AbstractController {
 		paneTelaAtiva.getChildren().setAll(tela);
 	}
 
-	private void exibirPopup(Parent tela) {
+	public Stage exibirPopup(Parent tela) {
 		Stage popup = new Stage();
 		popup.initOwner(primaryStage);
 		popup.initModality(Modality.WINDOW_MODAL);
 		Scene scene = new Scene(tela);
 		popup.setScene(scene);
 		popup.show();
+		return popup;
 	}
 	
 	public void exibirTelaPrincipal() {
@@ -59,12 +57,14 @@ public class TelaPrincipalController extends AbstractController {
 		primaryStage.show();
 	}
 
-	public void exibirTelaClienteCadastro() {
-		this.exibirPopup(configuracaoBeanTela.carregarTelaClienteCadastro());
+	public Stage exibirTelaClienteCadastro() {
+		Stage popup = this.exibirPopup(configuracaoBeanTela.carregarTelaClienteCadastro());
+		return popup;
 	}
 
-	public void exibirTelaPedidoCadastro() {
-		this.exibirPopup(configuracaoBeanTela.carregarTelaPedidoCadastro());
+	public Stage exibirTelaPedidoCadastro() {
+		Stage popup = this.exibirPopup(configuracaoBeanTela.carregarTelaPedidoCadastro());
+		return popup;
 	}
 
 	public void setPrimaryStage(Stage primaryStage) {

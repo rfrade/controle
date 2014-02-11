@@ -10,7 +10,7 @@
 	fx:controller="com.projetos.controle.tela.controller.ClienteListaController">
 	<children>
 		<TableView fx:id="tabela" layoutX="14.0" layoutY="99.0"
-			onMouseClicked="#prepararAlteracao" prefHeight="491.0" prefWidth="1129.0"
+			prefHeight="491.0" prefWidth="1129.0"
 			xmlns:fx="http://javafx.com/fxml">
 			<columns>
 				<TableColumn id="" fx:id="colunaFirma" prefWidth="300.0"

@@ -81,6 +81,10 @@ public class ClienteListaController extends BaseListController<Cliente> {
 	@Override
 	public void initialize(URL url, ResourceBundle resource) {
 		super.initialize(url, resource);
+		initFiltroAtivo();
+	}
+
+	private void initFiltroAtivo() {
 		List<ItemCombo<Boolean>> lista = new ArrayList<>();
 		ItemCombo<Boolean> ativo = new ItemCombo<>("ATIVO", true);
 		ItemCombo<Boolean> naoAtivo = new ItemCombo<>("NÃO ATIVO", false);
@@ -103,7 +107,11 @@ public class ClienteListaController extends BaseListController<Cliente> {
 	public void exibirTelaLista() {
 		telaPrincipalController.exibirTelaClienteLista();
 	}
-	
+
+	public void imprimir() {
+
+	}
+
 	@Override
 	protected EntidadeService<Cliente> getEntidadeService() {
 		return clienteService;

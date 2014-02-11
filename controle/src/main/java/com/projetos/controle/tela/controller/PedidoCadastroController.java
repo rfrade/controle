@@ -1,23 +1,40 @@
 package com.projetos.controle.tela.controller;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.net.URL;
+import java.util.Arrays;
+import java.util.List;
+import java.util.ResourceBundle;
+
+import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.Parent;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Controller;
 
+import com.projetos.controle.tela.ApplicationConfig;
 import com.projetos.controle.tela.base.CampoTela;
 import com.projetos.controle.tela.base.ItemCombo;
 import com.projetos.controle.tela.controller.base.BaseCadastroController;
+import com.projetos.controle_entities.Cliente;
 import com.projetos.controle_entities.Fornecedor;
 import com.projetos.controle_entities.Pedido;
 import com.projetos.controle_entities.Vendedor;
 import com.projetos.controle_negocio.service.base.EntidadeService;
+import com.projetos.controle_negocio.service.base.FornecedorService;
 import com.projetos.controle_negocio.service.base.PedidoService;
+import com.projetos.controle_negocio.service.base.VendedorService;
 
 @Controller
 @Lazy
@@ -26,12 +43,18 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 	@Autowired
 	private PedidoService pedidoService;
 
+	@Autowired
+	private FornecedorService fornecedorService;
+	
+	@Autowired
+	private VendedorService vendedorService;
+
 	@FXML
 	@CampoTela(bean = "id")
 	private Label labelNumeroPedido;
 
 	@FXML
-	@CampoTela(bean = "fornecedor.firma")
+	@CampoTela(bean = "fornecedor")
 	private ChoiceBox<ItemCombo<Fornecedor>> fornecedor;
 
 	@FXML
@@ -59,7 +82,7 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 	private TextField entrega;
 
 	@FXML
-	@CampoTela(bean = "vendedor.nome")
+	@CampoTela(bean = "vendedor")
 	private ChoiceBox<ItemCombo<Vendedor>> vendedor;
 
 	@FXML
@@ -90,12 +113,77 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 	@CampoTela(bean = "descontoTotal")
 	private TextField descontoTotal;
 
+	@Override
+	public void initialize(URL url, ResourceBundle resource) {
+		super.initialize(url, resource);
+		ObservableList<ItemCombo<Fornecedor>> itensFornecedor = ItemCombo.novaListaCombo(fornecedorService.listar(), "firma");
+		fornecedor.setItems(itensFornecedor);
+
+		ObservableList<ItemCombo<Vendedor>> itensVendedor = ItemCombo.novaListaCombo(vendedorService.listar(), "nome");
+		vendedor.setItems(itensVendedor);
+	}
+
+	public void exibirTelaCliente() {
+		Parent telaClienteLista = configuracaoBeanTela.carregarTelaClienteLista();
+		Stage popup = telaPrincipalController.exibirPopup(telaClienteLista);
+		ClienteListaController controller = ApplicationConfig.getBean(ClienteListaController.class);
+		MouseClickedSelectPedido mouseClickedSelecPedido = new MouseClickedSelectPedido(controller.getTabela(), popup);
+		controller.getTabela().setOnMouseClicked(mouseClickedSelecPedido);
+	}
+
 	public void calcularDesconto() {
+		BigDecimal valor1 = getValorDesconto(desconto1);
+		BigDecimal valor2 = getValorDesconto(desconto2);
+		BigDecimal valor3 = getValorDesconto(desconto3);
+		BigDecimal valor4 = getValorDesconto(desconto4);
+
+		List<BigDecimal> descontos = Arrays.asList(valor1, valor2, valor3, valor4);
+		
+		BigDecimal descontoFinal = BigDecimal.ZERO;
+		BigDecimal cem = new BigDecimal(100);
+		for (BigDecimal valor : descontos) {
+			if (valor != null && !valor.equals(BigDecimal.ZERO)) {
+				BigDecimal valorAbatido = valor.divide(cem).multiply(descontoFinal);
+				descontoFinal = descontoFinal.add(valor.subtract(valorAbatido));
+			}
+		}
+
+		descontoFinal = descontoFinal.setScale(2, RoundingMode.DOWN);
+		descontoTotal.setText(descontoFinal.toString().replace(".",  ","));
+	}
+
+	private BigDecimal getValorDesconto(TextField desconto) {
+		String text = desconto.getText();
+		String valor = text.replace(".", ",");
+		BigDecimal bigDecimal = new BigDecimal(valor);
+		return bigDecimal;
+	}
+
+	public void imprimir() {
 
 	}
 
-	public void procurarCliente() {
+	private class MouseClickedSelectPedido implements EventHandler<MouseEvent> {
 
+		private TableView<Cliente> tabela;
+		private Stage popup;
+
+		public MouseClickedSelectPedido(TableView<Cliente> tabela, Stage popup) {
+			this.tabela = tabela;
+			this.popup = popup;
+		}
+
+		@Override
+		public void handle(MouseEvent event) {
+			if (event.getClickCount() > 1) {
+				Cliente selectedItem = tabela.getSelectionModel().getSelectedItem();
+				if (selectedItem != null) {
+					entidadeForm.setCliente(selectedItem);
+					cliente.setText(selectedItem.getFirma());
+					popup.close();
+				}
+			}
+		}
 	}
 
 	@Override

@@ -6,6 +6,7 @@ import java.util.ResourceBundle;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TableView;
 import javafx.scene.input.MouseEvent;
@@ -20,15 +21,22 @@ import com.projetos.controle_negocio.filtro.Filtro;
 public abstract class BaseListController<T extends Entidade> extends BaseController<T> implements Initializable {
 
     protected ObservableList<T> listaEntidades;
-	
+    private EventHandler<MouseEvent> defaultClickHandler = new MouseClickedDefault();
+
 	public void prepararAlteracao(MouseEvent event) {
-	    if (event.getClickCount() > 1) {
-	    	T selectedItem = getTabela().getSelectionModel().getSelectedItem();
-	    	if (selectedItem != null) {
-	    		getBaseCadastroController().setEntidadeForm(selectedItem);
-	    		exibirTelaCadastro();
-	    	}
-	    }
+	}
+
+	private class MouseClickedDefault implements EventHandler<MouseEvent> {
+		@Override
+		public void handle(MouseEvent event) {
+			if (event.getClickCount() > 1) {
+				T selectedItem = getTabela().getSelectionModel().getSelectedItem();
+				if (selectedItem != null) {
+					getBaseCadastroController().setEntidadeForm(selectedItem);
+					exibirTelaCadastro();
+				}
+			}
+		}
 	}
 
 	public abstract TableView<T> getTabela();
@@ -49,6 +57,7 @@ public abstract class BaseListController<T extends Entidade> extends BaseControl
 	@Override
 	public void initialize(URL url, ResourceBundle resource) {
 		loadTable(getEntidadeService().listar());
+		getTabela().setOnMouseClicked(defaultClickHandler);
 	}
 
 	public void remover() {

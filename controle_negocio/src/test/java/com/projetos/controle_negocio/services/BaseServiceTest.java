@@ -8,8 +8,10 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.projetos.controle_negocio.base.BaseNegocioTest;
 import com.projetos.controle_negocio.service.base.ClienteService;
+import com.projetos.controle_negocio.service.base.FornecedorService;
 import com.projetos.controle_negocio.service.base.LogradouroService;
 import com.projetos.controle_negocio.service.base.ProdutoService;
+import com.projetos.controle_negocio.service.base.VendedorService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"/services-test.xml"})
@@ -25,6 +27,12 @@ public abstract class BaseServiceTest extends BaseNegocioTest {
 
 	@Autowired
 	protected ProdutoService produtoService;
+	
+	@Autowired
+	protected FornecedorService fornecedorService;
+	
+	@Autowired
+	protected VendedorService vendedorService;
 	
 	public BaseServiceTest() {
 		log.info("Iniciando teste...");

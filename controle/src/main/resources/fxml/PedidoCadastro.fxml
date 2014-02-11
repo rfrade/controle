@@ -5,8 +5,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-	fx:controller="com.projetos.controle.tela.controller.ClienteCadastroController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.projetos.controle.tela.controller.ClienteCadastroController">
 	<children>
 		<TabPane layoutY="-1.0" prefHeight="600.0" prefWidth="1000.0" tabClosingPolicy="UNAVAILABLE" xmlns:fx="http://javafx.com/fxml">
 			<tabs>
@@ -27,7 +26,7 @@
 									</items>
 								</ChoiceBox>
 								<Label layoutX="516.0" layoutY="44.0" text="Cliente" /><Label fx:id="cliente" layoutX="575.0" layoutY="44.0" prefHeight="17.0" prefWidth="188.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
-								<Button layoutX="774.0" layoutY="40.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="121.0" text="Procurar Cliente" />
+								<Button layoutX="774.0" layoutY="40.0" mnemonicParsing="false" onAction="#exibirTelaCliente" prefHeight="25.0" prefWidth="121.0" text="Procurar Cliente" />
 								<Label layoutX="32.009765625" layoutY="83.5" text="Transportador" />
 								<TextField fx:id="transportador" layoutX="120.0" layoutY="80.0" />
 								<Label layoutX="293.0" layoutY="84.0" text="Condições" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
@@ -39,7 +38,7 @@
 								<Label layoutX="32.0" layoutY="118.0" text="Entrega" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
 								<TextField fx:id="entrega" layoutX="120.0" layoutY="114.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
 								<Label layoutX="293.0" layoutY="118.0" text="Vendedor" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
-								<ChoiceBox layoutX="357.0" layoutY="114.0" prefHeight="25.0" prefWidth="180.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+								<ChoiceBox fx:id="vendedor" layoutX="357.0" layoutY="114.0" prefHeight="25.0" prefWidth="180.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
 									<items>
 										<FXCollections fx:factory="observableArrayList">
 											<String fx:value="Item 1" />
