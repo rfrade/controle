@@ -1,0 +1,439 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+
+<AnchorPane fx:id="" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="468.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+	<children>
+		<Group layoutX="-19.0" layoutY="-121.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+			<children>
+				<Label alignment="CENTER" contentDisplay="CENTER" layoutX="323.0" layoutY="318.0" prefHeight="19.0" prefWidth="40.0" style="-fx-border-color: black;" text="G3" textAlignment="CENTER" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+					<textFill>
+						<RadialGradient centerX="0.5" centerY="0.5" cycleMethod="NO_CYCLE" radius="0.5">
+							<stops>
+								<Stop color="BLACK" />
+								<Stop color="WHITE" offset="1.0" />
+							</stops>
+						</RadialGradient>
+					</textFill>
+				</Label>
+				<Label alignment="CENTER" contentDisplay="CENTER" layoutX="284.0" layoutY="300.0" prefHeight="19.0" prefWidth="40.0" style="-fx-border-color: black;" text="62" textAlignment="CENTER" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+					<textFill>
+						<RadialGradient centerX="0.5" centerY="0.5" cycleMethod="NO_CYCLE" radius="0.5">
+							<stops>
+								<Stop color="BLACK" />
+								<Stop color="WHITE" offset="1.0" />
+							</stops>
+						</RadialGradient>
+					</textFill>
+				</Label>
+				<TextField fx:id="quantidadeTamanho8" layoutX="323.0" layoutY="337.0" prefHeight="25.0" prefWidth="40.0" style="-fx-background-radius: 0; -fx-border-image-width: 0;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
+				<Label alignment="CENTER" contentDisplay="CENTER" layoutX="284.0" layoutY="318.0" prefHeight="19.0" prefWidth="40.0" style="-fx-border-color: black;" text="G2" textAlignment="CENTER" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+					<textFill>
+						<RadialGradient centerX="0.5" centerY="0.5" cycleMethod="NO_CYCLE" radius="0.5">
+							<stops>
+								<Stop color="BLACK" />
+								<Stop color="WHITE" offset="1.0" />
+							</stops>
+						</RadialGradient>
+					</textFill>
+				</Label>
+				<Label alignment="CENTER" contentDisplay="CENTER" layoutX="50.0" layoutY="246.0" prefHeight="19.0" prefWidth="40.0" style="-fx-border-color: black;" text="1" textAlignment="CENTER" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+					<textFill>
+						<RadialGradient centerX="0.5" centerY="0.5" cycleMethod="NO_CYCLE" radius="0.5">
+							<stops>
+								<Stop color="BLACK" />
+								<Stop color="WHITE" offset="1.0" />
+							</stops>
+						</RadialGradient>
+					</textFill>
+				</Label>
+				<Label alignment="CENTER" contentDisplay="CENTER" layoutX="245.0" layoutY="318.0" prefHeight="19.0" prefWidth="40.0" style="-fx-border-color: black;" text="G1" textAlignment="CENTER" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+					<textFill>
+						<RadialGradient centerX="0.5" centerY="0.5" cycleMethod="NO_CYCLE" radius="0.5">
+							<stops>
+								<Stop color="BLACK" />
+								<Stop color="WHITE" offset="1.0" />
+							</stops>
+						</RadialGradient>
+					</textFill>
+				</Label>
+				<TextField fx:id="quantidadeTamanho1" layoutX="50.0" layoutY="337.0" prefHeight="25.0" prefWidth="40.0" style="-fx-background-radius: 0; -fx-border-image-width: 0;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
+				<TextField fx:id="quantidadeTamanho5" layoutX="207.0" layoutY="337.0" prefHeight="25.0" prefWidth="39.0" style="-fx-background-radius: 0; -fx-border-image-width: 0;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
+				<Label alignment="CENTER" contentDisplay="CENTER" layoutX="128.0" layoutY="300.0" prefHeight="19.0" prefWidth="40.0" style="-fx-border-color: black;" text="54" textAlignment="CENTER" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+					<textFill>
+						<RadialGradient centerX="0.5" centerY="0.5" cycleMethod="NO_CYCLE" radius="0.5">
+							<stops>
+								<Stop color="BLACK" />
+								<Stop color="WHITE" offset="1.0" />
+							</stops>
+						</RadialGradient>
+					</textFill>
+				</Label>
+				<TextField fx:id="quantidadeTamanho3" layoutX="129.0" layoutY="337.0" prefHeight="25.0" prefWidth="39.0" style="-fx-background-radius: 0; -fx-border-image-width: 0;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
+				<Label alignment="CENTER" contentDisplay="CENTER" layoutX="206.0" layoutY="300.0" prefHeight="19.0" prefWidth="40.0" style="-fx-border-color: black;" text="58" textAlignment="CENTER" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+					<textFill>
+						<RadialGradient centerX="0.5" centerY="0.5" cycleMethod="NO_CYCLE" radius="0.5">
+							<stops>
+								<Stop color="BLACK" />
+								<Stop color="WHITE" offset="1.0" />
+							</stops>
+						</RadialGradient>
+					</textFill>
+				</Label>
+				<Label alignment="CENTER" contentDisplay="CENTER" layoutX="89.0" layoutY="246.0" prefHeight="19.0" prefWidth="40.0" style="-fx-border-color: black;" text="2" textAlignment="CENTER" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+					<textFill>
+						<RadialGradient centerX="0.5" centerY="0.5" cycleMethod="NO_CYCLE" radius="0.5">
+							<stops>
+								<Stop color="BLACK" />
+								<Stop color="WHITE" offset="1.0" />
+							</stops>
+						</RadialGradient>
+					</textFill>
+				</Label>
+				<Label alignment="CENTER" contentDisplay="CENTER" layoutX="89.0" layoutY="264.0" prefHeight="19.0" prefWidth="40.0" style="-fx-border-color: black;" text="4" textAlignment="CENTER" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+					<textFill>
+						<RadialGradient centerX="0.5" centerY="0.5" cycleMethod="NO_CYCLE" radius="0.5">
+							<stops>
+								<Stop color="BLACK" />
+								<Stop color="WHITE" offset="1.0" />
+							</stops>
+						</RadialGradient>
+					</textFill>
+				</Label>
+				<Label alignment="CENTER" contentDisplay="CENTER" layoutX="206.0" layoutY="264.0" prefHeight="19.0" prefWidth="40.0" style="-fx-border-color: black;" text="10" textAlignment="CENTER" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+					<textFill>
+						<RadialGradient centerX="0.5" centerY="0.5" cycleMethod="NO_CYCLE" radius="0.5">
+							<stops>
+								<Stop color="BLACK" />
+								<Stop color="WHITE" offset="1.0" />
+							</stops>
+						</RadialGradient>
+					</textFill>
+				</Label>
+				<Label alignment="CENTER" contentDisplay="CENTER" layoutX="89.0" layoutY="300.0" prefHeight="19.0" prefWidth="40.0" style="-fx-border-color: black;" text="52" textAlignment="CENTER" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+					<textFill>
+						<RadialGradient centerX="0.5" centerY="0.5" cycleMethod="NO_CYCLE" radius="0.5">
+							<stops>
+								<Stop color="BLACK" />
+								<Stop color="WHITE" offset="1.0" />
+							</stops>
+						</RadialGradient>
+					</textFill>
+				</Label>
+				<TextField fx:id="quantidadeTamanho6" layoutX="246.0" layoutY="337.0" prefHeight="25.0" prefWidth="39.0" style="-fx-background-radius: 0; -fx-border-image-width: 0;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
+				<Label alignment="CENTER" contentDisplay="CENTER" layoutX="206.0" layoutY="318.0" prefHeight="19.0" prefWidth="40.0" style="-fx-border-color: black;" text="GG" textAlignment="CENTER" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+					<textFill>
+						<RadialGradient centerX="0.5" centerY="0.5" cycleMethod="NO_CYCLE" radius="0.5">
+							<stops>
+								<Stop color="BLACK" />
+								<Stop color="WHITE" offset="1.0" />
+							</stops>
+						</RadialGradient>
+					</textFill>
+				</Label>
+				<Label alignment="CENTER" contentDisplay="CENTER" layoutX="128.0" layoutY="264.0" prefHeight="19.0" prefWidth="40.0" style="-fx-border-color: black;" text="6" textAlignment="CENTER" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+					<textFill>
+						<RadialGradient centerX="0.5" centerY="0.5" cycleMethod="NO_CYCLE" radius="0.5">
+							<stops>
+								<Stop color="BLACK" />
+								<Stop color="WHITE" offset="1.0" />
+							</stops>
+						</RadialGradient>
+					</textFill>
+				</Label>
+				<Label alignment="CENTER" contentDisplay="CENTER" layoutX="323.0" layoutY="246.0" prefHeight="19.0" prefWidth="40.0" style="-fx-border-color: black;" text="XX3" textAlignment="CENTER" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+					<textFill>
+						<RadialGradient centerX="0.5" centerY="0.5" cycleMethod="NO_CYCLE" radius="0.5">
+							<stops>
+								<Stop color="BLACK" />
+								<Stop color="WHITE" offset="1.0" />
+							</stops>
+						</RadialGradient>
+					</textFill>
+				</Label>
+				<Label alignment="CENTER" contentDisplay="CENTER" layoutX="245.0" layoutY="300.0" prefHeight="19.0" prefWidth="40.0" style="-fx-border-color: black;" text="60" textAlignment="CENTER" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+					<textFill>
+						<RadialGradient centerX="0.5" centerY="0.5" cycleMethod="NO_CYCLE" radius="0.5">
+							<stops>
+								<Stop color="BLACK" />
+								<Stop color="WHITE" offset="1.0" />
+							</stops>
+						</RadialGradient>
+					</textFill>
+				</Label>
+				<Label alignment="CENTER" contentDisplay="CENTER" layoutX="245.0" layoutY="246.0" prefHeight="19.0" prefWidth="40.0" style="-fx-border-color: black;" text="XX1" textAlignment="CENTER" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+					<textFill>
+						<RadialGradient centerX="0.5" centerY="0.5" cycleMethod="NO_CYCLE" radius="0.5">
+							<stops>
+								<Stop color="BLACK" />
+								<Stop color="WHITE" offset="1.0" />
+							</stops>
+						</RadialGradient>
+					</textFill>
+				</Label>
+				<TextField fx:id="quantidadeTamanho7" layoutX="284.0" layoutY="337.0" prefHeight="25.0" prefWidth="39.0" style="-fx-background-radius: 0; -fx-border-image-width: 0;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
+				<Label alignment="CENTER" contentDisplay="CENTER" layoutX="167.0" layoutY="246.0" prefHeight="19.0" prefWidth="40.0" style="-fx-border-color: black;" text="32" textAlignment="CENTER" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+					<textFill>
+						<RadialGradient centerX="0.5" centerY="0.5" cycleMethod="NO_CYCLE" radius="0.5">
+							<stops>
+								<Stop color="BLACK" />
+								<Stop color="WHITE" offset="1.0" />
+							</stops>
+						</RadialGradient>
+					</textFill>
+				</Label>
+				<Label alignment="CENTER" contentDisplay="CENTER" layoutX="167.0" layoutY="318.0" prefHeight="19.0" prefWidth="40.0" style="-fx-border-color: black;" text="G" textAlignment="CENTER" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+					<textFill>
+						<RadialGradient centerX="0.5" centerY="0.5" cycleMethod="NO_CYCLE" radius="0.5">
+							<stops>
+								<Stop color="BLACK" />
+								<Stop color="WHITE" offset="1.0" />
+							</stops>
+						</RadialGradient>
+					</textFill>
+				</Label>
+				<Label alignment="CENTER" contentDisplay="CENTER" layoutX="284.0" layoutY="282.0" prefHeight="19.0" prefWidth="40.0" style="-fx-border-color: black;" text="46" textAlignment="CENTER" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+					<textFill>
+						<RadialGradient centerX="0.5" centerY="0.5" cycleMethod="NO_CYCLE" radius="0.5">
+							<stops>
+								<Stop color="BLACK" />
+								<Stop color="WHITE" offset="1.0" />
+							</stops>
+						</RadialGradient>
+					</textFill>
+				</Label>
+				<Label alignment="CENTER" contentDisplay="CENTER" layoutX="128.0" layoutY="246.0" prefHeight="19.0" prefWidth="40.0" style="-fx-border-color: black;" text="3" textAlignment="CENTER" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+					<textFill>
+						<RadialGradient centerX="0.5" centerY="0.5" cycleMethod="NO_CYCLE" radius="0.5">
+							<stops>
+								<Stop color="BLACK" />
+								<Stop color="WHITE" offset="1.0" />
+							</stops>
+						</RadialGradient>
+					</textFill>
+				</Label>
+				<TextField fx:id="quantidadeTamanho4" layoutX="168.0" layoutY="337.0" prefHeight="25.0" prefWidth="39.0" style="-fx-background-radius: 0; -fx-border-image-width: 0;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
+				<Label alignment="CENTER" contentDisplay="CENTER" layoutX="167.0" layoutY="300.0" prefHeight="19.0" prefWidth="40.0" style="-fx-border-color: black;" text="56" textAlignment="CENTER" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+					<textFill>
+						<RadialGradient centerX="0.5" centerY="0.5" cycleMethod="NO_CYCLE" radius="0.5">
+							<stops>
+								<Stop color="BLACK" />
+								<Stop color="WHITE" offset="1.0" />
+							</stops>
+						</RadialGradient>
+					</textFill>
+				</Label>
+				<Label alignment="CENTER" contentDisplay="CENTER" layoutX="167.0" layoutY="264.0" prefHeight="19.0" prefWidth="40.0" style="-fx-border-color: black;" text="8" textAlignment="CENTER" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+					<textFill>
+						<RadialGradient centerX="0.5" centerY="0.5" cycleMethod="NO_CYCLE" radius="0.5">
+							<stops>
+								<Stop color="BLACK" />
+								<Stop color="WHITE" offset="1.0" />
+							</stops>
+						</RadialGradient>
+					</textFill>
+				</Label>
+				<Label alignment="CENTER" contentDisplay="CENTER" layoutX="128.0" layoutY="282.0" prefHeight="19.0" prefWidth="40.0" style="-fx-border-color: black;" text="38" textAlignment="CENTER" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+					<textFill>
+						<RadialGradient centerX="0.5" centerY="0.5" cycleMethod="NO_CYCLE" radius="0.5">
+							<stops>
+								<Stop color="BLACK" />
+								<Stop color="WHITE" offset="1.0" />
+							</stops>
+						</RadialGradient>
+					</textFill>
+				</Label>
+				<Label alignment="CENTER" contentDisplay="CENTER" layoutX="206.0" layoutY="282.0" prefHeight="19.0" prefWidth="40.0" style="-fx-border-color: black;" text="42" textAlignment="CENTER" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+					<textFill>
+						<RadialGradient centerX="0.5" centerY="0.5" cycleMethod="NO_CYCLE" radius="0.5">
+							<stops>
+								<Stop color="BLACK" />
+								<Stop color="WHITE" offset="1.0" />
+							</stops>
+						</RadialGradient>
+					</textFill>
+				</Label>
+				<Label alignment="CENTER" contentDisplay="CENTER" layoutX="323.0" layoutY="282.0" prefHeight="19.0" prefWidth="40.0" style="-fx-border-color: black;" text="48" textAlignment="CENTER" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+					<textFill>
+						<RadialGradient centerX="0.5" centerY="0.5" cycleMethod="NO_CYCLE" radius="0.5">
+							<stops>
+								<Stop color="BLACK" />
+								<Stop color="WHITE" offset="1.0" />
+							</stops>
+						</RadialGradient>
+					</textFill>
+				</Label>
+				<Label alignment="CENTER" contentDisplay="CENTER" layoutX="89.0" layoutY="318.0" prefHeight="19.0" prefWidth="40.0" style="-fx-border-color: black;" text="P" textAlignment="CENTER" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+					<textFill>
+						<RadialGradient centerX="0.5" centerY="0.5" cycleMethod="NO_CYCLE" radius="0.5">
+							<stops>
+								<Stop color="BLACK" />
+								<Stop color="WHITE" offset="1.0" />
+							</stops>
+						</RadialGradient>
+					</textFill>
+				</Label>
+				<Label alignment="CENTER" contentDisplay="CENTER" layoutX="128.0" layoutY="318.0" prefHeight="19.0" prefWidth="40.0" style="-fx-border-color: black;" text="M" textAlignment="CENTER" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+					<textFill>
+						<RadialGradient centerX="0.5" centerY="0.5" cycleMethod="NO_CYCLE" radius="0.5">
+							<stops>
+								<Stop color="BLACK" />
+								<Stop color="WHITE" offset="1.0" />
+							</stops>
+						</RadialGradient>
+					</textFill>
+				</Label>
+				<Label alignment="CENTER" contentDisplay="CENTER" layoutX="50.0" layoutY="300.0" prefHeight="19.0" prefWidth="40.0" style="-fx-border-color: black;" text="50" textAlignment="CENTER" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+					<textFill>
+						<RadialGradient centerX="0.5" centerY="0.5" cycleMethod="NO_CYCLE" radius="0.5">
+							<stops>
+								<Stop color="BLACK" />
+								<Stop color="WHITE" offset="1.0" />
+							</stops>
+						</RadialGradient>
+					</textFill>
+				</Label>
+				<Label alignment="CENTER" contentDisplay="CENTER" layoutX="167.0" layoutY="282.0" prefHeight="19.0" prefWidth="40.0" style="-fx-border-color: black;" text="40" textAlignment="CENTER" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+					<textFill>
+						<RadialGradient centerX="0.5" centerY="0.5" cycleMethod="NO_CYCLE" radius="0.5">
+							<stops>
+								<Stop color="BLACK" />
+								<Stop color="WHITE" offset="1.0" />
+							</stops>
+						</RadialGradient>
+					</textFill>
+				</Label>
+				<Label alignment="CENTER" contentDisplay="CENTER" layoutX="245.0" layoutY="282.0" prefHeight="19.0" prefWidth="40.0" style="-fx-border-color: black;" text="44" textAlignment="CENTER" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+					<textFill>
+						<RadialGradient centerX="0.5" centerY="0.5" cycleMethod="NO_CYCLE" radius="0.5">
+							<stops>
+								<Stop color="BLACK" />
+								<Stop color="WHITE" offset="1.0" />
+							</stops>
+						</RadialGradient>
+					</textFill>
+				</Label>
+				<TextField fx:id="quantidadeTamanho2" layoutX="90.0" layoutY="337.0" prefHeight="25.0" prefWidth="39.0" style="-fx-background-radius: 0; -fx-border-image-width: 0;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
+				<Label alignment="CENTER" contentDisplay="CENTER" layoutX="284.0" layoutY="246.0" prefHeight="19.0" prefWidth="40.0" style="-fx-border-color: black;" text="XX2" textAlignment="CENTER" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+					<textFill>
+						<RadialGradient centerX="0.5" centerY="0.5" cycleMethod="NO_CYCLE" radius="0.5">
+							<stops>
+								<Stop color="BLACK" />
+								<Stop color="WHITE" offset="1.0" />
+							</stops>
+						</RadialGradient>
+					</textFill>
+				</Label>
+				<Label alignment="CENTER" contentDisplay="CENTER" layoutX="323.0" layoutY="300.0" prefHeight="19.0" prefWidth="40.0" style="-fx-border-color: black;" text="64" textAlignment="CENTER" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+					<textFill>
+						<RadialGradient centerX="0.5" centerY="0.5" cycleMethod="NO_CYCLE" radius="0.5">
+							<stops>
+								<Stop color="BLACK" />
+								<Stop color="WHITE" offset="1.0" />
+							</stops>
+						</RadialGradient>
+					</textFill>
+				</Label>
+				<Label alignment="CENTER" contentDisplay="CENTER" layoutX="50.0" layoutY="264.0" prefHeight="19.0" prefWidth="40.0" style="-fx-border-color: black;" text="2" textAlignment="CENTER" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+					<textFill>
+						<RadialGradient centerX="0.5" centerY="0.5" cycleMethod="NO_CYCLE" radius="0.5">
+							<stops>
+								<Stop color="BLACK" />
+								<Stop color="WHITE" offset="1.0" />
+							</stops>
+						</RadialGradient>
+					</textFill>
+				</Label>
+				<Label alignment="CENTER" contentDisplay="CENTER" layoutX="50.0" layoutY="318.0" prefHeight="19.0" prefWidth="40.0" style="-fx-border-color: black;" text="PP" textAlignment="CENTER" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+					<textFill>
+						<RadialGradient centerX="0.5" centerY="0.5" cycleMethod="NO_CYCLE" radius="0.5">
+							<stops>
+								<Stop color="BLACK" />
+								<Stop color="WHITE" offset="1.0" />
+							</stops>
+						</RadialGradient>
+					</textFill>
+				</Label>
+				<Label alignment="CENTER" contentDisplay="CENTER" layoutX="323.0" layoutY="264.0" prefHeight="19.0" prefWidth="40.0" style="-fx-border-color: black;" text="16" textAlignment="CENTER" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+					<textFill>
+						<RadialGradient centerX="0.5" centerY="0.5" cycleMethod="NO_CYCLE" radius="0.5">
+							<stops>
+								<Stop color="BLACK" />
+								<Stop color="WHITE" offset="1.0" />
+							</stops>
+						</RadialGradient>
+					</textFill>
+				</Label>
+				<Label alignment="CENTER" contentDisplay="CENTER" layoutX="206.0" layoutY="246.0" prefHeight="19.0" prefWidth="40.0" style="-fx-border-color: black;" text="66" textAlignment="CENTER" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+					<textFill>
+						<RadialGradient centerX="0.5" centerY="0.5" cycleMethod="NO_CYCLE" radius="0.5">
+							<stops>
+								<Stop color="BLACK" />
+								<Stop color="WHITE" offset="1.0" />
+							</stops>
+						</RadialGradient>
+					</textFill>
+				</Label>
+				<Label alignment="CENTER" contentDisplay="CENTER" layoutX="284.0" layoutY="264.0" prefHeight="19.0" prefWidth="40.0" style="-fx-border-color: black;" text="14" textAlignment="CENTER" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+					<textFill>
+						<RadialGradient centerX="0.5" centerY="0.5" cycleMethod="NO_CYCLE" radius="0.5">
+							<stops>
+								<Stop color="BLACK" />
+								<Stop color="WHITE" offset="1.0" />
+							</stops>
+						</RadialGradient>
+					</textFill>
+				</Label>
+				<Label alignment="CENTER" contentDisplay="CENTER" layoutX="50.0" layoutY="282.0" prefHeight="19.0" prefWidth="40.0" style="-fx-border-color: black;" text="34" textAlignment="CENTER" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+					<textFill>
+						<RadialGradient centerX="0.5" centerY="0.5" cycleMethod="NO_CYCLE" radius="0.5">
+							<stops>
+								<Stop color="BLACK" />
+								<Stop color="WHITE" offset="1.0" />
+							</stops>
+						</RadialGradient>
+					</textFill>
+				</Label>
+				<Label alignment="CENTER" contentDisplay="CENTER" layoutX="89.0" layoutY="282.0" prefHeight="19.0" prefWidth="40.0" style="-fx-border-color: black;" text="36" textAlignment="CENTER" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+					<textFill>
+						<RadialGradient centerX="0.5" centerY="0.5" cycleMethod="NO_CYCLE" radius="0.5">
+							<stops>
+								<Stop color="BLACK" />
+								<Stop color="WHITE" offset="1.0" />
+							</stops>
+						</RadialGradient>
+					</textFill>
+				</Label>
+				<Label alignment="CENTER" contentDisplay="CENTER" layoutX="245.0" layoutY="264.0" prefHeight="19.0" prefWidth="40.0" style="-fx-border-color: black;" text="12" textAlignment="CENTER" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+					<textFill>
+						<RadialGradient centerX="0.5" centerY="0.5" cycleMethod="NO_CYCLE" radius="0.5">
+							<stops>
+								<Stop color="BLACK" />
+								<Stop color="WHITE" offset="1.0" />
+							</stops>
+						</RadialGradient>
+					</textFill>
+				</Label>
+			</children>
+		</Group>
+		<Button fx:id="remover" layoutX="303.0" layoutY="381.0" mnemonicParsing="false" text="Remover Produto" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
+		<Button fx:id="salvar" layoutX="187.0" layoutY="381.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="110.0" text="Salvar Produto" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
+		<Label fx:id="labelValorTotal" layoutX="421.0" layoutY="84.0" text="1.512,17" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
+		<Label layoutX="286.0" layoutY="84.0" text="Valor Total" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
+		<TextField fx:id="valorUnitario" layoutX="117.0" layoutY="80.0" prefHeight="25.0" prefWidth="149.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
+		<Label layoutX="33.0" layoutY="84.0" text="Valor Unitário" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
+		<TextField fx:id="cor" layoutX="321.0" layoutY="38.0" prefHeight="25.0" prefWidth="140.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
+		<Label layoutX="284.0" layoutY="42.0" text="Cor" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
+		<TextField fx:id="referencia" layoutX="117.0" layoutY="38.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
+		<Label layoutX="33.0" layoutY="42.0" text="Referencia" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
+		<TextArea fx:id="observacao" layoutX="313.0" layoutY="280.0" prefHeight="91.0" prefWidth="262.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
+		<TextArea fx:id="descricao" layoutX="33.0" layoutY="280.0" prefHeight="91.0" prefWidth="251.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
+		<Label layoutX="313.0" layoutY="260.0" text="Observação" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
+		<Label layoutX="35.0" layoutY="260.0" text="Descrição" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
+		<Label layoutX="256.0" layoutY="14.0" text="Produtos" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
+	</children>
+</AnchorPane>

@@ -11,13 +11,13 @@ import javax.persistence.*;
 @Entity
 @Table(name="item_pedido")
 @NamedQuery(name="ItemPedido.findAll", query="SELECT i FROM ItemPedido i")
-public class ItemPedido implements Serializable {
+public class ItemPedido implements Entidade, Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(unique=true, nullable=false)
-	private int id;
+	private Integer id;
 
 	@Column(length=20)
 	private String cor;
@@ -68,11 +68,11 @@ public class ItemPedido implements Serializable {
 	public ItemPedido() {
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return this.id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

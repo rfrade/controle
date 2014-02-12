@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="215.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.projetos.controle.tela.controller.ItemPedidoListaController">
+	<children>
+		<TableView layoutX="32.0" layoutY="52.0" prefHeight="149.0" prefWidth="930.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+			<columns>
+				<TableColumn fx:id="referencia" prefWidth="75.0" text="Referencia" />
+				<TableColumn fx:id="cor" prefWidth="60.0" text="Cor" />
+				<TableColumn fx:id="quantidadeTotal" prefWidth="70.0" text="Quantidade" />
+				<TableColumn fx:id="quantidadeTamanho1" prefWidth="30.0" text="1" />
+				<TableColumn fx:id="quantidadeTamanho2" prefWidth="30.0" text="2" />
+				<TableColumn fx:id="quantidadeTamanho3" prefWidth="30.0" text="3" />
+				<TableColumn fx:id="quantidadeTamanho4" prefWidth="30.0" text="32" />
+				<TableColumn fx:id="quantidadeTamanho5" prefWidth="30.0" text="66" />
+				<TableColumn fx:id="quantidadeTamanho6" prefWidth="30.0" text="XX1" />
+				<TableColumn fx:id="quantidadeTamanho7" prefWidth="30.0" text="XX2" />
+				<TableColumn fx:id="quantidadeTamanho8" prefWidth="30.0" text="XX3" />
+				<TableColumn fx:id="valorUnitario" prefWidth="70.0" text="V. Unitário" />
+				<TableColumn prefWidth="65.0" text="V. Total" />
+				<TableColumn fx:id="descricao" prefWidth="175.0" text="Descrição" />
+				<TableColumn fx:id="observacaoItemPedido" prefWidth="175.0" text="Observação" />
+			</columns>
+		</TableView>
+		<Button layoutX="152.0" layoutY="14.0" mnemonicParsing="false" onAction="#removerItemPedido" prefHeight="25.0" prefWidth="110.0" text="Remover Produto" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
+		<Button layoutX="32.0" layoutY="14.0" mnemonicParsing="false" onAction="#exibirTelaCadastro" prefHeight="25.0" prefWidth="110.0" text="Incluir Produto" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
+	</children>
+</AnchorPane>

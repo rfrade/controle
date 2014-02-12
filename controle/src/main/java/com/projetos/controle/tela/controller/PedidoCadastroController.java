@@ -13,6 +13,7 @@ import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -25,11 +26,14 @@ import org.springframework.stereotype.Controller;
 
 import com.projetos.controle.tela.ApplicationConfig;
 import com.projetos.controle.tela.base.CampoTela;
+import com.projetos.controle.tela.base.Coluna;
 import com.projetos.controle.tela.base.ItemCombo;
 import com.projetos.controle.tela.controller.base.BaseCadastroController;
 import com.projetos.controle_entities.Cliente;
 import com.projetos.controle_entities.Fornecedor;
+import com.projetos.controle_entities.ItemPedido;
 import com.projetos.controle_entities.Pedido;
+import com.projetos.controle_entities.Produto;
 import com.projetos.controle_entities.Vendedor;
 import com.projetos.controle_negocio.service.base.EntidadeService;
 import com.projetos.controle_negocio.service.base.FornecedorService;
@@ -113,6 +117,65 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 	@CampoTela(bean = "descontoTotal")
 	private TextField descontoTotal;
 
+	@FXML
+	@Coluna(bean = "itensPedido.produto.referencia")
+	private TableColumn<Produto, String> referencia;
+	
+	@FXML
+	@Coluna(bean = "itensPedido.cor")
+	private TableColumn<Produto, String> cor;
+	
+	@FXML
+	@Coluna(bean = "itensPedido.quantidadeTotal")
+	private TableColumn<Produto, String> quantidadeTotal;
+	
+	@FXML
+	@Coluna(bean = "itensPedido.quantidadeTamanho1")
+	private TableColumn<Produto, String> quantidadeTamanho1;
+	
+	@FXML
+	@Coluna(bean = "itensPedido.quantidadeTamanho2")
+	private TableColumn<Produto, String> quantidadeTamanho2;
+	
+	@FXML
+	@Coluna(bean = "itensPedido.quantidadeTamanho3")
+	private TableColumn<Produto, String> quantidadeTamanho3;
+	
+	@FXML
+	@Coluna(bean = "itensPedido.quantidadeTamanho4")
+	private TableColumn<Produto, String> quantidadeTamanho4;
+	
+	@FXML
+	@Coluna(bean = "itensPedido.quantidadeTamanho5")
+	private TableColumn<Produto, String> quantidadeTamanho5;
+	
+	@FXML
+	@Coluna(bean = "itensPedido.quantidadeTamanho6")
+	private TableColumn<Produto, String> quantidadeTamanho6;
+	
+	@FXML
+	@Coluna(bean = "itensPedido.quantidadeTamanho7")
+	private TableColumn<Produto, String> quantidadeTamanho7;
+	
+	@FXML
+	@Coluna(bean = "itensPedido.quantidadeTamanho8")
+	private TableColumn<Produto, String> quantidadeTamanho8;
+
+	@FXML
+	@Coluna(bean = "itensPedido.produto.valorUnitario")
+	private TableColumn<Produto, String> valorUnitario;
+
+	@FXML
+	@Coluna(bean = "itensPedido.descricao")
+	private TableColumn<Produto, String> descricao;
+	
+	@FXML
+	@Coluna(bean = "itensPedido.observacao")
+	private TableColumn<Produto, String> observacaoItemPedido;
+
+	@FXML
+	private TableView<ItemPedido> tabela;
+
 	@Override
 	public void initialize(URL url, ResourceBundle resource) {
 		super.initialize(url, resource);
@@ -154,13 +217,21 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 
 	private BigDecimal getValorDesconto(TextField desconto) {
 		String text = desconto.getText();
-		String valor = text.replace(".", ",");
+		String valor = text.replace(",", ".");
 		BigDecimal bigDecimal = new BigDecimal(valor);
 		return bigDecimal;
 	}
 
 	public void imprimir() {
 
+	}
+
+	public void exibirTelaCadastro() {
+		// Não utilizado. Não excluir
+	}
+
+	public void removerItemPedido() {
+		
 	}
 
 	private class MouseClickedSelectPedido implements EventHandler<MouseEvent> {

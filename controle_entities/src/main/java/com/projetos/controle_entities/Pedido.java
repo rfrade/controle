@@ -74,11 +74,9 @@ public class Pedido implements Entidade, Serializable {
 	@Column(name="desconto_total")
 	private double descontoTotal;
 
-	//bi-directional many-to-one association to ItemPedido
 	@OneToMany(mappedBy="pedido")
-	private List<ItemPedido> itemPedidos;
+	private List<ItemPedido> itensPedido;
 
-	//bi-directional many-to-one association to Recebimento
 	@OneToMany(mappedBy="pedido")
 	private List<Recebimento> recebimentos;
 
@@ -141,23 +139,15 @@ public class Pedido implements Entidade, Serializable {
 		this.transportador = transportador;
 	}
 
-	public List<ItemPedido> getItemPedidos() {
-		return this.itemPedidos;
-	}
-
-	public void setItemPedidos(List<ItemPedido> itemPedidos) {
-		this.itemPedidos = itemPedidos;
-	}
-
 	public ItemPedido addItemPedido(ItemPedido itemPedido) {
-		getItemPedidos().add(itemPedido);
+		getItensPedido().add(itemPedido);
 		itemPedido.setPedido(this);
 
 		return itemPedido;
 	}
 
 	public ItemPedido removeItemPedido(ItemPedido itemPedido) {
-		getItemPedidos().remove(itemPedido);
+		getItensPedido().remove(itemPedido);
 		itemPedido.setPedido(null);
 
 		return itemPedido;
@@ -263,6 +253,14 @@ public class Pedido implements Entidade, Serializable {
 
 	public void setDescontoTotal(double descontoTotal) {
 		this.descontoTotal = descontoTotal;
+	}
+
+	public List<ItemPedido> getItensPedido() {
+		return itensPedido;
+	}
+
+	public void setItensPedido(List<ItemPedido> itensPedido) {
+		this.itensPedido = itensPedido;
 	}
 
 }

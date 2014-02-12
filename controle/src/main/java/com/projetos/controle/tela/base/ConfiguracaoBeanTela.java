@@ -17,6 +17,7 @@ import org.springframework.context.annotation.Scope;
 import com.projetos.controle.tela.InicioAplicacao;
 import com.projetos.controle.tela.controller.ClienteCadastroController;
 import com.projetos.controle.tela.controller.ClienteListaController;
+import com.projetos.controle.tela.controller.ItemPedidoCadastroController;
 import com.projetos.controle.tela.controller.PedidoCadastroController;
 import com.projetos.controle.tela.controller.PedidoListaController;
 import com.projetos.controle.tela.controller.TelaPrincipalController;
@@ -61,6 +62,12 @@ public class ConfiguracaoBeanTela {
 	@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 	public Parent carregarTelaPedidoCadastro() {
 		return carregarTela("/fxml/PedidoCadastro.fxml", PedidoCadastroController.class);
+	}
+	
+	@Bean(name = "telaItemPedidoCadastro")
+	@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+	public Parent carregarTelaItemPedidoCadastro() {
+		return carregarTela("/fxml/ItemPedidoCadastro.fxml", ItemPedidoCadastroController.class);
 	}
 
 	public <T extends AbstractController> Parent carregarTela(String fxml, Class<T> classe) {

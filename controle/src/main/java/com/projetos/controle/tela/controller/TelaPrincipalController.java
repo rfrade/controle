@@ -66,6 +66,11 @@ public class TelaPrincipalController extends AbstractController {
 		Stage popup = this.exibirPopup(configuracaoBeanTela.carregarTelaPedidoCadastro());
 		return popup;
 	}
+	
+	public Stage exibirTelaItemPedidoCadastro() {
+		Stage popup = this.exibirPopup(configuracaoBeanTela.carregarTelaItemPedidoCadastro());
+		return popup;
+	}
 
 	public void setPrimaryStage(Stage primaryStage) {
 		this.primaryStage = primaryStage;
