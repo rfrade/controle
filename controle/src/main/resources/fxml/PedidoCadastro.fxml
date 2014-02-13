@@ -115,14 +115,14 @@
 								<Label layoutX="32.0" layoutY="84.0" text="Transportador"
 									xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
 								<Button layoutX="42.0" layoutY="162.0" mnemonicParsing="false"
-									onAction="#exibirTelaCadastro" prefHeight="25.0" prefWidth="110.0"
+									onAction="#exibirTelaCadastroItemPedidoCadastro" prefHeight="25.0" prefWidth="110.0"
 									text="Incluir Produto" xmlns="http://javafx.com/javafx/8"
-									xmlns:fx="http://javafx.com/fxml/1" />
+									xmlns:fx="http://javafx.com/fxml/1"/>
 								<Button layoutX="159.0" layoutY="162.0" mnemonicParsing="false"
 									onAction="#remover" prefHeight="25.0" prefWidth="110.0"
 									text="Remover Produto" xmlns="http://javafx.com/javafx/8"
 									xmlns:fx="http://javafx.com/fxml/1" />
-								<TableView layoutX="32.0" layoutY="200.0" prefHeight="149.0"
+								<TableView layoutX="32.0" layoutY="200.0" prefHeight="149.0" fx:id="tabelaItensPedido"
 									prefWidth="930.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
 									<columns>
 										<TableColumn prefWidth="75.0" text="Referencia" />

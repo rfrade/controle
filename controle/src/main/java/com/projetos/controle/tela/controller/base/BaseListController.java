@@ -11,6 +11,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.TableView;
 import javafx.scene.input.MouseEvent;
 
+import com.projetos.controle.tela.base.MouseClickedDefault;
 import com.projetos.controle_entities.Entidade;
 import com.projetos.controle_negocio.filtro.Filtro;
 
@@ -21,22 +22,9 @@ import com.projetos.controle_negocio.filtro.Filtro;
 public abstract class BaseListController<T extends Entidade> extends BaseController<T> implements Initializable {
 
     protected ObservableList<T> listaEntidades;
-    private EventHandler<MouseEvent> defaultClickHandler = new MouseClickedDefault();
+    private EventHandler<MouseEvent> defaultClickHandler;
 
 	public void prepararAlteracao(MouseEvent event) {
-	}
-
-	private class MouseClickedDefault implements EventHandler<MouseEvent> {
-		@Override
-		public void handle(MouseEvent event) {
-			if (event.getClickCount() > 1) {
-				T selectedItem = getTabela().getSelectionModel().getSelectedItem();
-				if (selectedItem != null) {
-					getBaseCadastroController().setEntidadeForm(selectedItem);
-					exibirTelaCadastro();
-				}
-			}
-		}
 	}
 
 	public abstract TableView<T> getTabela();
@@ -57,6 +45,7 @@ public abstract class BaseListController<T extends Entidade> extends BaseControl
 	@Override
 	public void initialize(URL url, ResourceBundle resource) {
 		loadTable(getEntidadeService().listar());
+		defaultClickHandler = new MouseClickedDefault<T>(getTabela(), this, getBaseCadastroController());
 		getTabela().setOnMouseClicked(defaultClickHandler);
 	}
 

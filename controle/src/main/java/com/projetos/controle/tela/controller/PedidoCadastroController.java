@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -30,6 +31,7 @@ import com.projetos.controle.tela.base.Coluna;
 import com.projetos.controle.tela.base.ItemCombo;
 import com.projetos.controle.tela.controller.base.BaseCadastroController;
 import com.projetos.controle_entities.Cliente;
+import com.projetos.controle_entities.Entidade;
 import com.projetos.controle_entities.Fornecedor;
 import com.projetos.controle_entities.ItemPedido;
 import com.projetos.controle_entities.Pedido;
@@ -52,6 +54,9 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 	
 	@Autowired
 	private VendedorService vendedorService;
+
+	@Autowired
+	private ItemPedidoCadastroController itemPedidoCadastroController;
 
 	@FXML
 	@CampoTela(bean = "id")
@@ -174,7 +179,7 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 	private TableColumn<Produto, String> observacaoItemPedido;
 
 	@FXML
-	private TableView<ItemPedido> tabela;
+	private TableView<ItemPedido> tabelaItensPedido;
 
 	@Override
 	public void initialize(URL url, ResourceBundle resource) {
@@ -184,13 +189,18 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 
 		ObservableList<ItemCombo<Vendedor>> itensVendedor = ItemCombo.novaListaCombo(vendedorService.listar(), "nome");
 		vendedor.setItems(itensVendedor);
+
+		if (entidadeForm != null) {
+			ObservableList<ItemPedido> itensPedido = FXCollections.observableArrayList(entidadeForm.getItensPedido());
+			tabelaItensPedido.setItems(itensPedido);
+		}
 	}
 
 	public void exibirTelaCliente() {
 		Parent telaClienteLista = configuracaoBeanTela.carregarTelaClienteLista();
 		Stage popup = telaPrincipalController.exibirPopup(telaClienteLista);
 		ClienteListaController controller = ApplicationConfig.getBean(ClienteListaController.class);
-		MouseClickedSelectPedido mouseClickedSelecPedido = new MouseClickedSelectPedido(controller.getTabela(), popup);
+		MouseClickedSelect mouseClickedSelecPedido = new MouseClickedSelect(controller.getTabela(), popup);
 		controller.getTabela().setOnMouseClicked(mouseClickedSelecPedido);
 	}
 
@@ -226,20 +236,45 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 
 	}
 
-	public void exibirTelaCadastro() {
-		// Não utilizado. Não excluir
+	public void exibirTelaCadastroItemPedidoCadastro() {
+		telaPrincipalController.exibirTelaItemPedidoCadastro();
+		InnerMouseClicked<ItemPedido> mouseClicked = new InnerMouseClicked<>(tabelaItensPedido, itemPedidoCadastroController);
+		tabelaItensPedido.setOnMouseClicked(mouseClicked);
+	}
+
+	public class InnerMouseClicked<T extends Entidade> implements EventHandler<MouseEvent> {
+		
+		private TableView<T> tabela;
+		private BaseCadastroController<T> baseCadastroController;
+
+		public InnerMouseClicked(TableView<T> tabela, BaseCadastroController<T> baseCadastroController) {
+			this.tabela = tabela;
+			this.baseCadastroController = baseCadastroController;
+		}
+
+		@Override
+		public void handle(MouseEvent event) {
+			if (event.getClickCount() > 1) {
+				T selectedItem = this.tabela.getSelectionModel().getSelectedItem();
+				if (selectedItem != null) {
+					baseCadastroController.setEntidadeForm(selectedItem);
+					exibirTelaCadastroItemPedidoCadastro();
+				}
+			}
+		}
 	}
 
 	public void removerItemPedido() {
 		
 	}
 
-	private class MouseClickedSelectPedido implements EventHandler<MouseEvent> {
+	// TODO: Extrair essa classe
+	private class MouseClickedSelect implements EventHandler<MouseEvent> {
 
 		private TableView<Cliente> tabela;
 		private Stage popup;
 
-		public MouseClickedSelectPedido(TableView<Cliente> tabela, Stage popup) {
+		public MouseClickedSelect(TableView<Cliente> tabela, Stage popup) {
 			this.tabela = tabela;
 			this.popup = popup;
 		}
