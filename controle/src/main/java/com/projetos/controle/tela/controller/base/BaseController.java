@@ -64,8 +64,6 @@ public abstract class BaseController<T extends Entidade> extends AbstractControl
     @Autowired
     protected ConfiguracaoBeanTela configuracaoBeanTela;
 
-    public abstract TableView<T> getTabela();
-    
     protected void exibirMensagem(String mensagem) {
     	popupMensagemController.setMensagem(propertiesLoader.getProperty(mensagem));
     	telaPrincipalController.exibirPopupMensagem();

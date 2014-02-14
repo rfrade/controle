@@ -126,6 +126,14 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 	@FXML
 	@CampoTela(bean = "descontoTotal")
 	private TextField descontoTotal;
+	
+	@FXML
+	@CampoTela(bean = "valorTotal")
+	private Label valorTotal;
+	
+	@FXML
+	@CampoTela(bean = "valorSubTotal")
+	private Label valorSubTotal;
 
 	@FXML
 	@Coluna(bean = "produto.referencia")
@@ -177,7 +185,7 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 	
 	@FXML
 	@Coluna(bean = "valorTotal")
-	private TableColumn<Produto, String> valorTotal;
+	private TableColumn<Produto, String> valorTotalItemPedido;
 
 	@FXML
 	@Coluna(bean = "descricao")
@@ -239,7 +247,7 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 		}
 
 		descontoFinal = descontoFinal.setScale(2, RoundingMode.DOWN);
-		descontoTotal.setText(descontoFinal.toString().replace(".",  ","));
+		atualizarValorPedido();
 	}
 
 	private BigDecimal getValorDesconto(TextField desconto) {
@@ -259,6 +267,7 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 			return;
 		}
 		itemPedidoCadastroController.setEntidadeForm(null);
+		itemPedidoCadastroController.setTabela(tabelaItensPedido);
 		telaPrincipalController.exibirTelaItemPedidoCadastro();
 		itemPedidoCadastroController.getEntidadeForm().setPedido(entidadeForm);
 	}
@@ -303,9 +312,25 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 
 	public void removerItemPedido() {
 		ItemPedido itemPedido = tabelaItensPedido.getSelectionModel().getSelectedItem();
-		entidadeForm.removeItemPedido(itemPedido);
 		itemPedidoService.remover(itemPedido);
 		tabelaItensPedido.getItems().remove(itemPedido);
+		exibirMensagem("cadastro.removido_com_sucesso");
+		getEntidadeService().salvar(entidadeForm);
+	}
+
+	public void atualizarValorPedido() {
+		BigDecimal subTotal = BigDecimal.ZERO;
+		for (ItemPedido itemPedido : entidadeForm.getItensPedido()) {
+			BigDecimal valorItem = new BigDecimal(itemPedido.getValorTotal());
+			subTotal = subTotal.add(valorItem);
+		}
+		subTotal = subTotal.setScale(2, RoundingMode.DOWN);
+		entidadeForm.setValorSubTotal(subTotal.doubleValue());
+		
+		BigDecimal desconto = new BigDecimal(entidadeForm.getDescontoTotal() / 100).multiply(subTotal);
+		BigDecimal valorTotal = subTotal.subtract(desconto);
+		entidadeForm.setValorTotal(valorTotal.doubleValue());
+		bindBeanToForm();
 	}
 
 	// TODO: Extrair essa classe

@@ -62,7 +62,9 @@ create table pedido (
 	desconto2 double,
 	desconto3 double,
 	desconto4 double,
-	desconto_total double
+	desconto_total double,
+	valor_total double,
+	valor_sub_total double
 );
 
 create table produto (
@@ -92,6 +94,7 @@ create table item_pedido (
 	descricao varchar(100),
 	cor varchar(20),
 	observacao varchar(100),
+	valor_total
 	quantidade_total integer,
 	quantidade_tamanho_1 integer,
 	quantidade_tamanho_2 integer,

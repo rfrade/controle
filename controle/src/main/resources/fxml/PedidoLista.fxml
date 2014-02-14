@@ -34,6 +34,6 @@
 		</ChoiceBox>
 		<TextField fx:id="filtroCliente" layoutX="621.0" layoutY="54.0" prefHeight="25.0" prefWidth="164.0" />
 		<Button layoutX="40.0" layoutY="116.0" mnemonicParsing="false" onAction="#prepararInclusao" prefHeight="25.0" prefWidth="134.0" text="Novo Pedido" />
-		<Button layoutX="187.0" layoutY="116.0" mnemonicParsing="false" onAction="#remover" prefHeight="25.0" prefWidth="134.0" text="Excluir Pedido" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
+		<Button layoutX="187.0" layoutY="116.0" mnemonicParsing="false" onAction="#exibirPopupConfirmacao" prefHeight="25.0" prefWidth="134.0" text="Excluir Pedido" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
 	</children>
 </AnchorPane>

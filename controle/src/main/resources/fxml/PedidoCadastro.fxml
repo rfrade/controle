@@ -86,7 +86,7 @@
 									prefHeight="71.0" prefWidth="421.0" />
 								<Label layoutX="508.0" layoutY="402.0" text="Sub Total"
 									xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
-								<Label layoutX="789.0" layoutY="402.0" text="2.317,90"
+								<Label layoutX="789.0" layoutY="402.0" fx:id="valorSubTotal"
 									xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
 								<Label layoutX="507.0" layoutY="432.0" text="Descontos"
 									xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
@@ -110,7 +110,7 @@
 									xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
 								<Label layoutX="508.0" layoutY="468.0" text="Total Pedido"
 									xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
-								<Label layoutX="789.0" layoutY="468.0" text="2.317,90"
+								<Label layoutX="789.0" layoutY="468.0" fx:id="valorTotal"
 									xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
 								<Label layoutX="32.0" layoutY="84.0" text="Transportador"
 									xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
@@ -137,7 +137,7 @@
 										<TableColumn prefWidth="30.0" text="XX2" fx:id="quantidadeTamanho7"/>
 										<TableColumn prefWidth="30.0" text="XX3" fx:id="quantidadeTamanho8"/>
 										<TableColumn prefWidth="70.0" text="V. Unitário" fx:id="valorUnitario"/>
-										<TableColumn prefWidth="65.0" text="V. Total" fx:id="valorTotal"/>
+										<TableColumn prefWidth="65.0" text="V. Total" fx:id="valorTotalItemPedido"/>
 										<TableColumn prefWidth="175.0" text="Descrição" fx:id="descricao"/>
 										<TableColumn prefWidth="175.0" text="Observação" fx:id="observacaoItemPedido"/>
 									</columns>

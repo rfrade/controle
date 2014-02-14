@@ -19,6 +19,7 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
+import com.projetos.controle.tela.ApplicationConfig;
 import com.projetos.controle.tela.base.CampoTela;
 import com.projetos.controle.tela.controller.base.BaseCadastroController;
 import com.projetos.controle_entities.ItemPedido;
@@ -115,7 +116,7 @@ public class ItemPedidoCadastroController extends BaseCadastroController<ItemPed
 		entidadeForm.setProduto(produto);
 		bindBeanToForm();
 	}
-	
+
 	public class ReferenciaChangeListener implements ChangeListener<Boolean> {
 
 		@Override
@@ -150,7 +151,20 @@ public class ItemPedidoCadastroController extends BaseCadastroController<ItemPed
 			BigDecimal valorTotal = valorUnitario.multiply(quantidade);
 			valorTotal.setScale(2, RoundingMode.DOWN);
 			entidadeForm.setValorTotal(valorTotal.doubleValue());
+			
+			
 		}
+	}
+
+	@Override
+	public void salvar() {
+		super.salvar();
+		PedidoCadastroController pedidoCadastroController = ApplicationConfig.getBean(PedidoCadastroController.class);
+		if (!pedidoCadastroController.getEntidadeForm().getItensPedido().contains(entidadeForm)) {
+			pedidoCadastroController.getEntidadeForm().addItemPedido(entidadeForm);
+		}
+		pedidoCadastroController.atualizarValorPedido();
+		pedidoCadastroController.getEntidadeService().salvar(entidadeForm.getPedido());
 	}
 
 	private void calcularQuantidadeTotal() {

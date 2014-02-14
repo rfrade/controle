@@ -85,7 +85,13 @@ public class Pedido implements Entidade, Serializable {
 	@Column(name="desconto_total")
 	private double descontoTotal;
 
-	@OneToMany(mappedBy="pedido", fetch = FetchType.EAGER)
+	@Column(name="valor_total")
+	private double valorTotal;
+	
+	@Column(name="valor_sub_total")
+	private double valorSubTotal;
+
+	@OneToMany(mappedBy="pedido", fetch = FetchType.EAGER, orphanRemoval=true)
 	private List<ItemPedido> itensPedido;
 
 	@OneToMany(mappedBy="pedido")
@@ -272,6 +278,22 @@ public class Pedido implements Entidade, Serializable {
 
 	public void setItensPedido(List<ItemPedido> itensPedido) {
 		this.itensPedido = itensPedido;
+	}
+
+	public double getValorTotal() {
+		return valorTotal;
+	}
+
+	public void setValorTotal(double valorTotal) {
+		this.valorTotal = valorTotal;
+	}
+
+	public double getValorSubTotal() {
+		return valorSubTotal;
+	}
+
+	public void setValorSubTotal(double valorSubTotal) {
+		this.valorSubTotal = valorSubTotal;
 	}
 
 }

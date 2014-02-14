@@ -64,8 +64,11 @@ public abstract class BaseListController<T extends Entidade> extends BaseControl
 		exibirTelaCadastro();
 	}
 
-	public abstract void exibirTelaCadastro();
+	public void exibirTelaCadastro() {
+		getBaseCadastroController().setTabela(getTabela());
+	}
 
+	public abstract TableView<T> getTabela();
 	protected abstract BaseCadastroController<T> getBaseCadastroController();
 
 	public ObservableList<T> getListaEntidades() {

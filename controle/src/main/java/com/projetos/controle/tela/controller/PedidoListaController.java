@@ -100,6 +100,7 @@ public class PedidoListaController extends BaseListController<Pedido> {
 	public void exibirTelaCadastro() {
 		entidadeForm = new Pedido();
 		telaPrincipalController.exibirTelaPedidoCadastro();
+		super.exibirTelaCadastro();
 	}
 
 	@Override

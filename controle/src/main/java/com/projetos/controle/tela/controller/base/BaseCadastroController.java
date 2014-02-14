@@ -18,6 +18,7 @@ public abstract class BaseCadastroController<T extends Entidade> extends BaseCon
 
     protected ObservableList<T> listaEntidades;
     
+    private TableView<T> tabela;
 	
     @SuppressWarnings("unchecked")
 	@Override
@@ -39,18 +40,15 @@ public abstract class BaseCadastroController<T extends Entidade> extends BaseCon
 				validaAlteracao();
 			}
 			getEntidadeService().salvar(entidadeForm);
-			getTabela().getItems().add(entidadeForm);
+			if (!tabela.getItems().contains(entidadeForm)) {
+				tabela.getItems().add(entidadeForm);
+			}
 			exibirMensagem("cadastro.salvo_com_sucesso");
 		} catch (ValidacaoException e) {
 			tratarErro(e);
 		}
 	}
 
-	@Override
-	public TableView<T> getTabela() {
-		return null;
-	}
-	
 	public void remover() {
 		//TODO: Excluir o método
 		getEntidadeService().remover(entidadeForm);
@@ -65,6 +63,10 @@ public abstract class BaseCadastroController<T extends Entidade> extends BaseCon
     	/*if (false) {
     		throw new ValidacaoException(null, null);
     	}*/
+	}
+
+	public void setTabela(TableView<T> tabela) {
+		this.tabela = tabela;
 	}
 
 }
