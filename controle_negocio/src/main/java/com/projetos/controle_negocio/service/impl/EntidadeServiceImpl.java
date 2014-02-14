@@ -28,7 +28,7 @@ import com.projetos.controle_util.reflection.BeanUtil;
 public abstract class EntidadeServiceImpl<T extends Entidade> implements EntidadeService<T> {
 
 	@PersistenceContext
-	private EntityManager entityManager;
+	protected EntityManager entityManager;
 	
 	protected Logger log = Logger.getLogger(this.getClass());
 

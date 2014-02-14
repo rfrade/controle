@@ -47,6 +47,7 @@ public abstract class BaseListController<T extends Entidade> extends BaseControl
 		loadTable(getEntidadeService().listar());
 		defaultClickHandler = new MouseClickedDefault<T>(getTabela(), this, getBaseCadastroController());
 		getTabela().setOnMouseClicked(defaultClickHandler);
+		bindBeanToForm();
 	}
 
 	public void remover() {
@@ -61,6 +62,7 @@ public abstract class BaseListController<T extends Entidade> extends BaseControl
 	}
 
 	public void prepararInclusao() {
+		getBaseCadastroController().setEntidadeForm(null);
 		exibirTelaCadastro();
 	}
 

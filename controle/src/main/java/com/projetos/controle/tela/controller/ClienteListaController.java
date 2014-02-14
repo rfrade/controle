@@ -99,7 +99,6 @@ public class ClienteListaController extends BaseListController<Cliente> {
 
 	@Override
 	public void exibirTelaCadastro() {
-		entidadeForm = new Cliente();
 		telaPrincipalController.exibirTelaClienteCadastro();
 		super.exibirTelaCadastro();
 	}

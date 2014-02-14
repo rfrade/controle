@@ -9,7 +9,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.projetos.controle_negocio.base.BaseNegocioTest;
 import com.projetos.controle_negocio.service.base.ClienteService;
 import com.projetos.controle_negocio.service.base.FornecedorService;
+import com.projetos.controle_negocio.service.base.ItemPedidoService;
 import com.projetos.controle_negocio.service.base.LogradouroService;
+import com.projetos.controle_negocio.service.base.PedidoService;
 import com.projetos.controle_negocio.service.base.ProdutoService;
 import com.projetos.controle_negocio.service.base.VendedorService;
 
@@ -33,6 +35,12 @@ public abstract class BaseServiceTest extends BaseNegocioTest {
 	
 	@Autowired
 	protected VendedorService vendedorService;
+	
+	@Autowired
+	protected PedidoService pedidoService;
+	
+	@Autowired
+	protected ItemPedidoService itemPedidoService;
 	
 	public BaseServiceTest() {
 		log.info("Iniciando teste...");

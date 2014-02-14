@@ -13,5 +13,8 @@ select * from cliente;
 select * from produto;
 select * from item_pedido;
 select * from pedido;
+
+delete from pedido;
+delete from item_pedido;
 --alter table vendedor
 --	drop foreign key fk_vendedor;

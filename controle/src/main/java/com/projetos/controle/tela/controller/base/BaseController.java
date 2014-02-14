@@ -1,8 +1,10 @@
 package com.projetos.controle.tela.controller.base;
 
 import java.lang.reflect.Field;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -140,7 +142,7 @@ public abstract class BaseController<T extends Entidade> extends AbstractControl
     protected abstract EntidadeService<T> getEntidadeService();
     public abstract void remover();
 
-	@SuppressWarnings("unchecked")
+    @SuppressWarnings("unchecked")
 	public void bindBeanToForm() {
 		MirrorList<Field> campos = new Mirror().on(this.getClass()).reflectAll().fields();
 		for (Field field : campos) {

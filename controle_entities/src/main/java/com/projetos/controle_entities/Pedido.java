@@ -1,6 +1,7 @@
 package com.projetos.controle_entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -273,6 +274,9 @@ public class Pedido implements Entidade, Serializable {
 	}
 
 	public List<ItemPedido> getItensPedido() {
+		if (itensPedido == null) {
+			itensPedido = new ArrayList<>();
+		}
 		return itensPedido;
 	}
 

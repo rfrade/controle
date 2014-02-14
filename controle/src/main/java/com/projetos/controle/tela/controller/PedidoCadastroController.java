@@ -230,6 +230,7 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 	}
 
 	public void calcularDesconto() {
+		bindFormToBean();
 		BigDecimal valor1 = getValorDesconto(desconto1);
 		BigDecimal valor2 = getValorDesconto(desconto2);
 		BigDecimal valor3 = getValorDesconto(desconto3);
@@ -247,7 +248,9 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 		}
 
 		descontoFinal = descontoFinal.setScale(2, RoundingMode.DOWN);
+		entidadeForm.setDescontoTotal(descontoFinal.doubleValue());
 		atualizarValorPedido();
+		getEntidadeService().salvar(entidadeForm);
 	}
 
 	private BigDecimal getValorDesconto(TextField desconto) {
@@ -314,13 +317,14 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 		ItemPedido itemPedido = tabelaItensPedido.getSelectionModel().getSelectedItem();
 		itemPedidoService.remover(itemPedido);
 		tabelaItensPedido.getItems().remove(itemPedido);
-		exibirMensagem("cadastro.removido_com_sucesso");
+		entidadeForm = getEntidadeService().findById(entidadeForm.getId());
 		getEntidadeService().salvar(entidadeForm);
+		exibirMensagem("cadastro.removido_com_sucesso");
 	}
 
 	public void atualizarValorPedido() {
 		BigDecimal subTotal = BigDecimal.ZERO;
-		for (ItemPedido itemPedido : entidadeForm.getItensPedido()) {
+		for (ItemPedido itemPedido : tabelaItensPedido.getItems()) {
 			BigDecimal valorItem = new BigDecimal(itemPedido.getValorTotal());
 			subTotal = subTotal.add(valorItem);
 		}
@@ -329,6 +333,8 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 		
 		BigDecimal desconto = new BigDecimal(entidadeForm.getDescontoTotal() / 100).multiply(subTotal);
 		BigDecimal valorTotal = subTotal.subtract(desconto);
+		
+		valorTotal = valorTotal.setScale(2, RoundingMode.DOWN);
 		entidadeForm.setValorTotal(valorTotal.doubleValue());
 		bindBeanToForm();
 	}

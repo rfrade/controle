@@ -14,4 +14,14 @@
         <appender-ref ref="stdout"/>
     </logger>
   
+      <logger name="org.hibernate.QueryTranslatorImpl">
+        <level value="trace"/> 
+        <appender-ref ref="stdout" />
+    </logger>
+  
+      <logger name="org.hibernate">
+        <level value="info"/> 
+        <appender-ref ref="stdout" />
+    </logger>
+  
 </log4j:configuration>

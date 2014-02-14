@@ -160,9 +160,9 @@ public class ItemPedidoCadastroController extends BaseCadastroController<ItemPed
 	public void salvar() {
 		super.salvar();
 		PedidoCadastroController pedidoCadastroController = ApplicationConfig.getBean(PedidoCadastroController.class);
-		if (!pedidoCadastroController.getEntidadeForm().getItensPedido().contains(entidadeForm)) {
+		/*if (!pedidoCadastroController.getEntidadeForm().getItensPedido().contains(entidadeForm)) {
 			pedidoCadastroController.getEntidadeForm().addItemPedido(entidadeForm);
-		}
+		}*/
 		pedidoCadastroController.atualizarValorPedido();
 		pedidoCadastroController.getEntidadeService().salvar(entidadeForm.getPedido());
 	}
