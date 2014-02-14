@@ -34,7 +34,7 @@ public class ClienteServiceTest extends BaseServiceTest {
 		Assert.assertTrue(lista1.size() >= 2);
 		filtros.clear();
 		
-		Filtro filtro2 = new Filtro("ativo", TipoFiltro.BOOLEAN, Comparador.CONTAINS_IGNORE_CASE, false);
+		Filtro filtro2 = new Filtro("ativo", TipoFiltro.BOOLEAN, Comparador.EQUALS, false);
 		filtros.add(filtro2);
 		List<Cliente> lista2 = clienteService.filtrar(filtros);
 		boolean encontrouCliente2 = false;

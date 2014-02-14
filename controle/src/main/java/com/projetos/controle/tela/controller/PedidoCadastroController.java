@@ -194,6 +194,9 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 			ObservableList<ItemPedido> itensPedido = FXCollections.observableArrayList(entidadeForm.getItensPedido());
 			tabelaItensPedido.setItems(itensPedido);
 		}
+		
+		InnerMouseClicked<ItemPedido> mouseClicked = new InnerMouseClicked<>(tabelaItensPedido, itemPedidoCadastroController);
+		tabelaItensPedido.setOnMouseClicked(mouseClicked);
 	}
 
 	public void exibirTelaCliente() {
@@ -236,10 +239,13 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 
 	}
 
-	public void exibirTelaCadastroItemPedidoCadastro() {
+	public void exibirTelaItemPedidoCadastroInclusao() {
 		telaPrincipalController.exibirTelaItemPedidoCadastro();
-		InnerMouseClicked<ItemPedido> mouseClicked = new InnerMouseClicked<>(tabelaItensPedido, itemPedidoCadastroController);
-		tabelaItensPedido.setOnMouseClicked(mouseClicked);
+		itemPedidoCadastroController.getEntidadeForm().setPedido(entidadeForm);
+	}
+
+	public void exibirTelaCadastroItemPedidoCadastroAlteracao() {
+		telaPrincipalController.exibirTelaItemPedidoCadastro();
 	}
 
 	public class InnerMouseClicked<T extends Entidade> implements EventHandler<MouseEvent> {
@@ -258,7 +264,7 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 				T selectedItem = this.tabela.getSelectionModel().getSelectedItem();
 				if (selectedItem != null) {
 					baseCadastroController.setEntidadeForm(selectedItem);
-					exibirTelaCadastroItemPedidoCadastro();
+					exibirTelaCadastroItemPedidoCadastroAlteracao();
 				}
 			}
 		}

@@ -19,12 +19,11 @@ public class LogradouroRepositoryTest extends BaseRepositoryTest {
 
 		QLogradouro qLogradouro = QLogradouro.logradouro;
 		String param = "a";
-		qLogradouro.endereco.contains(param);
 		BooleanExpression contains = qLogradouro.endereco.contains(param);
 		Iterable<Logradouro> list = logradouroRepositoy.findAll(contains);
 		for (Logradouro logradouro : list) {
 			log.info(logradouro);
-			Assert.assertTrue(logradouro.getEndereco().contains(param));
+			Assert.assertTrue(logradouro.getEndereco().toUpperCase().contains(param.toUpperCase()));
 			Assert.assertFalse(logradouro.getEndereco().equals(novoLogradouro2.getEndereco()));
 		}
 		logradouroRepositoy.delete(novoLogradouro1);

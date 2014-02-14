@@ -11,4 +11,5 @@ public interface ProdutoService extends EntidadeService<Produto> {
 
 	void importarProdutosPlanilha(File file);
 
+	Produto getProdutoByReferencia(String referencia);
 }

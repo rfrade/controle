@@ -4,6 +4,6 @@ import com.projetos.controle_entities.Produto;
 
 public interface ProdutoRepository extends EntidadeRepository<Produto> {
 
-	
+	Produto getProdutoByReferencia(String referencia);
 
 }

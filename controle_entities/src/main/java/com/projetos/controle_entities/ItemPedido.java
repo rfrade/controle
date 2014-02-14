@@ -29,35 +29,35 @@ public class ItemPedido implements Entidade, Serializable {
 	private String observacao;
 
 	@Column(name="quantidade_tamanho_1")
-	private int quantidadeTamanho1;
+	private Integer quantidadeTamanho1;
 
 	@Column(name="quantidade_tamanho_2")
-	private int quantidadeTamanho2;
+	private Integer quantidadeTamanho2;
 
 	@Column(name="quantidade_tamanho_3")
-	private int quantidadeTamanho3;
+	private Integer quantidadeTamanho3;
 
 	@Column(name="quantidade_tamanho_4")
-	private int quantidadeTamanho4;
+	private Integer quantidadeTamanho4;
 
 	@Column(name="quantidade_tamanho_5")
-	private int quantidadeTamanho5;
+	private Integer quantidadeTamanho5;
 
 	@Column(name="quantidade_tamanho_6")
-	private int quantidadeTamanho6;
+	private Integer quantidadeTamanho6;
 
 	@Column(name="quantidade_tamanho_7")
-	private int quantidadeTamanho7;
+	private Integer quantidadeTamanho7;
 
 	@Column(name="quantidade_tamanho_8")
-	private int quantidadeTamanho8;
+	private Integer quantidadeTamanho8;
 
 	@Column(name="quantidade_total")
-	private int quantidadeTotal;
+	private Integer quantidadeTotal;
 
 	//bi-directional many-to-one association to Produto
 	@ManyToOne
-	@JoinColumn(name="id_produto")
+	@JoinColumn(name="id_produto", insertable=false, updatable=false)
 	private Produto produto;
 
 	//bi-directional many-to-one association to Pedido
@@ -104,7 +104,7 @@ public class ItemPedido implements Entidade, Serializable {
 		return this.quantidadeTamanho1;
 	}
 
-	public void setQuantidadeTamanho1(int quantidadeTamanho1) {
+	public void setQuantidadeTamanho1(Integer quantidadeTamanho1) {
 		this.quantidadeTamanho1 = quantidadeTamanho1;
 	}
 
@@ -112,7 +112,7 @@ public class ItemPedido implements Entidade, Serializable {
 		return this.quantidadeTamanho2;
 	}
 
-	public void setQuantidadeTamanho2(int quantidadeTamanho2) {
+	public void setQuantidadeTamanho2(Integer quantidadeTamanho2) {
 		this.quantidadeTamanho2 = quantidadeTamanho2;
 	}
 
@@ -120,7 +120,7 @@ public class ItemPedido implements Entidade, Serializable {
 		return this.quantidadeTamanho3;
 	}
 
-	public void setQuantidadeTamanho3(int quantidadeTamanho3) {
+	public void setQuantidadeTamanho3(Integer quantidadeTamanho3) {
 		this.quantidadeTamanho3 = quantidadeTamanho3;
 	}
 
@@ -128,7 +128,7 @@ public class ItemPedido implements Entidade, Serializable {
 		return this.quantidadeTamanho4;
 	}
 
-	public void setQuantidadeTamanho4(int quantidadeTamanho4) {
+	public void setQuantidadeTamanho4(Integer quantidadeTamanho4) {
 		this.quantidadeTamanho4 = quantidadeTamanho4;
 	}
 
@@ -136,7 +136,7 @@ public class ItemPedido implements Entidade, Serializable {
 		return this.quantidadeTamanho5;
 	}
 
-	public void setQuantidadeTamanho5(int quantidadeTamanho5) {
+	public void setQuantidadeTamanho5(Integer quantidadeTamanho5) {
 		this.quantidadeTamanho5 = quantidadeTamanho5;
 	}
 
@@ -144,7 +144,7 @@ public class ItemPedido implements Entidade, Serializable {
 		return this.quantidadeTamanho6;
 	}
 
-	public void setQuantidadeTamanho6(int quantidadeTamanho6) {
+	public void setQuantidadeTamanho6(Integer quantidadeTamanho6) {
 		this.quantidadeTamanho6 = quantidadeTamanho6;
 	}
 
@@ -152,7 +152,7 @@ public class ItemPedido implements Entidade, Serializable {
 		return this.quantidadeTamanho7;
 	}
 
-	public void setQuantidadeTamanho7(int quantidadeTamanho7) {
+	public void setQuantidadeTamanho7(Integer quantidadeTamanho7) {
 		this.quantidadeTamanho7 = quantidadeTamanho7;
 	}
 
@@ -160,7 +160,7 @@ public class ItemPedido implements Entidade, Serializable {
 		return this.quantidadeTamanho8;
 	}
 
-	public void setQuantidadeTamanho8(int quantidadeTamanho8) {
+	public void setQuantidadeTamanho8(Integer quantidadeTamanho8) {
 		this.quantidadeTamanho8 = quantidadeTamanho8;
 	}
 
@@ -168,7 +168,7 @@ public class ItemPedido implements Entidade, Serializable {
 		return this.quantidadeTotal;
 	}
 
-	public void setQuantidadeTotal(int quantidadeTotal) {
+	public void setQuantidadeTotal(Integer quantidadeTotal) {
 		this.quantidadeTotal = quantidadeTotal;
 	}
 

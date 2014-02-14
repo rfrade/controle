@@ -11,6 +11,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import net.vidageek.mirror.dsl.Mirror;
@@ -108,6 +109,8 @@ public abstract class BaseController<T extends Entidade> extends AbstractControl
 				
 				if (campo instanceof TextField && value != null) {
 					((TextField) campo).setText(value.toString());
+				} else if (campo instanceof TextArea && value != null) {
+						((TextArea) campo).setText(value.toString());
 				} else if (campo instanceof Label && value != null) {
 					((Label) campo).setText(value.toString());
 				} else if (campo instanceof RadioButton  && value != null) {

@@ -56,7 +56,9 @@ public class BeanUtil {
 					throw new IllegalArgumentException("There is no field with name: " + nomePropriedade + " on class: " + objeto.getClass());
 				}
 				Class<?> type = field.getType();
-				if (type.getName() == "int") {
+				if (valor != null && valor.equals("")) {
+					valor = null;
+				} else if (type.getName() == "int") {
 					valor = Integer.valueOf(valor.toString());
 				} else if (type.getName() == "double") {
 					valor = Double.valueOf(valor.toString());

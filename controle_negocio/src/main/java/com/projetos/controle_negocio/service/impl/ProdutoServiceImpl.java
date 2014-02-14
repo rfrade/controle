@@ -104,4 +104,9 @@ public class ProdutoServiceImpl extends EntidadeServiceImpl<Produto> implements 
 		return tamanho;
 	}
 
+	@Override
+	public Produto getProdutoByReferencia(String referencia) {
+		return produtoRepository.getProdutoByReferencia(referencia);
+	}
+
 }

@@ -22,6 +22,7 @@ public class ProdutoServiceTest extends BaseServiceTest {
 			Assert.assertNotNull(produto.getValorUnitario());
 			Assert.assertNotNull(produto.getDescricao());
 		}
+//		produtoService.importarProdutosPlanilha(new File(file.getFile()));
 	}
 
 }

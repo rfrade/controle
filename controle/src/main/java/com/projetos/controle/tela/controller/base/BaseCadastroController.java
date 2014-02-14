@@ -26,9 +26,8 @@ public abstract class BaseCadastroController<T extends Entidade> extends BaseCon
     	if (entidadeForm == null) {
     		Class<?> classe = new Mirror().on(this.getClass()).reflect().parentGenericType().atPosition(0);
     		entidadeForm = (T) new Mirror().on(classe).invoke().constructor().bypasser();
-    	} else {
-    		bindBeanToForm();
     	}
+    	bindBeanToForm();
     	mascararCampos();
 	}
 
