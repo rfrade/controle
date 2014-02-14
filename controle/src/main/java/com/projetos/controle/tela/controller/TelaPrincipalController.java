@@ -1,5 +1,8 @@
 package com.projetos.controle.tela.controller;
 
+import java.net.URL;
+import java.util.ResourceBundle;
+
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -36,7 +39,7 @@ public class TelaPrincipalController extends AbstractController {
 		Parent telaLista = configuracaoBeanTela.carregarTelaPedidoLista();
 		exibirTela(telaLista);
 	}
-
+	
 	private void exibirTela(Parent tela) {
 		paneTelaAtiva.getChildren().setAll(tela);
 	}
@@ -44,7 +47,7 @@ public class TelaPrincipalController extends AbstractController {
 	public Stage exibirPopup(Parent tela) {
 		Stage popup = new Stage();
 		popup.initOwner(primaryStage);
-		popup.initModality(Modality.WINDOW_MODAL);
+		popup.initModality(Modality.APPLICATION_MODAL);
 		Scene scene = new Scene(tela);
 		popup.setScene(scene);
 		popup.show();
@@ -71,9 +74,19 @@ public class TelaPrincipalController extends AbstractController {
 		Stage popup = this.exibirPopup(configuracaoBeanTela.carregarTelaItemPedidoCadastro());
 		return popup;
 	}
+	
+	public Stage exibirPopupMensagem() {
+		Stage popup = this.exibirPopup(configuracaoBeanTela.carregarPopupMensagem());
+		return popup;
+	}
+	
+	public Stage exibirPopupConfirmacao() {
+		Stage popup = this.exibirPopup(configuracaoBeanTela.carregarPopupConfirmacao());
+		return popup;
+	}
 
 	public void setPrimaryStage(Stage primaryStage) {
 		this.primaryStage = primaryStage;
 	}
-	
+
 }

@@ -27,12 +27,12 @@ public abstract class BaseListController<T extends Entidade> extends BaseControl
 	public void prepararAlteracao(MouseEvent event) {
 	}
 
-	public abstract TableView<T> getTabela();
 	public abstract void exibirTelaLista();
 
 	protected void loadTable(List<T> lista) {
 		listaEntidades = FXCollections.observableArrayList(lista);
-		getTabela().setItems(listaEntidades);
+		getTabela().getItems().clear();
+		getTabela().getItems().addAll(listaEntidades);
 		loadColumns();
 	}
 
@@ -50,12 +50,14 @@ public abstract class BaseListController<T extends Entidade> extends BaseControl
 	}
 
 	public void remover() {
-		getEntidadeService().remover(entidadeForm);
+		entidadeForm = getTabela().getSelectionModel().getSelectedItem();
 		if (entidadeForm == null) {
-			entidadeForm = getTabela().getSelectionModel().getSelectedItem();
+			exibirMensagem("cadastro.selecione_um_registro_para_remover");
+			return;
 		}
 		getEntidadeService().remover(entidadeForm);
-		/*mensagem.setText("Removido com sucesso!");*/
+		getTabela().getItems().remove(entidadeForm);
+		exibirMensagem("cadastro.removido_com_sucesso");
 	}
 
 	public void prepararInclusao() {

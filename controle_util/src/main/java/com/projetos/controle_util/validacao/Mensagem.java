@@ -1,12 +1,12 @@
 package com.projetos.controle_util.validacao;
 
-public class MensagemValidacao {
+public class Mensagem {
 
 	private CodigoMensagem codigoMensagem;
 	private SeveridadeMensagem severidade;
 	private String campo;
 
-	public MensagemValidacao(CodigoMensagem codigoMensagem, SeveridadeMensagem severidade, String campo) {
+	public Mensagem(CodigoMensagem codigoMensagem, SeveridadeMensagem severidade, String campo) {
 		this.codigoMensagem = codigoMensagem;
 		this.severidade = severidade;
 		this.campo = campo;

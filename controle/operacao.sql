@@ -12,6 +12,6 @@ select * from logradouro;
 select * from cliente;
 select * from produto;
 select * from item_pedido;
+select * from pedido;
 --alter table vendedor
 --	drop foreign key fk_vendedor;
-	

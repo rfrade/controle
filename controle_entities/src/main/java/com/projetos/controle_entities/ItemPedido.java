@@ -1,7 +1,17 @@
 package com.projetos.controle_entities;
 
 import java.io.Serializable;
-import javax.persistence.*;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 
 
 /**
@@ -55,14 +65,17 @@ public class ItemPedido implements Entidade, Serializable {
 	@Column(name="quantidade_total")
 	private Integer quantidadeTotal;
 
+	@Transient
+	private Double valorTotal;
+
 	//bi-directional many-to-one association to Produto
 	@ManyToOne
-	@JoinColumn(name="id_produto", insertable=false, updatable=false)
+	@JoinColumn(name="id_produto", updatable = false)
 	private Produto produto;
 
 	//bi-directional many-to-one association to Pedido
-	@ManyToOne
-	@JoinColumn(name="id_pedido")
+	@ManyToOne()
+	@JoinColumn(name="id_pedido", updatable = false)
 	private Pedido pedido;
 
 	public ItemPedido() {
@@ -100,7 +113,7 @@ public class ItemPedido implements Entidade, Serializable {
 		this.observacao = observacao;
 	}
 
-	public int getQuantidadeTamanho1() {
+	public Integer getQuantidadeTamanho1() {
 		return this.quantidadeTamanho1;
 	}
 
@@ -108,7 +121,7 @@ public class ItemPedido implements Entidade, Serializable {
 		this.quantidadeTamanho1 = quantidadeTamanho1;
 	}
 
-	public int getQuantidadeTamanho2() {
+	public Integer getQuantidadeTamanho2() {
 		return this.quantidadeTamanho2;
 	}
 
@@ -116,7 +129,7 @@ public class ItemPedido implements Entidade, Serializable {
 		this.quantidadeTamanho2 = quantidadeTamanho2;
 	}
 
-	public int getQuantidadeTamanho3() {
+	public Integer getQuantidadeTamanho3() {
 		return this.quantidadeTamanho3;
 	}
 
@@ -124,7 +137,7 @@ public class ItemPedido implements Entidade, Serializable {
 		this.quantidadeTamanho3 = quantidadeTamanho3;
 	}
 
-	public int getQuantidadeTamanho4() {
+	public Integer getQuantidadeTamanho4() {
 		return this.quantidadeTamanho4;
 	}
 
@@ -132,7 +145,7 @@ public class ItemPedido implements Entidade, Serializable {
 		this.quantidadeTamanho4 = quantidadeTamanho4;
 	}
 
-	public int getQuantidadeTamanho5() {
+	public Integer getQuantidadeTamanho5() {
 		return this.quantidadeTamanho5;
 	}
 
@@ -140,7 +153,7 @@ public class ItemPedido implements Entidade, Serializable {
 		this.quantidadeTamanho5 = quantidadeTamanho5;
 	}
 
-	public int getQuantidadeTamanho6() {
+	public Integer getQuantidadeTamanho6() {
 		return this.quantidadeTamanho6;
 	}
 
@@ -148,7 +161,7 @@ public class ItemPedido implements Entidade, Serializable {
 		this.quantidadeTamanho6 = quantidadeTamanho6;
 	}
 
-	public int getQuantidadeTamanho7() {
+	public Integer getQuantidadeTamanho7() {
 		return this.quantidadeTamanho7;
 	}
 
@@ -156,7 +169,7 @@ public class ItemPedido implements Entidade, Serializable {
 		this.quantidadeTamanho7 = quantidadeTamanho7;
 	}
 
-	public int getQuantidadeTamanho8() {
+	public Integer getQuantidadeTamanho8() {
 		return this.quantidadeTamanho8;
 	}
 
@@ -164,12 +177,16 @@ public class ItemPedido implements Entidade, Serializable {
 		this.quantidadeTamanho8 = quantidadeTamanho8;
 	}
 
-	public int getQuantidadeTotal() {
+	public Integer getQuantidadeTotal() {
 		return this.quantidadeTotal;
 	}
 
 	public void setQuantidadeTotal(Integer quantidadeTotal) {
 		this.quantidadeTotal = quantidadeTotal;
+	}
+
+	public Double getValorTotal() {
+		return this.valorTotal;
 	}
 
 	public Produto getProduto() {
@@ -186,6 +203,10 @@ public class ItemPedido implements Entidade, Serializable {
 
 	public void setPedido(Pedido pedido) {
 		this.pedido = pedido;
+	}
+
+	public void setValorTotal(Double valorTotal) {
+		this.valorTotal = valorTotal;
 	}
 
 }

@@ -3,10 +3,8 @@ package com.projetos.controle.tela.controller.base;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import javax.swing.JOptionPane;
-
 import javafx.collections.ObservableList;
-import javafx.fxml.Initializable;
+import javafx.scene.control.TableView;
 import net.vidageek.mirror.dsl.Mirror;
 
 import com.projetos.controle_entities.Entidade;
@@ -16,9 +14,10 @@ import com.projetos.controle_util.validacao.ValidacaoException;
  * @author Rafael
  * @param <T> Entidade à qual a controller realizará manutenção
  */
-public abstract class BaseCadastroController<T extends Entidade> extends BaseController<T> implements Initializable {
+public abstract class BaseCadastroController<T extends Entidade> extends BaseController<T> {
 
     protected ObservableList<T> listaEntidades;
+    
 	
     @SuppressWarnings("unchecked")
 	@Override
@@ -40,15 +39,22 @@ public abstract class BaseCadastroController<T extends Entidade> extends BaseCon
 				validaAlteracao();
 			}
 			getEntidadeService().salvar(entidadeForm);
-			JOptionPane.showMessageDialog(null, propertiesLoader.getProperty("cadastro.salvo_com_sucesso"));
+			getTabela().getItems().add(entidadeForm);
+			exibirMensagem("cadastro.salvo_com_sucesso");
 		} catch (ValidacaoException e) {
 			tratarErro(e);
 		}
 	}
 
 	@Override
-	protected void remover() {
+	public TableView<T> getTabela() {
+		return null;
+	}
+	
+	public void remover() {
+		//TODO: Excluir o método
 		getEntidadeService().remover(entidadeForm);
+		exibirMensagem("cadastro.removido_com_sucesso");
 	}
 
 	protected void validaAlteracao() throws ValidacaoException {

@@ -1,6 +1,10 @@
 package com.projetos.controle.tela.controller;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.net.URL;
+import java.util.Arrays;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import javafx.beans.value.ChangeListener;
@@ -13,11 +17,9 @@ import javafx.scene.control.TextField;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Scope;
-import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Controller;
 
 import com.projetos.controle.tela.base.CampoTela;
-import com.projetos.controle.tela.base.FormBinding;
 import com.projetos.controle.tela.controller.base.BaseCadastroController;
 import com.projetos.controle_entities.ItemPedido;
 import com.projetos.controle_entities.Produto;
@@ -49,7 +51,7 @@ public class ItemPedidoCadastroController extends BaseCadastroController<ItemPed
 	private TextField valorUnitario;
 	
 	@FXML
-	/*@CampoTela(bean = "produto.referencia")*/
+	@CampoTela(bean = "valorTotal")
 	private Label valorTotal;
 	
 	@FXML
@@ -95,7 +97,15 @@ public class ItemPedidoCadastroController extends BaseCadastroController<ItemPed
 	@Override
 	public void initialize(URL url, ResourceBundle resource) {
 		super.initialize(url, resource);
-		this.referencia.focusedProperty().addListener(new TextFieldChangeListener());
+		this.referencia.focusedProperty().addListener(new ReferenciaChangeListener());
+		
+		List<TextField> camposQuantidade = Arrays.asList(quantidadeTamanho1, quantidadeTamanho2, quantidadeTamanho3, quantidadeTamanho4,
+				quantidadeTamanho5, quantidadeTamanho6, quantidadeTamanho7, quantidadeTamanho8);
+		
+		for (TextField textFieldQuantidade : camposQuantidade) {
+			textFieldQuantidade.focusedProperty().addListener(new FormBindingListener());
+		}
+		
 	}
 
 	/*@FormBinding*/
@@ -106,7 +116,7 @@ public class ItemPedidoCadastroController extends BaseCadastroController<ItemPed
 		bindBeanToForm();
 	}
 	
-	public class TextFieldChangeListener implements ChangeListener<Boolean> {
+	public class ReferenciaChangeListener implements ChangeListener<Boolean> {
 
 		@Override
 		public void changed(ObservableValue<? extends Boolean> arg0, Boolean arg1, Boolean focusIn) {
@@ -116,6 +126,60 @@ public class ItemPedidoCadastroController extends BaseCadastroController<ItemPed
           }
 		}
 		
+	}
+	
+	public class FormBindingListener implements ChangeListener<Boolean> {
+		
+		@Override
+		public void changed(ObservableValue<? extends Boolean> arg0, Boolean arg1, Boolean focusIn) {
+			// Handling only when focus is out.
+			if(!focusIn){
+				bindFormToBean();
+				calcularQuantidadeTotal();
+				calcularValorTotal();
+				bindBeanToForm();
+			}
+		}
+		
+	}
+
+	private void calcularValorTotal() {
+		if (entidadeForm.getProduto() != null && entidadeForm.getQuantidadeTotal() != null) {
+			BigDecimal valorUnitario = new BigDecimal(entidadeForm.getProduto().getValorUnitario());
+			BigDecimal quantidade = new BigDecimal(entidadeForm.getQuantidadeTotal());
+			BigDecimal valorTotal = valorUnitario.multiply(quantidade);
+			valorTotal.setScale(2, RoundingMode.DOWN);
+			entidadeForm.setValorTotal(valorTotal.doubleValue());
+		}
+	}
+
+	private void calcularQuantidadeTotal() {
+		int qTotal = 0;
+		if (entidadeForm.getQuantidadeTamanho1() != null) {
+			qTotal += entidadeForm.getQuantidadeTamanho1();
+		}
+		if (entidadeForm.getQuantidadeTamanho2() != null) {
+			qTotal += entidadeForm.getQuantidadeTamanho2();
+		}
+		if (entidadeForm.getQuantidadeTamanho3() != null) {
+			qTotal += entidadeForm.getQuantidadeTamanho3();
+		}
+		if (entidadeForm.getQuantidadeTamanho4() != null) {
+			qTotal += entidadeForm.getQuantidadeTamanho4();
+		}
+		if (entidadeForm.getQuantidadeTamanho5() != null) {
+			qTotal += entidadeForm.getQuantidadeTamanho5();
+		}
+		if (entidadeForm.getQuantidadeTamanho6() != null) {
+			qTotal += entidadeForm.getQuantidadeTamanho6();
+		}
+		if (entidadeForm.getQuantidadeTamanho7() != null) {
+			qTotal += entidadeForm.getQuantidadeTamanho7();
+		}
+		if (entidadeForm.getQuantidadeTamanho8() != null) {
+			qTotal += entidadeForm.getQuantidadeTamanho8();
+		}
+		entidadeForm.setQuantidadeTotal(qTotal);
 	}
 
 	@Override

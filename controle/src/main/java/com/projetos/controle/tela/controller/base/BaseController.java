@@ -5,15 +5,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
+import javafx.stage.Stage;
 import net.vidageek.mirror.dsl.Mirror;
 import net.vidageek.mirror.list.dsl.MirrorList;
 
@@ -27,13 +30,14 @@ import com.projetos.controle.tela.base.ConfiguracaoBeanTela;
 import com.projetos.controle.tela.base.FiltroTela;
 import com.projetos.controle.tela.base.ItemCombo;
 import com.projetos.controle.tela.base.PropertiesLoader;
+import com.projetos.controle.tela.controller.PopupConfirmacaoController;
+import com.projetos.controle.tela.controller.PopupMensagemController;
 import com.projetos.controle.tela.controller.TelaPrincipalController;
 import com.projetos.controle.tela.util.CelulaFactory;
 import com.projetos.controle_entities.Entidade;
 import com.projetos.controle_negocio.filtro.Filtro;
 import com.projetos.controle_negocio.service.base.EntidadeService;
 import com.projetos.controle_util.reflection.BeanUtil;
-import com.projetos.controle_util.validacao.MensagemValidacao;
 
 /**
  * @author Rafael
@@ -48,15 +52,55 @@ public abstract class BaseController<T extends Entidade> extends AbstractControl
 	@Autowired
 	protected PropertiesLoader propertiesLoader;
 
-    protected MensagemValidacao mensagem;
-    
     @Autowired
     protected TelaPrincipalController telaPrincipalController;
 
     @Autowired
+    private PopupMensagemController popupMensagemController;
+    
+    @Autowired
+    private PopupConfirmacaoController popupConfirmacaoController;
+
+    @Autowired
     protected ConfiguracaoBeanTela configuracaoBeanTela;
 
-    protected List<Filtro> getCamposFiltro() {
+    public abstract TableView<T> getTabela();
+    
+    protected void exibirMensagem(String mensagem) {
+    	popupMensagemController.setMensagem(propertiesLoader.getProperty(mensagem));
+    	telaPrincipalController.exibirPopupMensagem();
+    }
+    
+    public void exibirPopupConfirmacao() {
+    	exibirPopupConfirmacao(new DefaultConfirmHandler());
+    }
+    
+    public void exibirPopupConfirmacao(EventHandler<ActionEvent> confirmHandler) {
+    	exibirPopupConfirmacao(confirmHandler, null);
+    }
+
+    public void exibirPopupConfirmacao(EventHandler<ActionEvent> confirmHandler, EventHandler<ActionEvent> cancelHandler) {
+    	popupConfirmacaoController.setConfirmHandler(confirmHandler);
+    	popupConfirmacaoController.setCancelHandler(cancelHandler);
+    	popupConfirmacaoController.setMensagem(propertiesLoader.getProperty("cadastro.confirma_remocao"));
+
+    	Stage stage = telaPrincipalController.exibirPopupConfirmacao();
+    	popupConfirmacaoController.setStage(stage);
+    }
+
+	public class DefaultConfirmHandler implements EventHandler<ActionEvent> {
+		@Override
+		public void handle(ActionEvent event) {
+			remover();
+			fecharPopupConfirmacao();
+		}
+	}
+
+	protected void fecharPopupConfirmacao() {
+		popupConfirmacaoController.close();
+	}
+
+	protected List<Filtro> getCamposFiltro() {
     	List<Filtro> filtros = new ArrayList<>();
     	MirrorList<Field> campos = new Mirror().on(this.getClass()).reflectAll().fields();
 		for (Field field : campos) {
@@ -96,7 +140,7 @@ public abstract class BaseController<T extends Entidade> extends AbstractControl
     }
 
     protected abstract EntidadeService<T> getEntidadeService();
-    protected abstract void remover();
+    public abstract void remover();
 
 	@SuppressWarnings("unchecked")
 	public void bindBeanToForm() {
@@ -107,22 +151,44 @@ public abstract class BaseController<T extends Entidade> extends AbstractControl
 				String bean = field.getAnnotation(CampoTela.class).bean();
 				Object value = BeanUtil.getPropriedade(entidadeForm, bean);
 				
-				if (campo instanceof TextField && value != null) {
-					((TextField) campo).setText(value.toString());
-				} else if (campo instanceof TextArea && value != null) {
-						((TextArea) campo).setText(value.toString());
-				} else if (campo instanceof Label && value != null) {
-					((Label) campo).setText(value.toString());
-				} else if (campo instanceof RadioButton  && value != null) {
+				if (campo instanceof TextField) {
+					preencherTextField((TextField) campo, value);
+				} else if (campo instanceof TextArea) {
+					preencherTextArea((TextArea) campo, value);
+				} else if (campo instanceof Label) {
+					preencherLabel((Label) campo, value);
+				} else if (campo instanceof RadioButton && value != null) {
 					((RadioButton) campo).setSelected((Boolean)value);
-				} else if (campo instanceof ChoiceBox) {
-//					Object valor = ((ChoiceBox<ItemCombo<?>>) campo).getSelectionModel().getSelectedItem();
+				} else if (campo instanceof ChoiceBox && value != null) {
 					ItemCombo<?> item = new ItemCombo<>(null, value);
 					((ChoiceBox<ItemCombo<?>>) campo).getSelectionModel().select(item);
-					
 				}
 				
 			}
+		}
+	}
+
+	private void preencherTextField(TextField textField, Object value) {
+		if (value != null) {
+			textField.setText(value.toString());
+		} else {
+			textField.setText(null);
+		}
+	}
+	
+	private void preencherTextArea(TextArea textArea, Object value) {
+		if (value != null) {
+			textArea.setText(value.toString());
+		} else {
+			textArea.setText(null);
+		}
+	}
+	
+	private void preencherLabel(Label label, Object value) {
+		if (value != null) {
+			label.setText(value.toString());
+		} else {
+			label.setText(null);
 		}
 	}
 
@@ -197,6 +263,11 @@ public abstract class BaseController<T extends Entidade> extends AbstractControl
 		public void handle(KeyEvent paramT) {
 			TextField textField = (TextField) paramT.getSource();
 			String text = textField.getText();
+
+			if (text == null) {
+				return;
+			}
+			
 			String typedText = paramT.getText();
 			if (text.length() >= maxLength) {
 				textField.setText(text.substring(0, maxLength));

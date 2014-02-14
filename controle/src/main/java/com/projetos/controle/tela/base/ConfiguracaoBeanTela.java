@@ -20,6 +20,8 @@ import com.projetos.controle.tela.controller.ClienteListaController;
 import com.projetos.controle.tela.controller.ItemPedidoCadastroController;
 import com.projetos.controle.tela.controller.PedidoCadastroController;
 import com.projetos.controle.tela.controller.PedidoListaController;
+import com.projetos.controle.tela.controller.PopupConfirmacaoController;
+import com.projetos.controle.tela.controller.PopupMensagemController;
 import com.projetos.controle.tela.controller.TelaPrincipalController;
 
 @Configuration
@@ -68,6 +70,18 @@ public class ConfiguracaoBeanTela {
 	@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 	public Parent carregarTelaItemPedidoCadastro() {
 		return carregarTela("/fxml/ItemPedidoCadastro.fxml", ItemPedidoCadastroController.class);
+	}
+	
+	@Bean(name = "popupConfirmacao")
+	@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+	public Parent carregarPopupConfirmacao() {
+		return carregarTela("/fxml/PopupConfirmacao.fxml", PopupConfirmacaoController.class);
+	}
+	
+	@Bean(name = "popupMensagem")
+	@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+	public Parent carregarPopupMensagem() {
+		return carregarTela("/fxml/PopupMensagem.fxml", PopupMensagemController.class);
 	}
 
 	public <T extends AbstractController> Parent carregarTela(String fxml, Class<T> classe) {

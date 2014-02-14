@@ -9,6 +9,7 @@ import java.util.ResourceBundle;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
@@ -39,6 +40,7 @@ import com.projetos.controle_entities.Produto;
 import com.projetos.controle_entities.Vendedor;
 import com.projetos.controle_negocio.service.base.EntidadeService;
 import com.projetos.controle_negocio.service.base.FornecedorService;
+import com.projetos.controle_negocio.service.base.ItemPedidoService;
 import com.projetos.controle_negocio.service.base.PedidoService;
 import com.projetos.controle_negocio.service.base.VendedorService;
 
@@ -48,6 +50,9 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 
 	@Autowired
 	private PedidoService pedidoService;
+
+	@Autowired
+	private ItemPedidoService itemPedidoService;
 
 	@Autowired
 	private FornecedorService fornecedorService;
@@ -123,59 +128,63 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 	private TextField descontoTotal;
 
 	@FXML
-	@Coluna(bean = "itensPedido.produto.referencia")
+	@Coluna(bean = "produto.referencia")
 	private TableColumn<Produto, String> referencia;
 	
 	@FXML
-	@Coluna(bean = "itensPedido.cor")
+	@Coluna(bean = "cor")
 	private TableColumn<Produto, String> cor;
 	
 	@FXML
-	@Coluna(bean = "itensPedido.quantidadeTotal")
+	@Coluna(bean = "quantidadeTotal")
 	private TableColumn<Produto, String> quantidadeTotal;
 	
 	@FXML
-	@Coluna(bean = "itensPedido.quantidadeTamanho1")
+	@Coluna(bean = "quantidadeTamanho1")
 	private TableColumn<Produto, String> quantidadeTamanho1;
 	
 	@FXML
-	@Coluna(bean = "itensPedido.quantidadeTamanho2")
+	@Coluna(bean = "quantidadeTamanho2")
 	private TableColumn<Produto, String> quantidadeTamanho2;
 	
 	@FXML
-	@Coluna(bean = "itensPedido.quantidadeTamanho3")
+	@Coluna(bean = "quantidadeTamanho3")
 	private TableColumn<Produto, String> quantidadeTamanho3;
 	
 	@FXML
-	@Coluna(bean = "itensPedido.quantidadeTamanho4")
+	@Coluna(bean = "quantidadeTamanho4")
 	private TableColumn<Produto, String> quantidadeTamanho4;
 	
 	@FXML
-	@Coluna(bean = "itensPedido.quantidadeTamanho5")
+	@Coluna(bean = "quantidadeTamanho5")
 	private TableColumn<Produto, String> quantidadeTamanho5;
 	
 	@FXML
-	@Coluna(bean = "itensPedido.quantidadeTamanho6")
+	@Coluna(bean = "quantidadeTamanho6")
 	private TableColumn<Produto, String> quantidadeTamanho6;
 	
 	@FXML
-	@Coluna(bean = "itensPedido.quantidadeTamanho7")
+	@Coluna(bean = "quantidadeTamanho7")
 	private TableColumn<Produto, String> quantidadeTamanho7;
 	
 	@FXML
-	@Coluna(bean = "itensPedido.quantidadeTamanho8")
+	@Coluna(bean = "quantidadeTamanho8")
 	private TableColumn<Produto, String> quantidadeTamanho8;
 
 	@FXML
-	@Coluna(bean = "itensPedido.produto.valorUnitario")
+	@Coluna(bean = "produto.valorUnitario")
 	private TableColumn<Produto, String> valorUnitario;
+	
+	@FXML
+	@Coluna(bean = "valorTotal")
+	private TableColumn<Produto, String> valorTotal;
 
 	@FXML
-	@Coluna(bean = "itensPedido.descricao")
+	@Coluna(bean = "descricao")
 	private TableColumn<Produto, String> descricao;
 	
 	@FXML
-	@Coluna(bean = "itensPedido.observacao")
+	@Coluna(bean = "observacao")
 	private TableColumn<Produto, String> observacaoItemPedido;
 
 	@FXML
@@ -190,13 +199,18 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 		ObservableList<ItemCombo<Vendedor>> itensVendedor = ItemCombo.novaListaCombo(vendedorService.listar(), "nome");
 		vendedor.setItems(itensVendedor);
 
-		if (entidadeForm != null) {
-			ObservableList<ItemPedido> itensPedido = FXCollections.observableArrayList(entidadeForm.getItensPedido());
-			tabelaItensPedido.setItems(itensPedido);
-		}
+		carregarTabelaItensPedido();
 		
 		InnerMouseClicked<ItemPedido> mouseClicked = new InnerMouseClicked<>(tabelaItensPedido, itemPedidoCadastroController);
 		tabelaItensPedido.setOnMouseClicked(mouseClicked);
+	}
+
+	private void carregarTabelaItensPedido() {
+		if (entidadeForm != null && entidadeForm.getItensPedido() != null) {
+			ObservableList<ItemPedido> itensPedido = FXCollections.observableArrayList(entidadeForm.getItensPedido());
+			tabelaItensPedido.setItems(itensPedido);
+			loadColumns();
+		}
 	}
 
 	public void exibirTelaCliente() {
@@ -240,6 +254,11 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 	}
 
 	public void exibirTelaItemPedidoCadastroInclusao() {
+		if (entidadeForm.getId() == null) {
+			exibirMensagem("pedido.salve_antes_de_incluir_produtos");
+			return;
+		}
+		itemPedidoCadastroController.setEntidadeForm(null);
 		telaPrincipalController.exibirTelaItemPedidoCadastro();
 		itemPedidoCadastroController.getEntidadeForm().setPedido(entidadeForm);
 	}
@@ -270,8 +289,23 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 		}
 	}
 
+	public void exibirPopupConfirmacaoItemPedido() {
+		exibirPopupConfirmacao(new RemoverPedidoConfirmmHandler());
+	}
+
+	public class RemoverPedidoConfirmmHandler implements EventHandler<ActionEvent> {
+		@Override
+		public void handle(ActionEvent event) {
+			removerItemPedido();
+			fecharPopupConfirmacao();
+		}
+	}
+
 	public void removerItemPedido() {
-		
+		ItemPedido itemPedido = tabelaItensPedido.getSelectionModel().getSelectedItem();
+		entidadeForm.removeItemPedido(itemPedido);
+		itemPedidoService.remover(itemPedido);
+		tabelaItensPedido.getItems().remove(itemPedido);
 	}
 
 	// TODO: Extrair essa classe

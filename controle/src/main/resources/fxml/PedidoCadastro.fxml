@@ -119,27 +119,27 @@
 									text="Incluir Produto" xmlns="http://javafx.com/javafx/8"
 									xmlns:fx="http://javafx.com/fxml/1"/>
 								<Button layoutX="159.0" layoutY="162.0" mnemonicParsing="false"
-									onAction="#remover" prefHeight="25.0" prefWidth="110.0"
+									onAction="#exibirPopupConfirmacaoItemPedido" prefHeight="25.0" prefWidth="110.0"
 									text="Remover Produto" xmlns="http://javafx.com/javafx/8"
 									xmlns:fx="http://javafx.com/fxml/1" />
 								<TableView layoutX="32.0" layoutY="200.0" prefHeight="149.0" fx:id="tabelaItensPedido"
 									prefWidth="930.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
 									<columns>
-										<TableColumn prefWidth="75.0" text="Referencia" />
-										<TableColumn prefWidth="60.0" text="Cor" />
-										<TableColumn prefWidth="70.0" text="Quantidade" />
-										<TableColumn prefWidth="30.0" text="1" />
-										<TableColumn prefWidth="30.0" text="2" />
-										<TableColumn prefWidth="30.0" text="3" />
-										<TableColumn prefWidth="30.0" text="32" />
-										<TableColumn prefWidth="30.0" text="66" />
-										<TableColumn prefWidth="30.0" text="XX1" />
-										<TableColumn prefWidth="30.0" text="XX2" />
-										<TableColumn prefWidth="30.0" text="XX3" />
-										<TableColumn prefWidth="70.0" text="V. Unitário" />
-										<TableColumn prefWidth="65.0" text="V. Total" />
-										<TableColumn prefWidth="175.0" text="Descrição" />
-										<TableColumn prefWidth="175.0" text="Observação" />
+										<TableColumn prefWidth="75.0" text="Referencia" fx:id="referencia"/>
+										<TableColumn prefWidth="60.0" text="Cor" fx:id="cor"/>
+										<TableColumn prefWidth="70.0" text="Quantidade" fx:id="quantidadeTotal"/>
+										<TableColumn prefWidth="30.0" text="1" fx:id="quantidadeTamanho1"/>
+										<TableColumn prefWidth="30.0" text="2" fx:id="quantidadeTamanho2"/>
+										<TableColumn prefWidth="30.0" text="3" fx:id="quantidadeTamanho3"/>
+										<TableColumn prefWidth="30.0" text="32" fx:id="quantidadeTamanho4"/>
+										<TableColumn prefWidth="30.0" text="66" fx:id="quantidadeTamanho5"/>
+										<TableColumn prefWidth="30.0" text="XX1" fx:id="quantidadeTamanho6"/>
+										<TableColumn prefWidth="30.0" text="XX2" fx:id="quantidadeTamanho7"/>
+										<TableColumn prefWidth="30.0" text="XX3" fx:id="quantidadeTamanho8"/>
+										<TableColumn prefWidth="70.0" text="V. Unitário" fx:id="valorUnitario"/>
+										<TableColumn prefWidth="65.0" text="V. Total" fx:id="valorTotal"/>
+										<TableColumn prefWidth="175.0" text="Descrição" fx:id="descricao"/>
+										<TableColumn prefWidth="175.0" text="Observação" fx:id="observacaoItemPedido"/>
 									</columns>
 								</TableView>
 							</children>
