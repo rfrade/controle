@@ -13,8 +13,10 @@ select * from cliente;
 select * from produto;
 select * from item_pedido;
 select * from pedido;
+select * from recebimento;
 
 delete from pedido;
 delete from item_pedido;
+alter table pedido add valor_comissionado double;
 --alter table vendedor
 --	drop foreign key fk_vendedor;

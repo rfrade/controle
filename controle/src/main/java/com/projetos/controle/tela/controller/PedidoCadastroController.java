@@ -37,6 +37,7 @@ import com.projetos.controle_entities.Fornecedor;
 import com.projetos.controle_entities.ItemPedido;
 import com.projetos.controle_entities.Pedido;
 import com.projetos.controle_entities.Produto;
+import com.projetos.controle_entities.Recebimento;
 import com.projetos.controle_entities.Vendedor;
 import com.projetos.controle_negocio.service.base.EntidadeService;
 import com.projetos.controle_negocio.service.base.FornecedorService;
@@ -59,7 +60,10 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 	
 	@Autowired
 	private VendedorService vendedorService;
-
+    
+    @Autowired
+    protected RecebimentoListaController recebimentoListaController;
+    
 	@Autowired
 	private ItemPedidoCadastroController itemPedidoCadastroController;
 
@@ -221,6 +225,11 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 		}
 	}
 
+	public void exibirTelaRecebimentoLista() {
+		telaPrincipalController.exibirTelaRecebimentoLista();
+		recebimentoListaController.getEntidadeForm().setPedido(entidadeForm);
+	}
+
 	public void exibirTelaCliente() {
 		Parent telaClienteLista = configuracaoBeanTela.carregarTelaClienteLista();
 		Stage popup = telaPrincipalController.exibirPopup(telaClienteLista);
@@ -276,6 +285,7 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 	}
 
 	public void exibirTelaCadastroItemPedidoCadastroAlteracao() {
+		itemPedidoCadastroController.setTabela(tabelaItensPedido);
 		telaPrincipalController.exibirTelaItemPedidoCadastro();
 	}
 
@@ -336,6 +346,10 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 		
 		valorTotal = valorTotal.setScale(2, RoundingMode.DOWN);
 		entidadeForm.setValorTotal(valorTotal.doubleValue());
+		
+		BigDecimal porcentagemComissao = new BigDecimal(entidadeForm.getComissao() / 100);
+		BigDecimal valorComissionado = valorTotal.multiply(porcentagemComissao).setScale(2, RoundingMode.DOWN);
+		entidadeForm.setValorComissionado(valorComissionado.doubleValue());
 		bindBeanToForm();
 	}
 

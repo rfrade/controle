@@ -31,8 +31,7 @@ public abstract class BaseListController<T extends Entidade> extends BaseControl
 
 	protected void loadTable(List<T> lista) {
 		listaEntidades = FXCollections.observableArrayList(lista);
-		getTabela().getItems().clear();
-		getTabela().getItems().addAll(listaEntidades);
+		getTabela().getItems().setAll(listaEntidades);
 		loadColumns();
 	}
 

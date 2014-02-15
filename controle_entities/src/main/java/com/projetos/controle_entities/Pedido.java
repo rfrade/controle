@@ -91,6 +91,9 @@ public class Pedido implements Entidade, Serializable {
 	
 	@Column(name="valor_sub_total")
 	private double valorSubTotal;
+	
+	@Column(name="valor_comissionado")
+	private Double valorComissionado;
 
 	@OneToMany(mappedBy="pedido", fetch = FetchType.EAGER, orphanRemoval=true)
 	private List<ItemPedido> itensPedido;
@@ -298,6 +301,14 @@ public class Pedido implements Entidade, Serializable {
 
 	public void setValorSubTotal(double valorSubTotal) {
 		this.valorSubTotal = valorSubTotal;
+	}
+
+	public Double getValorComissionado() {
+		return valorComissionado;
+	}
+
+	public void setValorComissionado(Double valorComissionado) {
+		this.valorComissionado = valorComissionado;
 	}
 
 }

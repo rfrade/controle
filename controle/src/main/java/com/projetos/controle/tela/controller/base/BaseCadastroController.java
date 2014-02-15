@@ -42,6 +42,9 @@ public abstract class BaseCadastroController<T extends Entidade> extends BaseCon
 			getEntidadeService().salvar(entidadeForm);
 			if (!tabela.getItems().contains(entidadeForm)) {
 				tabela.getItems().add(entidadeForm);
+			} else {
+				tabela.getItems().remove(entidadeForm);
+				tabela.getItems().add(entidadeForm);
 			}
 			exibirMensagem("cadastro.salvo_com_sucesso");
 		} catch (ValidacaoException e) {

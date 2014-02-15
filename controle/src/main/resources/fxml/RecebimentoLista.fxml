@@ -4,11 +4,33 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="650.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
-<children><TableView layoutX="23.0" layoutY="72.0" prefHeight="353.0" prefWidth="605.0" xmlns:fx="http://javafx.com/fxml">
-  <columns>
-    <TableColumn prefWidth="75.0" text="Pedido" />
-    <TableColumn prefWidth="100.0" text="Vendedor" /><TableColumn prefWidth="170.0" text="Fornecedor" /><TableColumn text="Data" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" /><TableColumn prefWidth="100.0" text="Valor Faturado" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" /><TableColumn prefWidth="75.0" text="Recebido" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
-  </columns>
-</TableView><Button layoutX="23.1875" layoutY="31.5" mnemonicParsing="false" text="Novo Recebimento" /><Button layoutX="153.0" layoutY="32.0" mnemonicParsing="false" text="Excluir Recebimento" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" /><Button layoutX="289.0" layoutY="32.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="123.0" text="Imprimir Lista" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
-</children></AnchorPane>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity"
+	minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0"
+	prefWidth="650.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="com.projetos.controle.tela.controller.RecebimentoListaController">
+	<children>
+		<TableView layoutX="23.0" layoutY="72.0" prefHeight="353.0"
+			prefWidth="605.0" xmlns:fx="http://javafx.com/fxml" fx:id="tabela">
+			<columns>
+				<TableColumn prefWidth="75.0" text="Pedido" fx:id="colunaPedido"/>
+				<TableColumn prefWidth="100.0" text="Vendedor" fx:id="colunaVendedor"/>
+				<TableColumn prefWidth="170.0" text="Fornecedor" fx:id="colunaFornecedor"/>
+				<TableColumn text="Data" xmlns="http://javafx.com/javafx/8"
+					xmlns:fx="http://javafx.com/fxml/1" fx:id="colunaDataRecebimento"/>
+				<TableColumn prefWidth="100.0" text="Valor Faturado"
+					xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" 
+					fx:id="colunaValorRecebimento"/>
+				<TableColumn prefWidth="75.0" text="Recebido" fx:id="colunaRecebido"
+					xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
+			</columns>
+		</TableView>
+		<Button layoutX="23.1875" layoutY="31.5" mnemonicParsing="false"
+			text="Novo Recebimento" onAction="#prepararInclusao" />
+		<Button layoutX="153.0" layoutY="32.0" mnemonicParsing="false"
+			text="Excluir Recebimento" xmlns="http://javafx.com/javafx/8"
+			xmlns:fx="http://javafx.com/fxml/1" onAction="#exibirPopupConfirmacao"/>
+		<Button layoutX="289.0" layoutY="32.0" mnemonicParsing="false"
+			prefHeight="25.0" prefWidth="123.0" text="Imprimir Lista" xmlns="http://javafx.com/javafx/8"
+			xmlns:fx="http://javafx.com/fxml/1" />
+	</children>
+</AnchorPane>

@@ -34,6 +34,7 @@ import com.projetos.controle.tela.base.ItemCombo;
 import com.projetos.controle.tela.base.PropertiesLoader;
 import com.projetos.controle.tela.controller.PopupConfirmacaoController;
 import com.projetos.controle.tela.controller.PopupMensagemController;
+import com.projetos.controle.tela.controller.RecebimentoListaController;
 import com.projetos.controle.tela.controller.TelaPrincipalController;
 import com.projetos.controle.tela.util.CelulaFactory;
 import com.projetos.controle_entities.Entidade;

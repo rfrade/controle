@@ -1,5 +1,11 @@
 package com.projetos.controle_util;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.util.Date;
+import java.util.Locale;
+import java.util.Properties;
+
 import junit.framework.Assert;
 
 import org.junit.Test;
@@ -31,7 +37,24 @@ public class BeanUtilTest {
 		Object propriedade = BeanUtil.getPropriedade(teste, "truth");
 		Assert.assertEquals(truth, propriedade);
 	}
-	
+
+	@Test
+	public void dateTest() throws ParseException {
+		Date data = new Date();
+		Locale local = new Locale("pt", "BR");  
+		DateFormat hoje = DateFormat.getDateInstance(DateFormat.MEDIUM, local);  
+		System.out.println(hoje.parseObject("14/02/2014"));
+	}
+	private static Date getDate(Object valor) {
+		DateFormat instance = DateFormat.getInstance();
+		Date parse = null;
+		try {
+			parse = instance.parse((String)valor);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return parse;
+	}
 	public class Teste {
 		private String nome;
 		private boolean truth;

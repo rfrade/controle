@@ -1,8 +1,5 @@
 package com.projetos.controle.tela.controller;
 
-import java.net.URL;
-import java.util.ResourceBundle;
-
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -59,6 +56,11 @@ public class TelaPrincipalController extends AbstractController {
 		primaryStage.setScene(scene);
 		primaryStage.show();
 	}
+	
+	public Stage exibirTelaRecebimentoCadastro() {
+		Stage popup = this.exibirPopup(configuracaoBeanTela.carregarTelaRecebimentoCadastro());
+		return popup;
+	}
 
 	public Stage exibirTelaClienteCadastro() {
 		Stage popup = this.exibirPopup(configuracaoBeanTela.carregarTelaClienteCadastro());
@@ -72,6 +74,11 @@ public class TelaPrincipalController extends AbstractController {
 	
 	public Stage exibirTelaItemPedidoCadastro() {
 		Stage popup = this.exibirPopup(configuracaoBeanTela.carregarTelaItemPedidoCadastro());
+		return popup;
+	}
+	
+	public Stage exibirTelaRecebimentoLista() {
+		Stage popup = this.exibirPopup(configuracaoBeanTela.carregarTelaRecebimentoLista());
 		return popup;
 	}
 	

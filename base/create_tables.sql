@@ -64,7 +64,8 @@ create table pedido (
 	desconto4 double,
 	desconto_total double,
 	valor_total double,
-	valor_sub_total double
+	valor_sub_total double,
+	valor_comissionado double
 );
 
 create table produto (

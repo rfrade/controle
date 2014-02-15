@@ -14,13 +14,13 @@ import java.util.Date;
 @Entity
 @Table(name="recebimento")
 @NamedQuery(name="Recebimento.findAll", query="SELECT r FROM Recebimento r")
-public class Recebimento implements Serializable {
+public class Recebimento implements Serializable, Entidade {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(unique=true, nullable=false)
-	private int id;
+	private Integer id;
 
 	@Temporal(TemporalType.DATE)
 	@Column(name="data_recebimento")
@@ -40,11 +40,11 @@ public class Recebimento implements Serializable {
 	public Recebimento() {
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return this.id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

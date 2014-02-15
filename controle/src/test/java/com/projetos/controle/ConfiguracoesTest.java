@@ -1,11 +1,13 @@
 package com.projetos.controle;
 
-import com.projetos.controle.tela.controller.ClienteController;
 import junit.framework.Assert;
+
 import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import com.projetos.controle.tela.controller.ClienteListaController;
 
 /**
  *
@@ -19,7 +21,7 @@ public class ConfiguracoesTest {
     public void iniciarContextoTest() {
         log.info("asdf");
         ApplicationContext context = new ClassPathXmlApplicationContext(new String[] {"/applicationContext.xml"});
-        log.info(context.getBean(ClienteController.class));
+        log.info(context.getBean(ClienteListaController.class));
         Assert.assertNotNull(context);
     }
 
