@@ -20,7 +20,8 @@
 			xmlns:fx="http://javafx.com/fxml/1" />
 		<Button layoutX="300.0" mnemonicParsing="false" prefHeight="25.0"
 			prefWidth="100.0" style="-fx-background-radius: 0;" text="Fornecedores"
-			xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
+			xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+			onAction="#exibirTelaFornecedorLista" />
 		<StackPane fx:id="paneTelaAtiva" layoutX="36.0" layoutY="50.0"
 			prefHeight="600.0" prefWidth="1000.0" />
 	</children>

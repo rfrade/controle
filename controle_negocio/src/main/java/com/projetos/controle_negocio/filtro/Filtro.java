@@ -40,6 +40,19 @@ public class Filtro {
 	}
 
 	public Object getValor() {
+		switch (tipoFiltro) {
+		case INTEGER:
+			return Integer.valueOf(valor.toString());
+		case BOOLEAN:
+			return valor;
+		case DATE:
+			throw new RuntimeException("Filtro Data ainda não implementado");
+		case LONG:
+			return Long.valueOf(valor.toString());
+		case STRING:
+			return valor;
+		default:
+		}
 		return valor;
 	}
 

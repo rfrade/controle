@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.collections.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="555.0" prefWidth="603.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<children><Label layoutX="233.0" layoutY="29.0" style="-fx-font-size: 16;" text="Lista de Produtos" /><Button layoutX="46.1875" layoutY="70.5" mnemonicParsing="false" onAction="#exibirTelaCadastro" text="Cadastrar Produto" /><Button layoutX="171.0" layoutY="71.0" mnemonicParsing="false" onAction="#exibirPopupConfirmacao" text="Remover Produto" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" /><Button fx:id="" layoutX="420.0" layoutY="71.0" mnemonicParsing="false" onAction="#importar" prefHeight="25.0" prefWidth="110.0" text="Importar" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" /><TableView fx:id="tabela" layoutX="46.0" layoutY="191.0" prefHeight="285.0" prefWidth="521.0" xmlns:fx="http://javafx.com/fxml">
+  <columns>
+    <TableColumn fx:id="referencia" prefWidth="75.0" text="Referencia" />
+    <TableColumn fx:id="descricao" prefWidth="280.0" text="Descrição" /><TableColumn fx:id="valorVenda" prefWidth="75.0" text="Valor Venda" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" /><TableColumn fx:id="tamanho" text="Tamanho" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
+  </columns>
+</TableView><Label layoutX="46.1923828125" layoutY="116.5" text="Fornecedor" /><ChoiceBox fx:id="fornecedor" layoutX="125.0" layoutY="113.0" prefHeight="25.0" prefWidth="171.0" xmlns:fx="http://javafx.com/fxml">
+  <items>
+    <FXCollections fx:factory="observableArrayList">
+      <String fx:value="Item 1" />
+      <String fx:value="Item 2" />
+      <String fx:value="Item 3" />
+    </FXCollections>
+  </items>
+</ChoiceBox><Button fx:id="procurar" layoutX="295.0" layoutY="71.0" mnemonicParsing="false" onAction="#exibirPopupConfirmacao" prefHeight="25.0" prefWidth="110.0" text="Procurar" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
+</children></AnchorPane>

@@ -1,10 +1,9 @@
 package com.projetos.controle.tela.controller.base;
 
 import java.lang.reflect.Field;
-import java.net.URL;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-import java.util.ResourceBundle;
 
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -14,7 +13,6 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
@@ -34,12 +32,14 @@ import com.projetos.controle.tela.base.ItemCombo;
 import com.projetos.controle.tela.base.PropertiesLoader;
 import com.projetos.controle.tela.controller.PopupConfirmacaoController;
 import com.projetos.controle.tela.controller.PopupMensagemController;
-import com.projetos.controle.tela.controller.RecebimentoListaController;
 import com.projetos.controle.tela.controller.TelaPrincipalController;
+import com.projetos.controle.tela.field.DecimalNumberField;
 import com.projetos.controle.tela.util.CelulaFactory;
 import com.projetos.controle_entities.Entidade;
 import com.projetos.controle_negocio.filtro.Filtro;
 import com.projetos.controle_negocio.service.base.EntidadeService;
+import com.projetos.controle_util.conversao.DateUtil;
+import com.projetos.controle_util.conversao.NumberUtil;
 import com.projetos.controle_util.reflection.BeanUtil;
 
 /**
@@ -171,7 +171,16 @@ public abstract class BaseController<T extends Entidade> extends AbstractControl
 
 	private void preencherTextField(TextField textField, Object value) {
 		if (value != null) {
-			textField.setText(value.toString());
+			if (value instanceof Date) {
+				String valor = DateUtil.convertDateToString((Date)value);
+				textField.setText(valor);
+			} else if (value instanceof Double) {
+					String valor = NumberUtil.convertDoubleToString((Double)value);
+					textField.setText(valor);
+			} else {
+				textField.setText(value.toString());
+			}
+
 		} else {
 			textField.setText(null);
 		}
@@ -202,6 +211,8 @@ public abstract class BaseController<T extends Entidade> extends AbstractControl
 				
 				if (campo instanceof TextField) {
 					BeanUtil.setPropriedade(entidadeForm, beanName, ((TextField) campo).getText());
+				} if (campo instanceof DecimalNumberField) {
+						BeanUtil.setPropriedade(entidadeForm, beanName, ((DecimalNumberField) campo).getFormattedText());
 				} else if (campo instanceof RadioButton) {
 					BeanUtil.setPropriedade(entidadeForm, beanName, ((RadioButton) campo).isSelected());
 				} else if (campo instanceof ChoiceBox) {

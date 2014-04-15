@@ -16,9 +16,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Controller;
 
+import com.projetos.controle.tela.ApplicationConfig;
 import com.projetos.controle.tela.base.CampoTela;
 import com.projetos.controle.tela.base.ItemCombo;
 import com.projetos.controle.tela.controller.base.BaseCadastroController;
+import com.projetos.controle.tela.field.DecimalNumberField;
+import com.projetos.controle_entities.Pedido;
 import com.projetos.controle_entities.Recebimento;
 import com.projetos.controle_negocio.service.base.EntidadeService;
 import com.projetos.controle_negocio.service.base.RecebimentoService;
@@ -69,6 +72,9 @@ public class RecebimentoCadastroController extends BaseCadastroController<Recebi
 		ObservableList<ItemCombo<Boolean>> itens = FXCollections.observableArrayList(lista);
 		recebido.setItems(itens);
 
+		PedidoCadastroController pedidoCadastroController = ApplicationConfig.getBean(PedidoCadastroController.class);
+		Pedido pedido = pedidoCadastroController.getEntidadeForm();
+		entidadeForm.setPedido(pedido);
 	}
 
 	@Override

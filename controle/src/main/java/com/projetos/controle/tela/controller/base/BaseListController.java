@@ -1,6 +1,8 @@
 package com.projetos.controle.tela.controller.base;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -23,6 +25,7 @@ public abstract class BaseListController<T extends Entidade> extends BaseControl
 
     protected ObservableList<T> listaEntidades;
     private EventHandler<MouseEvent> defaultClickHandler;
+    private List<Filtro> filtros = new ArrayList<>();
 
 	public void prepararAlteracao(MouseEvent event) {
 	}
@@ -36,14 +39,14 @@ public abstract class BaseListController<T extends Entidade> extends BaseControl
 	}
 
     public void pesquisar() {
-    	List<Filtro> filtros = getCamposFiltro();
+    	filtros.addAll(getCamposFiltro());
     	List<T> listaTabela = getEntidadeService().filtrar(filtros);
     	loadTable(listaTabela);
     }
 
 	@Override
 	public void initialize(URL url, ResourceBundle resource) {
-		loadTable(getEntidadeService().listar());
+		pesquisar();
 		defaultClickHandler = new MouseClickedDefault<T>(getTabela(), this, getBaseCadastroController());
 		getTabela().setOnMouseClicked(defaultClickHandler);
 		bindBeanToForm();
@@ -78,6 +81,10 @@ public abstract class BaseListController<T extends Entidade> extends BaseControl
 
 	public void setListaEntidades(ObservableList<T> listaEntidades) {
 		this.listaEntidades = listaEntidades;
+	}
+
+	public void addFiltro(Filtro... filtro) {
+		filtros.addAll(Arrays.asList(filtro));
 	}
 
 }

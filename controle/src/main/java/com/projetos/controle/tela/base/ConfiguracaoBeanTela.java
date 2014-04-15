@@ -17,6 +17,8 @@ import org.springframework.context.annotation.Scope;
 import com.projetos.controle.tela.InicioAplicacao;
 import com.projetos.controle.tela.controller.ClienteCadastroController;
 import com.projetos.controle.tela.controller.ClienteListaController;
+import com.projetos.controle.tela.controller.FornecedorCadastroController;
+import com.projetos.controle.tela.controller.FornecedorListaController;
 import com.projetos.controle.tela.controller.ItemPedidoCadastroController;
 import com.projetos.controle.tela.controller.PedidoCadastroController;
 import com.projetos.controle.tela.controller.PedidoListaController;
@@ -49,6 +51,13 @@ public class ConfiguracaoBeanTela {
 		return carregarTela("/fxml/ClienteLista.fxml", ClienteListaController.class);
 	}
 	
+	@Bean(name = "telaFornecedorLista")
+	@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+	@Lazy
+	public Parent carregarTelaFornecedorLista() {
+		return carregarTela("/fxml/FornecedorLista.fxml", FornecedorListaController.class);
+	}
+	
 	@Bean(name = "telaPedidoLista")
 	@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 	@Lazy
@@ -61,6 +70,12 @@ public class ConfiguracaoBeanTela {
     public Parent carregarTelaClienteCadastro() {
     	return carregarTela("/fxml/ClienteCadastro.fxml", ClienteCadastroController.class);
     }
+	
+	@Bean(name = "telaFornecedorCadastro")
+	@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+	public Parent carregarTelaFornecedorCadastro() {
+		return carregarTela("/fxml/FornecedorCadastro.fxml", FornecedorCadastroController.class);
+	}
 	
 	@Bean(name = "telaRecebimentoCadastro")
 	@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)

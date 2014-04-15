@@ -4,7 +4,6 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.Locale;
-import java.util.Properties;
 
 import junit.framework.Assert;
 
@@ -45,6 +44,12 @@ public class BeanUtilTest {
 		DateFormat hoje = DateFormat.getDateInstance(DateFormat.MEDIUM, local);  
 		System.out.println(hoje.parseObject("14/02/2014"));
 	}
+
+	@Test
+	public void setDataTest() {
+		
+	}
+
 	private static Date getDate(Object valor) {
 		DateFormat instance = DateFormat.getInstance();
 		Date parse = null;
@@ -55,6 +60,7 @@ public class BeanUtilTest {
 		}
 		return parse;
 	}
+
 	public class Teste {
 		private String nome;
 		private boolean truth;

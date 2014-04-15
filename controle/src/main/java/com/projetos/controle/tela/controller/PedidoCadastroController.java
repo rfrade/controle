@@ -226,8 +226,10 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 	}
 
 	public void exibirTelaRecebimentoLista() {
-		telaPrincipalController.exibirTelaRecebimentoLista();
+		salvar();
+		recebimentoListaController.setEntidadeForm(new Recebimento());
 		recebimentoListaController.getEntidadeForm().setPedido(entidadeForm);
+		telaPrincipalController.exibirTelaRecebimentoLista();
 	}
 
 	public void exibirTelaCliente() {

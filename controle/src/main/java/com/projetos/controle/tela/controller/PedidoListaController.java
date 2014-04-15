@@ -3,9 +3,7 @@ package com.projetos.controle.tela.controller;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -16,10 +14,8 @@ import org.springframework.stereotype.Controller;
 
 import com.projetos.controle.tela.base.Coluna;
 import com.projetos.controle.tela.base.FiltroTela;
-import com.projetos.controle.tela.base.ItemCombo;
 import com.projetos.controle.tela.controller.base.BaseCadastroController;
 import com.projetos.controle.tela.controller.base.BaseListController;
-import com.projetos.controle_entities.Fornecedor;
 import com.projetos.controle_entities.Pedido;
 import com.projetos.controle_entities.Produto;
 import com.projetos.controle_negocio.filtro.Comparador;
@@ -40,18 +36,18 @@ public class PedidoListaController extends BaseListController<Pedido> {
 
 	@Autowired
 	private PedidoCadastroController pedidoCadastroController;
-
-	@FXML
-	@FiltroTela(campo = "fornecedor", tipo = TipoFiltro.STRING, comparador = Comparador.EQUALS)
-	private ChoiceBox<ItemCombo<Fornecedor>> filtroFornecedor;
 	
+	@FXML
+	@FiltroTela(campo = "cliente.firma", tipo = TipoFiltro.STRING, comparador = Comparador.CONTAINS_IGNORE_CASE)
+	private TextField filtroCliente;
+
 	@FXML
 	@FiltroTela(campo = "cliente.logradouro.cidade", tipo = TipoFiltro.STRING, comparador = Comparador.CONTAINS_IGNORE_CASE)
 	private TextField filtroCidade;
 
 	@FXML
-	@FiltroTela(campo = "cliente.firma", tipo = TipoFiltro.STRING, comparador = Comparador.CONTAINS_IGNORE_CASE)
-	private TextField filtroCliente;
+	@FiltroTela(campo = "id", tipo = TipoFiltro.INTEGER, comparador = Comparador.EQUALS)
+	private TextField numeroPedido;
 
 	@FXML
 	@Coluna(bean = "id")
@@ -91,9 +87,6 @@ public class PedidoListaController extends BaseListController<Pedido> {
 	@Override
 	public void initialize(URL url, ResourceBundle resource) {
 		super.initialize(url, resource);
-
-		ObservableList<ItemCombo<Fornecedor>> itens = ItemCombo.novaListaCombo(fornecedorService.listar(), "firma");
-		filtroFornecedor.setItems(itens);
 	}
 
 	@Override
@@ -125,15 +118,6 @@ public class PedidoListaController extends BaseListController<Pedido> {
 	public void setColunaNumeroPedido(
 			TableColumn<Produto, String> colunaNumeroPedido) {
 		this.colunaNumeroPedido = colunaNumeroPedido;
-	}
-
-	public ChoiceBox<ItemCombo<Fornecedor>> getFiltroFornecedor() {
-		return filtroFornecedor;
-	}
-
-	public void setFiltroFornecedor(
-			ChoiceBox<ItemCombo<Fornecedor>> filtroFornecedor) {
-		this.filtroFornecedor = filtroFornecedor;
 	}
 
 	public TextField getFiltroCidade() {

@@ -73,6 +73,8 @@ public class RecebimentoListaController extends BaseListController<Recebimento> 
 	
 	@Override
 	public void initialize(URL url, ResourceBundle resource) {
+		Filtro filtroPedido = new Filtro("pedido.id", TipoFiltro.INTEGER, Comparador.EQUALS, entidadeForm.getPedido().getId());
+		super.addFiltro(filtroPedido);
 		super.initialize(url, resource);
 		entidadeForm = new Recebimento();
 	}
