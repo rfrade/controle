@@ -14,7 +14,7 @@ import com.projetos.controle_util.validacao.ValidacaoException;
  * @author Rafael
  * @param <T> Entidade à qual a controller realizará manutenção
  */
-public abstract class BaseCadastroController<T extends Entidade> extends BaseController<T> {
+public abstract class BaseCadastroController<T extends Entidade> extends BaseEntityController<T> {
 
     protected ObservableList<T> listaEntidades;
     
@@ -31,24 +31,36 @@ public abstract class BaseCadastroController<T extends Entidade> extends BaseCon
     	mascararCampos();
 	}
 
-	public void salvar() {
+	public void salvarComMensagem() {
 		try {
-			bindFormToBean();
-			if (entidadeForm.getId() == null) {
-				validaInclusao();
-			} else {
-				validaAlteracao();
-			}
-			getEntidadeService().salvar(entidadeForm);
-			if (!tabela.getItems().contains(entidadeForm)) {
-				tabela.getItems().add(entidadeForm);
-			} else {
-				tabela.getItems().remove(entidadeForm);
-				tabela.getItems().add(entidadeForm);
-			}
+			salvar();
 			exibirMensagem("cadastro.salvo_com_sucesso");
 		} catch (ValidacaoException e) {
 			tratarErro(e);
+		}
+	}
+
+	public void salvarSemMensagem() {
+		try {
+			salvar();
+		} catch (ValidacaoException e) {
+			tratarErro(e);
+		}
+	}
+
+	private void salvar() throws ValidacaoException {
+		bindFormToBean();
+		if (entidadeForm.getId() == null) {
+			validaInclusao();
+		} else {
+			validaAlteracao();
+		}
+		getEntidadeService().salvar(entidadeForm);
+		if (!tabela.getItems().contains(entidadeForm)) {
+			tabela.getItems().add(entidadeForm);
+		} else {
+			tabela.getItems().remove(entidadeForm);
+			tabela.getItems().add(entidadeForm);
 		}
 	}
 
@@ -68,6 +80,7 @@ public abstract class BaseCadastroController<T extends Entidade> extends BaseCon
     	}*/
 	}
 
+    
 	public void setTabela(TableView<T> tabela) {
 		this.tabela = tabela;
 	}

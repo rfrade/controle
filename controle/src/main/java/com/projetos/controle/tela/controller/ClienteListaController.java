@@ -22,6 +22,7 @@ import com.projetos.controle.tela.base.FiltroTela;
 import com.projetos.controle.tela.base.ItemCombo;
 import com.projetos.controle.tela.controller.base.BaseCadastroController;
 import com.projetos.controle.tela.controller.base.BaseListController;
+import com.projetos.controle.tela.util.FiltroUtil;
 import com.projetos.controle_entities.Cliente;
 import com.projetos.controle_negocio.filtro.Comparador;
 import com.projetos.controle_negocio.filtro.TipoFiltro;
@@ -85,16 +86,8 @@ public class ClienteListaController extends BaseListController<Cliente> {
 	}
 
 	private void initFiltroAtivo() {
-		List<ItemCombo<Boolean>> lista = new ArrayList<>();
-		ItemCombo<Boolean> ativo = new ItemCombo<>("ATIVO", true);
-		ItemCombo<Boolean> naoAtivo = new ItemCombo<>("NÃO ATIVO", false);
-		ItemCombo<Boolean> todos = new ItemCombo<>("TODOS", null);
-		lista.add(ativo);
-		lista.add(naoAtivo);
-		lista.add(todos);
-		
-		ObservableList<ItemCombo<Boolean>> itens = FXCollections.observableArrayList(lista);
-		filtroAtivo.setItems(itens);
+		ObservableList<ItemCombo<Boolean>> listaFiltro = FiltroUtil.criarListaFiltroAtivos();
+		filtroAtivo.setItems(listaFiltro);
 	}
 
 	@Override

@@ -8,16 +8,19 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 
 import org.springframework.context.annotation.Lazy;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
 import com.projetos.controle.tela.base.AbstractController;
 
 @Controller
 @Lazy
-public class PopupMensagemController extends AbstractController implements Initializable {
+public class PopupTextoController extends AbstractController implements Initializable {
 
+	private String titulo;
 	private String mensagem;
+
+	@FXML
+	private Label labelTitulo;
 
 	@FXML
 	private Label labelMensagem;
@@ -25,6 +28,7 @@ public class PopupMensagemController extends AbstractController implements Initi
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		labelTitulo.setText(titulo);
 		labelMensagem.setText(mensagem);
 	}
 
@@ -34,6 +38,14 @@ public class PopupMensagemController extends AbstractController implements Initi
 
 	public void setMensagem(String mensagem) {
 		this.mensagem = mensagem;
+	}
+
+	public String getTitulo() {
+		return titulo;
+	}
+
+	public void setTitulo(String titulo) {
+		this.titulo = titulo;
 	}
 
 }

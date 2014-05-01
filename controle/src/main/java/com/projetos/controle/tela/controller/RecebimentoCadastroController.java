@@ -72,10 +72,16 @@ public class RecebimentoCadastroController extends BaseCadastroController<Recebi
 		ObservableList<ItemCombo<Boolean>> itens = FXCollections.observableArrayList(lista);
 		recebido.setItems(itens);
 
+	}
+
+	@Override
+	public void salvarComMensagem() {
 		PedidoCadastroController pedidoCadastroController = ApplicationConfig.getBean(PedidoCadastroController.class);
 		Pedido pedido = pedidoCadastroController.getEntidadeForm();
 		entidadeForm.setPedido(pedido);
+		super.salvarComMensagem();
 	}
+	
 
 	@Override
 	protected EntidadeService<Recebimento> getEntidadeService() {

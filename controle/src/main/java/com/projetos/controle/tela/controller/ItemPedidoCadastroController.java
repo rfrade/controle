@@ -98,6 +98,7 @@ public class ItemPedidoCadastroController extends BaseCadastroController<ItemPed
 	@Override
 	public void initialize(URL url, ResourceBundle resource) {
 		super.initialize(url, resource);
+		
 		this.referencia.focusedProperty().addListener(new ReferenciaChangeListener());
 		
 		List<TextField> camposQuantidade = Arrays.asList(quantidadeTamanho1, quantidadeTamanho2, quantidadeTamanho3, quantidadeTamanho4,
@@ -157,8 +158,8 @@ public class ItemPedidoCadastroController extends BaseCadastroController<ItemPed
 	}
 
 	@Override
-	public void salvar() {
-		super.salvar();
+	public void salvarComMensagem() {
+		super.salvarComMensagem();
 		PedidoCadastroController pedidoCadastroController = ApplicationConfig.getBean(PedidoCadastroController.class);
 		/*if (!pedidoCadastroController.getEntidadeForm().getItensPedido().contains(entidadeForm)) {
 			pedidoCadastroController.getEntidadeForm().addItemPedido(entidadeForm);

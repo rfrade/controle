@@ -16,7 +16,7 @@ import com.projetos.controle.tela.base.CampoTela;
 import com.projetos.controle.tela.base.Coluna;
 import com.projetos.controle.tela.base.FiltroTela;
 import com.projetos.controle.tela.base.ItemCombo;
-import com.projetos.controle.tela.controller.base.BaseController;
+import com.projetos.controle.tela.controller.base.BaseEntityController;
 import com.projetos.controle_entities.Fornecedor;
 import com.projetos.controle_entities.Pedido;
 import com.projetos.controle_entities.Produto;

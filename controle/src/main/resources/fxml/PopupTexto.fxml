@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="372.0" prefWidth="455.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.projetos.controle.tela.controller.PopupMensagemController">
+<children><Label fx:id="labelTitulo" alignment="CENTER" ellipsisString="" layoutX="10.0" layoutY="14.0" prefHeight="37.0" prefWidth="435.0" style="-fx-font-size: 16; -fx-font-weight: bold; -fx-font-family: calibri;" textAlignment="CENTER" /><Label fx:id="labelMensagem" contentDisplay="TOP" layoutX="12.0" layoutY="62.0" prefHeight="299.0" prefWidth="435.0" />
+</children></AnchorPane>

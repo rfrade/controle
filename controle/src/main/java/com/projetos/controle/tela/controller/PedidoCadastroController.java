@@ -205,6 +205,7 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 	@Override
 	public void initialize(URL url, ResourceBundle resource) {
 		super.initialize(url, resource);
+
 		ObservableList<ItemCombo<Fornecedor>> itensFornecedor = ItemCombo.novaListaCombo(fornecedorService.listar(), "firma");
 		fornecedor.setItems(itensFornecedor);
 
@@ -226,7 +227,7 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 	}
 
 	public void exibirTelaRecebimentoLista() {
-		salvar();
+		salvarSemMensagem();
 		recebimentoListaController.setEntidadeForm(new Recebimento());
 		recebimentoListaController.getEntidadeForm().setPedido(entidadeForm);
 		telaPrincipalController.exibirTelaRecebimentoLista();

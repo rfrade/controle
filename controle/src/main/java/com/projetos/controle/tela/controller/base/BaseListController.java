@@ -21,7 +21,7 @@ import com.projetos.controle_negocio.filtro.Filtro;
  * @author Rafael
  * @param <T> Entidade à qual a controller realizará manutenção
  */
-public abstract class BaseListController<T extends Entidade> extends BaseController<T> implements Initializable {
+public abstract class BaseListController<T extends Entidade> extends BaseEntityController<T> implements Initializable {
 
     protected ObservableList<T> listaEntidades;
     private EventHandler<MouseEvent> defaultClickHandler;
@@ -39,6 +39,8 @@ public abstract class BaseListController<T extends Entidade> extends BaseControl
 	}
 
     public void pesquisar() {
+    	filtros.clear();
+    	filtros.addAll(getFiltrosFixos());
     	filtros.addAll(getCamposFiltro());
     	List<T> listaTabela = getEntidadeService().filtrar(filtros);
     	loadTable(listaTabela);
@@ -83,8 +85,16 @@ public abstract class BaseListController<T extends Entidade> extends BaseControl
 		this.listaEntidades = listaEntidades;
 	}
 
-	public void addFiltro(Filtro... filtro) {
+	/*public void addFiltro(Filtro... filtro) {
 		filtros.addAll(Arrays.asList(filtro));
+	}*/
+
+	/**
+	 * @return lista de filtros que sempre devem ser usados na pesquisa,
+	 * 			como código do pedido na tela de recebimento.
+	 */
+	protected List<Filtro> getFiltrosFixos() {
+		return new ArrayList<>();
 	}
 
 }

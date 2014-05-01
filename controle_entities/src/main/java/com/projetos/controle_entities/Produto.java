@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
@@ -39,6 +41,10 @@ public class Produto implements Entidade, Serializable {
 
 	@Column(name="valor_unitario")
 	private double valorUnitario;
+
+	@ManyToOne
+	@JoinColumn(name="id_fornecedor")
+	private Fornecedor fornecedor;
 
 	public Produto() {
 	}
@@ -94,6 +100,14 @@ public class Produto implements Entidade, Serializable {
 	@Override
 	public String toString() {
 		return "[" + id + ", " + referencia + ", " + descricao + "]";
+	}
+
+	public Fornecedor getFornecedor() {
+		return fornecedor;
+	}
+
+	public void setFornecedor(Fornecedor fornecedor) {
+		this.fornecedor = fornecedor;
 	}
 
 }

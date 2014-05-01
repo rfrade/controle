@@ -3,13 +3,15 @@ package com.projetos.controle_negocio.service.base;
 import java.io.File;
 import java.util.List;
 
+import com.projetos.controle_entities.Fornecedor;
 import com.projetos.controle_entities.Produto;
+import com.projetos.controle_negocio.exception.NegocioException;
 
 public interface ProdutoService extends EntidadeService<Produto> {
 
-	List<Produto> getProdutosImportacao(File file);
+	List<Produto> getProdutosImportacao(File file, Fornecedor fornecedor) throws NegocioException;
 
-	void importarProdutosPlanilha(File file);
+	String importarProdutosPlanilha(File file, Fornecedor fornecedor) throws NegocioException;
 
 	Produto getProdutoByReferencia(String referencia);
 }

@@ -1,6 +1,6 @@
 package com.projetos.controle.tela.base;
 
-import com.projetos.controle.tela.controller.base.BaseController;
+import com.projetos.controle.tela.controller.base.BaseEntityController;
 import com.projetos.controle_entities.Entidade;
 
 /**
@@ -15,6 +15,6 @@ public abstract class BaseFrame<T extends Entidade> extends AbstractFrame {
     public BaseFrame() {
     }
 
-    protected abstract BaseController<T> getController();
+    protected abstract BaseEntityController<T> getController();
 
 }

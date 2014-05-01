@@ -8,7 +8,6 @@ import java.util.List;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.fxml.Initializable;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
@@ -41,36 +40,32 @@ import com.projetos.controle_negocio.service.base.EntidadeService;
 import com.projetos.controle_util.conversao.DateUtil;
 import com.projetos.controle_util.conversao.NumberUtil;
 import com.projetos.controle_util.reflection.BeanUtil;
+import com.projetos.controle_util.validacao.ValidacaoException;
 
 /**
+ * Classe com o comportamento básico de tela extendido da AbstractController
+ * e com comportamento adicionado para manutenção de uma entidade, .
+ * 
  * @author Rafael
  * @param <T> Entidade à qual a controller realizará manutenção
  */
-public abstract class BaseController<T extends Entidade> extends AbstractController implements Initializable {
+public abstract class BaseEntityController<T extends Entidade> extends AbstractController<T> {
 
     protected T entidadeForm;
+
     protected ObservableList<T> listaEntidades;
-	protected Logger log = Logger.getLogger(this.getClass());
-	
-	@Autowired
-	protected PropertiesLoader propertiesLoader;
 
     @Autowired
     protected TelaPrincipalController telaPrincipalController;
 
     @Autowired
-    private PopupMensagemController popupMensagemController;
-    
-    @Autowired
     private PopupConfirmacaoController popupConfirmacaoController;
 
     @Autowired
     protected ConfiguracaoBeanTela configuracaoBeanTela;
-
-    protected void exibirMensagem(String mensagem) {
-    	popupMensagemController.setMensagem(propertiesLoader.getProperty(mensagem));
-    	telaPrincipalController.exibirPopupMensagem();
-    }
+    
+	@Autowired
+    protected PopupMensagemController popupMensagemController;
     
     public void exibirPopupConfirmacao() {
     	exibirPopupConfirmacao(new DefaultConfirmHandler());
@@ -101,6 +96,58 @@ public abstract class BaseController<T extends Entidade> extends AbstractControl
 		popupConfirmacaoController.close();
 	}
 
+	protected void exibirMensagem(String mensagem) {
+    	popupMensagemController.setMensagem(propertiesLoader.getProperty(mensagem));
+    	telaPrincipalController.exibirPopupMensagem();
+    }
+	
+	@Autowired
+	protected PropertiesLoader propertiesLoader;
+
+	protected Logger log = Logger.getLogger(this.getClass());
+	
+	@SuppressWarnings("unchecked")
+	public void bindBeanToForm() {
+		MirrorList<Field> campos = new Mirror().on(this.getClass()).reflectAll().fields();
+		for (Field field : campos) {
+			if (field.isAnnotationPresent(CampoTela.class)) {
+				Object campo = new Mirror().on(this).get().field(field);
+				String bean = field.getAnnotation(CampoTela.class).bean();
+				Object value = BeanUtil.getPropriedade(entidadeForm, bean);
+				
+				if (campo instanceof TextField) {
+					preencherTextField((TextField) campo, value);
+				} else if (campo instanceof TextArea) {
+					preencherTextArea((TextArea) campo, value);
+				} else if (campo instanceof Label) {
+					preencherLabel((Label) campo, value);
+				} else if (campo instanceof RadioButton && value != null) {
+					((RadioButton) campo).setSelected((Boolean)value);
+				} else if (campo instanceof ChoiceBox && value != null) {
+					ItemCombo<?> item = new ItemCombo<>(null, value);
+					((ChoiceBox<ItemCombo<?>>) campo).getSelectionModel().select(item);
+				}
+				
+			}
+		}
+	}
+	
+	private void preencherTextArea(TextArea textArea, Object value) {
+		if (value != null) {
+			textArea.setText(value.toString());
+		} else {
+			textArea.setText("");
+		}
+	}
+	
+	private void preencherLabel(Label label, Object value) {
+		if (value != null) {
+			label.setText(value.toString());
+		} else {
+			label.setText(null);
+		}
+	}
+	
 	protected List<Filtro> getCamposFiltro() {
     	List<Filtro> filtros = new ArrayList<>();
     	MirrorList<Field> campos = new Mirror().on(this.getClass()).reflectAll().fields();
@@ -136,40 +183,7 @@ public abstract class BaseController<T extends Entidade> extends AbstractControl
 		return filtros;
     }
 
-    protected void tratarErro(Exception e) {
-    	log.error(e.getMessage(), e);
-    }
-
-    protected abstract EntidadeService<T> getEntidadeService();
-    public abstract void remover();
-
-    @SuppressWarnings("unchecked")
-	public void bindBeanToForm() {
-		MirrorList<Field> campos = new Mirror().on(this.getClass()).reflectAll().fields();
-		for (Field field : campos) {
-			if (field.isAnnotationPresent(CampoTela.class)) {
-				Object campo = new Mirror().on(this).get().field(field);
-				String bean = field.getAnnotation(CampoTela.class).bean();
-				Object value = BeanUtil.getPropriedade(entidadeForm, bean);
-				
-				if (campo instanceof TextField) {
-					preencherTextField((TextField) campo, value);
-				} else if (campo instanceof TextArea) {
-					preencherTextArea((TextArea) campo, value);
-				} else if (campo instanceof Label) {
-					preencherLabel((Label) campo, value);
-				} else if (campo instanceof RadioButton && value != null) {
-					((RadioButton) campo).setSelected((Boolean)value);
-				} else if (campo instanceof ChoiceBox && value != null) {
-					ItemCombo<?> item = new ItemCombo<>(null, value);
-					((ChoiceBox<ItemCombo<?>>) campo).getSelectionModel().select(item);
-				}
-				
-			}
-		}
-	}
-
-	private void preencherTextField(TextField textField, Object value) {
+    private void preencherTextField(TextField textField, Object value) {
 		if (value != null) {
 			if (value instanceof Date) {
 				String valor = DateUtil.convertDateToString((Date)value);
@@ -185,24 +199,8 @@ public abstract class BaseController<T extends Entidade> extends AbstractControl
 			textField.setText(null);
 		}
 	}
-	
-	private void preencherTextArea(TextArea textArea, Object value) {
-		if (value != null) {
-			textArea.setText(value.toString());
-		} else {
-			textArea.setText(null);
-		}
-	}
-	
-	private void preencherLabel(Label label, Object value) {
-		if (value != null) {
-			label.setText(value.toString());
-		} else {
-			label.setText(null);
-		}
-	}
-
-	protected void bindFormToBean() {
+    
+    protected void bindFormToBean() {
 		MirrorList<Field> campos = new Mirror().on(this.getClass()).reflectAll().fields();
 		for (Field field : campos) {
 			if (field.isAnnotationPresent(CampoTela.class)) {
@@ -211,8 +209,10 @@ public abstract class BaseController<T extends Entidade> extends AbstractControl
 				
 				if (campo instanceof TextField) {
 					BeanUtil.setPropriedade(entidadeForm, beanName, ((TextField) campo).getText());
-				} if (campo instanceof DecimalNumberField) {
-						BeanUtil.setPropriedade(entidadeForm, beanName, ((DecimalNumberField) campo).getFormattedText());
+				} else if (campo instanceof TextArea) {
+					BeanUtil.setPropriedade(entidadeForm, beanName, ((TextArea) campo).getText());
+				} else if (campo instanceof DecimalNumberField) {
+					BeanUtil.setPropriedade(entidadeForm, beanName, ((DecimalNumberField) campo).getFormattedText());
 				} else if (campo instanceof RadioButton) {
 					BeanUtil.setPropriedade(entidadeForm, beanName, ((RadioButton) campo).isSelected());
 				} else if (campo instanceof ChoiceBox) {
@@ -308,7 +308,20 @@ public abstract class BaseController<T extends Entidade> extends AbstractControl
 		
 		return camposMascara;
 	}
-
+	
+    protected void tratarErro(Exception e) {
+    	log.error(e.getMessage(), e);
+		exibirMensagem("Erro, tire um print da tela e envie o arquivo de log para o email rafaelfrade@live.com; "
+				+ e.getMessage());
+    }
+	
+	protected void tratarErroValidacao(ValidacaoException e) {
+		exibirMensagem(e.getCodigoMensagem());
+	}
+    
+    protected abstract EntidadeService<T> getEntidadeService();
+    public abstract void remover();
+	
 	public T getEntidadeForm() {
         return entidadeForm;
     }
@@ -323,14 +336,6 @@ public abstract class BaseController<T extends Entidade> extends AbstractControl
 
 	public void setListaEntidades(ObservableList<T> listaEntidades) {
 		this.listaEntidades = listaEntidades;
-	}
-
-	public PropertiesLoader getPropertiesLoader() {
-		return propertiesLoader;
-	}
-
-	public void setPropertiesLoader(PropertiesLoader propertiesLoader) {
-		this.propertiesLoader = propertiesLoader;
 	}
 
 }

@@ -1,6 +1,7 @@
 package com.projetos.controle_negocio.service.impl;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -56,6 +57,12 @@ public abstract class EntidadeServiceImpl<T extends Entidade> implements Entidad
     }
 
     public abstract EntityPathBase<T> getEntityPathBase();
+
+    @Override
+    public List<T> filtrar(Filtro... filtros) {
+    	List<Filtro> list = Arrays.asList(filtros);
+    	return filtrar(list);
+    }
 
 	@Override
     public List<T> filtrar(List<Filtro> filtros) {

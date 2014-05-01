@@ -18,8 +18,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.mysema.query.types.path.EntityPathBase;
+import com.projetos.controle_entities.Fornecedor;
 import com.projetos.controle_entities.Produto;
 import com.projetos.controle_entities.QProduto;
+import com.projetos.controle_negocio.exception.NegocioException;
 import com.projetos.controle_negocio.repositoy.EntidadeRepository;
 import com.projetos.controle_negocio.repositoy.ProdutoRepository;
 import com.projetos.controle_negocio.service.base.ProdutoService;
@@ -41,13 +43,15 @@ public class ProdutoServiceImpl extends EntidadeServiceImpl<Produto> implements 
 	}
 
 	@Override
-	public void importarProdutosPlanilha(File file) {
-		List<Produto> produtos = getProdutosImportacao(file);
+	public String importarProdutosPlanilha(File file, Fornecedor fornecedor) throws NegocioException {
+		List<Produto> produtos = getProdutosImportacao(file, fornecedor);
+		String retorno = produtos.size() + " produtos foram importados. \nVerifique se esta é a quantidade de produtos no arquivo.";
 		produtoRepository.save(produtos);
+		return retorno;
 	}
 
 	@Override
-	public List<Produto> getProdutosImportacao(File file) {
+	public List<Produto> getProdutosImportacao(File file, Fornecedor fornecedor) throws NegocioException {
 		try {
 			List<Produto> produtos = new ArrayList<>();
 
@@ -59,17 +63,19 @@ public class ProdutoServiceImpl extends EntidadeServiceImpl<Produto> implements 
 				HSSFRow linha = sheet.getRow(numeroLinha);
 				if (linha.getCell(0).getCellType() != HSSFCell.CELL_TYPE_BLANK) {
 					Produto produto = getProdutoLinha(linha);
+					produto.setFornecedor(fornecedor);
 					produtos.add(produto);
 				}
 			}
 
 			return produtos;
 		} catch (FileNotFoundException e) {
-			throw new RuntimeException(e.getMessage());
+			throw new NegocioException(e);
 		} catch (IOException e) {
-			throw new RuntimeException(e.getMessage());
+			throw new NegocioException(e);
 		}
 	}
+
 
 	private Produto getProdutoLinha(HSSFRow linha) {
 		Produto produto = new Produto();

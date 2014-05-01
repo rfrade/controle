@@ -24,6 +24,9 @@ import com.projetos.controle.tela.controller.PedidoCadastroController;
 import com.projetos.controle.tela.controller.PedidoListaController;
 import com.projetos.controle.tela.controller.PopupConfirmacaoController;
 import com.projetos.controle.tela.controller.PopupMensagemController;
+import com.projetos.controle.tela.controller.PopupTextoController;
+import com.projetos.controle.tela.controller.ProdutoCadastroController;
+import com.projetos.controle.tela.controller.ProdutoListaController;
 import com.projetos.controle.tela.controller.RecebimentoCadastroController;
 import com.projetos.controle.tela.controller.RecebimentoListaController;
 import com.projetos.controle.tela.controller.TelaPrincipalController;
@@ -64,6 +67,13 @@ public class ConfiguracaoBeanTela {
 	public Parent carregarTelaPedidoLista() {
 		return carregarTela("/fxml/PedidoLista.fxml", PedidoListaController.class);
 	}
+	
+	@Bean(name = "telaProdutoLista")
+	@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+	@Lazy
+	public Parent carregarTelaProdutoLista() {
+		return carregarTela("/fxml/ProdutoLista.fxml", ProdutoListaController.class);
+	}
 
 	@Bean(name = "telaClienteCadastro")
 	@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
@@ -89,6 +99,12 @@ public class ConfiguracaoBeanTela {
 		return carregarTela("/fxml/PedidoCadastro.fxml", PedidoCadastroController.class);
 	}
 	
+	@Bean(name = "telaProdutoCadastro")
+	@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+	public Parent carregarTelaProdutoCadastro() {
+		return carregarTela("/fxml/ProdutoCadastro.fxml", ProdutoCadastroController.class);
+	}
+	
 	@Bean(name = "telaRecebimentoLista")
 	@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 	public Parent carregarTelaRecebimentoLista() {
@@ -111,6 +127,12 @@ public class ConfiguracaoBeanTela {
 	@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 	public Parent carregarPopupMensagem() {
 		return carregarTela("/fxml/PopupMensagem.fxml", PopupMensagemController.class);
+	}
+	
+	@Bean(name = "popupTexto")
+	@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+	public Parent carregarPopupTexto() {
+		return carregarTela("/fxml/PopupTexto.fxml", PopupTextoController.class);
 	}
 
 	public <T extends AbstractController> Parent carregarTela(String fxml, Class<T> classe) {

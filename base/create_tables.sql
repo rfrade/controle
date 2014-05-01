@@ -75,6 +75,7 @@ create table produto (
 	valor_unitario double,
 	quantidade integer,
 	tamanho varchar(50),
+	id_fornecedor integer,
 	primary key(id)
 );
 
@@ -134,3 +135,6 @@ alter table item_pedido
 alter table recebimento
 	add constraint fk_recebimento_pedido foreign key(id_pedido)
 	references pedido(id);
+alter table produto
+	add constraint fk_produto_fornecedor foreign key(id_fornecedor)
+	references fornecedor(id);

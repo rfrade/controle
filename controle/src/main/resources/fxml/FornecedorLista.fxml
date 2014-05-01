@@ -10,8 +10,7 @@
 	fx:controller="com.projetos.controle.tela.controller.FornecedorListaController">
 	<children>
 		<TableView fx:id="tabela" layoutX="14.0" layoutY="99.0"
-			prefHeight="491.0" prefWidth="1129.0"
-			xmlns:fx="http://javafx.com/fxml">
+			prefHeight="491.0" prefWidth="1129.0" xmlns:fx="http://javafx.com/fxml">
 			<columns>
 				<TableColumn id="" fx:id="colunaFirma" prefWidth="300.0"
 					text="Firma" />
@@ -44,9 +43,9 @@
 				</FXCollections>
 			</items>
 		</ChoiceBox>
-		<Button fx:id="remover" layoutX="158.0" layoutY="25.0" onAction="#exibirPopupConfirmacao"
-			mnemonicParsing="false" prefHeight="3.0"
-			prefWidth="107.0" text="Excluir Fornecedor" xmlns="http://javafx.com/javafx/8"
+		<Button fx:id="remover" layoutX="158.0" layoutY="25.0"
+			mnemonicParsing="false" onAction="#exibirPopupConfirmacao"
+			prefHeight="3.0" prefWidth="107.0" text="Excluir Fornecedor" xmlns="http://javafx.com/javafx/8"
 			xmlns:fx="http://javafx.com/fxml/1" />
 		<Label layoutX="14.0048828125" layoutY="69.5" text="Firma" />
 		<Label layoutX="278.0" layoutY="70.0" text="Cidade"
@@ -55,8 +54,5 @@
 			mnemonicParsing="false" onAction="#pesquisar" prefHeight="25.0"
 			prefWidth="147.0" text="Pesqusar Fornecedors" xmlns="http://javafx.com/javafx/8"
 			xmlns:fx="http://javafx.com/fxml/1" />
-		<Button layoutX="892.0" layoutY="66.0" mnemonicParsing="false"
-			onAction="#imprimir" prefHeight="25.0" prefWidth="147.0" text="Imprimir"
-			xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
 	</children>
 </AnchorPane>

@@ -18,5 +18,6 @@ select * from recebimento;
 delete from pedido;
 delete from item_pedido;
 alter table pedido add valor_comissionado double;
+alter table produto add id_fornecedor integer;
 --alter table vendedor
 --	drop foreign key fk_vendedor;

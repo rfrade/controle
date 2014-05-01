@@ -1,11 +1,8 @@
 package com.projetos.controle.tela.controller;
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
 
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
@@ -22,7 +19,7 @@ import com.projetos.controle.tela.base.FiltroTela;
 import com.projetos.controle.tela.base.ItemCombo;
 import com.projetos.controle.tela.controller.base.BaseCadastroController;
 import com.projetos.controle.tela.controller.base.BaseListController;
-import com.projetos.controle_entities.Fornecedor;
+import com.projetos.controle.tela.util.FiltroUtil;
 import com.projetos.controle_entities.Fornecedor;
 import com.projetos.controle_negocio.filtro.Comparador;
 import com.projetos.controle_negocio.filtro.TipoFiltro;
@@ -86,16 +83,8 @@ public class FornecedorListaController extends BaseListController<Fornecedor> {
 	}
 
 	private void initFiltroAtivo() {
-		List<ItemCombo<Boolean>> lista = new ArrayList<>();
-		ItemCombo<Boolean> ativo = new ItemCombo<>("ATIVO", true);
-		ItemCombo<Boolean> naoAtivo = new ItemCombo<>("NÃO ATIVO", false);
-		ItemCombo<Boolean> todos = new ItemCombo<>("TODOS", null);
-		lista.add(ativo);
-		lista.add(naoAtivo);
-		lista.add(todos);
-		
-		ObservableList<ItemCombo<Boolean>> itens = FXCollections.observableArrayList(lista);
-		filtroAtivo.setItems(itens);
+		ObservableList<ItemCombo<Boolean>> listaFiltro = FiltroUtil.criarListaFiltroAtivos();
+		filtroAtivo.setItems(listaFiltro);
 	}
 
 	@Override

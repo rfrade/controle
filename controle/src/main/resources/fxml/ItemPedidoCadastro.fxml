@@ -239,7 +239,7 @@
 			xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
 		<Label layoutX="256.0" layoutY="14.0" text="Produtos"
 			xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
-		<Button fx:id="salvar" layoutX="187.0" layoutY="381.0" onAction="#salvar"
+		<Button fx:id="salvar" layoutX="187.0" layoutY="381.0" onAction="#salvarComMensagem"
 			mnemonicParsing="false" prefHeight="25.0" prefWidth="110.0" text="Salvar Produto"
 			xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
 		<Button fx:id="remover" layoutX="303.0" layoutY="381.0" onAction="#remover"

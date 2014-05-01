@@ -16,7 +16,11 @@ public class PropertiesLoader {
 	private Environment environment;
 
 	public String getProperty(String propriedade) {
-		return environment.getProperty(propriedade);
+		String property = environment.getProperty(propriedade);
+		if (property == null || property.equals("")) {
+			property = "Propriedade não mapeada!";
+		}
+		return property;
 	}
 
 	/*@Bean

@@ -1,6 +1,7 @@
 package com.projetos.controle.tela.controller;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -73,10 +74,16 @@ public class RecebimentoListaController extends BaseListController<Recebimento> 
 	
 	@Override
 	public void initialize(URL url, ResourceBundle resource) {
-		Filtro filtroPedido = new Filtro("pedido.id", TipoFiltro.INTEGER, Comparador.EQUALS, entidadeForm.getPedido().getId());
-		super.addFiltro(filtroPedido);
 		super.initialize(url, resource);
 		entidadeForm = new Recebimento();
+	}
+
+	@Override
+	protected List<Filtro> getFiltrosFixos() {
+		Filtro filtroPedido = new Filtro("pedido.id", TipoFiltro.INTEGER, Comparador.EQUALS, entidadeForm.getPedido().getId());
+		List<Filtro> lista = new ArrayList<>();
+		lista.add(filtroPedido);
+		return lista;
 	}
 
 	@Override

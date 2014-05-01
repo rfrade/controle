@@ -35,16 +35,21 @@ public class PopupConfirmacaoController extends AbstractController implements In
 	
 	private EventHandler<ActionEvent> confirmHandler;
 	private EventHandler<ActionEvent> cancelHandler;
+	private EventType<ActionEvent> closeType = new EventType<ActionEvent>("popup.confirmacao.controller.close.action");
+	private CloseAction closeAction = new CloseAction();
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		labelMensagem.setText(mensagem);
+		
 		botaoConfirmar.setOnAction(confirmHandler);
-		botaoConfirmar.addEventHandler(new EventType<ActionEvent>(), new CloseAction());
+		botaoConfirmar.removeEventHandler(closeType, closeAction);
+		botaoConfirmar.addEventHandler(closeType, closeAction);
+
 		if (cancelHandler != null) {
 			botaoCancelar.setOnAction(cancelHandler);
 		} else {
-			botaoCancelar.setOnAction(new CloseAction());
+			botaoCancelar.setOnAction(closeAction);
 		}
 	}
 
