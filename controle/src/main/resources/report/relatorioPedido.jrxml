@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="relatorioRecebimento" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="0f7ee2be-b6ab-45db-b236-52d14156bbf1">
+	<property name="ireport.zoom" value="1.0000000000000007"/>
+	<property name="ireport.x" value="196"/>
+	<property name="ireport.y" value="0"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="160" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="0" width="278" height="153" uuid="60fbbe9e-249a-4144-8323-83f4d241487c"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="278" y="0" width="524" height="153" uuid="49176249-561c-488c-b977-603edd918c9d"/>
+			</rectangle>
+			<staticText>
+				<reportElement mode="Transparent" x="3" y="0" width="232" height="28" uuid="6ad51308-fd20-4484-9948-7f01f018e67e"/>
+				<textElement>
+					<font fontName="SansSerif" size="20" isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[Representações Martins]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="3" y="39" width="232" height="26" uuid="16e916d8-565d-4225-a50f-2b9d957d3594"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[João Carlos Martins]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="3" y="65" width="113" height="20" uuid="a920b855-0596-4e7c-b935-4582cdc1d8bc"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fone: (17) 3275 2292]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="116" y="65" width="119" height="20" uuid="a3404bb3-b810-4f55-a5bc-9bb17d30a156"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Vivo: (17) 9701 4596]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="116" y="85" width="119" height="20" uuid="9039ed2d-c4cb-4e1e-a831-4c33729d8e2f"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tim: (17) 8135 7185]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="34" width="268" height="1" uuid="fbe0d0b1-3893-4368-8271-c8d44d52bb20"/>
+			</line>
+			<staticText>
+				<reportElement x="3" y="105" width="232" height="20" uuid="a46539ca-90bc-40ea-b150-783bd012016a"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[email: contato@genesysnet.com.br]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="3" y="125" width="232" height="28" uuid="95011680-85a4-4ea6-9c41-6121fc958668"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Rua Oswaldo Aranha 1033, Centro
+CEP: 15150-000 - Monte Aprazível - SP]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="584" y="8" width="101" height="26" uuid="c678ff2d-479f-456b-ba68-30e69ef10d7f"/>
+				<textElement verticalAlignment="Middle">
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PEDIDO]]></text>
+			</staticText>
+			<textField>
+				<reportElement positionType="Float" x="685" y="8" width="107" height="26" uuid="dbcd7b18-ea48-46f4-8c87-b26b661e9a7f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="16" isBold="true"/>
+				</textElement>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="33" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="61" splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="125" splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

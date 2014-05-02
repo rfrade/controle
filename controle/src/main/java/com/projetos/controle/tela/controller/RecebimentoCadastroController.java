@@ -8,7 +8,8 @@ import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 
@@ -20,7 +21,6 @@ import com.projetos.controle.tela.ApplicationConfig;
 import com.projetos.controle.tela.base.CampoTela;
 import com.projetos.controle.tela.base.ItemCombo;
 import com.projetos.controle.tela.controller.base.BaseCadastroController;
-import com.projetos.controle.tela.field.DecimalNumberField;
 import com.projetos.controle_entities.Pedido;
 import com.projetos.controle_entities.Recebimento;
 import com.projetos.controle_negocio.service.base.EntidadeService;
@@ -39,7 +39,7 @@ public class RecebimentoCadastroController extends BaseCadastroController<Recebi
 
 	@FXML
 	@CampoTela(bean = "dataRecebimento")
-	private TextField dataRecebimento;
+	private DatePicker dataRecebimento;
 	
 	@FXML
 	@CampoTela(bean = "pedido.valorTotal")
@@ -55,7 +55,7 @@ public class RecebimentoCadastroController extends BaseCadastroController<Recebi
 	
 	@FXML
 	@CampoTela(bean = "recebido")
-	private ChoiceBox<ItemCombo<Boolean>> recebido;
+	private ComboBox<ItemCombo<Boolean>> recebido;
 
 	@FXML
 	private TableView<Recebimento> tabela;

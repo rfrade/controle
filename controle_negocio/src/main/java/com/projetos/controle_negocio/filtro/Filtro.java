@@ -46,14 +46,16 @@ public class Filtro {
 		case BOOLEAN:
 			return valor;
 		case DATE:
-			throw new RuntimeException("Filtro Data ainda não implementado");
+			return valor;
 		case LONG:
 			return Long.valueOf(valor.toString());
 		case STRING:
 			return valor;
+		case LIST:
+			return valor;
 		default:
+			return valor;
 		}
-		return valor;
 	}
 
 	public void setValor(Object valor) {

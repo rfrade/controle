@@ -1,7 +1,7 @@
 package com.projetos.controle.tela.controller;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -36,7 +36,7 @@ public class PedidoController /*extends BaseController<Pedido>*/ {/*
 	// Filtros
 	@FXML
 	@FiltroTela(campo = "fornecedor", tipo = TipoFiltro.STRING, comparador = Comparador.CONTAINS_IGNORE_CASE)
-	private ChoiceBox<ItemCombo<Fornecedor>> filtroFornecedor;
+	private ComboBox<ItemCombo<Fornecedor>> filtroFornecedor;
 	
 	@FXML
 	@FiltroTela(campo = "logradouro.cidade", tipo = TipoFiltro.STRING, comparador = Comparador.CONTAINS_IGNORE_CASE)
@@ -85,7 +85,7 @@ public class PedidoController /*extends BaseController<Pedido>*/ {/*
 
 	@FXML
 	@CampoTela(bean = "fornecedor.firma")
-	private ChoiceBox<ItemCombo<Fornecedor>> fornecedor;
+	private ComboBox<ItemCombo<Fornecedor>> fornecedor;
 
 	@FXML
 	@CampoTela(bean = "cliente.firma")
@@ -113,7 +113,7 @@ public class PedidoController /*extends BaseController<Pedido>*/ {/*
 
 	@FXML
 	@CampoTela(bean = "vendedor.nome")
-	private ChoiceBox<ItemCombo<Vendedor>> vendedor;
+	private ComboBox<ItemCombo<Vendedor>> vendedor;
 
 	@FXML
 	@CampoTela(bean = "colecao")
@@ -184,12 +184,12 @@ public class PedidoController /*extends BaseController<Pedido>*/ {/*
 		this.colunaNumeroPedido = colunaNumeroPedido;
 	}
 
-	public ChoiceBox<ItemCombo<Fornecedor>> getFiltroFornecedor() {
+	public ComboBox<ItemCombo<Fornecedor>> getFiltroFornecedor() {
 		return filtroFornecedor;
 	}
 
 	public void setFiltroFornecedor(
-			ChoiceBox<ItemCombo<Fornecedor>> filtroFornecedor) {
+			ComboBox<ItemCombo<Fornecedor>> filtroFornecedor) {
 		this.filtroFornecedor = filtroFornecedor;
 	}
 
@@ -274,11 +274,11 @@ public class PedidoController /*extends BaseController<Pedido>*/ {/*
 		this.labelNumeroPedido = labelNumeroPedido;
 	}
 
-	public ChoiceBox<ItemCombo<Fornecedor>> getFornecedor() {
+	public ComboBox<ItemCombo<Fornecedor>> getFornecedor() {
 		return fornecedor;
 	}
 
-	public void setFornecedor(ChoiceBox<ItemCombo<Fornecedor>> fornecedor) {
+	public void setFornecedor(ComboBox<ItemCombo<Fornecedor>> fornecedor) {
 		this.fornecedor = fornecedor;
 	}
 
@@ -330,11 +330,11 @@ public class PedidoController /*extends BaseController<Pedido>*/ {/*
 		this.entrega = entrega;
 	}
 
-	public ChoiceBox<ItemCombo<Vendedor>> getVendedor() {
+	public ComboBox<ItemCombo<Vendedor>> getVendedor() {
 		return vendedor;
 	}
 
-	public void setVendedor(ChoiceBox<ItemCombo<Vendedor>> vendedor) {
+	public void setVendedor(ComboBox<ItemCombo<Vendedor>> vendedor) {
 		this.vendedor = vendedor;
 	}
 

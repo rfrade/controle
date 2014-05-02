@@ -9,7 +9,7 @@ import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -79,7 +79,7 @@ public class ProdutoListaController extends BaseListController<Produto> {
 	
 	@FXML
 	@FiltroTela(campo = "fornecedor", tipo = TipoFiltro.LIST, comparador = Comparador.EQUALS)
-	private ChoiceBox<ItemCombo<Fornecedor>> filtroFornecedor;
+	private ComboBox<ItemCombo<Fornecedor>> filtroFornecedor;
 	
 	@FXML
 	private TableView<Produto> tabela;

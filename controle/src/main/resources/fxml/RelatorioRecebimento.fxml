@@ -29,7 +29,7 @@
 		<Label layoutX="228.0" layoutY="14.0" style="-fx-font-weight: bold; -fx-font-size: 14;" text="Relatorio de Recebimento" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
 		<Label layoutX="14.0" layoutY="58.0" text="A partir de" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
 		<Label layoutX="303.0" layoutY="58.0" text="Até" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
-		<DatePicker layoutX="87.0" layoutY="54.0" />
-		<DatePicker layoutX="325.0" layoutY="55.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
+		<DatePicker fx:id="dataApartir" layoutX="87.0" layoutY="54.0" />
+		<DatePicker fx:id="dataAte" layoutX="325.0" layoutY="55.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
 	</children>
 </AnchorPane>

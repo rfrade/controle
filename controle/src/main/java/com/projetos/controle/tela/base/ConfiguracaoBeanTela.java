@@ -29,6 +29,7 @@ import com.projetos.controle.tela.controller.ProdutoCadastroController;
 import com.projetos.controle.tela.controller.ProdutoListaController;
 import com.projetos.controle.tela.controller.RecebimentoCadastroController;
 import com.projetos.controle.tela.controller.RecebimentoListaController;
+import com.projetos.controle.tela.controller.RelatorioRecebimentoController;
 import com.projetos.controle.tela.controller.TelaPrincipalController;
 
 @Configuration
@@ -109,6 +110,12 @@ public class ConfiguracaoBeanTela {
 	@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 	public Parent carregarTelaRecebimentoLista() {
 		return carregarTela("/fxml/RecebimentoLista.fxml", RecebimentoListaController.class);
+	}
+	
+	@Bean(name = "telaRelatorioRecebimentos")
+	@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+	public Parent carregarTelaRelatorioRecebimentos() {
+		return carregarTela("/fxml/RelatorioRecebimento.fxml", RelatorioRecebimentoController.class);
 	}
 	
 	@Bean(name = "telaItemPedidoCadastro")

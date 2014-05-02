@@ -74,9 +74,6 @@ public class BeanUtil {
 					valor = Long.valueOf(valor.toString());
 				} else if (type == Double.class) {
 					valor = NumberUtil.convertStringToDouble((String)valor);
-				} else if (type == Date.class) {
-					Date parse = DateUtil.convertStringToDate((String)valor);
-					valor = parse;
 				}
 				new Mirror().on(objeto).set().field(nomePropriedade).withValue(valor);
 			}

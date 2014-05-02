@@ -105,6 +105,11 @@ public class TelaPrincipalController extends AbstractController {
 		return popup;
 	}
 	
+	public Stage exibirTelaRelatorioRecebimentos() {
+		Stage popup = this.exibirPopup(configuracaoBeanTela.carregarTelaRelatorioRecebimentos());
+		return popup;
+	}
+	
 	public Stage exibirPopupMensagem() {
 		Stage popup = this.exibirPopup(configuracaoBeanTela.carregarPopupMensagem());
 		return popup;

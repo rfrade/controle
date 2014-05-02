@@ -10,8 +10,8 @@
 	prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
 	fx:controller="com.projetos.controle.tela.controller.RecebimentoCadastroController">
 	<children>
-		<Label layoutX="41.0048828125" layoutY="38.5" text="Data do Recebimento" />
-		<Label layoutX="290.0" layoutY="39.0" text="Valor Faturado"
+		<Label layoutX="291.0" layoutY="39.0" text="Data do Recebimento" />
+		<Label layoutX="37.0" layoutY="39.0" text="Valor Faturado"
 			xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
 		<Label layoutX="41.0" layoutY="81.0" text="Porcentagem"
 			xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
@@ -19,16 +19,12 @@
 			xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
 		<Label layoutX="41.0" layoutY="123.0" text="Recebido"
 			xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
-		<TextField fx:id="dataRecebimento" layoutX="158.0" layoutY="35.0"
-			prefHeight="25.0" prefWidth="116.0" xmlns="http://javafx.com/javafx/8"
-			xmlns:fx="http://javafx.com/fxml/1" />
-		<TextField fx:id="valorFaturado" layoutX="384.74609375"
-			layoutY="35.0" />
+		<TextField fx:id="valorFaturado" layoutX="125.0" layoutY="35.0" />
 		<TextField fx:id="porcentagem" layoutX="125.0" layoutY="77.0"
 			xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
 		<TextField fx:id="valorComissao" layoutX="385.0" layoutY="77.0"
 			xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
-		<ChoiceBox fx:id="recebido" layoutX="125.0" layoutY="119.0"
+		<ComboBox fx:id="recebido" layoutX="125.0" layoutY="119.0"
 			prefHeight="25.0" prefWidth="149.0" xmlns:fx="http://javafx.com/fxml">
 			<items>
 				<FXCollections fx:factory="observableArrayList">
@@ -37,8 +33,11 @@
 					<String fx:value="Item 3" />
 				</FXCollections>
 			</items>
-		</ChoiceBox>
+		</ComboBox>
 		<Button layoutX="242.0" layoutY="166.0" mnemonicParsing="false"
-			prefHeight="25.0" prefWidth="97.0" text="Salvar" onAction="#salvarComMensagem"/>
+			onAction="#salvarComMensagem" prefHeight="25.0" prefWidth="97.0"
+			text="Salvar" />
+		<DatePicker fx:id="dataRecebimento" layoutX="412.0" layoutY="35.0"
+			prefHeight="25.0" prefWidth="122.0" />
 	</children>
 </AnchorPane>

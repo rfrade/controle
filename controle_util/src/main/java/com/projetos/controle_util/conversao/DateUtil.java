@@ -2,9 +2,16 @@ package com.projetos.controle_util.conversao;
 
 import java.text.DateFormat;
 import java.text.ParseException;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
+
+/**
+ * TODO: Tirar a classe do controle_util e mudar a classe para o projeto controle devido ao Java 8.
+ * 
+ * @author Rafael Frade
+ */
 public class DateUtil {
 
 	public static Date convertStringToDate(String valor) {

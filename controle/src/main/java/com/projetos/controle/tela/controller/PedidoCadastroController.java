@@ -1,10 +1,14 @@
 package com.projetos.controle.tela.controller;
 
+import java.io.InputStream;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 import javafx.collections.FXCollections;
@@ -13,7 +17,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
-import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -21,6 +25,11 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRExporterParameter;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.export.JRPdfExporter;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -43,6 +52,7 @@ import com.projetos.controle_negocio.service.base.EntidadeService;
 import com.projetos.controle_negocio.service.base.FornecedorService;
 import com.projetos.controle_negocio.service.base.ItemPedidoService;
 import com.projetos.controle_negocio.service.base.PedidoService;
+import com.projetos.controle_negocio.service.base.RecebimentoService;
 import com.projetos.controle_negocio.service.base.VendedorService;
 
 @Controller
@@ -54,6 +64,9 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 
 	@Autowired
 	private ItemPedidoService itemPedidoService;
+	
+	@Autowired
+	private RecebimentoService recebimentoService;
 
 	@Autowired
 	private FornecedorService fornecedorService;
@@ -73,7 +86,7 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 
 	@FXML
 	@CampoTela(bean = "fornecedor")
-	private ChoiceBox<ItemCombo<Fornecedor>> fornecedor;
+	private ComboBox<ItemCombo<Fornecedor>> fornecedor;
 
 	@FXML
 	@CampoTela(bean = "cliente.firma")
@@ -101,7 +114,7 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 
 	@FXML
 	@CampoTela(bean = "vendedor")
-	private ChoiceBox<ItemCombo<Vendedor>> vendedor;
+	private ComboBox<ItemCombo<Vendedor>> vendedor;
 
 	@FXML
 	@CampoTela(bean = "colecao")
@@ -273,7 +286,32 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 	}
 
 	public void imprimir() {
+		bindFormToBean();
+		try {
+			Map<String, Object> param = new HashMap<>();
+			List<String> dados = new ArrayList<>();
+//			byte[] relatorio = ReportGenerator.gerarRelatorio(dados, "relatorioPedido.jasper", FormatoRelatorio.FORMATO_EXPORT_PDF, param);
+			
+			InputStream resource = getClass().getResourceAsStream("/report/relatorioPedido.jasper");
 
+//			String file = "D:\\Desenvolvimento\\projetos\\controle\\branches\\controle\\controle\\src\\main\\resources\\report\\relatorioPedido.jasper";
+			JasperPrint print = JasperFillManager.fillReport(resource, param);
+
+			JRPdfExporter pdfExporter = new JRPdfExporter();
+			pdfExporter.setParameter(JRExporterParameter.JASPER_PRINT, print);
+			String path = "C:\\Users\\Rafael\\Desktop\\pedido.pdf";
+			pdfExporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, path);
+			System.out.println("Exporting report...");
+			pdfExporter.exportReport();
+
+//			ByteArrayInputStream bis = new ByteArrayInputStream(relatorio);
+//			JasperViewer.viewReport(print);
+			
+		/*} catch (RelatorioException e) {
+			tratarErro(e);*/
+		} catch (JRException e) {
+			tratarErro(e);
+		}
 	}
 
 	public void exibirTelaItemPedidoCadastroInclusao() {
@@ -290,6 +328,23 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 	public void exibirTelaCadastroItemPedidoCadastroAlteracao() {
 		itemPedidoCadastroController.setTabela(tabelaItensPedido);
 		telaPrincipalController.exibirTelaItemPedidoCadastro();
+	}
+
+	@Override
+	public void remover() {
+		List<ItemPedido> itensPedido = entidadeForm.getItensPedido();
+		
+		for (ItemPedido itemPedido : itensPedido) {
+			itemPedidoService.remover(itemPedido);
+		}
+		
+		List<Recebimento> recebimentos = entidadeForm.getRecebimentos();
+		
+		for (Recebimento recebimento : recebimentos) {
+			recebimentoService.remover(recebimento);
+		}
+
+		super.remover();
 	}
 
 	public class InnerMouseClicked<T extends Entidade> implements EventHandler<MouseEvent> {
@@ -328,6 +383,8 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 
 	public void removerItemPedido() {
 		ItemPedido itemPedido = tabelaItensPedido.getSelectionModel().getSelectedItem();
+		entidadeForm.removeItemPedido(itemPedido);
+		itemPedidoService.salvar(itemPedido);
 		itemPedidoService.remover(itemPedido);
 		tabelaItensPedido.getItems().remove(itemPedido);
 		entidadeForm = getEntidadeService().findById(entidadeForm.getId());
@@ -393,11 +450,11 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 		this.labelNumeroPedido = labelNumeroPedido;
 	}
 
-	public ChoiceBox<ItemCombo<Fornecedor>> getFornecedor() {
+	public ComboBox<ItemCombo<Fornecedor>> getFornecedor() {
 		return fornecedor;
 	}
 
-	public void setFornecedor(ChoiceBox<ItemCombo<Fornecedor>> fornecedor) {
+	public void setFornecedor(ComboBox<ItemCombo<Fornecedor>> fornecedor) {
 		this.fornecedor = fornecedor;
 	}
 
@@ -449,11 +506,11 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 		this.entrega = entrega;
 	}
 
-	public ChoiceBox<ItemCombo<Vendedor>> getVendedor() {
+	public ComboBox<ItemCombo<Vendedor>> getVendedor() {
 		return vendedor;
 	}
 
-	public void setVendedor(ChoiceBox<ItemCombo<Vendedor>> vendedor) {
+	public void setVendedor(ComboBox<ItemCombo<Vendedor>> vendedor) {
 		this.vendedor = vendedor;
 	}
 

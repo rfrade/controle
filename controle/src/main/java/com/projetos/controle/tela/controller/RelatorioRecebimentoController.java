@@ -1,7 +1,6 @@
 package com.projetos.controle.tela.controller;
 
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,6 +10,7 @@ import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -52,19 +52,23 @@ public class RelatorioRecebimentoController extends BaseEntityController<Recebim
 	private TableColumn<Fornecedor, String> colunaFirma;
 
 	@FXML
-	@FiltroTela(campo = "colecao", tipo = TipoFiltro.STRING, comparador = Comparador.CONTAINS_IGNORE_CASE)
+	@FiltroTela(campo = "dataRecebimento", tipo = TipoFiltro.DATE, comparador = Comparador.GREATHER_OR_EQUALS)
 	private DatePicker dataApartir;
-	
 
 	@FXML
-	@FiltroTela(campo = "colecao", tipo = TipoFiltro.STRING, comparador = Comparador.CONTAINS_IGNORE_CASE)
+	@FiltroTela(campo = "dataRecebimento", tipo = TipoFiltro.DATE, comparador = Comparador.LOWER_OR_EQUALS)
+	private DatePicker dataAte;
+	
+	@FXML
+	@FiltroTela(campo = "pedido.colecao", tipo = TipoFiltro.STRING, comparador = Comparador.CONTAINS_IGNORE_CASE)
 	private TextField filtroColecao;
 
 	@FXML
-	@FiltroTela(campo = "filtroRecebido", tipo = TipoFiltro.LIST, comparador = Comparador.EQUALS)
+	@FiltroTela(campo = "recebido", tipo = TipoFiltro.LIST, comparador = Comparador.EQUALS)
 	private ComboBox<ItemCombo<Boolean>> filtroRecebido;
 
 	@FXML
+	@FiltroTela(campo = "pedido.fornecedor", tipo = TipoFiltro.LIST, comparador = Comparador.IN)
 	private TableView<Fornecedor> tabela;
 
 	@Override
@@ -74,6 +78,8 @@ public class RelatorioRecebimentoController extends BaseEntityController<Recebim
 	}
 
 	private void carregarTabelaFornecedores() {
+		tabela.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+		
 		Filtro fornecedorAtivo = new Filtro("ativo", TipoFiltro.BOOLEAN, Comparador.EQUALS, true);
 		List<Fornecedor> fornecedoresAtivos = fornecedorService.filtrar(fornecedorAtivo);
 		List<Fornecedor> listaTabela = FXCollections.observableArrayList(fornecedoresAtivos);
@@ -90,12 +96,14 @@ public class RelatorioRecebimentoController extends BaseEntityController<Recebim
 	}
 
 	public void gerarRelatorio() {
-		pesquisar();
-	}
+		List<Filtro> camposFiltro = super.getCamposFiltro();
+		List<Recebimento> recebimentos = recebimentoService.filtrar(camposFiltro);
+		for (Recebimento recebimento : recebimentos) {
+			System.out.println(recebimento.toString());
+		}
 
-	private void pesquisar() {
-		List<Filtro> filtros = new ArrayList<>();
-		recebimentoService.filtrar(filtros);
+		
+
 	}
 
 	public void exibirTelaLista() {

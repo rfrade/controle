@@ -1,17 +1,21 @@
 package com.projetos.controle.tela.controller.base;
 
 import java.lang.reflect.Field;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
@@ -107,7 +111,7 @@ public abstract class BaseEntityController<T extends Entidade> extends AbstractC
 	protected Logger log = Logger.getLogger(this.getClass());
 	
 	@SuppressWarnings("unchecked")
-	public void bindBeanToForm() {
+	protected void bindBeanToForm() {
 		MirrorList<Field> campos = new Mirror().on(this.getClass()).reflectAll().fields();
 		for (Field field : campos) {
 			if (field.isAnnotationPresent(CampoTela.class)) {
@@ -117,15 +121,24 @@ public abstract class BaseEntityController<T extends Entidade> extends AbstractC
 				
 				if (campo instanceof TextField) {
 					preencherTextField((TextField) campo, value);
+
 				} else if (campo instanceof TextArea) {
 					preencherTextArea((TextArea) campo, value);
+				
 				} else if (campo instanceof Label) {
 					preencherLabel((Label) campo, value);
+				
 				} else if (campo instanceof RadioButton && value != null) {
 					((RadioButton) campo).setSelected((Boolean)value);
-				} else if (campo instanceof ChoiceBox && value != null) {
+
+				} else if (campo instanceof DatePicker && value != null) {
+					LocalDate localDate = fromDateToLocalDate((Date) value);
+					((DatePicker) campo).setValue(localDate);
+				
+				} else if (campo instanceof ComboBox && value != null) {
 					ItemCombo<?> item = new ItemCombo<>(null, value);
-					((ChoiceBox<ItemCombo<?>>) campo).getSelectionModel().select(item);
+					((ComboBox<ItemCombo<?>>) campo).getSelectionModel().select(item);
+				
 				}
 				
 			}
@@ -148,6 +161,7 @@ public abstract class BaseEntityController<T extends Entidade> extends AbstractC
 		}
 	}
 	
+	@SuppressWarnings("unchecked")
 	protected List<Filtro> getCamposFiltro() {
     	List<Filtro> filtros = new ArrayList<>();
     	MirrorList<Field> campos = new Mirror().on(this.getClass()).reflectAll().fields();
@@ -168,12 +182,27 @@ public abstract class BaseEntityController<T extends Entidade> extends AbstractC
 					Boolean valor = ((RadioButton) campo).isSelected();
 					Filtro filtro = new Filtro(beanName, config.tipo(), config.comparador(), config.operador(), valor);
 					filtros.add(filtro);
-				} else if (campo instanceof ChoiceBox) {
-					@SuppressWarnings("unchecked")
-					Object valor = ((ChoiceBox<ItemCombo<?>>) campo).getSelectionModel().getSelectedItem();
+
+				} else if (campo instanceof DatePicker) {
+					LocalDate localDate = ((DatePicker) campo).getValue();
+					if (localDate != null) {
+						Date valor = fromLocalDateToDate(localDate);
+						Filtro filtro = new Filtro(beanName, config.tipo(), config.comparador(), config.operador(), valor);
+						filtros.add(filtro);
+					}
+
+				} else if (campo instanceof ComboBox) {
+					Object valor = ((ComboBox<ItemCombo<?>>) campo).getSelectionModel().getSelectedItem();
 					ItemCombo<?> item = (ItemCombo<?>) valor;
 					if (valor != null) {
 						Filtro filtro = new Filtro(beanName, config.tipo(), config.comparador(), config.operador(), item.getValor());
+						filtros.add(filtro);
+					}
+
+				} else if (campo instanceof TableView) {
+					ObservableList<? extends Entidade> lista = ((TableView<? extends Entidade>) campo).getSelectionModel().getSelectedItems();
+					if (lista != null && !lista.isEmpty()) {
+						Filtro filtro = new Filtro(beanName, config.tipo(), config.comparador(), config.operador(), lista);
 						filtros.add(filtro);
 					}
 				}
@@ -202,24 +231,37 @@ public abstract class BaseEntityController<T extends Entidade> extends AbstractC
     
     protected void bindFormToBean() {
 		MirrorList<Field> campos = new Mirror().on(this.getClass()).reflectAll().fields();
+		
 		for (Field field : campos) {
+
 			if (field.isAnnotationPresent(CampoTela.class)) {
+				
 				Object campo = new Mirror().on(this).get().field(field);
 				String beanName = field.getAnnotation(CampoTela.class).bean();
 				
 				if (campo instanceof TextField) {
 					BeanUtil.setPropriedade(entidadeForm, beanName, ((TextField) campo).getText());
+				
 				} else if (campo instanceof TextArea) {
 					BeanUtil.setPropriedade(entidadeForm, beanName, ((TextArea) campo).getText());
+				
 				} else if (campo instanceof DecimalNumberField) {
 					BeanUtil.setPropriedade(entidadeForm, beanName, ((DecimalNumberField) campo).getFormattedText());
+				
 				} else if (campo instanceof RadioButton) {
 					BeanUtil.setPropriedade(entidadeForm, beanName, ((RadioButton) campo).isSelected());
-				} else if (campo instanceof ChoiceBox) {
+				
+				} else if (campo instanceof DatePicker) {
+					LocalDate localDate = ((DatePicker) campo).getValue();
+					Date date = fromLocalDateToDate(localDate);
+					BeanUtil.setPropriedade(entidadeForm, beanName, date);
+
+				} else if (campo instanceof ComboBox) {
 					@SuppressWarnings("unchecked")
-					Object valor = ((ChoiceBox<ItemCombo<?>>) campo).getSelectionModel().getSelectedItem();
+					Object valor = ((ComboBox<ItemCombo<?>>) campo).getSelectionModel().getSelectedItem();
 					ItemCombo<?> item = (ItemCombo<?>) valor;
 					BeanUtil.setPropriedade(entidadeForm, beanName, item.getValor());
+
 				}
 			}
 		}
@@ -294,6 +336,40 @@ public abstract class BaseEntityController<T extends Entidade> extends AbstractC
 			return texto.replaceAll(format, texto);
 		}
 
+	}
+
+	/**
+	 * Convert de LocalDate para Date
+	 * @param localDate
+	 * @return Date
+	 */
+	private Date fromLocalDateToDate(LocalDate localDate) {
+		if (localDate == null) {
+			return null;
+		}
+		
+		Calendar cal = Calendar.getInstance();
+		cal.set(Calendar.DAY_OF_MONTH, localDate.getDayOfMonth());
+		cal.set(Calendar.MONTH, localDate.getMonthValue());
+		cal.set(Calendar.YEAR, localDate.getYear());
+		
+		return cal.getTime();
+	}
+	
+	/**
+	 * Convert de Date para LocalDate
+	 * @param date
+	 * @return LocalDate
+	 */
+	private LocalDate fromDateToLocalDate(Date date) {
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(date);
+		
+		int year = cal.get(Calendar.YEAR);
+		int month = cal.get(Calendar.MONTH);
+		int dayOfMonth = cal.get(Calendar.DAY_OF_MONTH);
+		LocalDate localDate = LocalDate.of(year, month, dayOfMonth);
+		return localDate;
 	}
 
 	private List<Field> getCamposMascara() {

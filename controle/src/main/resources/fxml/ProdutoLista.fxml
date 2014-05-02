@@ -11,7 +11,7 @@
     <TableColumn fx:id="colunaReferencia" prefWidth="75.0" text="Referencia" />
     <TableColumn fx:id="colunaDescricao" prefWidth="300.0" text="Descrição" /><TableColumn fx:id="colunaValorVenda" prefWidth="100.0" text="Valor Venda" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" /><TableColumn fx:id="colunaTamanho" prefWidth="100.0" text="Tamanho" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
   </columns>
-</TableView><Label layoutX="46.1923828125" layoutY="116.5" text="Fornecedor" /><ChoiceBox fx:id="filtroFornecedor" layoutX="125.0" layoutY="113.0" prefHeight="25.0" prefWidth="171.0" xmlns:fx="http://javafx.com/fxml">
+</TableView><Label layoutX="46.1923828125" layoutY="116.5" text="Fornecedor" /><ComboBox fx:id="filtroFornecedor" layoutX="125.0" layoutY="113.0" prefHeight="25.0" prefWidth="171.0" xmlns:fx="http://javafx.com/fxml">
   <items>
     <FXCollections fx:factory="observableArrayList">
       <String fx:value="Item 1" />
@@ -19,5 +19,5 @@
       <String fx:value="Item 3" />
     </FXCollections>
   </items>
-</ChoiceBox><Button fx:id="procurar" layoutX="457.0" layoutY="150.0" mnemonicParsing="false" onAction="#pesquisar" prefHeight="25.0" prefWidth="110.0" text="Procurar" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" /><Label layoutX="46.197265625" layoutY="154.0" text="Referência" /><TextField fx:id="filtroReferencia" layoutX="125.0" layoutY="150.0" prefHeight="25.0" prefWidth="75.0" /><Label layoutX="226.0" layoutY="154.0" text="Descrição" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" /><TextField fx:id="filtroDescricao" layoutX="295.0" layoutY="150.0" prefHeight="25.0" prefWidth="144.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
+</ComboBox><Button fx:id="procurar" layoutX="457.0" layoutY="150.0" mnemonicParsing="false" onAction="#pesquisar" prefHeight="25.0" prefWidth="110.0" text="Procurar" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" /><Label layoutX="46.197265625" layoutY="154.0" text="Referência" /><TextField fx:id="filtroReferencia" layoutX="125.0" layoutY="150.0" prefHeight="25.0" prefWidth="75.0" /><Label layoutX="226.0" layoutY="154.0" text="Descrição" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" /><TextField fx:id="filtroDescricao" layoutX="295.0" layoutY="150.0" prefHeight="25.0" prefWidth="144.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
 </children></AnchorPane>

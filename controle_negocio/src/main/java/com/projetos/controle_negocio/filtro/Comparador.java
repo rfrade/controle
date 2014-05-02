@@ -11,8 +11,9 @@ public enum Comparador {
 	STARTS_WITH_IGNORE_CASE("startsWithIgnoreCase"),
 	GREATER_THAN("gt"),
 	GREATHER_OR_EQUALS("goe"),
-	LESS_THAN("lt"),
-	LESS_OR_EQUALS("loe");
+	LOWER_THAN("lt"),
+	LOWER_OR_EQUALS("loe"),
+	IN("in");
 	
 	private String metodo;
 	

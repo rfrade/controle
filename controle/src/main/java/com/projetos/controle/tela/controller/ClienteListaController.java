@@ -1,14 +1,11 @@
 package com.projetos.controle.tela.controller;
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
 
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -53,7 +50,7 @@ public class ClienteListaController extends BaseListController<Cliente> {
 	
 	@FXML
 	@FiltroTela(campo = "ativo", tipo = TipoFiltro.LIST, comparador = Comparador.EQUALS)
-	private ChoiceBox<ItemCombo<Boolean>> filtroAtivo;
+	private ComboBox<ItemCombo<Boolean>> filtroAtivo;
 
 	@FXML
 	@Coluna(bean = "firma")

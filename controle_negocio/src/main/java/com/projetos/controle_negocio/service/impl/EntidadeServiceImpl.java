@@ -15,6 +15,7 @@ import com.mysema.query.types.Predicate;
 import com.mysema.query.types.expr.BooleanExpression;
 import com.mysema.query.types.path.EntityPathBase;
 import com.projetos.controle_entities.Entidade;
+import com.projetos.controle_entities.QFornecedor;
 import com.projetos.controle_negocio.filtro.Filtro;
 import com.projetos.controle_negocio.repositoy.EntidadeRepository;
 import com.projetos.controle_negocio.service.base.EntidadeService;
@@ -76,7 +77,6 @@ public abstract class EntidadeServiceImpl<T extends Entidade> implements Entidad
 				Object path = BeanUtil.getPropriedade(qClass, filtro.getNomePropriedade());
 				String metodoComparacao = filtro.getComparador().getMetodo();
 				BooleanExpression expression = (BooleanExpression)BeanUtil.invoke(path, metodoComparacao, filtro.getValor());
-				
 				predicados.add(expression);
 			}
 		}

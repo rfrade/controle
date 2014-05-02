@@ -15,6 +15,13 @@ import java.util.Date;
 @Table(name="recebimento")
 @NamedQuery(name="Recebimento.findAll", query="SELECT r FROM Recebimento r")
 public class Recebimento implements Serializable, Entidade {
+	@Override
+	public String toString() {
+		return "Recebimento [id=" + id + ", dataRecebimento=" + dataRecebimento
+				+ ", recebido=" + recebido + ", valorRecebimento="
+				+ valorRecebimento + ", pedido=" + pedido + "]";
+	}
+
 	private static final long serialVersionUID = 1L;
 
 	@Id

@@ -34,7 +34,7 @@
 		<TextField fx:id="filtroCidade" layoutX="327.0" layoutY="66.0"
 			prefHeight="25.0" prefWidth="195.0" xmlns="http://javafx.com/javafx/8"
 			xmlns:fx="http://javafx.com/fxml/1" />
-		<ChoiceBox fx:id="filtroAtivo" layoutX="559.0" layoutY="66.0"
+		<ComboBox fx:id="filtroAtivo" layoutX="559.0" layoutY="66.0"
 			prefHeight="25.0" prefWidth="141.0" xmlns:fx="http://javafx.com/fxml">
 			<items>
 				<FXCollections fx:factory="observableArrayList">
@@ -43,7 +43,7 @@
 					<String fx:value="Item 3" />
 				</FXCollections>
 			</items>
-		</ChoiceBox>
+		</ComboBox>
 		<Button fx:id="remover" layoutX="128.0" layoutY="25.0" onAction="#exibirPopupConfirmacao"
 			mnemonicParsing="false" prefHeight="3.0"
 			prefWidth="107.0" text="Excluir Cliente" xmlns="http://javafx.com/javafx/8"
