@@ -23,6 +23,7 @@ import com.projetos.controle.tela.ApplicationConfig;
 import com.projetos.controle.tela.base.CampoTela;
 import com.projetos.controle.tela.controller.base.BaseCadastroController;
 import com.projetos.controle_entities.ItemPedido;
+import com.projetos.controle_entities.Pedido;
 import com.projetos.controle_entities.Produto;
 import com.projetos.controle_negocio.service.base.EntidadeService;
 import com.projetos.controle_negocio.service.base.ItemPedidoService;
@@ -153,19 +154,27 @@ public class ItemPedidoCadastroController extends BaseCadastroController<ItemPed
 			valorTotal.setScale(2, RoundingMode.DOWN);
 			entidadeForm.setValorTotal(valorTotal.doubleValue());
 			
-			
 		}
 	}
 
 	@Override
 	public void salvarComMensagem() {
-		super.salvarComMensagem();
 		PedidoCadastroController pedidoCadastroController = ApplicationConfig.getBean(PedidoCadastroController.class);
-		/*if (!pedidoCadastroController.getEntidadeForm().getItensPedido().contains(entidadeForm)) {
-			pedidoCadastroController.getEntidadeForm().addItemPedido(entidadeForm);
-		}*/
-		pedidoCadastroController.atualizarValorPedido();
+
+		Pedido pedido = entidadeForm.getPedido();
+		super.salvarSemMensagem();
+		super.exibirMensagem("cadastro.salvo_com_sucesso");
+
+		if (!pedido.getItensPedido().contains(entidadeForm)) {
+			pedido.addItemPedido(entidadeForm);
+		}
 		pedidoCadastroController.getEntidadeService().salvar(entidadeForm.getPedido());
+		pedidoCadastroController.atualizarValorPedido();
+
+		entidadeForm = novaEntidadeForm();
+		super.bindBeanToForm();
+		entidadeForm.setPedido(pedido);
+
 	}
 
 	private void calcularQuantidadeTotal() {

@@ -71,7 +71,10 @@ public class FornecedorListaController extends BaseListController<Fornecedor> {
 	@FXML
 	@Coluna(bean = "logradouro.cep")
 	private TableColumn<Fornecedor, String> colunaCep;
-
+	
+	@FXML
+	@Coluna(bean = "logradouro.cidade")
+	private TableColumn<Fornecedor, String> colunaCidade;
 
 	@FXML
 	private TableView<Fornecedor> tabela;

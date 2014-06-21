@@ -55,8 +55,5 @@
 			mnemonicParsing="false" onAction="#pesquisar" prefHeight="25.0"
 			prefWidth="147.0" text="Pesqusar Clientes" xmlns="http://javafx.com/javafx/8"
 			xmlns:fx="http://javafx.com/fxml/1" />
-		<Button layoutX="892.0" layoutY="66.0" mnemonicParsing="false"
-			onAction="#imprimir" prefHeight="25.0" prefWidth="147.0" text="Imprimir"
-			xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
 	</children>
 </AnchorPane>

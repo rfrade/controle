@@ -1,5 +1,8 @@
 package com.projetos.controle.tela.controller;
 
+import java.net.URL;
+import java.util.ResourceBundle;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableView;
@@ -83,14 +86,30 @@ public class ClienteCadastroController extends BaseCadastroController<Cliente> {
 	private RadioButton ativo;
 
 	@FXML
-	private RadioButton inativo;
-
-	@FXML
 	private TableView<Cliente> tabela;
 
 	@Override
 	protected EntidadeService<Cliente> getEntidadeService() {
 		return clienteService;
+	}
+
+	@Override
+	public void initialize(URL url, ResourceBundle resource) {
+		super.initialize(url, resource);
+		setClienteAtivo();
+	}
+
+	@Override
+	public void salvarComMensagem() {
+		super.salvarComMensagem();
+		setClienteAtivo();
+	}
+
+	private void setClienteAtivo() {
+		if (entidadeForm.getId() == null) {
+			entidadeForm.setAtivo(true);
+			ativo.setSelected(true);
+		}
 	}
 
 	public TextField getFirma() {
@@ -203,14 +222,6 @@ public class ClienteCadastroController extends BaseCadastroController<Cliente> {
 
 	public void setAtivo(RadioButton ativo) {
 		this.ativo = ativo;
-	}
-
-	public RadioButton getInativo() {
-		return inativo;
-	}
-
-	public void setInativo(RadioButton inativo) {
-		this.inativo = inativo;
 	}
 
 }

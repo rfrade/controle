@@ -4,6 +4,8 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import javafx.collections.ObservableList;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableColumn.SortType;
 import javafx.scene.control.TableView;
 import net.vidageek.mirror.dsl.Mirror;
 
@@ -20,12 +22,10 @@ public abstract class BaseCadastroController<T extends Entidade> extends BaseEnt
     
     private TableView<T> tabela;
 	
-    @SuppressWarnings("unchecked")
 	@Override
 	public void initialize(URL url, ResourceBundle resource) {
     	if (entidadeForm == null) {
-    		Class<?> classe = new Mirror().on(this.getClass()).reflect().parentGenericType().atPosition(0);
-    		entidadeForm = (T) new Mirror().on(classe).invoke().constructor().bypasser();
+    		entidadeForm = novaEntidadeForm();
     	}
     	bindBeanToForm();
     	mascararCampos();
@@ -35,6 +35,8 @@ public abstract class BaseCadastroController<T extends Entidade> extends BaseEnt
 		try {
 			salvar();
 			exibirMensagem("cadastro.salvo_com_sucesso");
+			entidadeForm = novaEntidadeForm();
+			bindBeanToForm();
 		} catch (ValidacaoException e) {
 			tratarErro(e);
 		}
@@ -43,31 +45,46 @@ public abstract class BaseCadastroController<T extends Entidade> extends BaseEnt
 	public void salvarSemMensagem() {
 		try {
 			salvar();
+			bindBeanToForm();
 		} catch (ValidacaoException e) {
 			tratarErro(e);
 		}
 	}
 
-	private void salvar() throws ValidacaoException {
+	protected void salvar() throws ValidacaoException {
 		bindFormToBean();
 		if (entidadeForm.getId() == null) {
 			validaInclusao();
 		} else {
 			validaAlteracao();
 		}
-		getEntidadeService().salvar(entidadeForm);
+		entidadeForm = getEntidadeService().salvar(entidadeForm);
+		atualizarTabela();
+	}
+
+	private void atualizarTabela() {
 		if (!tabela.getItems().contains(entidadeForm)) {
 			tabela.getItems().add(entidadeForm);
 		} else {
 			tabela.getItems().remove(entidadeForm);
 			tabela.getItems().add(entidadeForm);
 		}
+		//TODO: Verificar ordenação padrão das tabelas
 	}
 
 	public void remover() {
 		//TODO: Excluir o método
 		getEntidadeService().remover(entidadeForm);
 		exibirMensagem("cadastro.removido_com_sucesso");
+	}
+
+	/**
+	 * @return nova entidade do tipo parametrizado
+	 */
+	@SuppressWarnings("unchecked")
+	protected T novaEntidadeForm() {
+		Class<?> classe = new Mirror().on(this.getClass()).reflect().parentGenericType().atPosition(0);
+		return (T) new Mirror().on(classe).invoke().constructor().bypasser();
 	}
 
 	protected void validaAlteracao() throws ValidacaoException {

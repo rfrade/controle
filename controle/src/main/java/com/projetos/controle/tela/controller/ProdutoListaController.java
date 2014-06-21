@@ -24,12 +24,14 @@ import com.projetos.controle.tela.base.ItemCombo;
 import com.projetos.controle.tela.controller.base.BaseCadastroController;
 import com.projetos.controle.tela.controller.base.BaseListController;
 import com.projetos.controle_entities.Fornecedor;
+import com.projetos.controle_entities.Parametro;
 import com.projetos.controle_entities.Produto;
 import com.projetos.controle_negocio.exception.NegocioException;
 import com.projetos.controle_negocio.filtro.Comparador;
 import com.projetos.controle_negocio.filtro.TipoFiltro;
 import com.projetos.controle_negocio.service.base.EntidadeService;
 import com.projetos.controle_negocio.service.base.FornecedorService;
+import com.projetos.controle_negocio.service.base.ParametroService;
 import com.projetos.controle_negocio.service.base.ProdutoService;
 import com.projetos.controle_util.validacao.ValidacaoException;
 
@@ -52,6 +54,9 @@ public class ProdutoListaController extends BaseListController<Produto> {
 
 	@Autowired
 	private PopupTextoController popupTextoController;
+	
+	@Autowired
+	private ParametroService parametroService;
 
 	@FXML
 	@FiltroTela(campo = "referencia", tipo = TipoFiltro.STRING, comparador = Comparador.CONTAINS_IGNORE_CASE)
@@ -116,7 +121,8 @@ public class ProdutoListaController extends BaseListController<Produto> {
 
 	public void importar() {
 		try {
-			File file = new File("C:/Users/Rafael/Desktop/arquivo_importacao.xls");
+			Parametro parametroCaminho = parametroService.getCaminhoImportacaoProdutos();
+			File file = new File(parametroCaminho.getValor());
 			validarImportacao(file);
 			Fornecedor fornecedor = filtroFornecedor.getSelectionModel().getSelectedItem().getValor();
 			String resultadoImportacao = produtoService.importarProdutosPlanilha(file, fornecedor);

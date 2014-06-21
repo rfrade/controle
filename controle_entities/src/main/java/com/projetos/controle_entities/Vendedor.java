@@ -31,6 +31,14 @@ public class Vendedor implements Entidade, Serializable {
 	@Column(length=50)
 	private String nome;
 
+	//bi-directional one-to-one association to Logradouro
+	@OneToOne
+	@JoinColumn(name="id_logradouro", insertable=true, updatable=true)
+	private Logradouro logradouro;
+
+	public Vendedor() {
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -54,14 +62,6 @@ public class Vendedor implements Entidade, Serializable {
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
-	}
-
-	//bi-directional one-to-one association to Logradouro
-	@OneToOne
-	@JoinColumn(name="id_logradouro", insertable=true, updatable=true)
-	private Logradouro logradouro;
-
-	public Vendedor() {
 	}
 
 	@Override

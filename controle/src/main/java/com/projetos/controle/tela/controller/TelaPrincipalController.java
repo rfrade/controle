@@ -49,7 +49,12 @@ public class TelaPrincipalController extends AbstractController {
 		Parent telaLista = configuracaoBeanTela.carregarTelaProdutoLista();
 		exibirTela(telaLista);
 	}
-	
+
+	public void exibirTelaRelatorioRecebimentos() {
+		Parent telaLista = configuracaoBeanTela.carregarTelaRelatorioRecebimentosLista();
+		exibirTela(telaLista);
+	}
+
 	private void exibirTela(Parent tela) {
 		paneTelaAtiva.getChildren().setAll(tela);
 	}
@@ -104,9 +109,9 @@ public class TelaPrincipalController extends AbstractController {
 		Stage popup = this.exibirPopup(configuracaoBeanTela.carregarTelaRecebimentoLista());
 		return popup;
 	}
-	
-	public Stage exibirTelaRelatorioRecebimentos() {
-		Stage popup = this.exibirPopup(configuracaoBeanTela.carregarTelaRelatorioRecebimentos());
+
+	public Stage exibirTelaRelatorioRecebimentosFiltro() {
+		Stage popup = this.exibirPopup(configuracaoBeanTela.carregarTelaRelatorioRecebimentosFiltro());
 		return popup;
 	}
 	

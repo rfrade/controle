@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="729.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<children><TreeTableView layoutX="21.0" layoutY="68.0" prefHeight="416.0" prefWidth="681.0" xmlns:fx="http://javafx.com/fxml">
+  <columns>
+    <TreeTableColumn prefWidth="75.0" text="Pedido" />
+    <TreeTableColumn prefWidth="75.0" text="Data" /><TreeTableColumn prefWidth="75.0" text="Cliente" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" /><TreeTableColumn prefWidth="75.0" text="Município" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" /><TreeTableColumn prefWidth="75.0" text="Cobrança" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" /><TreeTableColumn prefWidth="75.0" text="V. Pedido" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" /><TreeTableColumn prefWidth="75.0" text="Recebido em" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" /><TreeTableColumn prefWidth="75.0" text="Coleção" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" /><TreeTableColumn prefWidth="75.0" text="Qtdd Itens" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
+  </columns>
+</TreeTableView><Label layoutX="21.0048828125" layoutY="26.5" text="Valor Total" /><Label layoutX="372.0" layoutY="27.0" text="Quantidade de Itens" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" /><Label layoutX="177.0" layoutY="27.0" text="Valor Comissão" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" /><Label fx:id="labelValorTotal" layoutX="94.0" layoutY="27.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" /><Label fx:id="labelValorComissao" layoutX="273.0" layoutY="27.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" /><Label fx:id="valorQuantidadeItens" layoutX="494.0" layoutY="27.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" /><Button fx:id="exibirTelaPesquisa" layoutX="605.0" layoutY="23.0" mnemonicParsing="false" onAction="#pesquisar" prefHeight="25.0" prefWidth="97.0" text="Pesquisar" />
+</children></AnchorPane>

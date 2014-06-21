@@ -112,10 +112,16 @@ public class ConfiguracaoBeanTela {
 		return carregarTela("/fxml/RecebimentoLista.fxml", RecebimentoListaController.class);
 	}
 	
-	@Bean(name = "telaRelatorioRecebimentos")
+	@Bean(name = "telaRelatorioRecebimentosLista")
 	@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-	public Parent carregarTelaRelatorioRecebimentos() {
-		return carregarTela("/fxml/RelatorioRecebimento.fxml", RelatorioRecebimentoController.class);
+	public Parent carregarTelaRelatorioRecebimentosLista() {
+		return carregarTela("/fxml/RelatorioRecebimentoLista.fxml", RelatorioRecebimentoController.class);
+	}
+	
+	@Bean(name = "telaRelatorioRecebimentosFiltro")
+	@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+	public Parent carregarTelaRelatorioRecebimentosFiltro() {
+		return carregarTela("/fxml/RelatorioRecebimentoFiltro.fxml", RelatorioRecebimentoController.class);
 	}
 	
 	@Bean(name = "telaItemPedidoCadastro")

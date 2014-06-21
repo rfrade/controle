@@ -286,7 +286,7 @@ public abstract class BaseEntityController<T extends Entidade> extends AbstractC
 	}
 
 	protected void mascararCampos() {
-		List<Field> camposMascara = getCamposMascara();
+		/*List<Field> camposMascara = getCamposMascara();
 		for (Field field : camposMascara) {
 			TextField campo = (TextField) new Mirror().on(this).get().field(field);
 			
@@ -295,7 +295,7 @@ public abstract class BaseEntityController<T extends Entidade> extends AbstractC
 			}
 
 			campo.setOnKeyReleased(new MaskedTextFieldEventHandler(12));
-		}
+		}*/
 
 	}
 

@@ -96,7 +96,7 @@ create table item_pedido (
 	descricao varchar(100),
 	cor varchar(20),
 	observacao varchar(100),
-	valor_total
+	valor_total double,
 	quantidade_total integer,
 	quantidade_tamanho_1 integer,
 	quantidade_tamanho_2 integer,
@@ -106,6 +106,14 @@ create table item_pedido (
 	quantidade_tamanho_6 integer,
 	quantidade_tamanho_7 integer,
 	quantidade_tamanho_8 integer
+);
+
+create table parametro (
+	id integer not null auto_increment,
+	primary key(id),
+	chave varchar(40),
+	valor varchar(400),
+	descricao varchar(200)
 );
 
 alter table fornecedor
@@ -138,3 +146,10 @@ alter table recebimento
 alter table produto
 	add constraint fk_produto_fornecedor foreign key(id_fornecedor)
 	references fornecedor(id);
+
+insert into parametro(chave, 
+					valor, 
+					descricao)
+	values('caminho_diretorio_importacao', 
+		   'C:/Users/Rafael/Desktop/arquivo_importacao.xls',
+		   'Caminho do diretório de importação da planilha de produtos');

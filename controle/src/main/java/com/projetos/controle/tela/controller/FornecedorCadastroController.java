@@ -1,5 +1,8 @@
 package com.projetos.controle.tela.controller;
 
+import java.net.URL;
+import java.util.ResourceBundle;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableView;
@@ -92,6 +95,25 @@ public class FornecedorCadastroController extends BaseCadastroController<Fornece
 	@Override
 	protected EntidadeService<Fornecedor> getEntidadeService() {
 		return fornecedorService;
+	}
+
+	@Override
+	public void initialize(URL url, ResourceBundle resource) {
+		super.initialize(url, resource);
+		setFornecedorAtivo();
+	}
+
+	private void setFornecedorAtivo() {
+		if (entidadeForm.getId() == null) {
+			entidadeForm.setAtivo(true);
+			ativo.setSelected(true);
+		}
+	}
+
+	@Override
+	public void salvarComMensagem() {
+		super.salvarComMensagem();
+		setFornecedorAtivo();
 	}
 
 	public TextField getFirma() {

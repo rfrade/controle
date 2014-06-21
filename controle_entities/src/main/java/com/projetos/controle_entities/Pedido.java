@@ -98,10 +98,10 @@ public class Pedido implements Entidade, Serializable {
 	private Double valorComissionado;
 
 	@OneToMany(mappedBy="pedido", fetch = FetchType.EAGER, orphanRemoval=true, cascade = CascadeType.REMOVE)
-	private List<ItemPedido> itensPedido;
+	private List<ItemPedido> itensPedido = new ArrayList<>();
 
 	@OneToMany(mappedBy="pedido", fetch = FetchType.EAGER, orphanRemoval=true, cascade = CascadeType.REMOVE)
-	private List<Recebimento> recebimentos;
+	private List<Recebimento> recebimentos = new ArrayList<>();
 
 	public Pedido() {
 	}
@@ -177,6 +177,9 @@ public class Pedido implements Entidade, Serializable {
 	}
 
 	public List<Recebimento> getRecebimentos() {
+		if (recebimentos == null) {
+			recebimentos = new ArrayList<>();
+		}
 		return this.recebimentos;
 	}
 
@@ -184,12 +187,12 @@ public class Pedido implements Entidade, Serializable {
 		this.recebimentos = recebimentos;
 	}
 
-	public Recebimento addRecebimento(Recebimento recebimento) {
+	/*public Recebimento addRecebimento(Recebimento recebimento) {
 		getRecebimentos().add(recebimento);
 		recebimento.setPedido(this);
 
 		return recebimento;
-	}
+	}*/
 
 	public Recebimento removeRecebimento(Recebimento recebimento) {
 		getRecebimentos().remove(recebimento);
@@ -279,9 +282,9 @@ public class Pedido implements Entidade, Serializable {
 	}
 
 	public List<ItemPedido> getItensPedido() {
-		if (itensPedido == null) {
+		/*if (itensPedido == null) {
 			itensPedido = new ArrayList<>();
-		}
+		}*/
 		return itensPedido;
 	}
 

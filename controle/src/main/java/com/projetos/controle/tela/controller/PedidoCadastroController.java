@@ -219,6 +219,15 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 	public void initialize(URL url, ResourceBundle resource) {
 		super.initialize(url, resource);
 
+		if (entidadeForm.getItensPedido() == null) {
+			// Inicialização para evitar: collection cascade="all-delete-orphan" no longer referenced
+			entidadeForm.setItensPedido(new ArrayList<ItemPedido>());
+		}
+
+		if (entidadeForm.getRecebimentos() == null) {
+			entidadeForm.setRecebimentos(new ArrayList<Recebimento>());
+		}
+
 		ObservableList<ItemCombo<Fornecedor>> itensFornecedor = ItemCombo.novaListaCombo(fornecedorService.listar(), "firma");
 		fornecedor.setItems(itensFornecedor);
 
@@ -315,10 +324,7 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 	}
 
 	public void exibirTelaItemPedidoCadastroInclusao() {
-		if (entidadeForm.getId() == null) {
-			exibirMensagem("pedido.salve_antes_de_incluir_produtos");
-			return;
-		}
+		salvarSemMensagem();
 		itemPedidoCadastroController.setEntidadeForm(null);
 		itemPedidoCadastroController.setTabela(tabelaItensPedido);
 		telaPrincipalController.exibirTelaItemPedidoCadastro();
@@ -326,8 +332,21 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 	}
 
 	public void exibirTelaCadastroItemPedidoCadastroAlteracao() {
+		salvarSemMensagem();
 		itemPedidoCadastroController.setTabela(tabelaItensPedido);
 		telaPrincipalController.exibirTelaItemPedidoCadastro();
+	}
+
+	/**
+	 * Chamado pelo botão salvar.
+	 * Como os dados precisam continuar na tela e esse é um comportamento
+	 * diferente do padrão do método salvarComMensagem, essa sobrescrita é
+	 * necessária.
+	 */
+	@Override
+	public void salvarComMensagem() {
+		super.salvarSemMensagem();
+		exibirMensagem("cadastro.salvo_com_sucesso");
 	}
 
 	@Override
@@ -389,12 +408,14 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 		tabelaItensPedido.getItems().remove(itemPedido);
 		entidadeForm = getEntidadeService().findById(entidadeForm.getId());
 		getEntidadeService().salvar(entidadeForm);
+		this.atualizarValorPedido();
 		exibirMensagem("cadastro.removido_com_sucesso");
 	}
 
 	public void atualizarValorPedido() {
 		BigDecimal subTotal = BigDecimal.ZERO;
-		for (ItemPedido itemPedido : tabelaItensPedido.getItems()) {
+//		for (ItemPedido itemPedido : tabelaItensPedido.getItems()) {
+		for (ItemPedido itemPedido : entidadeForm.getItensPedido()) {
 			BigDecimal valorItem = new BigDecimal(itemPedido.getValorTotal());
 			subTotal = subTotal.add(valorItem);
 		}

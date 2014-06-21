@@ -72,6 +72,9 @@ public class ClienteListaController extends BaseListController<Cliente> {
 	@Coluna(bean = "logradouro.cep")
 	private TableColumn<Cliente, String> colunaCep;
 
+	@FXML
+	@Coluna(bean = "logradouro.cidade")
+	private TableColumn<Cliente, String> colunaCidade;
 
 	@FXML
 	private TableView<Cliente> tabela;
