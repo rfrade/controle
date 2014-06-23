@@ -1,11 +1,13 @@
 package com.projetos.controle.tela.controller;
 
+import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,10 +28,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.export.JRPdfExporter;
+import net.sf.jasperreports.view.JasperViewer;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -40,6 +41,7 @@ import com.projetos.controle.tela.base.CampoTela;
 import com.projetos.controle.tela.base.Coluna;
 import com.projetos.controle.tela.base.ItemCombo;
 import com.projetos.controle.tela.controller.base.BaseCadastroController;
+import com.projetos.controle.tela.report.JRDataSourceGenerico;
 import com.projetos.controle_entities.Cliente;
 import com.projetos.controle_entities.Entidade;
 import com.projetos.controle_entities.Fornecedor;
@@ -54,6 +56,7 @@ import com.projetos.controle_negocio.service.base.ItemPedidoService;
 import com.projetos.controle_negocio.service.base.PedidoService;
 import com.projetos.controle_negocio.service.base.RecebimentoService;
 import com.projetos.controle_negocio.service.base.VendedorService;
+import com.projetos.controle_util.conversao.DateUtil;
 
 @Controller
 @Lazy
@@ -64,19 +67,19 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 
 	@Autowired
 	private ItemPedidoService itemPedidoService;
-	
+
 	@Autowired
 	private RecebimentoService recebimentoService;
 
 	@Autowired
 	private FornecedorService fornecedorService;
-	
+
 	@Autowired
 	private VendedorService vendedorService;
-    
-    @Autowired
-    protected RecebimentoListaController recebimentoListaController;
-    
+
+	@Autowired
+	protected RecebimentoListaController recebimentoListaController;
+
 	@Autowired
 	private ItemPedidoCadastroController itemPedidoCadastroController;
 
@@ -123,31 +126,31 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 	@FXML
 	@CampoTela(bean = "observacao")
 	private TextArea observacao;
-	
+
 	@FXML
 	@CampoTela(bean = "desconto1")
 	private TextField desconto1;
-	
+
 	@FXML
 	@CampoTela(bean = "desconto2")
 	private TextField desconto2;
-	
+
 	@FXML
 	@CampoTela(bean = "desconto3")
 	private TextField desconto3;
-	
+
 	@FXML
 	@CampoTela(bean = "desconto4")
 	private TextField desconto4;
-	
+
 	@FXML
 	@CampoTela(bean = "descontoTotal")
 	private TextField descontoTotal;
-	
+
 	@FXML
 	@CampoTela(bean = "valorTotal")
 	private Label valorTotal;
-	
+
 	@FXML
 	@CampoTela(bean = "valorSubTotal")
 	private Label valorSubTotal;
@@ -155,43 +158,43 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 	@FXML
 	@Coluna(bean = "produto.referencia")
 	private TableColumn<Produto, String> referencia;
-	
+
 	@FXML
 	@Coluna(bean = "cor")
 	private TableColumn<Produto, String> cor;
-	
+
 	@FXML
 	@Coluna(bean = "quantidadeTotal")
 	private TableColumn<Produto, String> quantidadeTotal;
-	
+
 	@FXML
 	@Coluna(bean = "quantidadeTamanho1")
 	private TableColumn<Produto, String> quantidadeTamanho1;
-	
+
 	@FXML
 	@Coluna(bean = "quantidadeTamanho2")
 	private TableColumn<Produto, String> quantidadeTamanho2;
-	
+
 	@FXML
 	@Coluna(bean = "quantidadeTamanho3")
 	private TableColumn<Produto, String> quantidadeTamanho3;
-	
+
 	@FXML
 	@Coluna(bean = "quantidadeTamanho4")
 	private TableColumn<Produto, String> quantidadeTamanho4;
-	
+
 	@FXML
 	@Coluna(bean = "quantidadeTamanho5")
 	private TableColumn<Produto, String> quantidadeTamanho5;
-	
+
 	@FXML
 	@Coluna(bean = "quantidadeTamanho6")
 	private TableColumn<Produto, String> quantidadeTamanho6;
-	
+
 	@FXML
 	@Coluna(bean = "quantidadeTamanho7")
 	private TableColumn<Produto, String> quantidadeTamanho7;
-	
+
 	@FXML
 	@Coluna(bean = "quantidadeTamanho8")
 	private TableColumn<Produto, String> quantidadeTamanho8;
@@ -199,7 +202,7 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 	@FXML
 	@Coluna(bean = "produto.valorUnitario")
 	private TableColumn<Produto, String> valorUnitario;
-	
+
 	@FXML
 	@Coluna(bean = "valorTotal")
 	private TableColumn<Produto, String> valorTotalItemPedido;
@@ -207,7 +210,7 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 	@FXML
 	@Coluna(bean = "descricao")
 	private TableColumn<Produto, String> descricao;
-	
+
 	@FXML
 	@Coluna(bean = "observacao")
 	private TableColumn<Produto, String> observacaoItemPedido;
@@ -220,7 +223,8 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 		super.initialize(url, resource);
 
 		if (entidadeForm.getItensPedido() == null) {
-			// Inicialização para evitar: collection cascade="all-delete-orphan" no longer referenced
+			// Inicialização para evitar: collection cascade="all-delete-orphan"
+			// no longer referenced
 			entidadeForm.setItensPedido(new ArrayList<ItemPedido>());
 		}
 
@@ -235,9 +239,16 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 		vendedor.setItems(itensVendedor);
 
 		carregarTabelaItensPedido();
-		
+
 		InnerMouseClicked<ItemPedido> mouseClicked = new InnerMouseClicked<>(tabelaItensPedido, itemPedidoCadastroController);
 		tabelaItensPedido.setOnMouseClicked(mouseClicked);
+	}
+
+	@Override
+	protected Pedido novaEntidadeForm() {
+		Pedido novaEntidadeForm = super.novaEntidadeForm();
+		novaEntidadeForm.setDataPedido(new Date());
+		return novaEntidadeForm;
 	}
 
 	private void carregarTabelaItensPedido() {
@@ -271,7 +282,7 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 		BigDecimal valor4 = getValorDesconto(desconto4);
 
 		List<BigDecimal> descontos = Arrays.asList(valor1, valor2, valor3, valor4);
-		
+
 		BigDecimal descontoFinal = BigDecimal.ZERO;
 		BigDecimal cem = new BigDecimal(100);
 		for (BigDecimal valor : descontos) {
@@ -294,33 +305,201 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 		return bigDecimal;
 	}
 
+	class RelatorioPedidoParam {
+		private static final String NUM_PEDIDO = "NUM_PEDIDO";
+		private static final String DATA_PEDIDO = "DATA_PEDIDO";
+		private static final String FIRMA_FORNECEDOR = "FIRMA_FORNECEDOR";
+		private static final String LOGRADOURO_FORNECEDOR = "LOGRADOURO_FORNECEDOR";
+		private static final String BAIRRO_FORNECEDOR = "BAIRRO_FORNECEDOR";
+		private static final String CIDADE_FORNECEDOR = "CIDADE_FORNECEDOR";
+		private static final String TELEFONE_FORNECEDOR = "TELEFONE_FORNECEDOR";
+		private static final String TRANSPORTADOR = "TRANSPORTADOR";
+		private static final String CONDICAO = "CONDICAO";
+		private static final String COBRANCA = "COBRANCA";
+		private static final String ENTREGA = "ENTREGA";
+		private static final String QUANTIDADE_TOTAL = "QUANTIDADE_TOTAL";
+		private static final String OBSERVACAO = "OBSERVACAO";
+		private static final String SUBTOTAL = "SUBTOTAL";
+		private static final String DESCONTO = "DESCONTO";
+		private static final String TOTAL = "TOTAL";
+		private static final String FIRMA_CLIENTE = "FIRMA_CLIENTE";
+		private static final String LOGRADOURO_CLIENTE = "LOGRADOURO_CLIENTE";
+		private static final String BAIRRO_CLIENTE = "BAIRRO_CLIENTE";
+		private static final String CIDADE_CLIENTE = "CIDADE_CLIENTE";
+		private static final String ESTADO_CLIENTE = "ESTADO_CLIENTE";
+		private static final String FONE_CLIENTE = "FONE_CLIENTE";
+		private static final String CEP_CLIENTE = "CEP_CLIENTE";
+		private static final String CNPJ_CLIENTE = "CNPJ_CLIENTE";
+		private static final String INS_EST_CLIENTE = "INS_EST_CLIENTE";
+	}
+
 	public void imprimir() {
 		bindFormToBean();
 		try {
+			
+			if (entidadeForm.getItensPedido() == null) {
+				exibirMensagem("relatorio.nao_ha_produtos_cadastrados");
+				return;
+			}
+			
 			Map<String, Object> param = new HashMap<>();
-			List<String> dados = new ArrayList<>();
-//			byte[] relatorio = ReportGenerator.gerarRelatorio(dados, "relatorioPedido.jasper", FormatoRelatorio.FORMATO_EXPORT_PDF, param);
+
+			preencherParametro(param, RelatorioPedidoParam.NUM_PEDIDO, entidadeForm.getId());
+			preencherParametro(param, RelatorioPedidoParam.DATA_PEDIDO, getDataPedido());
+			preencherParametro(param, RelatorioPedidoParam.FIRMA_FORNECEDOR, entidadeForm.getFornecedor().getFirma());
+			preencherParametro(param, RelatorioPedidoParam.LOGRADOURO_FORNECEDOR, entidadeForm.getFornecedor().getLogradouro().getEndereco());
+			preencherParametro(param, RelatorioPedidoParam.BAIRRO_FORNECEDOR, entidadeForm.getFornecedor().getLogradouro().getBairro());
+			preencherParametro(param, RelatorioPedidoParam.CIDADE_FORNECEDOR, entidadeForm.getFornecedor().getLogradouro().getCidade());
+			preencherParametro(param, RelatorioPedidoParam.TELEFONE_FORNECEDOR, entidadeForm.getFornecedor().getLogradouro().getTelefone());
+			preencherParametro(param, RelatorioPedidoParam.TRANSPORTADOR, entidadeForm.getTransportador());
+			preencherParametro(param, RelatorioPedidoParam.CONDICAO, entidadeForm.getCondicoes());
+			preencherParametro(param, RelatorioPedidoParam.COBRANCA, entidadeForm.getCobranca());
+			preencherParametro(param, RelatorioPedidoParam.ENTREGA, entidadeForm.getEntrega());
+			preencherParametro(param, RelatorioPedidoParam.QUANTIDADE_TOTAL, getQuantidadeTotal());
+			preencherParametro(param, RelatorioPedidoParam.OBSERVACAO, entidadeForm.getObservacao());
+			preencherParametro(param, RelatorioPedidoParam.SUBTOTAL, entidadeForm.getValorSubTotal());
+			preencherParametro(param, RelatorioPedidoParam.DESCONTO, entidadeForm.getDescontoTotal());
+			preencherParametro(param, RelatorioPedidoParam.TOTAL, entidadeForm.getValorTotal());
+			preencherParametro(param, RelatorioPedidoParam.FIRMA_CLIENTE, entidadeForm.getCliente().getFirma());
+			preencherParametro(param, RelatorioPedidoParam.LOGRADOURO_CLIENTE, entidadeForm.getCliente().getLogradouro().getEndereco());
+			preencherParametro(param, RelatorioPedidoParam.BAIRRO_CLIENTE, entidadeForm.getCliente().getLogradouro().getBairro());
+			preencherParametro(param, RelatorioPedidoParam.CIDADE_CLIENTE, entidadeForm.getCliente().getLogradouro().getCidade());
+			preencherParametro(param, RelatorioPedidoParam.ESTADO_CLIENTE, entidadeForm.getCliente().getLogradouro().getEstado());
+			preencherParametro(param, RelatorioPedidoParam.FONE_CLIENTE, entidadeForm.getCliente().getLogradouro().getTelefone());
+			preencherParametro(param, RelatorioPedidoParam.CEP_CLIENTE, entidadeForm.getCliente().getLogradouro().getCep());
+			preencherParametro(param, RelatorioPedidoParam.CNPJ_CLIENTE, entidadeForm.getCliente().getCnpj());
+			preencherParametro(param, RelatorioPedidoParam.INS_EST_CLIENTE, entidadeForm.getCliente().getInscricao());
+
+			JRDataSourceGenerico<ItemPedido> dataSource = new JRDataSourceGenerico<>(entidadeForm.getItensPedido());
 			
+			// byte[] relatorio = ReportGenerator.gerarRelatorio(dados,
+			// "relatorioPedido.jasper", FormatoRelatorio.FORMATO_EXPORT_PDF,
+			// param);
+
 			InputStream resource = getClass().getResourceAsStream("/report/relatorioPedido.jasper");
+			// String path = "C:\\Users\\Rafael\\Desktop\\pedido.pdf";
 
-//			String file = "D:\\Desenvolvimento\\projetos\\controle\\branches\\controle\\controle\\src\\main\\resources\\report\\relatorioPedido.jasper";
-			JasperPrint print = JasperFillManager.fillReport(resource, param);
+			// String file =
+			// "D:\\Desenvolvimento\\projetos\\controle\\branches\\controle\\controle\\src\\main\\resources\\report\\relatorioPedido.jasper";
+			ByteArrayOutputStream output = new ByteArrayOutputStream();
+			// JasperPrint print =
+			// JasperFillManager.fillReport("D:/Desenvolvimento/projetos/controle/branches/controle/controle/src/main/resources/report/relatorioPedido.jasper",
+			// param);
+			// JasperPrint print =
+			// JasperFillManager.fillReport("C:/Users/Rafael/Desktop/relatorioPedido.jasper",
+			// param);
+			JasperPrint print = JasperFillManager.fillReport(resource, param, dataSource);
+			// JasperFillManager.fillReportToStream(resource, output, param/*,
+			// dataSource*/);
 
-			JRPdfExporter pdfExporter = new JRPdfExporter();
-			pdfExporter.setParameter(JRExporterParameter.JASPER_PRINT, print);
-			String path = "C:\\Users\\Rafael\\Desktop\\pedido.pdf";
-			pdfExporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, path);
-			System.out.println("Exporting report...");
-			pdfExporter.exportReport();
+			JasperViewer.viewReport(print, false);
 
-//			ByteArrayInputStream bis = new ByteArrayInputStream(relatorio);
-//			JasperViewer.viewReport(print);
-			
-		/*} catch (RelatorioException e) {
-			tratarErro(e);*/
+			/*
+			 * byte[] pdf = JasperExportManager.exportReportToPdf(print);
+			 * FileWriter writer = new FileWriter(path);
+			 * 
+			 * char[] array = new char[pdf.length]; for (int i = 0; i <
+			 * pdf.length; i++) { array[i] = (char) pdf[i]; }
+			 * 
+			 * writer.write(array); writer.close();
+			 */
+
+			/*
+			 * System.out.println(docStream);
+			 * System.out.println(docStream.size());
+			 */
+
+			/*
+			 * JRPdfExporter pdfExporter = new JRPdfExporter();
+			 * pdfExporter.setParameter(JRExporterParameter.JASPER_PRINT,
+			 * print);
+			 * pdfExporter.setParameter(JRExporterParameter.CHARACTER_ENCODING,
+			 * "UTF-8");
+			 * pdfExporter.setParameter(JRExporterParameter.OUTPUT_STREAM,
+			 * output);
+			 */
+			// FileWriter writer = new FileWriter(path);
+
+			/*
+			 * POIFSFileSystem fs = new POIFSFileSystem(); DirectoryEntry
+			 * directory = fs.getRoot();
+			 * directory.createDocument("WordDocument", output);
+			 * FileOutputStream out = new
+			 * FileOutputStream("C:\\Users\\Rafael\\Desktop\\pedido.doc");
+			 * fs.writeFilesystem(out); out.close();
+			 */
+
+			/*
+			 * System.out.println("Exporting report...");
+			 * pdfExporter.exportReport();
+			 * 
+			 * System.out.println(output); System.out.println(output.size());
+			 * XWPFDocument doc = new XWPFDocument(); FileOutputStream out = new
+			 * FileOutputStream("teste.docx"); out.write(output.toByteArray());
+			 * doc.write(out); out.close();
+			 */
+
+			// ByteArrayInputStream bis = new ByteArrayInputStream(relatorio);
+			// JasperViewer.viewReport(print);
+
+			/*
+			 * } catch (RelatorioException e) { tratarErro(e);
+			 */
 		} catch (JRException e) {
 			tratarErro(e);
+		} /*
+		 * catch (IOException e) { // TODO Auto-generated catch block
+		 * tratarErro(e); }
+		 */
+	}
+
+	private void preencherParametro(Map<String, Object> map, String parametro, Object valor) {
+		if (valor != null) {
+			map.put(parametro, valor.toString());
+		} else {
+			map.put(parametro, "");
 		}
+	}
+
+	private String getDataPedido() {
+		if (entidadeForm.getDataPedido() != null) {
+			return DateUtil.convertDateToString(entidadeForm.getDataPedido());
+		} else {
+			return "";
+		}
+	}
+
+	private String getQuantidadeTotal() {
+		Integer quantidadeTotal = 0;
+
+		for (ItemPedido item : entidadeForm.getItensPedido()) {
+			if (item.getQuantidadeTamanho1() != null) {
+				quantidadeTotal += item.getQuantidadeTamanho1();
+			}
+			if (item.getQuantidadeTamanho2() != null) {
+				quantidadeTotal += item.getQuantidadeTamanho2();
+			}
+			if (item.getQuantidadeTamanho3() != null) {
+				quantidadeTotal += item.getQuantidadeTamanho3();
+			}
+			if (item.getQuantidadeTamanho4() != null) {
+				quantidadeTotal += item.getQuantidadeTamanho4();
+			}
+			if (item.getQuantidadeTamanho5() != null) {
+				quantidadeTotal += item.getQuantidadeTamanho5();
+			}
+			if (item.getQuantidadeTamanho6() != null) {
+				quantidadeTotal += item.getQuantidadeTamanho6();
+			}
+			if (item.getQuantidadeTamanho7() != null) {
+				quantidadeTotal += item.getQuantidadeTamanho7();
+			}
+			if (item.getQuantidadeTamanho8() != null) {
+				quantidadeTotal += item.getQuantidadeTamanho8();
+			}
+		}
+
+		return quantidadeTotal.toString();
 	}
 
 	public void exibirTelaItemPedidoCadastroInclusao() {
@@ -338,10 +517,9 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 	}
 
 	/**
-	 * Chamado pelo botão salvar.
-	 * Como os dados precisam continuar na tela e esse é um comportamento
-	 * diferente do padrão do método salvarComMensagem, essa sobrescrita é
-	 * necessária.
+	 * Chamado pelo botão salvar. Como os dados precisam continuar na tela e
+	 * esse é um comportamento diferente do padrão do método salvarComMensagem,
+	 * essa sobrescrita é necessária.
 	 */
 	@Override
 	public void salvarComMensagem() {
@@ -352,13 +530,13 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 	@Override
 	public void remover() {
 		List<ItemPedido> itensPedido = entidadeForm.getItensPedido();
-		
+
 		for (ItemPedido itemPedido : itensPedido) {
 			itemPedidoService.remover(itemPedido);
 		}
-		
+
 		List<Recebimento> recebimentos = entidadeForm.getRecebimentos();
-		
+
 		for (Recebimento recebimento : recebimentos) {
 			recebimentoService.remover(recebimento);
 		}
@@ -367,7 +545,7 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 	}
 
 	public class InnerMouseClicked<T extends Entidade> implements EventHandler<MouseEvent> {
-		
+
 		private TableView<T> tabela;
 		private BaseCadastroController<T> baseCadastroController;
 
@@ -414,20 +592,20 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 
 	public void atualizarValorPedido() {
 		BigDecimal subTotal = BigDecimal.ZERO;
-//		for (ItemPedido itemPedido : tabelaItensPedido.getItems()) {
+		// for (ItemPedido itemPedido : tabelaItensPedido.getItems()) {
 		for (ItemPedido itemPedido : entidadeForm.getItensPedido()) {
 			BigDecimal valorItem = new BigDecimal(itemPedido.getValorTotal());
 			subTotal = subTotal.add(valorItem);
 		}
 		subTotal = subTotal.setScale(2, RoundingMode.DOWN);
 		entidadeForm.setValorSubTotal(subTotal.doubleValue());
-		
+
 		BigDecimal desconto = new BigDecimal(entidadeForm.getDescontoTotal() / 100).multiply(subTotal);
 		BigDecimal valorTotal = subTotal.subtract(desconto);
-		
+
 		valorTotal = valorTotal.setScale(2, RoundingMode.DOWN);
 		entidadeForm.setValorTotal(valorTotal.doubleValue());
-		
+
 		BigDecimal porcentagemComissao = new BigDecimal(entidadeForm.getComissao() / 100);
 		BigDecimal valorComissionado = valorTotal.multiply(porcentagemComissao).setScale(2, RoundingMode.DOWN);
 		entidadeForm.setValorComissionado(valorComissionado.doubleValue());

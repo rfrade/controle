@@ -31,6 +31,7 @@ public class Produto implements Entidade, Serializable {
 	@Column(length=100)
 	private String descricao;
 
+	// TODO: EXCLUIR ESSE CAMPO
 	private int quantidade;
 
 	@Column(length=10)
