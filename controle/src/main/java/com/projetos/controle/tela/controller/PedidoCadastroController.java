@@ -5,8 +5,11 @@ import java.io.InputStream;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.net.URL;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -28,6 +31,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.view.JasperViewer;
@@ -46,6 +50,7 @@ import com.projetos.controle_entities.Cliente;
 import com.projetos.controle_entities.Entidade;
 import com.projetos.controle_entities.Fornecedor;
 import com.projetos.controle_entities.ItemPedido;
+import com.projetos.controle_entities.Parametro;
 import com.projetos.controle_entities.Pedido;
 import com.projetos.controle_entities.Produto;
 import com.projetos.controle_entities.Recebimento;
@@ -53,6 +58,7 @@ import com.projetos.controle_entities.Vendedor;
 import com.projetos.controle_negocio.service.base.EntidadeService;
 import com.projetos.controle_negocio.service.base.FornecedorService;
 import com.projetos.controle_negocio.service.base.ItemPedidoService;
+import com.projetos.controle_negocio.service.base.ParametroService;
 import com.projetos.controle_negocio.service.base.PedidoService;
 import com.projetos.controle_negocio.service.base.RecebimentoService;
 import com.projetos.controle_negocio.service.base.VendedorService;
@@ -76,6 +82,9 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 
 	@Autowired
 	private VendedorService vendedorService;
+
+	@Autowired
+	private ParametroService parametroService;
 
 	@Autowired
 	protected RecebimentoListaController recebimentoListaController;
@@ -355,7 +364,7 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 			preencherParametro(param, RelatorioPedidoParam.CONDICAO, entidadeForm.getCondicoes());
 			preencherParametro(param, RelatorioPedidoParam.COBRANCA, entidadeForm.getCobranca());
 			preencherParametro(param, RelatorioPedidoParam.ENTREGA, entidadeForm.getEntrega());
-			preencherParametro(param, RelatorioPedidoParam.QUANTIDADE_TOTAL, getQuantidadeTotal());
+			preencherParametro(param, RelatorioPedidoParam.QUANTIDADE_TOTAL, entidadeForm.getQuantidadeItens());
 			preencherParametro(param, RelatorioPedidoParam.OBSERVACAO, entidadeForm.getObservacao());
 			preencherParametro(param, RelatorioPedidoParam.SUBTOTAL, entidadeForm.getValorSubTotal());
 			preencherParametro(param, RelatorioPedidoParam.DESCONTO, entidadeForm.getDescontoTotal());
@@ -372,85 +381,21 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 
 			JRDataSourceGenerico<ItemPedido> dataSource = new JRDataSourceGenerico<>(entidadeForm.getItensPedido());
 			
-			// byte[] relatorio = ReportGenerator.gerarRelatorio(dados,
-			// "relatorioPedido.jasper", FormatoRelatorio.FORMATO_EXPORT_PDF,
-			// param);
-
 			InputStream resource = getClass().getResourceAsStream("/report/relatorioPedido.jasper");
-			// String path = "C:\\Users\\Rafael\\Desktop\\pedido.pdf";
+			Parametro parametro = parametroService.getCaminhoRelatorioPedidos();
 
-			// String file =
-			// "D:\\Desenvolvimento\\projetos\\controle\\branches\\controle\\controle\\src\\main\\resources\\report\\relatorioPedido.jasper";
-			ByteArrayOutputStream output = new ByteArrayOutputStream();
-			// JasperPrint print =
-			// JasperFillManager.fillReport("D:/Desenvolvimento/projetos/controle/branches/controle/controle/src/main/resources/report/relatorioPedido.jasper",
-			// param);
-			// JasperPrint print =
-			// JasperFillManager.fillReport("C:/Users/Rafael/Desktop/relatorioPedido.jasper",
-			// param);
+			String nomeRelatorio = "/relatorio_pedidos" + getDataAgora() + ".pdf";
+			String path = parametro.getValor() + nomeRelatorio;
+			
 			JasperPrint print = JasperFillManager.fillReport(resource, param, dataSource);
-			// JasperFillManager.fillReportToStream(resource, output, param/*,
-			// dataSource*/);
-
 			JasperViewer.viewReport(print, false);
+			
+			JasperExportManager.exportReportToPdfFile(print, path);
 
-			/*
-			 * byte[] pdf = JasperExportManager.exportReportToPdf(print);
-			 * FileWriter writer = new FileWriter(path);
-			 * 
-			 * char[] array = new char[pdf.length]; for (int i = 0; i <
-			 * pdf.length; i++) { array[i] = (char) pdf[i]; }
-			 * 
-			 * writer.write(array); writer.close();
-			 */
 
-			/*
-			 * System.out.println(docStream);
-			 * System.out.println(docStream.size());
-			 */
-
-			/*
-			 * JRPdfExporter pdfExporter = new JRPdfExporter();
-			 * pdfExporter.setParameter(JRExporterParameter.JASPER_PRINT,
-			 * print);
-			 * pdfExporter.setParameter(JRExporterParameter.CHARACTER_ENCODING,
-			 * "UTF-8");
-			 * pdfExporter.setParameter(JRExporterParameter.OUTPUT_STREAM,
-			 * output);
-			 */
-			// FileWriter writer = new FileWriter(path);
-
-			/*
-			 * POIFSFileSystem fs = new POIFSFileSystem(); DirectoryEntry
-			 * directory = fs.getRoot();
-			 * directory.createDocument("WordDocument", output);
-			 * FileOutputStream out = new
-			 * FileOutputStream("C:\\Users\\Rafael\\Desktop\\pedido.doc");
-			 * fs.writeFilesystem(out); out.close();
-			 */
-
-			/*
-			 * System.out.println("Exporting report...");
-			 * pdfExporter.exportReport();
-			 * 
-			 * System.out.println(output); System.out.println(output.size());
-			 * XWPFDocument doc = new XWPFDocument(); FileOutputStream out = new
-			 * FileOutputStream("teste.docx"); out.write(output.toByteArray());
-			 * doc.write(out); out.close();
-			 */
-
-			// ByteArrayInputStream bis = new ByteArrayInputStream(relatorio);
-			// JasperViewer.viewReport(print);
-
-			/*
-			 * } catch (RelatorioException e) { tratarErro(e);
-			 */
 		} catch (JRException e) {
 			tratarErro(e);
-		} /*
-		 * catch (IOException e) { // TODO Auto-generated catch block
-		 * tratarErro(e); }
-		 */
+		}
 	}
 
 	private void preencherParametro(Map<String, Object> map, String parametro, Object valor) {
@@ -467,39 +412,6 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 		} else {
 			return "";
 		}
-	}
-
-	private String getQuantidadeTotal() {
-		Integer quantidadeTotal = 0;
-
-		for (ItemPedido item : entidadeForm.getItensPedido()) {
-			if (item.getQuantidadeTamanho1() != null) {
-				quantidadeTotal += item.getQuantidadeTamanho1();
-			}
-			if (item.getQuantidadeTamanho2() != null) {
-				quantidadeTotal += item.getQuantidadeTamanho2();
-			}
-			if (item.getQuantidadeTamanho3() != null) {
-				quantidadeTotal += item.getQuantidadeTamanho3();
-			}
-			if (item.getQuantidadeTamanho4() != null) {
-				quantidadeTotal += item.getQuantidadeTamanho4();
-			}
-			if (item.getQuantidadeTamanho5() != null) {
-				quantidadeTotal += item.getQuantidadeTamanho5();
-			}
-			if (item.getQuantidadeTamanho6() != null) {
-				quantidadeTotal += item.getQuantidadeTamanho6();
-			}
-			if (item.getQuantidadeTamanho7() != null) {
-				quantidadeTotal += item.getQuantidadeTamanho7();
-			}
-			if (item.getQuantidadeTamanho8() != null) {
-				quantidadeTotal += item.getQuantidadeTamanho8();
-			}
-		}
-
-		return quantidadeTotal.toString();
 	}
 
 	public void exibirTelaItemPedidoCadastroInclusao() {

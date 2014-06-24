@@ -11,4 +11,8 @@ public interface ParametroService extends EntidadeService<Parametro> {
 	Parametro getParametroByChave(String chave);
 
 	Parametro getCaminhoImportacaoProdutos();
+
+	Parametro getCaminhoRelatorioPedidos();
+
+	Parametro getCaminhoRelatorioRecebimentos();
 }

@@ -19,6 +19,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 
 /**
@@ -103,6 +104,9 @@ public class Pedido implements Entidade, Serializable {
 	@OneToMany(mappedBy="pedido", fetch = FetchType.EAGER, orphanRemoval=true, cascade = CascadeType.REMOVE)
 	private List<Recebimento> recebimentos = new ArrayList<>();
 
+	@Transient
+	private Integer quantidadeItens;
+
 	public Pedido() {
 	}
 
@@ -185,6 +189,40 @@ public class Pedido implements Entidade, Serializable {
 
 	public void setRecebimentos(List<Recebimento> recebimentos) {
 		this.recebimentos = recebimentos;
+	}
+
+	public Integer getQuantidadeItens() {
+		Integer quantidadeTotal = 0;
+		if (itensPedido == null) {
+			return 0;
+		}
+		for (ItemPedido item : itensPedido) {
+			if (item.getQuantidadeTamanho1() != null) {
+				quantidadeTotal += item.getQuantidadeTamanho1();
+			}
+			if (item.getQuantidadeTamanho2() != null) {
+				quantidadeTotal += item.getQuantidadeTamanho2();
+			}
+			if (item.getQuantidadeTamanho3() != null) {
+				quantidadeTotal += item.getQuantidadeTamanho3();
+			}
+			if (item.getQuantidadeTamanho4() != null) {
+				quantidadeTotal += item.getQuantidadeTamanho4();
+			}
+			if (item.getQuantidadeTamanho5() != null) {
+				quantidadeTotal += item.getQuantidadeTamanho5();
+			}
+			if (item.getQuantidadeTamanho6() != null) {
+				quantidadeTotal += item.getQuantidadeTamanho6();
+			}
+			if (item.getQuantidadeTamanho7() != null) {
+				quantidadeTotal += item.getQuantidadeTamanho7();
+			}
+			if (item.getQuantidadeTamanho8() != null) {
+				quantidadeTotal += item.getQuantidadeTamanho8();
+			}
+		}
+		return quantidadeTotal;
 	}
 
 	/*public Recebimento addRecebimento(Recebimento recebimento) {

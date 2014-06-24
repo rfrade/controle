@@ -39,4 +39,14 @@ public class ParametroServiceImpl extends EntidadeServiceImpl<Parametro> impleme
 		return QParametro.parametro;
 	}
 
+	@Override
+	public Parametro getCaminhoRelatorioPedidos() {
+		return this.getParametroByChave("caminho_relatorio_pedido");
+	}
+
+	@Override
+	public Parametro getCaminhoRelatorioRecebimentos() {
+		return this.getParametroByChave("caminho_relatorio_recebimentos");
+	}
+
 }

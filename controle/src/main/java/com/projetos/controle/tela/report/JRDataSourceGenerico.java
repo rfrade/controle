@@ -1,6 +1,7 @@
 package com.projetos.controle.tela.report;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -10,6 +11,7 @@ import net.sf.jasperreports.engine.JRField;
 
 import org.apache.log4j.Logger;
 
+import com.projetos.controle_util.conversao.DateUtil;
 import com.projetos.controle_util.reflection.BeanUtil;
 
 /**
@@ -23,7 +25,7 @@ public class JRDataSourceGenerico<T> implements JRDataSource {
 
 	private Iterator<T> iterator;
 	protected static final Logger LOGGER = Logger.getLogger(JRDataSourceGenerico.class);
-	private T elemento;
+	protected T elemento;
 
 	public JRDataSourceGenerico(T objeto) {
 		List<T> lista = new ArrayList<T>();
@@ -52,11 +54,16 @@ public class JRDataSourceGenerico<T> implements JRDataSource {
 	public Object getFieldValue(JRField propriedade) throws JRException {
 		Object valor = BeanUtil.getPropriedade(elemento, propriedade.getName());
 				//PropertyManager.getValorCampo(propriedade.getName(), elemento);
-		if (valor != null) {
-			return valor.toString();
+		if (valor == null) {
+			LOGGER.info("Atributo " + propriedade.getName() + " não encontrado no objeto");
+			return "";
+		} else if (valor instanceof Boolean) {
+			return ((Boolean)valor) == true ? "SIM" : "NÃO";
+		} else if (valor instanceof Date) {
+			return DateUtil.convertDateToString((Date)valor);
 		}
-		LOGGER.info("Atributo " + propriedade.getName() + " não encontrado no objeto");
-		return "";
+
+		return valor.toString();
 	}
 
 	protected T getElemento() {

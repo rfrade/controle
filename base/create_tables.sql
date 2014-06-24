@@ -151,5 +151,19 @@ insert into parametro(chave,
 					valor, 
 					descricao)
 	values('caminho_diretorio_importacao', 
-		   'C:/Users/Rafael/Desktop/arquivo_importacao.xls',
+		   'C:/Users/JoãoCarlos/arquivo_importacao.xls',
 		   'Caminho do diretório de importação da planilha de produtos');
+		   
+insert into parametro(chave, 
+					valor, 
+					descricao)
+	values('caminho_relatorio_recebimentos', 
+		   'C:\Users\JoãoCarlos\Documents\relatorios',
+		   'Diretório onde será salvo o relatorio de recebimentos');
+		   
+insert into parametro(chave, 
+					valor, 
+					descricao)
+	values('caminho_relatorio_pedido', 
+		   'C:\Users\JoãoCarlos\Documents\relatorios',
+		   'Diretório onde será salvo o relatorio do pedido');

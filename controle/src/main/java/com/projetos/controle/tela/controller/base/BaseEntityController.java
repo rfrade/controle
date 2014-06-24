@@ -2,6 +2,7 @@ package com.projetos.controle.tela.controller.base;
 
 import java.lang.reflect.Field;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -343,14 +344,14 @@ public abstract class BaseEntityController<T extends Entidade> extends AbstractC
 	 * @param localDate
 	 * @return Date
 	 */
-	private Date fromLocalDateToDate(LocalDate localDate) {
+	 protected Date fromLocalDateToDate(LocalDate localDate) {
 		if (localDate == null) {
 			return null;
 		}
 		
 		Calendar cal = Calendar.getInstance();
 		cal.set(Calendar.DAY_OF_MONTH, localDate.getDayOfMonth());
-		cal.set(Calendar.MONTH, localDate.getMonthValue());
+		cal.set(Calendar.MONTH, localDate.getMonthValue() - 1);
 		cal.set(Calendar.YEAR, localDate.getYear());
 		
 		return cal.getTime();
@@ -384,8 +385,20 @@ public abstract class BaseEntityController<T extends Entidade> extends AbstractC
 		
 		return camposMascara;
 	}
-	
-    protected void tratarErro(Exception e) {
+
+	protected String getDataAgora() {
+		LocalDate localDate = LocalDate.now();
+		LocalTime localTime = LocalTime.now();
+		int dia = localDate.getDayOfMonth();
+		int mes = localDate.getMonthValue();
+		int ano = localDate.getYear();
+		int hora = localTime.getHour();
+		int minuto = localTime.getMinute();
+		int segundo = localTime.getSecond();
+		return ano + "_" + mes + "_" + dia + "_" + hora + "_" + minuto + "_" + segundo;
+	}
+
+	protected void tratarErro(Exception e) {
     	log.error(e.getMessage(), e);
 		exibirMensagem("Erro, tire um print da tela e envie o arquivo de log para o email rafaelfrade@live.com; "
 				+ e.getMessage());
