@@ -1,15 +1,11 @@
 package com.projetos.controle.tela.controller;
 
-import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.net.URL;
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -24,6 +20,7 @@ import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
@@ -55,6 +52,9 @@ import com.projetos.controle_entities.Pedido;
 import com.projetos.controle_entities.Produto;
 import com.projetos.controle_entities.Recebimento;
 import com.projetos.controle_entities.Vendedor;
+import com.projetos.controle_negocio.filtro.Comparador;
+import com.projetos.controle_negocio.filtro.Filtro;
+import com.projetos.controle_negocio.filtro.TipoFiltro;
 import com.projetos.controle_negocio.service.base.EntidadeService;
 import com.projetos.controle_negocio.service.base.FornecedorService;
 import com.projetos.controle_negocio.service.base.ItemPedidoService;
@@ -63,6 +63,7 @@ import com.projetos.controle_negocio.service.base.PedidoService;
 import com.projetos.controle_negocio.service.base.RecebimentoService;
 import com.projetos.controle_negocio.service.base.VendedorService;
 import com.projetos.controle_util.conversao.DateUtil;
+import com.projetos.controle_util.validacao.ValidacaoException;
 
 @Controller
 @Lazy
@@ -118,7 +119,7 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 
 	@FXML
 	@CampoTela(bean = "comissao")
-	private TextField comissao;
+	private PasswordField comissao;
 
 	@FXML
 	@CampoTela(bean = "entrega")
@@ -241,7 +242,10 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 			entidadeForm.setRecebimentos(new ArrayList<Recebimento>());
 		}
 
-		ObservableList<ItemCombo<Fornecedor>> itensFornecedor = ItemCombo.novaListaCombo(fornecedorService.listar(), "firma");
+		
+		Filtro filtro = new Filtro("ativo", TipoFiltro.BOOLEAN, Comparador.EQUALS, true);
+		List<Fornecedor> fornecedores = fornecedorService.filtrar(filtro);
+		ObservableList<ItemCombo<Fornecedor>> itensFornecedor = ItemCombo.novaListaCombo(fornecedores, "firma");
 		fornecedor.setItems(itensFornecedor);
 
 		ObservableList<ItemCombo<Vendedor>> itensVendedor = ItemCombo.novaListaCombo(vendedorService.listar(), "nome");
@@ -257,6 +261,7 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 	protected Pedido novaEntidadeForm() {
 		Pedido novaEntidadeForm = super.novaEntidadeForm();
 		novaEntidadeForm.setDataPedido(new Date());
+		novaEntidadeForm.setComissao(10);
 		return novaEntidadeForm;
 	}
 
@@ -269,10 +274,14 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 	}
 
 	public void exibirTelaRecebimentoLista() {
-		salvarSemMensagem();
-		recebimentoListaController.setEntidadeForm(new Recebimento());
-		recebimentoListaController.getEntidadeForm().setPedido(entidadeForm);
-		telaPrincipalController.exibirTelaRecebimentoLista();
+		try {
+			salvarSemMensagem();
+			recebimentoListaController.setEntidadeForm(new Recebimento());
+			recebimentoListaController.getEntidadeForm().setPedido(entidadeForm);
+			telaPrincipalController.exibirTelaRecebimentoLista();
+		} catch (ValidacaoException e) {
+			tratarErroValidacao(e);
+		}
 	}
 
 	public void exibirTelaCliente() {
@@ -415,17 +424,26 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 	}
 
 	public void exibirTelaItemPedidoCadastroInclusao() {
-		salvarSemMensagem();
-		itemPedidoCadastroController.setEntidadeForm(null);
-		itemPedidoCadastroController.setTabela(tabelaItensPedido);
-		telaPrincipalController.exibirTelaItemPedidoCadastro();
-		itemPedidoCadastroController.getEntidadeForm().setPedido(entidadeForm);
+		try {
+			salvarSemMensagem();
+			itemPedidoCadastroController.setEntidadeForm(null);
+			itemPedidoCadastroController.setTabela(tabelaItensPedido);
+			telaPrincipalController.exibirTelaItemPedidoCadastro();
+			itemPedidoCadastroController.getEntidadeForm().setPedido(entidadeForm);
+		} catch (ValidacaoException e) {
+			tratarErroValidacao(e);
+		}
 	}
 
 	public void exibirTelaCadastroItemPedidoCadastroAlteracao() {
-		salvarSemMensagem();
-		itemPedidoCadastroController.setTabela(tabelaItensPedido);
-		telaPrincipalController.exibirTelaItemPedidoCadastro();
+		try {
+			salvarSemMensagem();
+			itemPedidoCadastroController.setTabela(tabelaItensPedido);
+			telaPrincipalController.exibirTelaItemPedidoCadastro();
+		} catch (ValidacaoException e) {
+			tratarErroValidacao(e);
+		}
+
 	}
 
 	/**
@@ -435,10 +453,36 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 	 */
 	@Override
 	public void salvarComMensagem() {
-		super.salvarSemMensagem();
-		exibirMensagem("cadastro.salvo_com_sucesso");
+		try {
+			super.salvarSemMensagem();
+			if (entidadeForm.getId() != 0) {
+				incluirRecebimento();
+			} else {
+				alterarRecebimento();
+			}
+			
+			exibirMensagem("cadastro.salvo_com_sucesso");
+		} catch (ValidacaoException e) {
+			tratarErroValidacao(e);
+		}
 	}
 
+	private void incluirRecebimento() {
+		Recebimento recebimento = new Recebimento();
+		recebimento.setDataRecebimento(null);
+		recebimento.setPedido(entidadeForm);
+		recebimento.setRecebido(false);
+		recebimento.setValorRecebimento(entidadeForm.getValorTotal() * entidadeForm.getComissao() / 100);
+		recebimentoService.salvar(recebimento);
+	}
+
+
+	private void alterarRecebimento() {
+		Filtro filtroRecebido = new Filtro("recebido", TipoFiltro.BOOLEAN, Comparador.EQUALS, false);
+		Filtro filtroPedido = new Filtro("recebido", TipoFiltro.BOOLEAN, Comparador.EQUALS, false);
+
+	}
+	
 	@Override
 	public void remover() {
 		List<ItemPedido> itensPedido = entidadeForm.getItensPedido();
@@ -599,14 +643,6 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 
 	public void setCobranca(TextField cobranca) {
 		this.cobranca = cobranca;
-	}
-
-	public TextField getComissao() {
-		return comissao;
-	}
-
-	public void setComissao(TextField comissao) {
-		this.comissao = comissao;
 	}
 
 	public TextField getEntrega() {

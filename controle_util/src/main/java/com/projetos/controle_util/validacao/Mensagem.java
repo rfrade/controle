@@ -1,5 +1,6 @@
 package com.projetos.controle_util.validacao;
 
+// TODO: EXCLUIR CLASSE
 public class Mensagem {
 
 	private CodigoMensagem codigoMensagem;

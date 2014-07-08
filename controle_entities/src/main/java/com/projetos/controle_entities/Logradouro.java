@@ -9,6 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Size;
 
 
 /**
@@ -27,32 +29,41 @@ public class Logradouro implements Entidade, Serializable {
 	private Integer id;
 
 	@Column(length=30)
+	@Size(max = 30, message = "Campo BAIRRO tem que ter até 30 caracteres")
 	private String bairro;
 
 	@Column(length=8)
+	@Size(max = 8, message = "Campo CEP tem que ter até 8 caracteres")
 	private String cep;
 
 	@Column(length=30)
+	@Size(max = 30, message = "Campo CIDADE tem que ter até 30 caracteres")
 	private String cidade;
 
 	@Column(length=20)
+	@Size(max = 20, message = "Campo CEP tem que ter até 20 caracteres")
 	private String complemento;
 
 	@Column(length=3)
+	@Size(max = 3, message = "Campo DDD tem que ter até 3 caracteres")
 	private String ddd;
 
 	@Column(length=100)
+	@Size(max = 100, message = "Campo EMAIL tem que ter até 100 caracteres")
 	private String email;
 
 	@Column(length=120)
+	@Size(max = 120, message = "Campo ENDEREÇO tem que ter até 120 caracteres")
 	private String endereco;
 
 	@Column(length=2)
+	@Size(max = 2, message="Campo ESTADO tem que ter até 2 caracteres")
 	private String estado;
 
 	private int numero;
 
 	@Column(length=9)
+	@Size(max = 9, message = "Campo TELEFONE tem que ter até 9 caracteres")
 	private String telefone;
 
 	public Logradouro() {

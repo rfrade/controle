@@ -51,6 +51,21 @@
 			<version>4.3.0.Final</version>
 		</dependency>
 		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-validator</artifactId>
+			<version>5.1.1.Final</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.el</groupId>
+			<artifactId>javax.el-api</artifactId>
+			<version>2.2.4</version>
+		</dependency>
+		<dependency>
+			<groupId>org.glassfish.web</groupId>
+			<artifactId>javax.el</artifactId>
+			<version>2.2.4</version>
+		</dependency>
+		<dependency>
 			<groupId>com.projetos</groupId>
 			<artifactId>controle_util</artifactId>
 			<version>1.0</version>
@@ -87,14 +102,14 @@
 		</dependency>
 	</dependencies>
 	<build>
-	  <pluginManagement>
-		    <plugins> 
-			<plugin>
-				<groupId>com.mysema.maven</groupId>
-				<artifactId>apt-maven-plugin</artifactId>
-			</plugin>
-    		</plugins>
-  		</pluginManagement>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>com.mysema.maven</groupId>
+					<artifactId>apt-maven-plugin</artifactId>
+				</plugin>
+			</plugins>
+		</pluginManagement>
 		<plugins>
 			<plugin>
 				<groupId>com.mysema.maven</groupId>

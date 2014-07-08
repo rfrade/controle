@@ -7,9 +7,8 @@ import java.lang.annotation.Target;
 
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface CampoTela {
+public @interface Validacao {
 
-	String bean();
-	int tamanho() default 200;
+	String regex();
 
 }

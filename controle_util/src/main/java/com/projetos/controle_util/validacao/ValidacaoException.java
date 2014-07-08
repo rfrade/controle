@@ -1,33 +1,26 @@
 package com.projetos.controle_util.validacao;
 
+/**
+ * Exceção usada na validação de campos da tela.
+ * A mensagem do construtor é a exibida na tela.
+ * @author Rafael
+ *
+ */
 public class ValidacaoException extends Exception {
 
 	private static final long serialVersionUID = 1L;
-	private Mensagem mensagemValidacao;
-	private String codigoMensagem;
+	private String mensagem;
 
-	public ValidacaoException(Mensagem mensagemValidacao) {
-		this.mensagemValidacao = mensagemValidacao;
-	}
-	
-	public ValidacaoException(String codigoMensagem) {
-		this.setCodigoMensagem(codigoMensagem);
+	public ValidacaoException(String mensagem) {
+		this.setMensagem(mensagem);
 	}
 
-	public ValidacaoException(CodigoMensagem codigoMensagem, SeveridadeMensagem severidade, String campo) {
-		this.mensagemValidacao = new Mensagem(codigoMensagem, severidade, campo);
+	public String getMensagem() {
+		return mensagem;
 	}
 
-	public Mensagem getMensagemValidacao() {
-		return mensagemValidacao;
-	}
-
-	public String getCodigoMensagem() {
-		return codigoMensagem;
-	}
-
-	public void setCodigoMensagem(String codigoMensagem) {
-		this.codigoMensagem = codigoMensagem;
+	public void setMensagem(String mensagem) {
+		this.mensagem = mensagem;
 	}
 
 }

@@ -8,6 +8,8 @@ import java.util.ResourceBundle;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
@@ -28,6 +30,7 @@ import com.projetos.controle_entities.Parametro;
 import com.projetos.controle_entities.Produto;
 import com.projetos.controle_negocio.exception.NegocioException;
 import com.projetos.controle_negocio.filtro.Comparador;
+import com.projetos.controle_negocio.filtro.Filtro;
 import com.projetos.controle_negocio.filtro.TipoFiltro;
 import com.projetos.controle_negocio.service.base.EntidadeService;
 import com.projetos.controle_negocio.service.base.FornecedorService;
@@ -67,6 +70,10 @@ public class ProdutoListaController extends BaseListController<Produto> {
 	private TextField filtroDescricao;
 	
 	@FXML
+	@FiltroTela(campo = "fornecedor", tipo = TipoFiltro.LIST, comparador = Comparador.EQUALS)
+	private ComboBox<ItemCombo<Fornecedor>> filtroFornecedor;
+
+	@FXML
 	@Coluna(bean = "referencia")
 	private TableColumn<Produto, String> colunaReferencia;
 	
@@ -81,10 +88,6 @@ public class ProdutoListaController extends BaseListController<Produto> {
 	@FXML
 	@Coluna(bean = "tamanho")
 	private TableColumn<Produto, String> colunaTamanho;
-	
-	@FXML
-	@FiltroTela(campo = "fornecedor", tipo = TipoFiltro.LIST, comparador = Comparador.EQUALS)
-	private ComboBox<ItemCombo<Fornecedor>> filtroFornecedor;
 	
 	@FXML
 	private TableView<Produto> tabela;
@@ -133,6 +136,52 @@ public class ProdutoListaController extends BaseListController<Produto> {
 			tratarErro(e);
 		} catch (ValidacaoException e) {
 			tratarErroValidacao(e);
+		}
+	}
+
+	public void exibirPopupConfirmacaoRemoverTodos() {
+		exibirPopupConfirmacao(new RemoverTodosConfirmmHandler());
+	}
+
+	/**
+	 * Handler chamado pelo botão de confirmação da exclusão
+	 * @author Rafael
+	 */
+	public class RemoverTodosConfirmmHandler implements EventHandler<ActionEvent> {
+		@Override
+		public void handle(ActionEvent event) {
+			removerTodos();
+			fecharPopupConfirmacao();
+		}
+	}
+
+	@Override
+	protected List<Filtro> getFiltrosFixos() {
+		List<Filtro> filtros = new ArrayList<>();
+
+		Filtro filtroAtivo = new Filtro("ativo", TipoFiltro.BOOLEAN, Comparador.EQUALS, true);
+		filtros.add(filtroAtivo);
+
+		return filtros;
+	}
+
+	private void removerTodos() {
+		try {
+			validarExclusao();
+			Fornecedor fornecedor = filtroFornecedor.getSelectionModel().getSelectedItem().getValor();
+			produtoService.removerTodos(fornecedor);
+			exibirMensagem("cadastro.removido_com_sucesso");
+
+			pesquisar();
+
+		} catch (ValidacaoException e) {
+			tratarErroValidacao(e);
+		}
+	}
+
+	private void validarExclusao() throws ValidacaoException {
+		if (filtroFornecedor.getSelectionModel().getSelectedItem() == null) {
+			throw new ValidacaoException("produto.selecione_o_fornecedor");
 		}
 	}
 

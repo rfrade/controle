@@ -3,6 +3,7 @@ package com.projetos.controle_entities;
 import java.io.Serializable;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 
 
 /**
@@ -13,6 +14,46 @@ import javax.persistence.*;
 @Table(name="fornecedor")
 @NamedQuery(name="Fornecedor.findAll", query="SELECT f FROM Fornecedor f")
 public class Fornecedor implements Entidade, Serializable {
+
+	private static final long serialVersionUID = 1L;
+
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(unique=true, nullable=false)
+	private Integer id;
+
+	@Column(columnDefinition = "BIT", length = 1)
+	private boolean ativo;
+
+	@Column(length=25)
+	@Size(max = 25, message = "O campo CNPJ tem que ter até 25 caracteres")
+	private String cnpj;
+
+	@Column(length=50)
+	@Size(max = 50, message = "O campo COMPRADOR tem que ter até 50 caracteres")
+	private String comprador;
+
+	@Column(length=100)
+	@Size(max = 100, message = "O campo FIRMA tem que ter até 100 caracteres")
+	private String firma;
+
+	@Column(length=15)
+	@Size(max = 15, message = "O campo FIRMA tem que ter até 15 caracteres")
+	private String inscricao;
+
+	//bi-directional many-to-one association to Logradouro
+	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+	@JoinColumn(name="id_logradouro", insertable=true, updatable=true)
+	private Logradouro logradouro;
+
+	public Fornecedor() {
+	}
+
+	@Override
+	public String toString() {
+		return "Fornecedor [id=" + id + ", cnpj=" + cnpj + ", firma=" + firma + "]";
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -36,41 +77,6 @@ public class Fornecedor implements Entidade, Serializable {
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
-	}
-
-	private static final long serialVersionUID = 1L;
-
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(unique=true, nullable=false)
-	private Integer id;
-
-	@Column(columnDefinition = "BIT", length = 1)
-	private boolean ativo;
-
-	@Column(length=15)
-	private String cnpj;
-
-	@Column(length=50)
-	private String comprador;
-
-	@Column(length=100)
-	private String firma;
-
-	@Column(length=15)
-	private String inscricao;
-
-	//bi-directional many-to-one association to Logradouro
-	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-	@JoinColumn(name="id_logradouro", insertable=true, updatable=true)
-	private Logradouro logradouro;
-
-	public Fornecedor() {
-	}
-
-	@Override
-	public String toString() {
-		return "Fornecedor [id=" + id + ", cnpj=" + cnpj + ", firma=" + firma + "]";
 	}
 
 	public Integer getId() {

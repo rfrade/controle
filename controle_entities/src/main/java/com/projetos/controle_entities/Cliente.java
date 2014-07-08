@@ -2,7 +2,18 @@ package com.projetos.controle_entities;
 
 import java.io.Serializable;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
+import javax.validation.Valid;
+import javax.validation.constraints.Size;
 
 
 /**
@@ -23,21 +34,26 @@ public class Cliente implements Entidade, Serializable {
 	@Column(columnDefinition = "BIT", length = 1)
 	private boolean ativo;
 
-	@Column(length=15)
+	@Column(length=25)
+	@Size(max = 25, message = "O campo CNPJ tem que ter até 25 caracteres")
 	private String cnpj;
 
 	@Column(length=50)
+	@Size(max = 50, message = "O campo COMPRADOR tem que ter até 50 caracteres")
 	private String comprador;
 
 	@Column(length=100)
+	@Size(max = 100, message = "O campo FIRMA tem que ter até 100 caracteres")
 	private String firma;
 
 	@Column(length=15)
+	@Size(max = 15, message = "O campo FIRMA tem que ter até 15 caracteres")
 	private String inscricao;
 
 	//bi-directional many-to-one association to Logradouro
 	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	@JoinColumn(name="id_logradouro", insertable=true, updatable=true)
+	@Valid
 	private Logradouro logradouro;
 
 	@Override

@@ -53,6 +53,8 @@ public class Filtro {
 			return valor;
 		case LIST:
 			return valor;
+		case OBJECT:
+			return valor;
 		default:
 			return valor;
 		}

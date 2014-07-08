@@ -28,6 +28,7 @@ import com.projetos.controle_entities.Produto;
 import com.projetos.controle_negocio.service.base.EntidadeService;
 import com.projetos.controle_negocio.service.base.ItemPedidoService;
 import com.projetos.controle_negocio.service.base.ProdutoService;
+import com.projetos.controle_util.validacao.ValidacaoException;
 
 @Controller
 @Lazy
@@ -159,22 +160,26 @@ public class ItemPedidoCadastroController extends BaseCadastroController<ItemPed
 
 	@Override
 	public void salvarComMensagem() {
-		PedidoCadastroController pedidoCadastroController = ApplicationConfig.getBean(PedidoCadastroController.class);
+		try {
+			PedidoCadastroController pedidoCadastroController = ApplicationConfig.getBean(PedidoCadastroController.class);
 
-		Pedido pedido = entidadeForm.getPedido();
-		super.salvarSemMensagem();
-		super.exibirMensagem("cadastro.salvo_com_sucesso");
+			Pedido pedido = entidadeForm.getPedido();
+			super.salvarSemMensagem();
+			super.exibirMensagem("cadastro.salvo_com_sucesso");
 
-		if (!pedido.getItensPedido().contains(entidadeForm)) {
-			pedido.addItemPedido(entidadeForm);
+			if (!pedido.getItensPedido().contains(entidadeForm)) {
+				pedido.addItemPedido(entidadeForm);
+			}
+			pedidoCadastroController.getEntidadeService().salvar(entidadeForm.getPedido());
+			pedidoCadastroController.atualizarValorPedido();
+
+			entidadeForm = novaEntidadeForm();
+			super.bindBeanToForm();
+			entidadeForm.setPedido(pedido);
+
+		} catch (ValidacaoException e) {
+			tratarErroValidacao(e);
 		}
-		pedidoCadastroController.getEntidadeService().salvar(entidadeForm.getPedido());
-		pedidoCadastroController.atualizarValorPedido();
-
-		entidadeForm = novaEntidadeForm();
-		super.bindBeanToForm();
-		entidadeForm.setPedido(pedido);
-
 	}
 
 	private void calcularQuantidadeTotal() {

@@ -29,8 +29,5 @@
 		<Button layoutX="153.0" layoutY="32.0" mnemonicParsing="false"
 			text="Excluir Recebimento" xmlns="http://javafx.com/javafx/8"
 			xmlns:fx="http://javafx.com/fxml/1" onAction="#exibirPopupConfirmacao"/>
-		<Button layoutX="289.0" layoutY="32.0" mnemonicParsing="false"
-			prefHeight="25.0" prefWidth="123.0" text="Imprimir Lista" xmlns="http://javafx.com/javafx/8"
-			xmlns:fx="http://javafx.com/fxml/1" />
 	</children>
 </AnchorPane>

@@ -20,6 +20,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 
 /**
@@ -39,14 +41,18 @@ public class Pedido implements Entidade, Serializable {
 	private Integer id;
 
 	@Column(length=60)
+	@Size(max = 60, message = "Campo CEP tem que ter até 30 caracteres")
 	private String cobranca;
 
 	@Column(length=30)
+	@Size(max = 60, message = "Campo COLEÇÃO tem que ter até 60 caracteres")
 	private String colecao;
 
+	@Column
 	private double comissao;
 
 	@Column(length=60)
+	@Size(max = 60, message = "Campo CONDIÇÕES tem que ter até 60 caracteres")
 	private String condicoes;
 
 	@Temporal(TemporalType.DATE)
@@ -54,24 +60,30 @@ public class Pedido implements Entidade, Serializable {
 	private Date dataPedido;
 
 	@Column(length=60)
+	@Size(max = 60, message = "Campo ENTREGA tem que ter até 60 caracteres")
 	private String entrega;
 
 	@ManyToOne
 	@JoinColumn(name="id_cliente")
+	@NotNull(message = "Selecione um CLIENTE")
 	private Cliente cliente;
 
 	@ManyToOne
 	@JoinColumn(name="id_fornecedor")
+	@NotNull(message = "Selecione um FORNECEDOR")
 	private Fornecedor fornecedor;
 	
 	@ManyToOne
 	@JoinColumn(name="id_vendedor")
+	@NotNull(message = "Selecione um VENDEDOR")
 	private Vendedor vendedor;
 
 	@Column(length=60)
+	@Size(max = 60, message = "Campo TRANSPORTADOR tem que ter até 60 caracteres")
 	private String transportador;
 	
 	@Column(length=180)
+	@Size(max = 180, message = "Campo OBSERVAÇÃO tem que ter até 180 caracteres")
 	private String observacao;
 
 	@Column

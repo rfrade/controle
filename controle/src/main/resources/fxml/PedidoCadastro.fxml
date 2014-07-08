@@ -5,18 +5,12 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity"
-	minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0"
-	prefWidth="1000.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-	fx:controller="com.projetos.controle.tela.controller.ClienteCadastroController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.projetos.controle.tela.controller.ClienteCadastroController">
 	<children>
 		<Label fx:id="" layoutX="32.0048828125" layoutY="44.0" text="Pedido n°" />
-		<Label fx:id="labelNumeroPedido" layoutX="97.0" layoutY="44.0"
-			prefHeight="17.0" prefWidth="67.0" xmlns="http://javafx.com/javafx/8"
-			xmlns:fx="http://javafx.com/fxml/1" />
+		<Label fx:id="labelNumeroPedido" layoutX="97.0" layoutY="44.0" prefHeight="17.0" prefWidth="67.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
 		<Label layoutX="194.0" layoutY="44.0" text="Fornecedor" />
-		<ComboBox fx:id="fornecedor" layoutX="273.0" layoutY="40.0"
-			prefHeight="25.0" prefWidth="205.0" xmlns:fx="http://javafx.com/fxml">
+		<ComboBox fx:id="fornecedor" layoutX="273.0" layoutY="40.0" prefHeight="25.0" prefWidth="205.0" xmlns:fx="http://javafx.com/fxml">
 			<items>
 				<FXCollections fx:factory="observableArrayList">
 					<String fx:value="Item 1" />
@@ -26,126 +20,58 @@
 			</items>
 		</ComboBox>
 		<Label layoutX="516.0" layoutY="44.0" text="Cliente" />
-		<Label fx:id="cliente" layoutX="575.0" layoutY="44.0"
-			prefHeight="17.0" prefWidth="188.0" xmlns="http://javafx.com/javafx/8"
-			xmlns:fx="http://javafx.com/fxml/1" />
-		<Button layoutX="774.0" layoutY="40.0" mnemonicParsing="false"
-			onAction="#exibirTelaCliente" prefHeight="25.0" prefWidth="121.0"
-			text="Procurar Cliente" />
+		<Label fx:id="cliente" layoutX="575.0" layoutY="44.0" prefHeight="17.0" prefWidth="188.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
+		<Button layoutX="774.0" layoutY="40.0" mnemonicParsing="false" onAction="#exibirTelaCliente" prefHeight="25.0" prefWidth="121.0" text="Procurar Cliente" />
 		<TextField fx:id="transportador" layoutX="120.0" layoutY="80.0" />
-		<Label layoutX="293.0" layoutY="84.0" text="Condições"
-			xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
-		<TextField fx:id="condicoes" layoutX="357.0" layoutY="80.0"
-			prefHeight="25.0" prefWidth="180.0" xmlns="http://javafx.com/javafx/8"
-			xmlns:fx="http://javafx.com/fxml/1" />
-		<Label layoutX="596.0" layoutY="84.0" text="Cobrança"
-			xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
-		<TextField fx:id="cobranca" layoutX="654.0" layoutY="80.0"
-			xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
-		<TextField fx:id="comissao" layoutX="875.0" layoutY="80.0"
-			prefHeight="25.0" prefWidth="87.0" xmlns="http://javafx.com/javafx/8"
-			xmlns:fx="http://javafx.com/fxml/1" />
-		<Label layoutX="811.0" layoutY="84.0" text="Comissão"
-			xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
-		<Label layoutX="32.0" layoutY="118.0" text="Entrega"
-			xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
-		<TextField fx:id="entrega" layoutX="120.0" layoutY="114.0"
-			xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
-		<Label layoutX="293.0" layoutY="118.0" text="Vendedor"
-			xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
-		<ComboBox fx:id="vendedor" layoutX="357.0" layoutY="114.0"
-			prefHeight="25.0" prefWidth="180.0" xmlns="http://javafx.com/javafx/8"
-			xmlns:fx="http://javafx.com/fxml/1">
+		<Label layoutX="293.0" layoutY="84.0" text="Condições" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
+		<TextField fx:id="condicoes" layoutX="357.0" layoutY="80.0" prefHeight="25.0" prefWidth="180.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
+		<Label layoutX="596.0" layoutY="84.0" text="Cobrança" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
+		<TextField fx:id="cobranca" layoutX="654.0" layoutY="80.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" /><PasswordField fx:id="comissao" layoutX="874.0" layoutY="80.0" prefHeight="25.0" prefWidth="76.0" />
+		<Label layoutX="811.0" layoutY="84.0" text="Comissão" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
+		<Label layoutX="32.0" layoutY="118.0" text="Entrega" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
+		<TextField fx:id="entrega" layoutX="120.0" layoutY="114.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
+		<Label layoutX="293.0" layoutY="118.0" text="Vendedor" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
+		<ComboBox fx:id="vendedor" layoutX="357.0" layoutY="114.0" prefHeight="25.0" prefWidth="180.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
 		</ComboBox>
-		<Label layoutX="596.0" layoutY="118.0" text="Coleção"
-			xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
-		<TextField fx:id="colecao" layoutX="654.0" layoutY="114.0"
-			xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
-		<Button fx:id="" layoutX="387.0" layoutY="536.0"
-			mnemonicParsing="false" onAction="#salvarComMensagem" prefHeight="25.0"
-			prefWidth="110.0" text="Salvar Pedido" xmlns="http://javafx.com/javafx/8"
-			xmlns:fx="http://javafx.com/fxml/1" />
-		<Button fx:id="" layoutX="508.0" layoutY="536.0"
-			mnemonicParsing="false" onAction="#imprimir" prefHeight="25.0"
-			prefWidth="110.0" text="Imprimir" xmlns="http://javafx.com/javafx/8"
-			xmlns:fx="http://javafx.com/fxml/1" />
-		<Label layoutX="39.0" layoutY="372.0" text="Observações Gerais do Pedido"
-			xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
-		<TextArea fx:id="observacao" layoutX="32.0" layoutY="396.0"
-			prefHeight="71.0" prefWidth="421.0" />
-		<Label layoutX="508.0" layoutY="402.0" text="Sub Total"
-			xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
-		<Label fx:id="valorSubTotal" layoutX="789.0" layoutY="402.0"
-			xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
-		<Label layoutX="507.0" layoutY="432.0" text="Descontos"
-			xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
-		<TextField fx:id="desconto1" layoutX="580.0" layoutY="428.0"
-			prefHeight="25.0" prefWidth="35.0" />
-		<TextField fx:id="desconto2" layoutX="622.0" layoutY="428.0"
-			prefHeight="25.0" prefWidth="35.0" xmlns="http://javafx.com/javafx/8"
-			xmlns:fx="http://javafx.com/fxml/1" />
-		<TextField fx:id="desconto3" layoutX="666.0" layoutY="428.0"
-			prefHeight="25.0" prefWidth="35.0" xmlns="http://javafx.com/javafx/8"
-			xmlns:fx="http://javafx.com/fxml/1" />
-		<TextField fx:id="desconto4" layoutX="709.0" layoutY="428.0"
-			prefHeight="25.0" prefWidth="35.0" xmlns="http://javafx.com/javafx/8"
-			xmlns:fx="http://javafx.com/fxml/1" />
-		<Button fx:id="" layoutX="752.0" layoutY="428.0"
-			mnemonicParsing="false" onAction="#calcularDesconto" prefHeight="25.0"
-			prefWidth="37.0" text="- &gt;" xmlns="http://javafx.com/javafx/8"
-			xmlns:fx="http://javafx.com/fxml/1" />
-		<TextField fx:id="descontoTotal" layoutX="803.0" layoutY="428.0"
-			prefHeight="25.0" prefWidth="35.0" xmlns="http://javafx.com/javafx/8"
-			xmlns:fx="http://javafx.com/fxml/1" />
-		<Label layoutX="508.0" layoutY="468.0" text="Total Pedido"
-			xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
-		<Label fx:id="valorTotal" layoutX="789.0" layoutY="468.0"
-			xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
-		<Label layoutX="32.0" layoutY="84.0" text="Transportador"
-			xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
-		<Button layoutX="42.0" layoutY="162.0" mnemonicParsing="false"
-			onAction="#exibirTelaItemPedidoCadastroInclusao" prefHeight="25.0"
-			prefWidth="110.0" text="Incluir Produto" xmlns="http://javafx.com/javafx/8"
-			xmlns:fx="http://javafx.com/fxml/1" />
-		<Button layoutX="159.0" layoutY="162.0" mnemonicParsing="false"
-			onAction="#exibirPopupConfirmacaoItemPedido" prefHeight="25.0"
-			prefWidth="110.0" text="Remover Produto" xmlns="http://javafx.com/javafx/8"
-			xmlns:fx="http://javafx.com/fxml/1" />
-		<TableView fx:id="tabelaItensPedido" layoutX="32.0" layoutY="200.0"
-			prefHeight="149.0" prefWidth="930.0" xmlns="http://javafx.com/javafx/8"
-			xmlns:fx="http://javafx.com/fxml/1">
+		<Label layoutX="596.0" layoutY="118.0" text="Coleção" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
+		<TextField fx:id="colecao" layoutX="654.0" layoutY="114.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
+		<Button fx:id="" layoutX="387.0" layoutY="536.0" mnemonicParsing="false" onAction="#salvarComMensagem" prefHeight="25.0" prefWidth="110.0" text="Salvar Pedido" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
+		<Button fx:id="" layoutX="508.0" layoutY="536.0" mnemonicParsing="false" onAction="#imprimir" prefHeight="25.0" prefWidth="110.0" text="Imprimir" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
+		<Label layoutX="39.0" layoutY="372.0" text="Observações Gerais do Pedido" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
+		<TextArea fx:id="observacao" layoutX="32.0" layoutY="396.0" prefHeight="71.0" prefWidth="421.0" />
+		<Label layoutX="508.0" layoutY="402.0" text="Sub Total" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
+		<Label fx:id="valorSubTotal" layoutX="789.0" layoutY="402.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
+		<Label layoutX="507.0" layoutY="432.0" text="Descontos" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
+		<TextField fx:id="desconto1" layoutX="580.0" layoutY="428.0" prefHeight="25.0" prefWidth="35.0" />
+		<TextField fx:id="desconto2" layoutX="622.0" layoutY="428.0" prefHeight="25.0" prefWidth="35.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
+		<TextField fx:id="desconto3" layoutX="666.0" layoutY="428.0" prefHeight="25.0" prefWidth="35.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
+		<TextField fx:id="desconto4" layoutX="709.0" layoutY="428.0" prefHeight="25.0" prefWidth="35.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
+		<Button fx:id="" layoutX="752.0" layoutY="428.0" mnemonicParsing="false" onAction="#calcularDesconto" prefHeight="25.0" prefWidth="37.0" text="- &gt;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
+		<TextField fx:id="descontoTotal" layoutX="803.0" layoutY="428.0" prefHeight="25.0" prefWidth="35.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
+		<Label layoutX="508.0" layoutY="468.0" text="Total Pedido" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
+		<Label fx:id="valorTotal" layoutX="789.0" layoutY="468.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
+		<Label layoutX="32.0" layoutY="84.0" text="Transportador" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
+		<Button layoutX="42.0" layoutY="162.0" mnemonicParsing="false" onAction="#exibirTelaItemPedidoCadastroInclusao" prefHeight="25.0" prefWidth="110.0" text="Incluir Produto" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
+		<Button layoutX="159.0" layoutY="162.0" mnemonicParsing="false" onAction="#exibirPopupConfirmacaoItemPedido" prefHeight="25.0" prefWidth="110.0" text="Remover Produto" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
+		<TableView fx:id="tabelaItensPedido" layoutX="32.0" layoutY="200.0" prefHeight="149.0" prefWidth="930.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
 			<columns>
 				<TableColumn fx:id="referencia" prefWidth="75.0" text="Referencia" />
 				<TableColumn fx:id="cor" prefWidth="60.0" text="Cor" />
-				<TableColumn fx:id="quantidadeTotal" prefWidth="70.0"
-					text="Quantidade" />
-				<TableColumn fx:id="quantidadeTamanho1" prefWidth="30.0"
-					text="1" />
-				<TableColumn fx:id="quantidadeTamanho2" prefWidth="30.0"
-					text="2" />
-				<TableColumn fx:id="quantidadeTamanho3" prefWidth="30.0"
-					text="3" />
-				<TableColumn fx:id="quantidadeTamanho4" prefWidth="30.0"
-					text="32" />
-				<TableColumn fx:id="quantidadeTamanho5" prefWidth="30.0"
-					text="66" />
-				<TableColumn fx:id="quantidadeTamanho6" prefWidth="30.0"
-					text="XX1" />
-				<TableColumn fx:id="quantidadeTamanho7" prefWidth="30.0"
-					text="XX2" />
-				<TableColumn fx:id="quantidadeTamanho8" prefWidth="30.0"
-					text="XX3" />
-				<TableColumn fx:id="valorUnitario" prefWidth="70.0"
-					text="V. Unitário" />
-				<TableColumn fx:id="valorTotalItemPedido" prefWidth="65.0"
-					text="V. Total" />
+				<TableColumn fx:id="quantidadeTotal" prefWidth="70.0" text="Quantidade" />
+				<TableColumn fx:id="quantidadeTamanho1" prefWidth="30.0" text="1" />
+				<TableColumn fx:id="quantidadeTamanho2" prefWidth="30.0" text="2" />
+				<TableColumn fx:id="quantidadeTamanho3" prefWidth="30.0" text="3" />
+				<TableColumn fx:id="quantidadeTamanho4" prefWidth="30.0" text="32" />
+				<TableColumn fx:id="quantidadeTamanho5" prefWidth="30.0" text="66" />
+				<TableColumn fx:id="quantidadeTamanho6" prefWidth="30.0" text="XX1" />
+				<TableColumn fx:id="quantidadeTamanho7" prefWidth="30.0" text="XX2" />
+				<TableColumn fx:id="quantidadeTamanho8" prefWidth="30.0" text="XX3" />
+				<TableColumn fx:id="valorUnitario" prefWidth="70.0" text="V. Unitário" />
+				<TableColumn fx:id="valorTotalItemPedido" prefWidth="65.0" text="V. Total" />
 				<TableColumn fx:id="descricao" prefWidth="175.0" text="Descrição" />
-				<TableColumn fx:id="observacaoItemPedido" prefWidth="175.0"
-					text="Observação" />
+				<TableColumn fx:id="observacaoItemPedido" prefWidth="175.0" text="Observação" />
 			</columns>
 		</TableView>
-		<Button layoutX="277.0" layoutY="162.0" mnemonicParsing="false"
-			onAction="#exibirTelaRecebimentoLista" prefHeight="25.0" prefWidth="110.0"
-			text="Movimentações" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
+		<Button layoutX="277.0" layoutY="162.0" mnemonicParsing="false" onAction="#exibirTelaRecebimentoLista" prefHeight="25.0" prefWidth="110.0" text="Movimentações" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
 	</children>
 </AnchorPane>

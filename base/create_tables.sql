@@ -75,6 +75,7 @@ create table produto (
 	valor_unitario double,
 	quantidade integer,
 	tamanho varchar(50),
+	ativo boolean,
 	id_fornecedor integer,
 	primary key(id)
 );

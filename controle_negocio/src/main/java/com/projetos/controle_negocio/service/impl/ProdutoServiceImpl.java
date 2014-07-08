@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
@@ -22,6 +24,9 @@ import com.projetos.controle_entities.Fornecedor;
 import com.projetos.controle_entities.Produto;
 import com.projetos.controle_entities.QProduto;
 import com.projetos.controle_negocio.exception.NegocioException;
+import com.projetos.controle_negocio.filtro.Comparador;
+import com.projetos.controle_negocio.filtro.Filtro;
+import com.projetos.controle_negocio.filtro.TipoFiltro;
 import com.projetos.controle_negocio.repositoy.EntidadeRepository;
 import com.projetos.controle_negocio.repositoy.ProdutoRepository;
 import com.projetos.controle_negocio.service.base.ProdutoService;
@@ -48,6 +53,23 @@ public class ProdutoServiceImpl extends EntidadeServiceImpl<Produto> implements 
 		String retorno = produtos.size() + " produtos foram importados. \nVerifique se esta é a quantidade de produtos no arquivo.";
 		produtoRepository.save(produtos);
 		return retorno;
+	}
+
+	/**
+	 * Não exclui na base os produtos. Altera o campo ativo para false
+	 * @param fornecedor
+	 */
+	@Override
+	@Transactional
+	public void removerTodos(Fornecedor fornecedor) {
+		Filtro filtroFornecedor = new Filtro("fornecedor", TipoFiltro.OBJECT, Comparador.EQUALS, fornecedor);
+		Filtro filtroAtivo = new Filtro("ativo", TipoFiltro.BOOLEAN, Comparador.EQUALS, true);
+		
+		List<Produto> produtos = filtrar(filtroFornecedor, filtroAtivo);
+		for (Produto produto : produtos) {
+			produto.setAtivo(false);
+			produto = produtoRepository.save(produto);
+		}
 	}
 
 	@Override
@@ -110,9 +132,12 @@ public class ProdutoServiceImpl extends EntidadeServiceImpl<Produto> implements 
 		return tamanho;
 	}
 
+	/**
+	 * Retorna somente produtos ativos
+	 */
 	@Override
 	public Produto getProdutoByReferencia(String referencia) {
-		return produtoRepository.getProdutoByReferencia(referencia);
+		return produtoRepository.getProdutoByReferenciaAndAtivo(referencia, true);
 	}
 
 }

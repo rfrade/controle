@@ -42,6 +42,9 @@ public class Produto implements Entidade, Serializable {
 
 	@Column(name="valor_unitario")
 	private double valorUnitario;
+	
+	@Column(name="ativo")
+	private boolean ativo;
 
 	@ManyToOne
 	@JoinColumn(name="id_fornecedor")
@@ -138,6 +141,14 @@ public class Produto implements Entidade, Serializable {
 
 	public void setFornecedor(Fornecedor fornecedor) {
 		this.fornecedor = fornecedor;
+	}
+
+	public boolean isAtivo() {
+		return ativo;
+	}
+
+	public void setAtivo(boolean ativo) {
+		this.ativo = ativo;
 	}
 
 }

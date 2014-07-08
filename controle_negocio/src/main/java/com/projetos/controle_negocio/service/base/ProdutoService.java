@@ -14,4 +14,10 @@ public interface ProdutoService extends EntidadeService<Produto> {
 	String importarProdutosPlanilha(File file, Fornecedor fornecedor) throws NegocioException;
 
 	Produto getProdutoByReferencia(String referencia);
+	
+	/**
+	 * Não exclui na base os produtos. Altera o campo ativo para false
+	 * @param fornecedor
+	 */
+	void removerTodos(Fornecedor fornecedor);
 }

@@ -14,6 +14,7 @@ import javafx.event.EventHandler;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -21,11 +22,20 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
+
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
+
 import net.vidageek.mirror.dsl.Mirror;
 import net.vidageek.mirror.list.dsl.MirrorList;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.context.annotation.Scope;
 
 import com.projetos.controle.tela.base.AbstractController;
 import com.projetos.controle.tela.base.CampoTela;
@@ -48,46 +58,47 @@ import com.projetos.controle_util.reflection.BeanUtil;
 import com.projetos.controle_util.validacao.ValidacaoException;
 
 /**
- * Classe com o comportamento básico de tela extendido da AbstractController
- * e com comportamento adicionado para manutenção de uma entidade, .
+ * Classe com o comportamento básico de tela extendido da AbstractController e
+ * com comportamento adicionado para manutenção de uma entidade, .
  * 
  * @author Rafael
- * @param <T> Entidade à qual a controller realizará manutenção
+ * @param <T>
+ *            Entidade à qual a controller realizará manutenção
  */
 public abstract class BaseEntityController<T extends Entidade> extends AbstractController<T> {
 
-    protected T entidadeForm;
+	protected T entidadeForm;
 
-    protected ObservableList<T> listaEntidades;
+	protected ObservableList<T> listaEntidades;
 
-    @Autowired
-    protected TelaPrincipalController telaPrincipalController;
-
-    @Autowired
-    private PopupConfirmacaoController popupConfirmacaoController;
-
-    @Autowired
-    protected ConfiguracaoBeanTela configuracaoBeanTela;
-    
 	@Autowired
-    protected PopupMensagemController popupMensagemController;
-    
-    public void exibirPopupConfirmacao() {
-    	exibirPopupConfirmacao(new DefaultConfirmHandler());
-    }
-    
-    public void exibirPopupConfirmacao(EventHandler<ActionEvent> confirmHandler) {
-    	exibirPopupConfirmacao(confirmHandler, null);
-    }
+	protected TelaPrincipalController telaPrincipalController;
 
-    public void exibirPopupConfirmacao(EventHandler<ActionEvent> confirmHandler, EventHandler<ActionEvent> cancelHandler) {
-    	popupConfirmacaoController.setConfirmHandler(confirmHandler);
-    	popupConfirmacaoController.setCancelHandler(cancelHandler);
-    	popupConfirmacaoController.setMensagem(propertiesLoader.getProperty("cadastro.confirma_remocao"));
+	@Autowired
+	private PopupConfirmacaoController popupConfirmacaoController;
 
-    	Stage stage = telaPrincipalController.exibirPopupConfirmacao();
-    	popupConfirmacaoController.setStage(stage);
-    }
+	@Autowired
+	protected ConfiguracaoBeanTela configuracaoBeanTela;
+
+	@Autowired
+	protected PopupMensagemController popupMensagemController;
+
+	public void exibirPopupConfirmacao() {
+		exibirPopupConfirmacao(new DefaultConfirmHandler());
+	}
+
+	public void exibirPopupConfirmacao(EventHandler<ActionEvent> confirmHandler) {
+		exibirPopupConfirmacao(confirmHandler, null);
+	}
+
+	public void exibirPopupConfirmacao(EventHandler<ActionEvent> confirmHandler, EventHandler<ActionEvent> cancelHandler) {
+		popupConfirmacaoController.setConfirmHandler(confirmHandler);
+		popupConfirmacaoController.setCancelHandler(cancelHandler);
+		popupConfirmacaoController.setMensagem(propertiesLoader.getProperty("cadastro.confirma_remocao"));
+
+		Stage stage = telaPrincipalController.exibirPopupConfirmacao();
+		popupConfirmacaoController.setStage(stage);
+	}
 
 	public class DefaultConfirmHandler implements EventHandler<ActionEvent> {
 		@Override
@@ -102,15 +113,19 @@ public abstract class BaseEntityController<T extends Entidade> extends AbstractC
 	}
 
 	protected void exibirMensagem(String mensagem) {
-    	popupMensagemController.setMensagem(propertiesLoader.getProperty(mensagem));
-    	telaPrincipalController.exibirPopupMensagem();
-    }
+		exibirMensagemNaoMapeada(propertiesLoader.getProperty(mensagem));
+	}
 	
+	protected void exibirMensagemNaoMapeada(String mensagem) {
+		popupMensagemController.setMensagem(mensagem);
+		telaPrincipalController.exibirPopupMensagem();
+	}
+
 	@Autowired
 	protected PropertiesLoader propertiesLoader;
 
 	protected Logger log = Logger.getLogger(this.getClass());
-	
+
 	@SuppressWarnings("unchecked")
 	protected void bindBeanToForm() {
 		MirrorList<Field> campos = new Mirror().on(this.getClass()).reflectAll().fields();
@@ -119,33 +134,36 @@ public abstract class BaseEntityController<T extends Entidade> extends AbstractC
 				Object campo = new Mirror().on(this).get().field(field);
 				String bean = field.getAnnotation(CampoTela.class).bean();
 				Object value = BeanUtil.getPropriedade(entidadeForm, bean);
-				
+
 				if (campo instanceof TextField) {
 					preencherTextField((TextField) campo, value);
 
 				} else if (campo instanceof TextArea) {
 					preencherTextArea((TextArea) campo, value);
-				
+
 				} else if (campo instanceof Label) {
 					preencherLabel((Label) campo, value);
-				
+
 				} else if (campo instanceof RadioButton && value != null) {
-					((RadioButton) campo).setSelected((Boolean)value);
+					((RadioButton) campo).setSelected((Boolean) value);
 
 				} else if (campo instanceof DatePicker && value != null) {
 					LocalDate localDate = fromDateToLocalDate((Date) value);
 					((DatePicker) campo).setValue(localDate);
-				
+
 				} else if (campo instanceof ComboBox && value != null) {
 					ItemCombo<?> item = new ItemCombo<>(null, value);
 					((ComboBox<ItemCombo<?>>) campo).getSelectionModel().select(item);
-				
+
+				} else if (campo instanceof PasswordField && value != null) {
+					preencherTextField((PasswordField)campo, value);
+					
 				}
-				
+
 			}
 		}
 	}
-	
+
 	private void preencherTextArea(TextArea textArea, Object value) {
 		if (value != null) {
 			textArea.setText(value.toString());
@@ -153,7 +171,7 @@ public abstract class BaseEntityController<T extends Entidade> extends AbstractC
 			textArea.setText("");
 		}
 	}
-	
+
 	private void preencherLabel(Label label, Object value) {
 		if (value != null) {
 			label.setText(value.toString());
@@ -161,11 +179,11 @@ public abstract class BaseEntityController<T extends Entidade> extends AbstractC
 			label.setText(null);
 		}
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	protected List<Filtro> getCamposFiltro() {
-    	List<Filtro> filtros = new ArrayList<>();
-    	MirrorList<Field> campos = new Mirror().on(this.getClass()).reflectAll().fields();
+		List<Filtro> filtros = new ArrayList<>();
+		MirrorList<Field> campos = new Mirror().on(this.getClass()).reflectAll().fields();
 		for (Field field : campos) {
 			if (field.isAnnotationPresent(FiltroTela.class)) {
 				Object campo = new Mirror().on(this).get().field(field);
@@ -209,18 +227,18 @@ public abstract class BaseEntityController<T extends Entidade> extends AbstractC
 				}
 			}
 		}
-		
-		return filtros;
-    }
 
-    private void preencherTextField(TextField textField, Object value) {
+		return filtros;
+	}
+
+	private void preencherTextField(TextField textField, Object value) {
 		if (value != null) {
 			if (value instanceof Date) {
-				String valor = DateUtil.convertDateToString((Date)value);
+				String valor = DateUtil.convertDateToString((Date) value);
 				textField.setText(valor);
 			} else if (value instanceof Double) {
-					String valor = NumberUtil.convertDoubleToString((Double)value);
-					textField.setText(valor);
+				String valor = NumberUtil.convertDoubleToString((Double) value);
+				textField.setText(valor);
 			} else {
 				textField.setText(value.toString());
 			}
@@ -229,29 +247,30 @@ public abstract class BaseEntityController<T extends Entidade> extends AbstractC
 			textField.setText(null);
 		}
 	}
-    
-    protected void bindFormToBean() {
+
+	protected void bindFormToBean() {
 		MirrorList<Field> campos = new Mirror().on(this.getClass()).reflectAll().fields();
-		
+
 		for (Field field : campos) {
 
 			if (field.isAnnotationPresent(CampoTela.class)) {
-				
+
 				Object campo = new Mirror().on(this).get().field(field);
+
 				String beanName = field.getAnnotation(CampoTela.class).bean();
-				
+
 				if (campo instanceof TextField) {
 					BeanUtil.setPropriedade(entidadeForm, beanName, ((TextField) campo).getText());
-				
+
 				} else if (campo instanceof TextArea) {
 					BeanUtil.setPropriedade(entidadeForm, beanName, ((TextArea) campo).getText());
-				
+
 				} else if (campo instanceof DecimalNumberField) {
 					BeanUtil.setPropriedade(entidadeForm, beanName, ((DecimalNumberField) campo).getFormattedText());
-				
+
 				} else if (campo instanceof RadioButton) {
 					BeanUtil.setPropriedade(entidadeForm, beanName, ((RadioButton) campo).isSelected());
-				
+
 				} else if (campo instanceof DatePicker) {
 					LocalDate localDate = ((DatePicker) campo).getValue();
 					Date date = fromLocalDateToDate(localDate);
@@ -261,7 +280,11 @@ public abstract class BaseEntityController<T extends Entidade> extends AbstractC
 					@SuppressWarnings("unchecked")
 					Object valor = ((ComboBox<ItemCombo<?>>) campo).getSelectionModel().getSelectedItem();
 					ItemCombo<?> item = (ItemCombo<?>) valor;
-					BeanUtil.setPropriedade(entidadeForm, beanName, item.getValor());
+
+					if (valor != null) {
+						BeanUtil.setPropriedade(entidadeForm, beanName, item.getValor());
+						
+					}
 
 				}
 			}
@@ -275,7 +298,7 @@ public abstract class BaseEntityController<T extends Entidade> extends AbstractC
 			if (field.isAnnotationPresent(Coluna.class)) {
 				Object campo = new Mirror().on(this).get().field(field);
 				String bean = field.getAnnotation(Coluna.class).bean();
-				
+
 				CelulaFactory<T, ?> celulaFactory = new CelulaFactory<>(bean);
 				if (campo instanceof TableColumn) {
 					((TableColumn) campo).setCellValueFactory(celulaFactory);
@@ -287,16 +310,17 @@ public abstract class BaseEntityController<T extends Entidade> extends AbstractC
 	}
 
 	protected void mascararCampos() {
-		/*List<Field> camposMascara = getCamposMascara();
+
+		List<Field> camposMascara = getCamposMascara();
 		for (Field field : camposMascara) {
 			TextField campo = (TextField) new Mirror().on(this).get().field(field);
-			
+
 			if (campo == null) {
 				throw new RuntimeException("Campo com valor nulo: " + field.getName());
 			}
 
 			campo.setOnKeyReleased(new MaskedTextFieldEventHandler(12));
-		}*/
+		}
 
 	}
 
@@ -304,7 +328,7 @@ public abstract class BaseEntityController<T extends Entidade> extends AbstractC
 
 		private int maxLength;
 		private String format;
-		
+
 		public MaskedTextFieldEventHandler(int maxLength) {
 			this.maxLength = maxLength;
 		}
@@ -322,7 +346,7 @@ public abstract class BaseEntityController<T extends Entidade> extends AbstractC
 			if (text == null) {
 				return;
 			}
-			
+
 			String typedText = paramT.getText();
 			if (text.length() >= maxLength) {
 				textField.setText(text.substring(0, maxLength));
@@ -341,31 +365,33 @@ public abstract class BaseEntityController<T extends Entidade> extends AbstractC
 
 	/**
 	 * Convert de LocalDate para Date
+	 * 
 	 * @param localDate
 	 * @return Date
 	 */
-	 protected Date fromLocalDateToDate(LocalDate localDate) {
+	protected Date fromLocalDateToDate(LocalDate localDate) {
 		if (localDate == null) {
 			return null;
 		}
-		
+
 		Calendar cal = Calendar.getInstance();
 		cal.set(Calendar.DAY_OF_MONTH, localDate.getDayOfMonth());
 		cal.set(Calendar.MONTH, localDate.getMonthValue() - 1);
 		cal.set(Calendar.YEAR, localDate.getYear());
-		
+
 		return cal.getTime();
 	}
-	
+
 	/**
 	 * Convert de Date para LocalDate
+	 * 
 	 * @param date
 	 * @return LocalDate
 	 */
 	private LocalDate fromDateToLocalDate(Date date) {
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(date);
-		
+
 		int year = cal.get(Calendar.YEAR);
 		int month = cal.get(Calendar.MONTH);
 		int dayOfMonth = cal.get(Calendar.DAY_OF_MONTH);
@@ -376,13 +402,13 @@ public abstract class BaseEntityController<T extends Entidade> extends AbstractC
 	private List<Field> getCamposMascara() {
 		List<Field> camposAnotados = BeanUtil.getCamposAnotados(this.getClass(), CampoTela.class);
 		List<Field> camposMascara = new ArrayList<>();
-		
+
 		for (Field field : camposAnotados) {
 			if (field.getType() == TextField.class) {
 				camposMascara.add(field);
 			}
 		}
-		
+
 		return camposMascara;
 	}
 
@@ -399,25 +425,33 @@ public abstract class BaseEntityController<T extends Entidade> extends AbstractC
 	}
 
 	protected void tratarErro(Exception e) {
-    	log.error(e.getMessage(), e);
-		exibirMensagem("Erro, tire um print da tela e envie o arquivo de log para o email rafaelfrade@live.com; "
-				+ e.getMessage());
-    }
-	
-	protected void tratarErroValidacao(ValidacaoException e) {
-		exibirMensagem(e.getCodigoMensagem());
+		log.error(e.getMessage(), e);
+		exibirMensagem("Erro, tire um print da tela e envie o arquivo de log para o email rafaelfrade@live.com; " + e.getMessage());
 	}
-    
-    protected abstract EntidadeService<T> getEntidadeService();
-    public abstract void remover();
-	
-	public T getEntidadeForm() {
-        return entidadeForm;
-    }
 
-    public void setEntidadeForm(T entidadeForm) {
-        this.entidadeForm = entidadeForm;
-    }
+	protected void tratarErroValidacao(ValidacaoException e) {
+		exibirMensagemNaoMapeada(e.getMensagem());
+	}
+
+	@Bean(name = "validator")
+	@Scope(ConfigurableBeanFactory.SCOPE_SINGLETON)
+	@Lazy
+	protected Validator getValidator() {
+		ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+		return factory.getValidator();
+	}
+
+	protected abstract EntidadeService<T> getEntidadeService();
+
+	public abstract void remover();
+
+	public T getEntidadeForm() {
+		return entidadeForm;
+	}
+
+	public void setEntidadeForm(T entidadeForm) {
+		this.entidadeForm = entidadeForm;
+	}
 
 	public ObservableList<T> getListaEntidades() {
 		return listaEntidades;

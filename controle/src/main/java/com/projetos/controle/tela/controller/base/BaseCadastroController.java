@@ -1,15 +1,29 @@
 package com.projetos.controle.tela.controller.base;
 
+import java.lang.reflect.Field;
 import java.net.URL;
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.ResourceBundle;
+import java.util.Set;
+
+import javax.validation.ConstraintViolation;
 
 import javafx.collections.ObservableList;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableColumn.SortType;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import net.vidageek.mirror.dsl.Mirror;
+import net.vidageek.mirror.list.dsl.MirrorList;
 
+import com.projetos.controle.tela.base.CampoTela;
+import com.projetos.controle.tela.base.ItemCombo;
+import com.projetos.controle.tela.field.DecimalNumberField;
 import com.projetos.controle_entities.Entidade;
+import com.projetos.controle_util.reflection.BeanUtil;
 import com.projetos.controle_util.validacao.ValidacaoException;
 
 /**
@@ -38,26 +52,18 @@ public abstract class BaseCadastroController<T extends Entidade> extends BaseEnt
 			entidadeForm = novaEntidadeForm();
 			bindBeanToForm();
 		} catch (ValidacaoException e) {
-			tratarErro(e);
+			tratarErroValidacao(e);
 		}
 	}
 
-	public void salvarSemMensagem() {
-		try {
-			salvar();
-			bindBeanToForm();
-		} catch (ValidacaoException e) {
-			tratarErro(e);
-		}
+	public void salvarSemMensagem() throws ValidacaoException {
+		salvar();
+		bindBeanToForm();
 	}
 
 	protected void salvar() throws ValidacaoException {
 		bindFormToBean();
-		if (entidadeForm.getId() == null) {
-			validaInclusao();
-		} else {
-			validaAlteracao();
-		}
+		validaPersistencia();
 		entidadeForm = getEntidadeService().salvar(entidadeForm);
 		atualizarTabela();
 	}
@@ -87,16 +93,13 @@ public abstract class BaseCadastroController<T extends Entidade> extends BaseEnt
 		return (T) new Mirror().on(classe).invoke().constructor().bypasser();
 	}
 
-	protected void validaAlteracao() throws ValidacaoException {
-		/*throw new ValidacaoException(null, null);*/
-	}
-
-    protected void validaInclusao() throws ValidacaoException {
-    	/*if (false) {
-    		throw new ValidacaoException(null, null);
-    	}*/
-	}
-
+    protected void validaPersistencia() throws ValidacaoException {
+    	Set<ConstraintViolation<T>> violation = getValidator().validate(entidadeForm);
+    	if (violation.iterator().hasNext()) {
+    		String message = violation.iterator().next().getMessage();
+    		throw new ValidacaoException(message);
+    	}
+    }
     
 	public void setTabela(TableView<T> tabela) {
 		this.tabela = tabela;
