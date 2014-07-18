@@ -11,7 +11,9 @@ create table logradouro (
 	estado varchar(2),
 	email varchar(100),
 	ddd varchar(3),
-	telefone varchar(9),
+	telefone varchar(12),
+	ddd_celular varchar(3),
+	celular varchar(12),
 	primary key(id)
 );
 

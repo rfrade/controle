@@ -8,6 +8,7 @@ import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.util.Callback;
 
 import com.projetos.controle_util.conversao.DateUtil;
+import com.projetos.controle_util.conversao.NumberUtil;
 import com.projetos.controle_util.reflection.BeanUtil;
 
 public class CelulaFactory<C, T> implements Callback<CellDataFeatures<C, T>, ObservableValue<T>> {
@@ -23,6 +24,12 @@ public class CelulaFactory<C, T> implements Callback<CellDataFeatures<C, T>, Obs
 		Object propriedade = BeanUtil.getPropriedade(celula.getValue(), this.nomePropriedade);
 		if (propriedade instanceof Date) {
 			String string = DateUtil.convertDateToString( (Date) propriedade);
+			return new ReadOnlyObjectWrapper<T>((T)string);
+		} else if (propriedade instanceof Boolean) {
+			String string = ((Boolean)propriedade) ? "SIM" : "NÃO";
+			return new ReadOnlyObjectWrapper<T>((T)string);
+		} else if (propriedade instanceof Double) {
+			String string = NumberUtil.convertDoubleToString((Double) propriedade);
 			return new ReadOnlyObjectWrapper<T>((T)string);
 		}
 		return new ReadOnlyObjectWrapper<T>((T)propriedade);

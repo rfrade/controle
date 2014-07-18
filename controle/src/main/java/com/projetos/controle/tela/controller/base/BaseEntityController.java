@@ -20,7 +20,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
 import javax.validation.Validation;
@@ -44,6 +43,7 @@ import com.projetos.controle.tela.base.ConfiguracaoBeanTela;
 import com.projetos.controle.tela.base.FiltroTela;
 import com.projetos.controle.tela.base.ItemCombo;
 import com.projetos.controle.tela.base.PropertiesLoader;
+import com.projetos.controle.tela.base.PropertiesPathLoader;
 import com.projetos.controle.tela.controller.PopupConfirmacaoController;
 import com.projetos.controle.tela.controller.PopupMensagemController;
 import com.projetos.controle.tela.controller.TelaPrincipalController;
@@ -123,6 +123,9 @@ public abstract class BaseEntityController<T extends Entidade> extends AbstractC
 
 	@Autowired
 	protected PropertiesLoader propertiesLoader;
+	
+	/*@Autowired
+	protected PropertiesPathLoader propertiesPathLoader;*/
 
 	protected Logger log = Logger.getLogger(this.getClass());
 
@@ -136,6 +139,7 @@ public abstract class BaseEntityController<T extends Entidade> extends AbstractC
 				Object value = BeanUtil.getPropriedade(entidadeForm, bean);
 
 				if (campo instanceof TextField) {
+					
 					preencherTextField((TextField) campo, value);
 
 				} else if (campo instanceof TextArea) {
@@ -174,7 +178,16 @@ public abstract class BaseEntityController<T extends Entidade> extends AbstractC
 
 	private void preencherLabel(Label label, Object value) {
 		if (value != null) {
-			label.setText(value.toString());
+			if (value instanceof Date) {
+				String valor = DateUtil.convertDateToString((Date) value);
+				label.setText(valor);
+			} else if (value instanceof Double) {
+				String valor = NumberUtil.convertDoubleToString((Double) value);
+				label.setText(valor);
+			} else {
+				label.setText(value.toString());
+			}
+
 		} else {
 			label.setText(null);
 		}
@@ -248,6 +261,10 @@ public abstract class BaseEntityController<T extends Entidade> extends AbstractC
 		}
 	}
 
+	private void validate() {
+		
+	}
+
 	protected void bindFormToBean() {
 		MirrorList<Field> campos = new Mirror().on(this.getClass()).reflectAll().fields();
 
@@ -319,12 +336,12 @@ public abstract class BaseEntityController<T extends Entidade> extends AbstractC
 				throw new RuntimeException("Campo com valor nulo: " + field.getName());
 			}
 
-			campo.setOnKeyReleased(new MaskedTextFieldEventHandler(12));
+			/*campo.setOnKeyReleased(new MaskedTextFieldEventHandler(12));*/
 		}
 
 	}
 
-	public class MaskedTextFieldEventHandler implements EventHandler<KeyEvent> {
+	/*public class MaskedTextFieldEventHandler implements EventHandler<KeyEvent> {
 
 		private int maxLength;
 		private String format;
@@ -361,7 +378,7 @@ public abstract class BaseEntityController<T extends Entidade> extends AbstractC
 			return texto.replaceAll(format, texto);
 		}
 
-	}
+	}*/
 
 	/**
 	 * Convert de LocalDate para Date

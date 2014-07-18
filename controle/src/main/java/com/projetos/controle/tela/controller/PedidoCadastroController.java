@@ -242,7 +242,6 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 			entidadeForm.setRecebimentos(new ArrayList<Recebimento>());
 		}
 
-		
 		Filtro filtro = new Filtro("ativo", TipoFiltro.BOOLEAN, Comparador.EQUALS, true);
 		List<Fornecedor> fornecedores = fornecedorService.filtrar(filtro);
 		ObservableList<ItemCombo<Fornecedor>> itensFornecedor = ItemCombo.novaListaCombo(fornecedores, "firma");
@@ -354,57 +353,73 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 	public void imprimir() {
 		bindFormToBean();
 		try {
-			
-			if (entidadeForm.getItensPedido() == null) {
-				exibirMensagem("relatorio.nao_ha_produtos_cadastrados");
-				return;
-			}
-			
-			Map<String, Object> param = new HashMap<>();
-
-			preencherParametro(param, RelatorioPedidoParam.NUM_PEDIDO, entidadeForm.getId());
-			preencherParametro(param, RelatorioPedidoParam.DATA_PEDIDO, getDataPedido());
-			preencherParametro(param, RelatorioPedidoParam.FIRMA_FORNECEDOR, entidadeForm.getFornecedor().getFirma());
-			preencherParametro(param, RelatorioPedidoParam.LOGRADOURO_FORNECEDOR, entidadeForm.getFornecedor().getLogradouro().getEndereco());
-			preencherParametro(param, RelatorioPedidoParam.BAIRRO_FORNECEDOR, entidadeForm.getFornecedor().getLogradouro().getBairro());
-			preencherParametro(param, RelatorioPedidoParam.CIDADE_FORNECEDOR, entidadeForm.getFornecedor().getLogradouro().getCidade());
-			preencherParametro(param, RelatorioPedidoParam.TELEFONE_FORNECEDOR, entidadeForm.getFornecedor().getLogradouro().getTelefone());
-			preencherParametro(param, RelatorioPedidoParam.TRANSPORTADOR, entidadeForm.getTransportador());
-			preencherParametro(param, RelatorioPedidoParam.CONDICAO, entidadeForm.getCondicoes());
-			preencherParametro(param, RelatorioPedidoParam.COBRANCA, entidadeForm.getCobranca());
-			preencherParametro(param, RelatorioPedidoParam.ENTREGA, entidadeForm.getEntrega());
-			preencherParametro(param, RelatorioPedidoParam.QUANTIDADE_TOTAL, entidadeForm.getQuantidadeItens());
-			preencherParametro(param, RelatorioPedidoParam.OBSERVACAO, entidadeForm.getObservacao());
-			preencherParametro(param, RelatorioPedidoParam.SUBTOTAL, entidadeForm.getValorSubTotal());
-			preencherParametro(param, RelatorioPedidoParam.DESCONTO, entidadeForm.getDescontoTotal());
-			preencherParametro(param, RelatorioPedidoParam.TOTAL, entidadeForm.getValorTotal());
-			preencherParametro(param, RelatorioPedidoParam.FIRMA_CLIENTE, entidadeForm.getCliente().getFirma());
-			preencherParametro(param, RelatorioPedidoParam.LOGRADOURO_CLIENTE, entidadeForm.getCliente().getLogradouro().getEndereco());
-			preencherParametro(param, RelatorioPedidoParam.BAIRRO_CLIENTE, entidadeForm.getCliente().getLogradouro().getBairro());
-			preencherParametro(param, RelatorioPedidoParam.CIDADE_CLIENTE, entidadeForm.getCliente().getLogradouro().getCidade());
-			preencherParametro(param, RelatorioPedidoParam.ESTADO_CLIENTE, entidadeForm.getCliente().getLogradouro().getEstado());
-			preencherParametro(param, RelatorioPedidoParam.FONE_CLIENTE, entidadeForm.getCliente().getLogradouro().getTelefone());
-			preencherParametro(param, RelatorioPedidoParam.CEP_CLIENTE, entidadeForm.getCliente().getLogradouro().getCep());
-			preencherParametro(param, RelatorioPedidoParam.CNPJ_CLIENTE, entidadeForm.getCliente().getCnpj());
-			preencherParametro(param, RelatorioPedidoParam.INS_EST_CLIENTE, entidadeForm.getCliente().getInscricao());
-
-			JRDataSourceGenerico<ItemPedido> dataSource = new JRDataSourceGenerico<>(entidadeForm.getItensPedido());
-			
-			InputStream resource = getClass().getResourceAsStream("/report/relatorioPedido.jasper");
-			Parametro parametro = parametroService.getCaminhoRelatorioPedidos();
-
-			String nomeRelatorio = "/relatorio_pedidos" + getDataAgora() + ".pdf";
-			String path = parametro.getValor() + nomeRelatorio;
-			
-			JasperPrint print = JasperFillManager.fillReport(resource, param, dataSource);
+			JasperPrint print = gerarRelatorio();
 			JasperViewer.viewReport(print, false);
-			
-			JasperExportManager.exportReportToPdfFile(print, path);
-
 
 		} catch (JRException e) {
 			tratarErro(e);
 		}
+	}
+
+	public void salvarRelatorio() {
+		bindFormToBean();
+
+		try {
+			JasperPrint print = gerarRelatorio();
+
+//			String caminho = propertiesPathLoader.getProperty(PropertiesPathLoader.RELATORIO_PEDIDO_CLIENTE);
+//			String caminho = propertiesPathLoader.getProperty(PropertiesPathLoader.RELATORIO_PEDIDO_CLIENTE);
+			String nomeRelatorio = "/relatorio_pedidos" + getDataAgora() + ".pdf";
+
+			JasperExportManager.exportReportToPdfFile(print, /*caminho +*/ nomeRelatorio);
+			
+			exibirMensagem("relatorio.salvo_na_pasta = Relatório salvo na pasta");
+
+		} catch (JRException e) {
+			tratarErro(e);
+		}
+	}
+
+	private JasperPrint gerarRelatorio() throws JRException {
+		if (entidadeForm.getItensPedido() == null) {
+			exibirMensagem("relatorio.nao_ha_produtos_cadastrados");
+			return null;
+		}
+
+		Map<String, Object> param = new HashMap<>();
+
+		preencherParametro(param, RelatorioPedidoParam.NUM_PEDIDO, entidadeForm.getId());
+		preencherParametro(param, RelatorioPedidoParam.DATA_PEDIDO, getDataPedido());
+		preencherParametro(param, RelatorioPedidoParam.FIRMA_FORNECEDOR, entidadeForm.getFornecedor().getFirma());
+		preencherParametro(param, RelatorioPedidoParam.LOGRADOURO_FORNECEDOR, entidadeForm.getFornecedor().getLogradouro().getEndereco());
+		preencherParametro(param, RelatorioPedidoParam.BAIRRO_FORNECEDOR, entidadeForm.getFornecedor().getLogradouro().getBairro());
+		preencherParametro(param, RelatorioPedidoParam.CIDADE_FORNECEDOR, entidadeForm.getFornecedor().getLogradouro().getCidade());
+		preencherParametro(param, RelatorioPedidoParam.TELEFONE_FORNECEDOR, entidadeForm.getFornecedor().getLogradouro().getTelefone());
+		preencherParametro(param, RelatorioPedidoParam.TRANSPORTADOR, entidadeForm.getTransportador());
+		preencherParametro(param, RelatorioPedidoParam.CONDICAO, entidadeForm.getCondicoes());
+		preencherParametro(param, RelatorioPedidoParam.COBRANCA, entidadeForm.getCobranca());
+		preencherParametro(param, RelatorioPedidoParam.ENTREGA, entidadeForm.getEntrega());
+		preencherParametro(param, RelatorioPedidoParam.QUANTIDADE_TOTAL, entidadeForm.getQuantidadeItens());
+		preencherParametro(param, RelatorioPedidoParam.OBSERVACAO, entidadeForm.getObservacao());
+		preencherParametro(param, RelatorioPedidoParam.SUBTOTAL, entidadeForm.getValorSubTotal());
+		preencherParametro(param, RelatorioPedidoParam.DESCONTO, entidadeForm.getDescontoTotal());
+		preencherParametro(param, RelatorioPedidoParam.TOTAL, entidadeForm.getValorTotal());
+		preencherParametro(param, RelatorioPedidoParam.FIRMA_CLIENTE, entidadeForm.getCliente().getFirma());
+		preencherParametro(param, RelatorioPedidoParam.LOGRADOURO_CLIENTE, entidadeForm.getCliente().getLogradouro().getEndereco());
+		preencherParametro(param, RelatorioPedidoParam.BAIRRO_CLIENTE, entidadeForm.getCliente().getLogradouro().getBairro());
+		preencherParametro(param, RelatorioPedidoParam.CIDADE_CLIENTE, entidadeForm.getCliente().getLogradouro().getCidade());
+		preencherParametro(param, RelatorioPedidoParam.ESTADO_CLIENTE, entidadeForm.getCliente().getLogradouro().getEstado());
+		preencherParametro(param, RelatorioPedidoParam.FONE_CLIENTE, entidadeForm.getCliente().getLogradouro().getTelefone());
+		preencherParametro(param, RelatorioPedidoParam.CEP_CLIENTE, entidadeForm.getCliente().getLogradouro().getCep());
+		preencherParametro(param, RelatorioPedidoParam.CNPJ_CLIENTE, entidadeForm.getCliente().getCnpj());
+		preencherParametro(param, RelatorioPedidoParam.INS_EST_CLIENTE, entidadeForm.getCliente().getInscricao());
+
+		JRDataSourceGenerico<ItemPedido> dataSource = new JRDataSourceGenerico<>(entidadeForm.getItensPedido());
+
+		InputStream resource = getClass().getResourceAsStream("/report/relatorioPedido.jasper");
+
+		JasperPrint print = JasperFillManager.fillReport(resource, param, dataSource);
+		return print;
 	}
 
 	private void preencherParametro(Map<String, Object> map, String parametro, Object valor) {
@@ -460,7 +475,7 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 			} else {
 				alterarRecebimento();
 			}
-			
+
 			exibirMensagem("cadastro.salvo_com_sucesso");
 		} catch (ValidacaoException e) {
 			tratarErroValidacao(e);
@@ -476,13 +491,12 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 		recebimentoService.salvar(recebimento);
 	}
 
-
 	private void alterarRecebimento() {
 		Filtro filtroRecebido = new Filtro("recebido", TipoFiltro.BOOLEAN, Comparador.EQUALS, false);
 		Filtro filtroPedido = new Filtro("recebido", TipoFiltro.BOOLEAN, Comparador.EQUALS, false);
 
 	}
-	
+
 	@Override
 	public void remover() {
 		List<ItemPedido> itensPedido = entidadeForm.getItensPedido();

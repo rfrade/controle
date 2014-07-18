@@ -48,6 +48,12 @@ public class ProdutoServiceImpl extends EntidadeServiceImpl<Produto> implements 
 	}
 
 	@Override
+	public void remover(Produto produto) {
+		produto.setAtivo(false);
+		produto = produtoRepository.save(produto);
+	}
+
+	@Override
 	public String importarProdutosPlanilha(File file, Fornecedor fornecedor) throws NegocioException {
 		List<Produto> produtos = getProdutosImportacao(file, fornecedor);
 		String retorno = produtos.size() + " produtos foram importados. \nVerifique se esta é a quantidade de produtos no arquivo.";
@@ -67,8 +73,7 @@ public class ProdutoServiceImpl extends EntidadeServiceImpl<Produto> implements 
 		
 		List<Produto> produtos = filtrar(filtroFornecedor, filtroAtivo);
 		for (Produto produto : produtos) {
-			produto.setAtivo(false);
-			produto = produtoRepository.save(produto);
+			this.remover(produto);
 		}
 	}
 

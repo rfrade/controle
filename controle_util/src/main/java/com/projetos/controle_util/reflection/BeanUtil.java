@@ -3,13 +3,11 @@ package com.projetos.controle_util.reflection;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import net.vidageek.mirror.dsl.Mirror;
 import net.vidageek.mirror.list.dsl.MirrorList;
 
-import com.projetos.controle_util.conversao.DateUtil;
 import com.projetos.controle_util.conversao.NumberUtil;
 
 public class BeanUtil {
@@ -20,11 +18,11 @@ public class BeanUtil {
 			int index = nomePropriedade.indexOf(".");
 			String nomeNovaRaiz = nomePropriedade.substring(0, index);
 			String nomeNovaPropriedade = nomePropriedade.substring(index + 1);
-			
+
 			if (objeto == null) {
 				return null;
 			}
-			
+
 			Object novaRaiz = new Mirror().on(objeto).get().field(nomeNovaRaiz);
 
 			return getPropriedade(novaRaiz, nomeNovaPropriedade);
@@ -36,8 +34,7 @@ public class BeanUtil {
 		}
 	}
 
-	public static void setPropriedade(Object objeto, String nomePropriedade,
-			Object valor) {
+	public static void setPropriedade(Object objeto, String nomePropriedade, Object valor) {
 		if (nomePropriedade.contains(".")) {
 
 			int index = nomePropriedade.indexOf(".");
@@ -65,7 +62,7 @@ public class BeanUtil {
 				} else if (type.getName() == "int") {
 					valor = Integer.valueOf(valor.toString());
 				} else if (type.getName() == "double") {
-					valor = NumberUtil.convertStringToDouble((String)valor);
+					valor = NumberUtil.convertStringToDouble((String) valor);
 				} else if (type.getName() == "long") {
 					valor = Long.valueOf(valor.toString());
 				} else if (type == Integer.class) {
@@ -73,7 +70,7 @@ public class BeanUtil {
 				} else if (type == Long.class) {
 					valor = Long.valueOf(valor.toString());
 				} else if (type == Double.class) {
-					valor = NumberUtil.convertStringToDouble((String)valor);
+					valor = NumberUtil.convertStringToDouble((String) valor);
 				}
 				new Mirror().on(objeto).set().field(nomePropriedade).withValue(valor);
 			}

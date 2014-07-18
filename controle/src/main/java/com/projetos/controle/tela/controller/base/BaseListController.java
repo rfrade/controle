@@ -62,6 +62,7 @@ public abstract class BaseListController<T extends Entidade> extends BaseEntityC
 		getEntidadeService().remover(entidadeForm);
 		getTabela().getItems().remove(entidadeForm);
 		exibirMensagem("cadastro.removido_com_sucesso");
+		pesquisar();
 	}
 
 	public void prepararInclusao() {

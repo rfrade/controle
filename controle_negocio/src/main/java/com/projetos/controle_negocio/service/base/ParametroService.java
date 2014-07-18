@@ -2,6 +2,7 @@ package com.projetos.controle_negocio.service.base;
 
 import com.projetos.controle_entities.Parametro;
 
+// TODO: EXCLUIR CLASSE
 public interface ParametroService extends EntidadeService<Parametro> {
 
 	/**

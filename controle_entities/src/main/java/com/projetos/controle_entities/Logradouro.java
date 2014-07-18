@@ -62,9 +62,17 @@ public class Logradouro implements Entidade, Serializable {
 
 	private int numero;
 
-	@Column(length=9)
-	@Size(max = 9, message = "Campo TELEFONE tem que ter até 9 caracteres")
+	@Column(length=12)
+	@Size(max = 12, message = "Campo TELEFONE tem que ter até 12 caracteres")
 	private String telefone;
+	
+	@Column(length=12)
+	@Size(max = 12, message = "Campo CELULAR tem que ter até 12 caracteres")
+	private String celular;
+	
+	@Column(length=3, name="ddd_celular")
+	@Size(max = 3, message = "Campo DDD tem que ter até 3 caracteres")
+	private String dddCelular;
 
 	public Logradouro() {
 	}
@@ -160,6 +168,22 @@ public class Logradouro implements Entidade, Serializable {
 
 	public void setTelefone(String telefone) {
 		this.telefone = telefone;
+	}
+
+	public String getCelular() {
+		return celular;
+	}
+
+	public void setCelular(String celular) {
+		this.celular = celular;
+	}
+
+	public String getDddCelular() {
+		return dddCelular;
+	}
+
+	public void setDddCelular(String dddCelular) {
+		this.dddCelular = dddCelular;
 	}
 
 }

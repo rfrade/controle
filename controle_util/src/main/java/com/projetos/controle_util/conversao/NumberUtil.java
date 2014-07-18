@@ -1,5 +1,7 @@
 package com.projetos.controle_util.conversao;
 
+import java.math.BigDecimal;
+
 
 public class NumberUtil {
 
@@ -9,8 +11,10 @@ public class NumberUtil {
 	}
 	
 	public static String convertDoubleToString(Double d) {
-		String valor = String.valueOf(d);
-		return valor.replace(".", ",");
+		BigDecimal bigDecimal = new BigDecimal(d);
+		bigDecimal = bigDecimal.setScale(2, BigDecimal.ROUND_FLOOR);
+
+		return bigDecimal.toString().replace(".", ",");
 	}
 
 }

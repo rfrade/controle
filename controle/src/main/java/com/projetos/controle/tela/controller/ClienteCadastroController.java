@@ -66,6 +66,14 @@ public class ClienteCadastroController extends BaseCadastroController<Cliente> {
 	private TextField telefone;
 	
 	@FXML
+	@CampoTela(bean = "logradouro.dddCelular")
+	private TextField dddCelular;
+	
+	@FXML
+	@CampoTela(bean = "logradouro.celular")
+	private TextField celular;
+	
+	@FXML
 	@CampoTela(bean = "cnpj")
 	private TextField cnpj;
 	
