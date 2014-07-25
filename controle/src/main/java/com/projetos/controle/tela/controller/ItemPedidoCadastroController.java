@@ -58,6 +58,10 @@ public class ItemPedidoCadastroController extends BaseCadastroController<ItemPed
 	private Label valorTotal;
 	
 	@FXML
+	@CampoTela(bean = "produto.tamanho")
+	private Label labelTamanho;
+	
+	@FXML
 	@CampoTela(bean = "quantidadeTamanho1")
 	private TextField quantidadeTamanho1;
 	
@@ -157,7 +161,7 @@ public class ItemPedidoCadastroController extends BaseCadastroController<ItemPed
 			
 		}
 	}
-
+	
 	@Override
 	public void salvarComMensagem() {
 		try {

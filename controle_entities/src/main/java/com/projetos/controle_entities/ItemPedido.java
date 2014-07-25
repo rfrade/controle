@@ -106,6 +106,27 @@ public class ItemPedido implements Entidade, Serializable {
 		return true;
 	}
 
+	public ItemPedido copy() {
+		ItemPedido item = new ItemPedido();
+		
+		item.setCor(cor);
+		item.setDescricao(descricao);
+		item.setObservacao(observacao);
+		item.setProduto(produto);
+		item.setQuantidadeTamanho1(quantidadeTamanho1);
+		item.setQuantidadeTamanho2(quantidadeTamanho2);
+		item.setQuantidadeTamanho3(quantidadeTamanho3);
+		item.setQuantidadeTamanho4(quantidadeTamanho4);
+		item.setQuantidadeTamanho5(quantidadeTamanho5);
+		item.setQuantidadeTamanho6(quantidadeTamanho6);
+		item.setQuantidadeTamanho7(quantidadeTamanho7);
+		item.setQuantidadeTamanho8(quantidadeTamanho8);
+		item.setQuantidadeTotal(quantidadeTotal);
+		item.setValorTotal(valorTotal);
+		
+		return item;
+	}
+
 	public Integer getId() {
 		return this.id;
 	}

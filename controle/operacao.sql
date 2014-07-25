@@ -12,12 +12,17 @@ select * from logradouro;
 select * from cliente;
 select * from produto;
 select * from item_pedido;
-select * from pedido;
-select * from recebimento;
+select id, id_recebimento from pedido;
+select id, id_pedido from recebimento;
 
-delete from pedido;
-delete from item_pedido;
-alter table pedido add valor_comissionado double;
-alter table produto add id_fornecedor integer;
+delete from recebimento where id = 28;
+delete from item_pedido where id in (26, 27);
+
+--delete from pedido;
+--delete from item_pedido;
+--alter table pedido add valor_comissionado double;
+--alter table produto add id_fornecedor integer;
+
+select * from recebimento;
 --alter table vendedor
 --	drop foreign key fk_vendedor;

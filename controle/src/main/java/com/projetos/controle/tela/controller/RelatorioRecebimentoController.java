@@ -34,6 +34,7 @@ import com.projetos.controle.tela.base.FiltroTela;
 import com.projetos.controle.tela.base.ItemCombo;
 import com.projetos.controle.tela.controller.base.BaseEntityController;
 import com.projetos.controle.tela.report.RelatorioRecebimentoDataSource;
+import com.projetos.controle.tela.report.RelatorioUtil;
 import com.projetos.controle.tela.util.FiltroUtil;
 import com.projetos.controle_entities.Fornecedor;
 import com.projetos.controle_entities.Parametro;
@@ -147,19 +148,19 @@ public class RelatorioRecebimentoController extends BaseEntityController<Recebim
 
 			if (dataApartir.getValue() != null) {
 				Date dateApartir = fromLocalDateToDate(dataApartir.getValue());
-				preencherParametro(param, RelatorioRecebimentoParam.DATA_APARTIR, DateUtil.convertDateToString(dateApartir));
+				RelatorioUtil.preencherParametro(param, RelatorioRecebimentoParam.DATA_APARTIR, DateUtil.convertDateToString(dateApartir));
 
 			}
 
 			if (dataAte.getValue() != null) {
 				Date dateAte = fromLocalDateToDate(dataAte.getValue());
-				preencherParametro(param, RelatorioRecebimentoParam.DATA_ATE, DateUtil.convertDateToString(dateAte));
+				RelatorioUtil.preencherParametro(param, RelatorioRecebimentoParam.DATA_ATE, DateUtil.convertDateToString(dateAte));
 
 			}
 
-			preencherParametro(param, RelatorioRecebimentoParam.VALOR_COMISSAO, this.getValorComissaoTotal(pedidos));
-			preencherParametro(param, RelatorioRecebimentoParam.VALOR_PEDIDO, this.getValorTotalPedidos(pedidos));
-			preencherParametro(param, RelatorioRecebimentoParam.OBSERVACAO, observacao.getText());
+			RelatorioUtil.preencherParametro(param, RelatorioRecebimentoParam.VALOR_COMISSAO, this.getValorComissaoTotal(pedidos));
+			RelatorioUtil.preencherParametro(param, RelatorioRecebimentoParam.VALOR_PEDIDO, this.getValorTotalPedidos(pedidos));
+			RelatorioUtil.preencherParametro(param, RelatorioRecebimentoParam.OBSERVACAO, observacao.getText());
 
 			RelatorioRecebimentoDataSource dataSource = new RelatorioRecebimentoDataSource(recebimentos);
 
@@ -168,11 +169,11 @@ public class RelatorioRecebimentoController extends BaseEntityController<Recebim
 
 			JasperViewer.viewReport(print, false);
 
-			String nomeRelatorio = "/relatorio_recebimentos" + getDataAgora() + ".pdf";
+			/*String nomeRelatorio = "/relatorio_recebimentos" + getDataAgora() + ".pdf";
 			Parametro parametro = parametroService.getCaminhoRelatorioRecebimentos();
 
 			String path = parametro.getValor() + nomeRelatorio;
-			JasperExportManager.exportReportToPdfFile(print, path);
+			JasperExportManager.exportReportToPdfFile(print, path);*/
 
 		} catch (JRException e) {
 			tratarErro(e);
@@ -180,18 +181,18 @@ public class RelatorioRecebimentoController extends BaseEntityController<Recebim
 
 	}
 
-	private String getValorComissaoTotal(List<Pedido> pedidos) {
+	private Double getValorComissaoTotal(List<Pedido> pedidos) {
 		BigDecimal valor = BigDecimal.ZERO;
 
 		for (Pedido pedido : pedidos) {
-			String valueOf = String.valueOf(pedido.getValorComissionado());
+			String valueOf = String.valueOf(pedido.getRecebimento().getValorRecebimento());
 			valor = valor.add(new BigDecimal(valueOf));
 		}
 
-		return valor.toString();
+		return valor.doubleValue();
 	}
 
-	private String getValorTotalPedidos(List<Pedido> pedidos) {
+	private Double getValorTotalPedidos(List<Pedido> pedidos) {
 		BigDecimal valor = BigDecimal.ZERO;
 
 		for (Pedido pedido : pedidos) {
@@ -199,15 +200,7 @@ public class RelatorioRecebimentoController extends BaseEntityController<Recebim
 			valor = valor.add(new BigDecimal(valueOf));
 		}
 
-		return valor.toString();
-	}
-
-	private void preencherParametro(Map<String, Object> map, String parametro, Object valor) {
-		if (valor != null) {
-			map.put(parametro, valor.toString());
-		} else {
-			map.put(parametro, "");
-		}
+		return valor.doubleValue();
 	}
 
 	public void exibirTelaLista() {

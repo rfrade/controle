@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="relatorioRecebimento" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="0f7ee2be-b6ab-45db-b236-52d14156bbf1">
 	<property name="ireport.zoom" value="0.9090909090909117"/>
-	<property name="ireport.x" value="0"/>
+	<property name="ireport.x" value="172"/>
 	<property name="ireport.y" value="0"/>
 	<style name="table">
 		<box>
@@ -38,7 +38,6 @@
 	<field name="valorRecebimento" class="java.lang.String"/>
 	<field name="dataRecebimento" class="java.lang.String"/>
 	<field name="pedido.comissao" class="java.lang.String"/>
-	<field name="pedido.valorComissionado" class="java.lang.String"/>
 	<field name="recebido" class="java.lang.String"/>
 	<field name="pedido.colecao" class="java.lang.String"/>
 	<field name="quantidadeItens" class="java.lang.String"/>
@@ -212,7 +211,7 @@
 			<textField>
 				<reportElement style="table_TD" x="554" y="0" width="56" height="20" uuid="49db4420-573b-494d-9050-84691e13fb95"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{pedido.valorComissionado}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{valorRecebimento}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement style="table_TD" x="610" y="0" width="56" height="20" uuid="c6d6deee-68ab-4af2-b9f3-7857165db63f"/>

@@ -26,7 +26,7 @@ public class TelaPrincipalController extends AbstractController {
 	private ConfiguracaoBeanTela configuracaoBeanTela;
 
 	private Stage primaryStage;
-	
+
 	@FXML
 	private Pane paneTelaAtiva;
 
@@ -34,17 +34,17 @@ public class TelaPrincipalController extends AbstractController {
 		Parent telaLista = configuracaoBeanTela.carregarTelaClienteLista();
 		exibirTela(telaLista);
 	}
-	
+
 	public void exibirTelaFornecedorLista() {
 		Parent telaLista = configuracaoBeanTela.carregarTelaFornecedorLista();
 		exibirTela(telaLista);
 	}
-	
+
 	public void exibirTelaPedidoLista() {
 		Parent telaLista = configuracaoBeanTela.carregarTelaPedidoLista();
 		exibirTela(telaLista);
 	}
-	
+
 	public void exibirTelaProdutoLista() {
 		Parent telaLista = configuracaoBeanTela.carregarTelaProdutoLista();
 		exibirTela(telaLista);
@@ -53,6 +53,15 @@ public class TelaPrincipalController extends AbstractController {
 	public void exibirTelaRelatorioRecebimentos() {
 		Parent telaLista = configuracaoBeanTela.carregarTelaRelatorioRecebimentosLista();
 		exibirTela(telaLista);
+	}
+
+	public void exibirTelaParametroLista() {
+		Parent telaLista = configuracaoBeanTela.carregarTelaParametroLista();
+		exibirTela(telaLista);
+	}
+
+	public void exibirTelaVendedorLista() {
+		// TODO Implementar
 	}
 
 	private void exibirTela(Parent tela) {
@@ -68,13 +77,13 @@ public class TelaPrincipalController extends AbstractController {
 		popup.show();
 		return popup;
 	}
-	
+
 	public void exibirTelaPrincipal() {
 		Scene scene = new Scene(configuracaoBeanTela.carregarTelaPrincipal());
 		primaryStage.setScene(scene);
 		primaryStage.show();
 	}
-	
+
 	public Stage exibirTelaRecebimentoCadastro() {
 		Stage popup = this.exibirPopup(configuracaoBeanTela.carregarTelaRecebimentoCadastro());
 		return popup;
@@ -84,7 +93,7 @@ public class TelaPrincipalController extends AbstractController {
 		Stage popup = this.exibirPopup(configuracaoBeanTela.carregarTelaClienteCadastro());
 		return popup;
 	}
-	
+
 	public Stage exibirTelaFornecedorCadastro() {
 		Stage popup = this.exibirPopup(configuracaoBeanTela.carregarTelaFornecedorCadastro());
 		return popup;
@@ -104,7 +113,12 @@ public class TelaPrincipalController extends AbstractController {
 		Stage popup = this.exibirPopup(configuracaoBeanTela.carregarTelaItemPedidoCadastro());
 		return popup;
 	}
-	
+
+	public Stage exibirTelaParametroCadastro() {
+		Stage popup = this.exibirPopup(configuracaoBeanTela.carregarTelaParametroCadastro());
+		return popup;
+	}
+
 	public Stage exibirTelaRecebimentoLista() {
 		Stage popup = this.exibirPopup(configuracaoBeanTela.carregarTelaRecebimentoLista());
 		return popup;
@@ -114,17 +128,17 @@ public class TelaPrincipalController extends AbstractController {
 		Stage popup = this.exibirPopup(configuracaoBeanTela.carregarTelaRelatorioRecebimentosFiltro());
 		return popup;
 	}
-	
+
 	public Stage exibirPopupMensagem() {
 		Stage popup = this.exibirPopup(configuracaoBeanTela.carregarPopupMensagem());
 		return popup;
 	}
-	
+
 	public Stage exibirPopupTexto() {
 		Stage popup = this.exibirPopup(configuracaoBeanTela.carregarPopupTexto());
 		return popup;
 	}
-	
+
 	public Stage exibirPopupConfirmacao() {
 		Stage popup = this.exibirPopup(configuracaoBeanTela.carregarPopupConfirmacao());
 		return popup;
@@ -137,7 +151,7 @@ public class TelaPrincipalController extends AbstractController {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

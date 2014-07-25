@@ -43,11 +43,11 @@ import com.projetos.controle.tela.base.Coluna;
 import com.projetos.controle.tela.base.ItemCombo;
 import com.projetos.controle.tela.controller.base.BaseCadastroController;
 import com.projetos.controle.tela.report.JRDataSourceGenerico;
+import com.projetos.controle.tela.report.RelatorioUtil;
 import com.projetos.controle_entities.Cliente;
 import com.projetos.controle_entities.Entidade;
 import com.projetos.controle_entities.Fornecedor;
 import com.projetos.controle_entities.ItemPedido;
-import com.projetos.controle_entities.Parametro;
 import com.projetos.controle_entities.Pedido;
 import com.projetos.controle_entities.Produto;
 import com.projetos.controle_entities.Recebimento;
@@ -89,6 +89,9 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 
 	@Autowired
 	protected RecebimentoListaController recebimentoListaController;
+
+	@Autowired
+	protected RecebimentoCadastroController recebimentoCadastroController;
 
 	@Autowired
 	private ItemPedidoCadastroController itemPedidoCadastroController;
@@ -238,10 +241,6 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 			entidadeForm.setItensPedido(new ArrayList<ItemPedido>());
 		}
 
-		if (entidadeForm.getRecebimentos() == null) {
-			entidadeForm.setRecebimentos(new ArrayList<Recebimento>());
-		}
-
 		Filtro filtro = new Filtro("ativo", TipoFiltro.BOOLEAN, Comparador.EQUALS, true);
 		List<Fornecedor> fornecedores = fornecedorService.filtrar(filtro);
 		ObservableList<ItemCombo<Fornecedor>> itensFornecedor = ItemCombo.novaListaCombo(fornecedores, "firma");
@@ -275,9 +274,43 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 	public void exibirTelaRecebimentoLista() {
 		try {
 			salvarSemMensagem();
-			recebimentoListaController.setEntidadeForm(new Recebimento());
-			recebimentoListaController.getEntidadeForm().setPedido(entidadeForm);
-			telaPrincipalController.exibirTelaRecebimentoLista();
+
+			entidadeForm.getRecebimento().setPedido(entidadeForm);
+			recebimentoCadastroController.setEntidadeForm(entidadeForm.getRecebimento());
+			telaPrincipalController.exibirTelaRecebimentoCadastro();
+
+		} catch (ValidacaoException e) {
+			tratarErroValidacao(e);
+		}
+	}
+
+	@Override
+	protected void salvar() throws ValidacaoException {
+		// A inclusão do recebimento não pode ser feita antes de salvar o pedido
+		// mas a comparação do id tem que ser feita antes
+		boolean inclusao = entidadeForm.getId() == null;
+		super.salvar();
+		if (inclusao) {
+			incluirRecebimento();
+		} else {
+			alterarRecebimento();
+		}
+	}
+
+	/**
+	 * Chamado pelo botão novo
+	 */
+	public void novo() {
+		Pedido pedido = entidadeForm.copy();
+		entidadeForm = pedido;
+
+		try {
+			salvarSemMensagem();
+			/*for (ItemPedido item : entidadeForm.getItensPedido()) {
+				itemPedidoService.salvar(item);
+			}*/
+
+			exibirMensagem("pedido.copiado_com_sucesso");
 		} catch (ValidacaoException e) {
 			tratarErroValidacao(e);
 		}
@@ -388,31 +421,31 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 
 		Map<String, Object> param = new HashMap<>();
 
-		preencherParametro(param, RelatorioPedidoParam.NUM_PEDIDO, entidadeForm.getId());
-		preencherParametro(param, RelatorioPedidoParam.DATA_PEDIDO, getDataPedido());
-		preencherParametro(param, RelatorioPedidoParam.FIRMA_FORNECEDOR, entidadeForm.getFornecedor().getFirma());
-		preencherParametro(param, RelatorioPedidoParam.LOGRADOURO_FORNECEDOR, entidadeForm.getFornecedor().getLogradouro().getEndereco());
-		preencherParametro(param, RelatorioPedidoParam.BAIRRO_FORNECEDOR, entidadeForm.getFornecedor().getLogradouro().getBairro());
-		preencherParametro(param, RelatorioPedidoParam.CIDADE_FORNECEDOR, entidadeForm.getFornecedor().getLogradouro().getCidade());
-		preencherParametro(param, RelatorioPedidoParam.TELEFONE_FORNECEDOR, entidadeForm.getFornecedor().getLogradouro().getTelefone());
-		preencherParametro(param, RelatorioPedidoParam.TRANSPORTADOR, entidadeForm.getTransportador());
-		preencherParametro(param, RelatorioPedidoParam.CONDICAO, entidadeForm.getCondicoes());
-		preencherParametro(param, RelatorioPedidoParam.COBRANCA, entidadeForm.getCobranca());
-		preencherParametro(param, RelatorioPedidoParam.ENTREGA, entidadeForm.getEntrega());
-		preencherParametro(param, RelatorioPedidoParam.QUANTIDADE_TOTAL, entidadeForm.getQuantidadeItens());
-		preencherParametro(param, RelatorioPedidoParam.OBSERVACAO, entidadeForm.getObservacao());
-		preencherParametro(param, RelatorioPedidoParam.SUBTOTAL, entidadeForm.getValorSubTotal());
-		preencherParametro(param, RelatorioPedidoParam.DESCONTO, entidadeForm.getDescontoTotal());
-		preencherParametro(param, RelatorioPedidoParam.TOTAL, entidadeForm.getValorTotal());
-		preencherParametro(param, RelatorioPedidoParam.FIRMA_CLIENTE, entidadeForm.getCliente().getFirma());
-		preencherParametro(param, RelatorioPedidoParam.LOGRADOURO_CLIENTE, entidadeForm.getCliente().getLogradouro().getEndereco());
-		preencherParametro(param, RelatorioPedidoParam.BAIRRO_CLIENTE, entidadeForm.getCliente().getLogradouro().getBairro());
-		preencherParametro(param, RelatorioPedidoParam.CIDADE_CLIENTE, entidadeForm.getCliente().getLogradouro().getCidade());
-		preencherParametro(param, RelatorioPedidoParam.ESTADO_CLIENTE, entidadeForm.getCliente().getLogradouro().getEstado());
-		preencherParametro(param, RelatorioPedidoParam.FONE_CLIENTE, entidadeForm.getCliente().getLogradouro().getTelefone());
-		preencherParametro(param, RelatorioPedidoParam.CEP_CLIENTE, entidadeForm.getCliente().getLogradouro().getCep());
-		preencherParametro(param, RelatorioPedidoParam.CNPJ_CLIENTE, entidadeForm.getCliente().getCnpj());
-		preencherParametro(param, RelatorioPedidoParam.INS_EST_CLIENTE, entidadeForm.getCliente().getInscricao());
+		RelatorioUtil.preencherParametro(param, RelatorioPedidoParam.NUM_PEDIDO, entidadeForm.getId());
+		RelatorioUtil.preencherParametro(param, RelatorioPedidoParam.DATA_PEDIDO, getDataPedido());
+		RelatorioUtil.preencherParametro(param, RelatorioPedidoParam.FIRMA_FORNECEDOR, entidadeForm.getFornecedor().getFirma());
+		RelatorioUtil.preencherParametro(param, RelatorioPedidoParam.LOGRADOURO_FORNECEDOR, entidadeForm.getFornecedor().getLogradouro().getEndereco());
+		RelatorioUtil.preencherParametro(param, RelatorioPedidoParam.BAIRRO_FORNECEDOR, entidadeForm.getFornecedor().getLogradouro().getBairro());
+		RelatorioUtil.preencherParametro(param, RelatorioPedidoParam.CIDADE_FORNECEDOR, entidadeForm.getFornecedor().getLogradouro().getCidade());
+		RelatorioUtil.preencherParametro(param, RelatorioPedidoParam.TELEFONE_FORNECEDOR, entidadeForm.getFornecedor().getLogradouro().getTelefone());
+		RelatorioUtil.preencherParametro(param, RelatorioPedidoParam.TRANSPORTADOR, entidadeForm.getTransportador());
+		RelatorioUtil.preencherParametro(param, RelatorioPedidoParam.CONDICAO, entidadeForm.getCondicoes());
+		RelatorioUtil.preencherParametro(param, RelatorioPedidoParam.COBRANCA, entidadeForm.getCobranca());
+		RelatorioUtil.preencherParametro(param, RelatorioPedidoParam.ENTREGA, entidadeForm.getEntrega());
+		RelatorioUtil.preencherParametro(param, RelatorioPedidoParam.QUANTIDADE_TOTAL, entidadeForm.getQuantidadeItens());
+		RelatorioUtil.preencherParametro(param, RelatorioPedidoParam.OBSERVACAO, entidadeForm.getObservacao());
+		RelatorioUtil.preencherParametro(param, RelatorioPedidoParam.SUBTOTAL, entidadeForm.getValorSubTotal());
+		RelatorioUtil.preencherParametro(param, RelatorioPedidoParam.DESCONTO, entidadeForm.getDescontoTotal());
+		RelatorioUtil.preencherParametro(param, RelatorioPedidoParam.TOTAL, entidadeForm.getValorTotal());
+		RelatorioUtil.preencherParametro(param, RelatorioPedidoParam.FIRMA_CLIENTE, entidadeForm.getCliente().getFirma());
+		RelatorioUtil.preencherParametro(param, RelatorioPedidoParam.LOGRADOURO_CLIENTE, entidadeForm.getCliente().getLogradouro().getEndereco());
+		RelatorioUtil.preencherParametro(param, RelatorioPedidoParam.BAIRRO_CLIENTE, entidadeForm.getCliente().getLogradouro().getBairro());
+		RelatorioUtil.preencherParametro(param, RelatorioPedidoParam.CIDADE_CLIENTE, entidadeForm.getCliente().getLogradouro().getCidade());
+		RelatorioUtil.preencherParametro(param, RelatorioPedidoParam.ESTADO_CLIENTE, entidadeForm.getCliente().getLogradouro().getEstado());
+		RelatorioUtil.preencherParametro(param, RelatorioPedidoParam.FONE_CLIENTE, entidadeForm.getCliente().getLogradouro().getTelefone());
+		RelatorioUtil.preencherParametro(param, RelatorioPedidoParam.CEP_CLIENTE, entidadeForm.getCliente().getLogradouro().getCep());
+		RelatorioUtil.preencherParametro(param, RelatorioPedidoParam.CNPJ_CLIENTE, entidadeForm.getCliente().getCnpj());
+		RelatorioUtil.preencherParametro(param, RelatorioPedidoParam.INS_EST_CLIENTE, entidadeForm.getCliente().getInscricao());
 
 		JRDataSourceGenerico<ItemPedido> dataSource = new JRDataSourceGenerico<>(entidadeForm.getItensPedido());
 
@@ -420,14 +453,6 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 
 		JasperPrint print = JasperFillManager.fillReport(resource, param, dataSource);
 		return print;
-	}
-
-	private void preencherParametro(Map<String, Object> map, String parametro, Object valor) {
-		if (valor != null) {
-			map.put(parametro, valor.toString());
-		} else {
-			map.put(parametro, "");
-		}
 	}
 
 	private String getDataPedido() {
@@ -470,11 +495,6 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 	public void salvarComMensagem() {
 		try {
 			super.salvarSemMensagem();
-			if (entidadeForm.getId() != 0) {
-				incluirRecebimento();
-			} else {
-				alterarRecebimento();
-			}
 
 			exibirMensagem("cadastro.salvo_com_sucesso");
 		} catch (ValidacaoException e) {
@@ -485,16 +505,28 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 	private void incluirRecebimento() {
 		Recebimento recebimento = new Recebimento();
 		recebimento.setDataRecebimento(null);
-		recebimento.setPedido(entidadeForm);
 		recebimento.setRecebido(false);
-		recebimento.setValorRecebimento(entidadeForm.getValorTotal() * entidadeForm.getComissao() / 100);
-		recebimentoService.salvar(recebimento);
+
+		recebimento.setValorRecebimento(getValorComissao());
+		entidadeForm.setRecebimento(recebimento);
+		recebimento = recebimentoService.salvar(recebimento);
+		entidadeForm.setRecebimento(recebimento);
+		entidadeForm = pedidoService.salvar(entidadeForm);
 	}
 
 	private void alterarRecebimento() {
-		Filtro filtroRecebido = new Filtro("recebido", TipoFiltro.BOOLEAN, Comparador.EQUALS, false);
-		Filtro filtroPedido = new Filtro("recebido", TipoFiltro.BOOLEAN, Comparador.EQUALS, false);
+		Recebimento recebimento = entidadeForm.getRecebimento();
+		entidadeForm.getRecebimento().setValorRecebimento(getValorComissao());
+		recebimento = recebimentoService.salvar(recebimento);
+		entidadeForm.setRecebimento(recebimento);
+	}
 
+	private double getValorComissao() {
+		BigDecimal valorTotal = new BigDecimal(String.valueOf(entidadeForm.getValorTotal()));
+		BigDecimal comissao =  new BigDecimal(String.valueOf(entidadeForm.getComissao()));
+		BigDecimal cem = new BigDecimal(100);
+		
+		return valorTotal.multiply(comissao).divide(cem).doubleValue();
 	}
 
 	@Override
@@ -505,11 +537,11 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 			itemPedidoService.remover(itemPedido);
 		}
 
-		List<Recebimento> recebimentos = entidadeForm.getRecebimentos();
+		/*List<Recebimento> recebimentos = entidadeForm.getRecebimentos();
 
 		for (Recebimento recebimento : recebimentos) {
 			recebimentoService.remover(recebimento);
-		}
+		}*/
 
 		super.remover();
 	}
@@ -570,15 +602,18 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 		subTotal = subTotal.setScale(2, RoundingMode.DOWN);
 		entidadeForm.setValorSubTotal(subTotal.doubleValue());
 
-		BigDecimal desconto = new BigDecimal(entidadeForm.getDescontoTotal() / 100).multiply(subTotal);
+		BigDecimal descontoTotalBigDecimal = new BigDecimal(entidadeForm.getDescontoTotal());
+		BigDecimal cem = new BigDecimal(100);
+		
+		BigDecimal desconto = descontoTotalBigDecimal.divide(cem).multiply(subTotal);
 		BigDecimal valorTotal = subTotal.subtract(desconto);
 
 		valorTotal = valorTotal.setScale(2, RoundingMode.DOWN);
 		entidadeForm.setValorTotal(valorTotal.doubleValue());
 
-		BigDecimal porcentagemComissao = new BigDecimal(entidadeForm.getComissao() / 100);
+		/*BigDecimal porcentagemComissao = new BigDecimal(entidadeForm.getComissao() / 100);
 		BigDecimal valorComissionado = valorTotal.multiply(porcentagemComissao).setScale(2, RoundingMode.DOWN);
-		entidadeForm.setValorComissionado(valorComissionado.doubleValue());
+		entidadeForm.setValorComissionado(valorComissionado.doubleValue());*/
 		bindBeanToForm();
 	}
 

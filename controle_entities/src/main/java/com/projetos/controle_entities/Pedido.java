@@ -16,6 +16,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -107,14 +108,15 @@ public class Pedido implements Entidade, Serializable {
 	@Column(name="valor_sub_total")
 	private double valorSubTotal;
 	
-	@Column(name="valor_comissionado")
-	private Double valorComissionado;
-
-	@OneToMany(mappedBy="pedido", fetch = FetchType.EAGER, orphanRemoval=true, cascade = CascadeType.REMOVE)
+	@OneToMany(mappedBy="pedido", fetch = FetchType.EAGER, orphanRemoval=true, cascade = CascadeType.ALL)
 	private List<ItemPedido> itensPedido = new ArrayList<>();
 
-	@OneToMany(mappedBy="pedido", fetch = FetchType.EAGER, orphanRemoval=true, cascade = CascadeType.REMOVE)
-	private List<Recebimento> recebimentos = new ArrayList<>();
+//	@OneToMany(mappedBy="pedido", fetch = FetchType.EAGER, orphanRemoval=true, cascade = CascadeType.REMOVE)
+//	private Recebimento recebimento = new ArrayList<>();
+
+	@OneToOne(cascade = {CascadeType.ALL}, orphanRemoval = true)
+	@JoinColumn(name="id_recebimento", insertable=true, updatable=true)
+	private Recebimento recebimento;
 
 	@Transient
 	private Integer quantidadeItens;
@@ -192,17 +194,6 @@ public class Pedido implements Entidade, Serializable {
 		return itemPedido;
 	}
 
-	public List<Recebimento> getRecebimentos() {
-		if (recebimentos == null) {
-			recebimentos = new ArrayList<>();
-		}
-		return this.recebimentos;
-	}
-
-	public void setRecebimentos(List<Recebimento> recebimentos) {
-		this.recebimentos = recebimentos;
-	}
-
 	public Integer getQuantidadeItens() {
 		Integer quantidadeTotal = 0;
 		if (itensPedido == null) {
@@ -242,14 +233,14 @@ public class Pedido implements Entidade, Serializable {
 		recebimento.setPedido(this);
 
 		return recebimento;
-	}*/
+	}
 
 	public Recebimento removeRecebimento(Recebimento recebimento) {
 		getRecebimentos().remove(recebimento);
 		recebimento.setPedido(null);
 
 		return recebimento;
-	}
+	}*/
 
 	public double getDesconto1() {
 		return desconto1;
@@ -358,14 +349,6 @@ public class Pedido implements Entidade, Serializable {
 		this.valorSubTotal = valorSubTotal;
 	}
 
-	public Double getValorComissionado() {
-		return valorComissionado;
-	}
-
-	public void setValorComissionado(Double valorComissionado) {
-		this.valorComissionado = valorComissionado;
-	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -389,6 +372,47 @@ public class Pedido implements Entidade, Serializable {
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
+	}
+
+	public Recebimento getRecebimento() {
+		return recebimento;
+	}
+
+	public void setRecebimento(Recebimento recebimento) {
+		this.recebimento = recebimento;
+		recebimento.setPedido(this);
+	}
+
+	/**
+	 * Copia as propriedades, sem o id e com a data atual
+	 * @return novo pedido
+	 */
+	public Pedido copy() {
+		Pedido pedido = new Pedido();
+		pedido.setCliente(cliente);
+		pedido.setCobranca(cobranca);
+		pedido.setColecao(colecao);
+		pedido.setCondicoes(condicoes);
+		pedido.setDataPedido(new Date());
+		pedido.setDesconto1(desconto1);
+		pedido.setDesconto2(desconto2);
+		pedido.setDesconto3(desconto3);
+		pedido.setDesconto4(desconto4);
+		pedido.setDescontoTotal(descontoTotal);
+		pedido.setEntrega(entrega);
+		pedido.setFornecedor(fornecedor);
+		pedido.setObservacao(observacao);
+		pedido.setTransportador(transportador);
+		pedido.setValorSubTotal(valorSubTotal);
+		pedido.setValorTotal(valorTotal);
+		pedido.setVendedor(vendedor);
+
+		for (ItemPedido item : itensPedido) {
+			ItemPedido novoItem = item.copy();
+			pedido.addItemPedido(novoItem);
+		}
+		
+		return pedido;
 	}
 	
 }

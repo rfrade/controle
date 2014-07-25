@@ -1,5 +1,6 @@
 package com.projetos.controle.tela.report;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -8,10 +9,13 @@ import java.util.List;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRField;
+import net.vidageek.mirror.dsl.Mirror;
+import net.vidageek.mirror.list.dsl.MirrorList;
 
 import org.apache.log4j.Logger;
 
 import com.projetos.controle_util.conversao.DateUtil;
+import com.projetos.controle_util.conversao.NumberUtil;
 import com.projetos.controle_util.reflection.BeanUtil;
 
 /**
@@ -53,16 +57,25 @@ public class JRDataSourceGenerico<T> implements JRDataSource {
 	 */
 	public Object getFieldValue(JRField propriedade) throws JRException {
 		Object valor = BeanUtil.getPropriedade(elemento, propriedade.getName());
-				//PropertyManager.getValorCampo(propriedade.getName(), elemento);
+		// PropertyManager.getValorCampo(propriedade.getName(), elemento);
 		if (valor == null) {
 			LOGGER.info("Atributo " + propriedade.getName() + " não encontrado no objeto");
 			return "";
 		} else if (valor instanceof Boolean) {
-			return ((Boolean)valor) == true ? "SIM" : "NÃO";
+			return ((Boolean) valor) == true ? "SIM" : "NÃO";
 		} else if (valor instanceof Date) {
-			return DateUtil.convertDateToString((Date)valor);
-		}
+			return DateUtil.convertDateToString((Date) valor);
+		} else if (valor instanceof Double) {
+			valor = NumberUtil.convertDoubleToString( (Double) valor);
+		}/* else {
+			MirrorList<Field> campos = new Mirror().on(elemento).reflectAll().fields();
+			Class<?> type = field.getType();
+			if (type.getName() == "double") {
 
+			}
+			valor = NumberUtil.convertStringToDouble((String) valor);
+		}
+*/
 		return valor.toString();
 	}
 

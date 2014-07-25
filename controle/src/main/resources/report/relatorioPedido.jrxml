@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="relatorioRecebimento" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="0f7ee2be-b6ab-45db-b236-52d14156bbf1">
-	<property name="ireport.zoom" value="1.0000000000000075"/>
+	<property name="ireport.zoom" value="1.1000000000000105"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.y" value="6"/>
 	<style name="table">
 		<box>
 			<pen lineWidth="1.0" lineColor="#000000"/>
@@ -228,12 +228,12 @@ CEP: 15150-000 - Monte Aprazível - SP]]></text>
 				<textFieldExpression><![CDATA[$P{FIRMA_CLIENTE}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="13" y="207" width="302" height="20" uuid="f5e3d992-8ffe-42cf-9224-d27987861918"/>
+				<reportElement x="13" y="207" width="253" height="20" uuid="f5e3d992-8ffe-42cf-9224-d27987861918"/>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$P{LOGRADOURO_CLIENTE}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="347" y="207" width="96" height="20" uuid="ba867756-07f4-4a7e-b432-682ffd7057b2"/>
+				<reportElement x="274" y="207" width="96" height="20" uuid="ba867756-07f4-4a7e-b432-682ffd7057b2"/>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$P{BAIRRO_CLIENTE}]]></textFieldExpression>
 			</textField>
@@ -417,7 +417,7 @@ M]]></text>
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="22" splitType="Stretch">
+		<band height="21" splitType="Stretch">
 			<textField>
 				<reportElement style="table_TD" x="0" y="0" width="58" height="21" uuid="46190736-57e6-43c8-a869-bc5386c9bebd"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>

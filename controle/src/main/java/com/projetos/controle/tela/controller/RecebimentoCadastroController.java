@@ -2,6 +2,7 @@ package com.projetos.controle.tela.controller;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -17,14 +18,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Controller;
 
-import com.projetos.controle.tela.ApplicationConfig;
 import com.projetos.controle.tela.base.CampoTela;
 import com.projetos.controle.tela.base.ItemCombo;
 import com.projetos.controle.tela.controller.base.BaseCadastroController;
-import com.projetos.controle_entities.Pedido;
 import com.projetos.controle_entities.Recebimento;
 import com.projetos.controle_negocio.service.base.EntidadeService;
+import com.projetos.controle_negocio.service.base.PedidoService;
 import com.projetos.controle_negocio.service.base.RecebimentoService;
+import com.projetos.controle_util.validacao.ValidacaoException;
 
 /**
  * 
@@ -36,6 +37,9 @@ public class RecebimentoCadastroController extends BaseCadastroController<Recebi
 
 	@Autowired
 	private RecebimentoService recebimentoService;
+	
+	@Autowired
+	private PedidoService pedidoService;
 
 	@FXML
 	@CampoTela(bean = "dataRecebimento")
@@ -48,9 +52,9 @@ public class RecebimentoCadastroController extends BaseCadastroController<Recebi
 	@FXML
 	@CampoTela(bean = "pedido.comissao")
 	private TextField porcentagem;
-	
+
 	@FXML
-	@CampoTela(bean = "pedido.valorComissionado")
+	@CampoTela(bean = "valorRecebimento")
 	private TextField valorComissao;
 	
 	@FXML
@@ -68,18 +72,22 @@ public class RecebimentoCadastroController extends BaseCadastroController<Recebi
 		ItemCombo<Boolean> naoAtivo = new ItemCombo<>("NÃO", false);
 		lista.add(ativo);
 		lista.add(naoAtivo);
-		
+
+		if (entidadeForm.getDataRecebimento() == null) {
+			entidadeForm.setDataRecebimento(new Date());
+			
+		}
+
 		ObservableList<ItemCombo<Boolean>> itens = FXCollections.observableArrayList(lista);
 		recebido.setItems(itens);
-
+		bindBeanToForm();
 	}
 
 	@Override
-	public void salvarComMensagem() {
-		PedidoCadastroController pedidoCadastroController = ApplicationConfig.getBean(PedidoCadastroController.class);
-		Pedido pedido = pedidoCadastroController.getEntidadeForm();
-		entidadeForm.setPedido(pedido);
-		super.salvarComMensagem();
+	public void salvar() throws ValidacaoException {
+		bindFormToBean();
+		super.validaPersistencia();
+		entidadeForm = getEntidadeService().salvar(entidadeForm);
 	}
 	
 

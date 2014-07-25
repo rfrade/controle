@@ -10,9 +10,28 @@ public class Ordenacao {
 		this.tipoOrdenacao = tipoOrdenacao;
 	}
 
+	public TipoOrdenacao getTipoOrdenacao() {
+		return tipoOrdenacao;
+	}
+
+	public String getCampo() {
+		return campo;
+	}
+
 	public enum TipoOrdenacao {
-		ASC,
-		DESC
+
+		ASC("asc"), DESC("desc");
+
+		private String metodoOrdenacao;
+
+		private TipoOrdenacao(String metodoOrdenacao) {
+			this.metodoOrdenacao = metodoOrdenacao;
+		}
+
+		public String getMetodoOrdenacao() {
+			return metodoOrdenacao;
+		}
+
 	}
 
 }

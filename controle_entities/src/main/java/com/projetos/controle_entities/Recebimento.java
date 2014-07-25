@@ -34,7 +34,7 @@ public class Recebimento implements Serializable, Entidade {
 	private double valorRecebimento;
 
 	//bi-directional many-to-one association to Pedido
-	@ManyToOne
+	@OneToOne
 	@JoinColumn(name="id_pedido")
 	private Pedido pedido;
 
@@ -82,11 +82,18 @@ public class Recebimento implements Serializable, Entidade {
 		return true;
 	}
 
+	/*public Recebimento copy() {
+		Recebimento recebimento = new Recebimento();
+		recebimento.setDataRecebimento(dataRecebimento);
+		recebimento.setRecebido(recebido);
+		recebimento.setValorRecebimento(valorRecebimento);
+	}
+*/
 	@Override
 	public String toString() {
 		return "Recebimento [id=" + id + ", dataRecebimento=" + dataRecebimento
 				+ ", recebido=" + recebido + ", valorRecebimento="
-				+ valorRecebimento + ", pedido=" + pedido + "]";
+				+ valorRecebimento + "]";
 	}
 
 	public boolean getRecebido() {

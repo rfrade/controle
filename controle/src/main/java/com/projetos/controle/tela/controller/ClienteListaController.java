@@ -31,9 +31,10 @@ import com.projetos.controle.tela.controller.base.BaseListController;
 import com.projetos.controle.tela.report.JRDataSourceGenerico;
 import com.projetos.controle.tela.util.FiltroUtil;
 import com.projetos.controle_entities.Cliente;
-import com.projetos.controle_entities.ItemPedido;
 import com.projetos.controle_negocio.filtro.Comparador;
 import com.projetos.controle_negocio.filtro.Filtro;
+import com.projetos.controle_negocio.filtro.Ordenacao;
+import com.projetos.controle_negocio.filtro.Ordenacao.TipoOrdenacao;
 import com.projetos.controle_negocio.filtro.TipoFiltro;
 import com.projetos.controle_negocio.service.base.ClienteService;
 import com.projetos.controle_negocio.service.base.EntidadeService;
@@ -128,7 +129,15 @@ public class ClienteListaController extends BaseListController<Cliente> {
 
 		List<Filtro> listaFiltros = getCamposFiltro();
 		listaFiltros.addAll(getFiltrosFixos());
-		List<Cliente> listaClientes = getEntidadeService().filtrar(listaFiltros);
+		
+		Ordenacao ordenacaoCidade = new Ordenacao("logradouro.cidade", TipoOrdenacao.ASC);
+		Ordenacao ordenacaoFirma = new Ordenacao("firma", TipoOrdenacao.ASC);
+		
+		List<Ordenacao> listaOrdenacao = new ArrayList<Ordenacao>();
+		listaOrdenacao.add(ordenacaoCidade);
+		listaOrdenacao.add(ordenacaoFirma);
+		
+		List<Cliente> listaClientes = getEntidadeService().filtrar(listaFiltros, listaOrdenacao);
 
 		JRDataSourceGenerico<Cliente> dataSource = new JRDataSourceGenerico<>(listaClientes);
 

@@ -10,6 +10,8 @@ import org.junit.Test;
 import com.projetos.controle_entities.Cliente;
 import com.projetos.controle_negocio.filtro.Comparador;
 import com.projetos.controle_negocio.filtro.Filtro;
+import com.projetos.controle_negocio.filtro.Ordenacao;
+import com.projetos.controle_negocio.filtro.Ordenacao.TipoOrdenacao;
 import com.projetos.controle_negocio.filtro.TipoFiltro;
 
 public class ClienteServiceTest extends BaseServiceTest {

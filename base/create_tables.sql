@@ -52,6 +52,7 @@ create table pedido (
 	id_fornecedor integer,
 	id_vendedor integer,
 	id_cliente integer,
+	id_recebimento,
 	transportador varchar(60),
 	condicoes varchar(60),
 	cobranca varchar(60),
@@ -66,8 +67,8 @@ create table pedido (
 	desconto4 double,
 	desconto_total double,
 	valor_total double,
-	valor_sub_total double,
-	valor_comissionado double
+	valor_sub_total double
+	--valor_comissionado double
 );
 
 create table produto (
@@ -79,6 +80,7 @@ create table produto (
 	tamanho varchar(50),
 	ativo boolean,
 	id_fornecedor integer,
+	id_recebimento;
 	primary key(id)
 );
 
@@ -143,9 +145,9 @@ alter table item_pedido
 alter table item_pedido
 	add constraint fk_item_pedido_produto foreign key(id_produto)
 	references produto(id);
-alter table recebimento
-	add constraint fk_recebimento_pedido foreign key(id_pedido)
-	references pedido(id);
+--alter table recebimento
+	--add constraint fk_recebimento_pedido foreign key(id_pedido)
+	--references pedido(id);
 alter table produto
 	add constraint fk_produto_fornecedor foreign key(id_fornecedor)
 	references fornecedor(id);

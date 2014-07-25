@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="raltorioClientes" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="db17e77f-9c52-4e4b-8873-dfe8661f3bda">
-	<property name="ireport.zoom" value="1.0"/>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="raltorioClientes" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="db17e77f-9c52-4e4b-8873-dfe8661f3bda">
+	<property name="ireport.zoom" value="0.9090909090909091"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<field name="firma" class="java.lang.String"/>
@@ -13,13 +13,14 @@
 	<field name="logradouro.telefone" class="java.lang.String"/>
 	<field name="logradouro.dddCelular" class="java.lang.String"/>
 	<field name="logradouro.celular" class="java.lang.String"/>
+	<field name="comprador" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
 		<band height="47" splitType="Stretch">
 			<staticText>
-				<reportElement x="223" y="0" width="121" height="37" uuid="095b4b09-5c5b-4a7c-b1fb-28e3078e1345"/>
+				<reportElement x="351" y="0" width="121" height="37" uuid="095b4b09-5c5b-4a7c-b1fb-28e3078e1345"/>
 				<textElement>
 					<font size="28" isBold="true"/>
 				</textElement>
@@ -34,76 +35,76 @@
 		<band splitType="Stretch"/>
 	</columnHeader>
 	<detail>
-		<band height="53" splitType="Stretch">
+		<band height="27" splitType="Stretch">
 			<textField>
-				<reportElement x="0" y="0" width="223" height="20" uuid="94405aa2-7bbd-4134-9b5f-cb517b793b14"/>
+				<reportElement x="0" y="0" width="140" height="20" uuid="94405aa2-7bbd-4134-9b5f-cb517b793b14"/>
 				<textElement>
 					<font isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{firma}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="223" y="0" width="183" height="20" uuid="63e86c10-0718-4bef-a3f2-2a662392234d"/>
+				<reportElement x="140" y="0" width="124" height="20" uuid="63e86c10-0718-4bef-a3f2-2a662392234d"/>
 				<textElement>
 					<font isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{logradouro.endereco}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="406" y="0" width="44" height="20" uuid="013a110f-d295-48d0-bdb8-b300c8e021b5"/>
+				<reportElement x="264" y="0" width="44" height="20" uuid="013a110f-d295-48d0-bdb8-b300c8e021b5"/>
 				<textElement>
 					<font isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{logradouro.numero}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="450" y="0" width="105" height="20" uuid="fae40b29-ec7f-4668-813a-768f09e1c30c"/>
+				<reportElement x="308" y="0" width="105" height="20" uuid="fae40b29-ec7f-4668-813a-768f09e1c30c"/>
 				<textElement>
 					<font isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{logradouro.bairro}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="0" y="20" width="160" height="20" uuid="6145f2c4-18b2-4569-a796-0f93102d5da5"/>
+				<reportElement x="413" y="0" width="138" height="20" uuid="6145f2c4-18b2-4569-a796-0f93102d5da5"/>
 				<textElement>
 					<font isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{logradouro.cidade}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="171" y="20" width="109" height="20" uuid="3b17eae9-4cda-4f5f-bd24-376598cb6402"/>
-				<textElement>
-					<font isBold="false"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{logradouro.cep}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="297" y="20" width="26" height="20" uuid="3eaeb7f6-5e0f-467f-895e-b4794d7b47ae"/>
+				<reportElement x="551" y="0" width="15" height="20" uuid="3eaeb7f6-5e0f-467f-895e-b4794d7b47ae"/>
 				<textElement>
 					<font isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{logradouro.ddd}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="323" y="20" width="83" height="20" uuid="92093dfc-ac1f-4cdc-9b67-3f2428e83bb0"/>
+				<reportElement x="566" y="0" width="64" height="20" uuid="92093dfc-ac1f-4cdc-9b67-3f2428e83bb0"/>
 				<textElement>
 					<font isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{logradouro.telefone}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="424" y="20" width="26" height="20" uuid="4b5ad5bf-10f2-4ff2-969a-6aa1fb2a9470"/>
+				<reportElement x="630" y="0" width="19" height="20" uuid="4b5ad5bf-10f2-4ff2-969a-6aa1fb2a9470"/>
 				<textElement>
 					<font isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{logradouro.dddCelular}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="450" y="20" width="105" height="20" uuid="c03106a2-468c-4bac-9952-af9e0820f2cb"/>
+				<reportElement x="649" y="0" width="62" height="20" uuid="c03106a2-468c-4bac-9952-af9e0820f2cb"/>
 				<textElement>
 					<font isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{logradouro.celular}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="711" y="0" width="91" height="20" uuid="07e0dfb8-5fe7-4339-934e-6c47643a4f8b"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{comprador}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

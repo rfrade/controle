@@ -125,8 +125,9 @@ public class ProdutoListaController extends BaseListController<Produto> {
 	public void importar() {
 		try {
 			Parametro parametroCaminho = parametroService.getCaminhoImportacaoProdutos();
+			validarImportacao(parametroCaminho);
+
 			File file = new File(parametroCaminho.getValor());
-			validarImportacao(file);
 			Fornecedor fornecedor = filtroFornecedor.getSelectionModel().getSelectedItem().getValor();
 			String resultadoImportacao = produtoService.importarProdutosPlanilha(file, fornecedor);
 			popupTextoController.setTitulo("Importação finalizada.");
@@ -181,11 +182,18 @@ public class ProdutoListaController extends BaseListController<Produto> {
 
 	private void validarExclusao() throws ValidacaoException {
 		if (filtroFornecedor.getSelectionModel().getSelectedItem() == null) {
-			throw new ValidacaoException("produto.selecione_o_fornecedor");
+			throw new ValidacaoException("produto.caminho_nao_cadastrado");
 		}
 	}
 
-	private void validarImportacao(File file) throws ValidacaoException {
+	private void validarImportacao(Parametro parametroCaminho) throws ValidacaoException {
+		if (parametroCaminho == null) {
+			throw new ValidacaoException("produto.selecione_o_fornecedor");
+			
+		}
+
+		File file = new File(parametroCaminho.getValor());
+
 		if (filtroFornecedor.getSelectionModel().getSelectedItem() == null) {
 			throw new ValidacaoException("produto.selecione_o_fornecedor");
 		

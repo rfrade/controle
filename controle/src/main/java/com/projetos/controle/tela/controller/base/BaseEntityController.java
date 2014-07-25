@@ -447,7 +447,7 @@ public abstract class BaseEntityController<T extends Entidade> extends AbstractC
 	}
 
 	protected void tratarErroValidacao(ValidacaoException e) {
-		exibirMensagemNaoMapeada(e.getMensagem());
+		exibirMensagem(e.getMensagem());
 	}
 
 	@Bean(name = "validator")
