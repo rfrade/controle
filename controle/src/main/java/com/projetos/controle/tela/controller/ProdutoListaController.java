@@ -90,6 +90,10 @@ public class ProdutoListaController extends BaseListController<Produto> {
 	private TableColumn<Produto, String> colunaTamanho;
 	
 	@FXML
+	@Coluna(bean = "fornecedor.firma")
+	private TableColumn<Produto, String> colunaFornecedor;
+	
+	@FXML
 	private TableView<Produto> tabela;
 
 	@Override
@@ -106,6 +110,8 @@ public class ProdutoListaController extends BaseListController<Produto> {
 			ItemCombo<Fornecedor> item = new ItemCombo<Fornecedor>(fornecedor.getFirma(), fornecedor);
 			lista.add(item);
 		}
+		ItemCombo<Fornecedor> item = new ItemCombo<Fornecedor>("TODOS", null);
+		lista.add(item);
 		
 		ObservableList<ItemCombo<Fornecedor>> itens = FXCollections.observableArrayList(lista);
 		filtroFornecedor.setItems(itens);

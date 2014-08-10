@@ -47,7 +47,7 @@ public class Cliente implements Entidade, Serializable {
 	private String firma;
 
 	@Column(length=15)
-	@Size(max = 15, message = "O campo FIRMA tem que ter até 15 caracteres")
+	@Size(max = 15, message = "O campo INSCRIÇÃO tem que ter até 15 caracteres")
 	private String inscricao;
 
 	//bi-directional many-to-one association to Logradouro

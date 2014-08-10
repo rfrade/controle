@@ -9,7 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 
@@ -54,6 +54,7 @@ public class Logradouro implements Entidade, Serializable {
 
 	@Column(length=120)
 	@Size(max = 120, message = "Campo ENDEREÇO tem que ter até 120 caracteres")
+	@NotNull(message = "Preencha o campo endereço")
 	private String endereco;
 
 	@Column(length=2)

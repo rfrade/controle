@@ -4,16 +4,30 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane fx:id="" prefHeight="564.0" prefWidth="858.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.projetos.controle.tela.controller.FornecedorListaController">
+<AnchorPane fx:id="" prefHeight="564.0" prefWidth="858.0"
+	xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="com.projetos.controle.tela.controller.ParametroListaController">
 	<children>
-		<TableView fx:id="tabela" layoutX="11.0" layoutY="66.0" prefHeight="491.0" prefWidth="831.0" xmlns:fx="http://javafx.com/fxml">
+		<TableView fx:id="tabela" layoutX="11.0" layoutY="66.0"
+			prefHeight="491.0" prefWidth="831.0" xmlns:fx="http://javafx.com/fxml">
 			<columns>
-				<TableColumn id="" fx:id="colunaCodigo" prefWidth="300.0" text="Código" />
-				<TableColumn id="" fx:id="colunaValor" prefWidth="300.0" text="Valor" />
-				<TableColumn id="" fx:id="colunaDescricao" prefWidth="220.0" text="Descrição" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
+				<TableColumn id="" fx:id="colunaCodigo" prefWidth="300.0"
+					text="Código" />
+				<TableColumn id="" fx:id="colunaValor" prefWidth="300.0"
+					text="Valor" />
+				<TableColumn id="" fx:id="colunaDescricao" prefWidth="220.0"
+					text="Descrição" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
 			</columns>
 		</TableView>
-		<Button layoutX="14.0" layoutY="25.0" mnemonicParsing="false" onAction="#prepararInclusao" text="Adicionar Parametro" />
-		<Button fx:id="remover" layoutX="158.0" layoutY="25.0" mnemonicParsing="false" onAction="#exibirPopupConfirmacao" prefHeight="25.0" prefWidth="125.0" text="Remover Parametro" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" /><Button fx:id="" layoutX="303.0" layoutY="25.0" mnemonicParsing="false" onAction="#pesquisar" prefHeight="25.0" prefWidth="125.0" text="Listar" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
+		<Button layoutX="14.0" layoutY="25.0" mnemonicParsing="false"
+			onAction="#prepararInclusao" text="Adicionar Parametro" />
+		<Button fx:id="remover" layoutX="158.0" layoutY="25.0"
+			mnemonicParsing="false" onAction="#exibirPopupConfirmacao"
+			prefHeight="25.0" prefWidth="125.0" text="Remover Parametro" xmlns="http://javafx.com/javafx/8"
+			xmlns:fx="http://javafx.com/fxml/1" />
+		<Button fx:id="" layoutX="303.0" layoutY="25.0"
+			mnemonicParsing="false" onAction="#pesquisar" prefHeight="25.0"
+			prefWidth="125.0" text="Listar" xmlns="http://javafx.com/javafx/8"
+			xmlns:fx="http://javafx.com/fxml/1" />
 	</children>
 </AnchorPane>

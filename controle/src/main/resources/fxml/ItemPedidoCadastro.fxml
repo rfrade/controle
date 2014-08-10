@@ -7,13 +7,13 @@
 
 <AnchorPane fx:id="" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="468.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.projetos.controle.tela.controller.ClienteCadastroController">
 	<children>
-		<TextField fx:id="referencia" layoutX="117.0" layoutY="38.0" onInputMethodTextChanged="#carregarProduto" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
-		<Label fx:id="valorTotal" layoutX="421.0" layoutY="84.0" text="1.512,17" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
-		<TextField fx:id="cor" layoutX="321.0" layoutY="38.0" prefHeight="25.0" prefWidth="140.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
-		<Label layoutX="286.0" layoutY="84.0" text="Valor Total" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
+		<TextField fx:id="referencia" layoutX="117.0" layoutY="38.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
+		<Label fx:id="valorTotal" layoutX="478.0" layoutY="137.0" text="1.512,17" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
 		<TextField fx:id="valorUnitario" layoutX="117.0" layoutY="80.0" prefHeight="25.0" prefWidth="149.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
+		<TextField fx:id="cor" layoutX="321.0" layoutY="80.0" prefHeight="25.0" prefWidth="140.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
+		<Label layoutX="366.0" layoutY="137.0" text="Valor Total" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
 		<Label layoutX="33.0" layoutY="84.0" text="Valor Unitário" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
-		<Label layoutX="284.0" layoutY="42.0" text="Cor" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
+		<Label layoutX="288.0" layoutY="84.0" text="Cor" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
 		<Label layoutX="33.0" layoutY="42.0" text="Referencia" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
 		<Group layoutX="-19.0" layoutY="-121.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
 			<children>
@@ -73,6 +73,6 @@
 		<Label layoutX="35.0" layoutY="260.0" text="Descrição" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
 		<Label layoutX="256.0" layoutY="14.0" text="Produtos" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
 		<Button fx:id="salvar" layoutX="187.0" layoutY="381.0" mnemonicParsing="false" onAction="#salvarComMensagem" prefHeight="25.0" prefWidth="110.0" text="Salvar Produto" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
-		<Button fx:id="remover" layoutX="303.0" layoutY="381.0" mnemonicParsing="false" onAction="#remover" text="Remover Produto" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" /><Label layoutX="362.0" layoutY="125.0" text="Tamanho" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" /><Label fx:id="labelTamanho" layoutX="427.0" layoutY="125.0" prefHeight="17.0" prefWidth="149.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
+		<Button fx:id="remover" layoutX="303.0" layoutY="381.0" mnemonicParsing="false" onAction="#remover" text="Remover Produto" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" /><Label layoutX="366.0" layoutY="175.0" text="Tamanho" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" /><Label fx:id="labelTamanho" layoutX="426.0" layoutY="175.0" prefHeight="17.0" prefWidth="149.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" /><Button fx:id="" layoutX="321.0" layoutY="38.0" mnemonicParsing="false" onAction="#exibirTelaProcurarProduto" text="Procurar Produto" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
 	</children>
 </AnchorPane>

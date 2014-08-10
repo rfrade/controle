@@ -13,16 +13,16 @@
 		<Label layoutX="291.0" layoutY="39.0" text="Data do Recebimento" />
 		<Label layoutX="37.0" layoutY="39.0" text="Valor Faturado"
 			xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
-		<Label layoutX="41.0" layoutY="81.0" text="Porcentagem"
+		<Label layoutX="41.0" layoutY="81.0" text="Comissão"
 			xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
-		<Label layoutX="290.0" layoutY="81.0" text="Comissão"
+		<Label layoutX="290.0" layoutY="81.0" text="Porcentagem"
 			xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
 		<Label layoutX="41.0" layoutY="123.0" text="Recebido"
 			xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
 		<TextField fx:id="valorFaturado" layoutX="125.0" layoutY="35.0" />
-		<TextField fx:id="porcentagem" layoutX="125.0" layoutY="77.0"
+		<TextField fx:id="valorComissao" layoutX="125.0" layoutY="77.0"
 			xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
-		<TextField fx:id="valorComissao" layoutX="385.0" layoutY="77.0"
+		<TextField fx:id="porcentagem" layoutX="385.0" layoutY="77.0"
 			xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
 		<ComboBox fx:id="recebido" layoutX="125.0" layoutY="119.0"
 			prefHeight="25.0" prefWidth="149.0" xmlns:fx="http://javafx.com/fxml">

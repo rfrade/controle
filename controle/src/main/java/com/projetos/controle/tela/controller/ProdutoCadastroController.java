@@ -15,6 +15,7 @@ import org.springframework.stereotype.Controller;
 
 import com.projetos.controle.tela.base.CampoTela;
 import com.projetos.controle.tela.base.ItemCombo;
+import com.projetos.controle.tela.base.TipoCampo;
 import com.projetos.controle.tela.controller.base.BaseCadastroController;
 import com.projetos.controle_entities.Fornecedor;
 import com.projetos.controle_entities.Produto;
@@ -24,6 +25,7 @@ import com.projetos.controle_negocio.filtro.TipoFiltro;
 import com.projetos.controle_negocio.service.base.EntidadeService;
 import com.projetos.controle_negocio.service.base.FornecedorService;
 import com.projetos.controle_negocio.service.base.ProdutoService;
+import com.projetos.controle_util.validacao.ValidacaoException;
 
 /**
  * 
@@ -44,7 +46,7 @@ public class ProdutoCadastroController extends BaseCadastroController<Produto> {
 	private TextField referencia;
 
 	@FXML
-	@CampoTela(bean = "valorUnitario")
+	@CampoTela(bean = "valorUnitario", tipoCampo = TipoCampo.MOEDA, nome = "Valor Venda")
 	private TextField valorVenda;
 
 	@FXML
@@ -58,6 +60,14 @@ public class ProdutoCadastroController extends BaseCadastroController<Produto> {
 	@FXML
 	@CampoTela(bean = "fornecedor")
 	private ComboBox<ItemCombo<Fornecedor>> fornecedor;
+
+	@Override
+	protected void salvar() throws ValidacaoException {
+		super.salvar();
+		produtoService.desativarProdutos(entidadeForm.getReferencia(), entidadeForm.getFornecedor());
+		entidadeForm.setAtivo(true);
+		entidadeForm = produtoService.salvar(entidadeForm);
+	}
 
 	@Override
 	public void initialize(URL url, ResourceBundle resource) {

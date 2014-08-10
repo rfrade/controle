@@ -41,6 +41,7 @@ import com.projetos.controle.tela.ApplicationConfig;
 import com.projetos.controle.tela.base.CampoTela;
 import com.projetos.controle.tela.base.Coluna;
 import com.projetos.controle.tela.base.ItemCombo;
+import com.projetos.controle.tela.base.TipoCampo;
 import com.projetos.controle.tela.controller.base.BaseCadastroController;
 import com.projetos.controle.tela.report.JRDataSourceGenerico;
 import com.projetos.controle.tela.report.RelatorioUtil;
@@ -121,7 +122,7 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 	private TextField cobranca;
 
 	@FXML
-	@CampoTela(bean = "comissao")
+	@CampoTela(bean = "comissao", tipoCampo = TipoCampo.MOEDA, nome = "Comissão")
 	private PasswordField comissao;
 
 	@FXML
@@ -141,31 +142,31 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 	private TextArea observacao;
 
 	@FXML
-	@CampoTela(bean = "desconto1")
+	@CampoTela(bean = "desconto1", tipoCampo = TipoCampo.MOEDA, nome = "Desconto 1")
 	private TextField desconto1;
 
 	@FXML
-	@CampoTela(bean = "desconto2")
+	@CampoTela(bean = "desconto2", tipoCampo = TipoCampo.MOEDA, nome = "Desconto 2")
 	private TextField desconto2;
 
 	@FXML
-	@CampoTela(bean = "desconto3")
+	@CampoTela(bean = "desconto3", tipoCampo = TipoCampo.MOEDA, nome = "Desconto 3")
 	private TextField desconto3;
 
 	@FXML
-	@CampoTela(bean = "desconto4")
+	@CampoTela(bean = "desconto4", tipoCampo = TipoCampo.MOEDA, nome = "Desconto 4")
 	private TextField desconto4;
 
 	@FXML
-	@CampoTela(bean = "descontoTotal")
+	@CampoTela(bean = "descontoTotal", tipoCampo = TipoCampo.MOEDA, nome = "Desconto Total")
 	private TextField descontoTotal;
 
 	@FXML
-	@CampoTela(bean = "valorTotal")
+	@CampoTela(bean = "valorTotal", tipoCampo = TipoCampo.MOEDA, nome = "Valor Total")
 	private Label valorTotal;
 
 	@FXML
-	@CampoTela(bean = "valorSubTotal")
+	@CampoTela(bean = "valorSubTotal", tipoCampo = TipoCampo.MOEDA, nome = "Valor SubTotal")
 	private Label valorSubTotal;
 
 	@FXML
@@ -274,10 +275,8 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 	public void exibirTelaRecebimentoLista() {
 		try {
 			salvarSemMensagem();
-
-			entidadeForm.getRecebimento().setPedido(entidadeForm);
-			recebimentoCadastroController.setEntidadeForm(entidadeForm.getRecebimento());
-			telaPrincipalController.exibirTelaRecebimentoCadastro();
+			recebimentoListaController.setPedido(entidadeForm);
+			telaPrincipalController.exibirTelaRecebimentoLista();
 
 		} catch (ValidacaoException e) {
 			tratarErroValidacao(e);
@@ -292,8 +291,6 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 		super.salvar();
 		if (inclusao) {
 			incluirRecebimento();
-		} else {
-			alterarRecebimento();
 		}
 	}
 
@@ -325,27 +322,34 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 	}
 
 	public void calcularDesconto() {
-		bindFormToBean();
-		BigDecimal valor1 = getValorDesconto(desconto1);
-		BigDecimal valor2 = getValorDesconto(desconto2);
-		BigDecimal valor3 = getValorDesconto(desconto3);
-		BigDecimal valor4 = getValorDesconto(desconto4);
 
-		List<BigDecimal> descontos = Arrays.asList(valor1, valor2, valor3, valor4);
+		try {
+			bindFormToBean();
 
-		BigDecimal descontoFinal = BigDecimal.ZERO;
-		BigDecimal cem = new BigDecimal(100);
-		for (BigDecimal valor : descontos) {
-			if (valor != null && !valor.equals(BigDecimal.ZERO)) {
-				BigDecimal valorAbatido = valor.divide(cem).multiply(descontoFinal);
-				descontoFinal = descontoFinal.add(valor.subtract(valorAbatido));
+			BigDecimal valor1 = getValorDesconto(desconto1);
+			BigDecimal valor2 = getValorDesconto(desconto2);
+			BigDecimal valor3 = getValorDesconto(desconto3);
+			BigDecimal valor4 = getValorDesconto(desconto4);
+
+			List<BigDecimal> descontos = Arrays.asList(valor1, valor2, valor3, valor4);
+
+			BigDecimal descontoFinal = BigDecimal.ZERO;
+			BigDecimal cem = new BigDecimal(100);
+			for (BigDecimal valor : descontos) {
+				if (valor != null && !valor.equals(BigDecimal.ZERO)) {
+					BigDecimal valorAbatido = valor.divide(cem).multiply(descontoFinal);
+					descontoFinal = descontoFinal.add(valor.subtract(valorAbatido));
+				}
 			}
+
+			descontoFinal = descontoFinal.setScale(2, RoundingMode.DOWN);
+			entidadeForm.setDescontoTotal(descontoFinal.doubleValue());
+			atualizarValorPedido();
+			getEntidadeService().salvar(entidadeForm);
+		} catch (ValidacaoException e) {
+			tratarErroValidacao(e);
 		}
 
-		descontoFinal = descontoFinal.setScale(2, RoundingMode.DOWN);
-		entidadeForm.setDescontoTotal(descontoFinal.doubleValue());
-		atualizarValorPedido();
-		getEntidadeService().salvar(entidadeForm);
 	}
 
 	private BigDecimal getValorDesconto(TextField desconto) {
@@ -384,20 +388,22 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 	}
 
 	public void imprimir() {
-		bindFormToBean();
 		try {
+			bindFormToBean();
 			JasperPrint print = gerarRelatorio();
 			JasperViewer.viewReport(print, false);
 
 		} catch (JRException e) {
 			tratarErro(e);
+		} catch (ValidacaoException e) {
+			tratarErroValidacao(e);
 		}
 	}
 
 	public void salvarRelatorio() {
-		bindFormToBean();
 
 		try {
+			bindFormToBean();
 			JasperPrint print = gerarRelatorio();
 
 //			String caminho = propertiesPathLoader.getProperty(PropertiesPathLoader.RELATORIO_PEDIDO_CLIENTE);
@@ -410,6 +416,8 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 
 		} catch (JRException e) {
 			tratarErro(e);
+		} catch (ValidacaoException e) {
+			tratarErroValidacao(e);
 		}
 	}
 
@@ -505,20 +513,15 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 	private void incluirRecebimento() {
 		Recebimento recebimento = new Recebimento();
 		recebimento.setDataRecebimento(null);
+		recebimento.setPedido(entidadeForm);
 		recebimento.setRecebido(false);
-
+		recebimento.setPercentualComissao(entidadeForm.getComissao());
 		recebimento.setValorRecebimento(getValorComissao());
-		entidadeForm.setRecebimento(recebimento);
-		recebimento = recebimentoService.salvar(recebimento);
-		entidadeForm.setRecebimento(recebimento);
-		entidadeForm = pedidoService.salvar(entidadeForm);
-	}
 
-	private void alterarRecebimento() {
-		Recebimento recebimento = entidadeForm.getRecebimento();
-		entidadeForm.getRecebimento().setValorRecebimento(getValorComissao());
 		recebimento = recebimentoService.salvar(recebimento);
-		entidadeForm.setRecebimento(recebimento);
+
+		entidadeForm.addRecebimento(recebimento);
+		entidadeForm = pedidoService.salvar(entidadeForm);
 	}
 
 	private double getValorComissao() {
@@ -586,12 +589,49 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 		itemPedidoService.salvar(itemPedido);
 		itemPedidoService.remover(itemPedido);
 		tabelaItensPedido.getItems().remove(itemPedido);
+		entidadeForm = getEntidadeService().salvar(entidadeForm);
 		entidadeForm = getEntidadeService().findById(entidadeForm.getId());
-		getEntidadeService().salvar(entidadeForm);
 		this.atualizarValorPedido();
+
+		this.atualizaValorRecebimento();
+
 		exibirMensagem("cadastro.removido_com_sucesso");
 	}
 
+	public void atualizaValorRecebimento() {
+		/*// Chamar o método que atualiza o valor do recebimento aqui e na
+		// inclusão de Item. o mesmo método
+		Filtro filtroPedido = new Filtro("pedido", TipoFiltro.OBJECT, Comparador.EQUALS, entidadeForm);
+
+		// procura o menor id para atualizar apenas o recebimento criado
+		// automaticamente
+		Ordenacao ordenacao = new Ordenacao("id", TipoOrdenacao.ASC);
+
+		List<Filtro> filtros = new ArrayList<>();
+		filtros.add(filtroPedido);
+
+		List<Ordenacao> ordenacoes = new ArrayList<>();
+		ordenacoes.add(ordenacao);
+
+		List<Recebimento> recebimentos = recebimentoService.filtrar(filtros, ordenacoes);
+		Recebimento recebimento = recebimentos.get(0);*/
+
+		Recebimento recebimento = getPrimeiroRecebimento();
+		recebimento.setValorRecebimento(getValorComissao());
+		recebimentoService.salvar(recebimento);
+	}
+	
+	private Recebimento getPrimeiroRecebimento() {
+		int id = 0;
+		Recebimento recebimento = null;
+		for (Recebimento item : entidadeForm.getRecebimentos()) {
+			if (id < item.getId()) {
+				recebimento = item;
+			}
+		}
+		return recebimento;
+	}
+	
 	public void atualizarValorPedido() {
 		BigDecimal subTotal = BigDecimal.ZERO;
 		// for (ItemPedido itemPedido : tabelaItensPedido.getItems()) {
@@ -617,8 +657,7 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 		bindBeanToForm();
 	}
 
-	// TODO: Extrair essa classe
-	private class MouseClickedSelect implements EventHandler<MouseEvent> {
+	public class MouseClickedSelect implements EventHandler<MouseEvent> {
 
 		private TableView<Cliente> tabela;
 		private Stage popup;

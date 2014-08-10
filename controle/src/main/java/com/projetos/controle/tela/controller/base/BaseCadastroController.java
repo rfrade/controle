@@ -67,7 +67,6 @@ public abstract class BaseCadastroController<T extends Entidade> extends BaseEnt
 	}
 
 	public void remover() {
-		//TODO: Excluir o método
 		getEntidadeService().remover(entidadeForm);
 		exibirMensagem("cadastro.removido_com_sucesso");
 	}

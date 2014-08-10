@@ -90,6 +90,7 @@ create table recebimento (
 	data_recebimento date,
 	valor_recebimento double,
 	recebido boolean,
+	percentual_comissao double,
 	primary key(id)
 );
 

@@ -61,7 +61,8 @@ public class TelaPrincipalController extends AbstractController {
 	}
 
 	public void exibirTelaVendedorLista() {
-		// TODO Implementar
+		Parent telaLista = configuracaoBeanTela.carregarTelaVendedorLista();
+		exibirTela(telaLista);
 	}
 
 	private void exibirTela(Parent tela) {
@@ -116,6 +117,16 @@ public class TelaPrincipalController extends AbstractController {
 
 	public Stage exibirTelaParametroCadastro() {
 		Stage popup = this.exibirPopup(configuracaoBeanTela.carregarTelaParametroCadastro());
+		return popup;
+	}
+	
+	public Stage exibirTelaVendedorCadastro() {
+		Stage popup = this.exibirPopup(configuracaoBeanTela.carregarTelaVendedorCadastro());
+		return popup;
+	}
+	
+	public Stage exibirProdutoListaTelaPedido() {
+		Stage popup = this.exibirPopup(configuracaoBeanTela.carregarProdutoListaTelaPedido());
 		return popup;
 	}
 

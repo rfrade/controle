@@ -9,6 +9,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.transaction.Transactional;
 
 import org.apache.poi.hssf.usermodel.HSSFCell;
@@ -36,6 +39,9 @@ public class ProdutoServiceImpl extends EntidadeServiceImpl<Produto> implements 
 
 	@Autowired
 	private ProdutoRepository produtoRepository;
+
+	@PersistenceContext
+	private EntityManager entityManager;
 
 	@Override
 	protected EntidadeRepository<Produto> getRepository() {
@@ -90,6 +96,9 @@ public class ProdutoServiceImpl extends EntidadeServiceImpl<Produto> implements 
 				HSSFRow linha = sheet.getRow(numeroLinha);
 				if (linha.getCell(0).getCellType() != HSSFCell.CELL_TYPE_BLANK) {
 					Produto produto = getProdutoLinha(linha);
+
+					desativarProdutos(produto.getReferencia(), fornecedor);
+
 					produto.setFornecedor(fornecedor);
 					produtos.add(produto);
 				}
@@ -103,7 +112,6 @@ public class ProdutoServiceImpl extends EntidadeServiceImpl<Produto> implements 
 		}
 	}
 
-
 	private Produto getProdutoLinha(HSSFRow linha) {
 		Produto produto = new Produto();
 
@@ -113,6 +121,7 @@ public class ProdutoServiceImpl extends EntidadeServiceImpl<Produto> implements 
 		produto.setDescricao(linha.getCell(1).getStringCellValue());
 		produto.setValorUnitario(linha.getCell(2).getNumericCellValue());
 
+		produto.setAtivo(true);
 		HSSFCell celulaTamanho = linha.getCell(3);
 		produto.setTamanho(getValorCelulaTamnho(celulaTamanho));
 		return produto;
@@ -135,6 +144,15 @@ public class ProdutoServiceImpl extends EntidadeServiceImpl<Produto> implements 
 			break;
 		}
 		return tamanho;
+	}
+
+	public void desativarProdutos(String referencia, Fornecedor fornecedor) {
+		String queryString = "update Produto p set p.ativo = false where p.referencia = :referencia ";
+		queryString += " and p.ativo = true and p.fornecedor = :fornecedor";
+		Query query = entityManager.createQuery(queryString);
+		query.setParameter("referencia", referencia);
+		query.setParameter("fornecedor", fornecedor);
+		query.executeUpdate();
 	}
 
 	/**

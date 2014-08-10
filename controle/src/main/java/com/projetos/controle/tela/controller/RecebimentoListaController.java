@@ -1,5 +1,6 @@
 package com.projetos.controle.tela.controller;
 
+import java.math.BigDecimal;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -18,12 +19,15 @@ import org.springframework.stereotype.Controller;
 import com.projetos.controle.tela.base.Coluna;
 import com.projetos.controle.tela.controller.base.BaseCadastroController;
 import com.projetos.controle.tela.controller.base.BaseListController;
+import com.projetos.controle_entities.Pedido;
 import com.projetos.controle_entities.Recebimento;
 import com.projetos.controle_negocio.filtro.Comparador;
 import com.projetos.controle_negocio.filtro.Filtro;
 import com.projetos.controle_negocio.filtro.TipoFiltro;
 import com.projetos.controle_negocio.service.base.EntidadeService;
+import com.projetos.controle_negocio.service.base.PedidoService;
 import com.projetos.controle_negocio.service.base.RecebimentoService;
+import com.projetos.controle_util.validacao.ValidacaoException;
 
 /**
  * 
@@ -38,7 +42,12 @@ public class RecebimentoListaController extends BaseListController<Recebimento> 
 
 	@Autowired
 	private RecebimentoCadastroController recebimentoCadastroController;
+
+	@Autowired
+	private PedidoService pedidoService;
 	
+	private Pedido pedido;
+
 	@FXML
 	@Coluna(bean = "pedido.id")
 	private TableColumn<Recebimento, String> colunaPedido;
@@ -75,12 +84,11 @@ public class RecebimentoListaController extends BaseListController<Recebimento> 
 	@Override
 	public void initialize(URL url, ResourceBundle resource) {
 		super.initialize(url, resource);
-		entidadeForm = new Recebimento();
 	}
 
 	@Override
 	protected List<Filtro> getFiltrosFixos() {
-		Filtro filtroPedido = new Filtro("pedido.id", TipoFiltro.INTEGER, Comparador.EQUALS, entidadeForm.getPedido().getId());
+		Filtro filtroPedido = new Filtro("pedido.id", TipoFiltro.INTEGER, Comparador.EQUALS, pedido.getId());
 		List<Filtro> lista = new ArrayList<>();
 		lista.add(filtroPedido);
 		return lista;
@@ -90,7 +98,26 @@ public class RecebimentoListaController extends BaseListController<Recebimento> 
 	public void exibirTelaCadastro() {
 		telaPrincipalController.exibirTelaRecebimentoCadastro();
 		super.exibirTelaCadastro();
-		getBaseCadastroController().getEntidadeForm().setPedido(entidadeForm.getPedido());
+	}
+
+	@Override
+	public void prepararInclusao() {
+		Recebimento efCadastro = new Recebimento();
+		efCadastro.setPedido(pedido);
+		efCadastro.setPercentualComissao(pedido.getComissao());
+		efCadastro.setRecebido(false);
+		efCadastro.setValorRecebimento(getValorComissao());
+
+		getBaseCadastroController().setEntidadeForm(efCadastro);
+		exibirTelaCadastro();
+	}
+
+	private double getValorComissao() {
+		BigDecimal valorTotal = new BigDecimal(String.valueOf(pedido.getValorTotal()));
+		BigDecimal comissao =  new BigDecimal(String.valueOf(pedido.getComissao()));
+		BigDecimal cem = new BigDecimal(100);
+		
+		return valorTotal.multiply(comissao).divide(cem).doubleValue();
 	}
 
 	@Override
@@ -100,6 +127,19 @@ public class RecebimentoListaController extends BaseListController<Recebimento> 
 
 	public void imprimir() {
 
+	}
+
+	@Override
+	public void remover() {
+		try {
+			super.remover();
+			Pedido pedido = entidadeForm.getPedido();
+			entidadeForm = pedido.removeRecebimento(entidadeForm);
+			entidadeForm = getEntidadeService().salvar(entidadeForm);
+			pedido = pedidoService.salvar(pedido);
+		} catch (ValidacaoException e) {
+			tratarErroValidacao(e);
+		}
 	}
 
 	@Override
@@ -115,6 +155,14 @@ public class RecebimentoListaController extends BaseListController<Recebimento> 
 	@Override
 	protected BaseCadastroController<Recebimento> getBaseCadastroController() {
 		return recebimentoCadastroController;
+	}
+
+	public Pedido getPedido() {
+		return pedido;
+	}
+
+	public void setPedido(Pedido pedido) {
+		this.pedido = pedido;
 	}
 
 }

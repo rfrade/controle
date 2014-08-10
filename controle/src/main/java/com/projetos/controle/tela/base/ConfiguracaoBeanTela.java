@@ -29,10 +29,13 @@ import com.projetos.controle.tela.controller.PopupMensagemController;
 import com.projetos.controle.tela.controller.PopupTextoController;
 import com.projetos.controle.tela.controller.ProdutoCadastroController;
 import com.projetos.controle.tela.controller.ProdutoListaController;
+import com.projetos.controle.tela.controller.ProdutoListaTelaPedidoController;
 import com.projetos.controle.tela.controller.RecebimentoCadastroController;
 import com.projetos.controle.tela.controller.RecebimentoListaController;
 import com.projetos.controle.tela.controller.RelatorioRecebimentoController;
 import com.projetos.controle.tela.controller.TelaPrincipalController;
+import com.projetos.controle.tela.controller.VendedorCadastroController;
+import com.projetos.controle.tela.controller.VendedorListaController;
 
 @Configuration
 @Scope(ConfigurableBeanFactory.SCOPE_SINGLETON)
@@ -76,6 +79,13 @@ public class ConfiguracaoBeanTela {
 	@Lazy
 	public Parent carregarTelaProdutoLista() {
 		return carregarTela("/fxml/ProdutoLista.fxml", ProdutoListaController.class);
+	}
+	
+	@Bean(name = "produtoListaTelaPedido")
+	@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+	@Lazy
+	public Parent carregarProdutoListaTelaPedido() {
+		return carregarTela("/fxml/ProdutoListaTelaPedido.fxml", ProdutoListaTelaPedidoController.class);
 	}
 
 	@Bean(name = "telaClienteCadastro")
@@ -126,10 +136,22 @@ public class ConfiguracaoBeanTela {
 		return carregarTela("/fxml/ParametroLista.fxml", ParametroListaController.class);
 	}
 	
+	@Bean(name = "telaVendedorLista")
+	@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+	public Parent carregarTelaVendedorLista() {
+		return carregarTela("/fxml/VendedorLista.fxml", VendedorListaController.class);
+	}
+	
 	@Bean(name = "telaParametroCadastro")
 	@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 	public Parent carregarTelaParametroCadastro() {
 		return carregarTela("/fxml/ParametroCadastro.fxml", ParametroCadastroController.class);
+	}
+	
+	@Bean(name = "telaVendedorCadastro")
+	@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+	public Parent carregarTelaVendedorCadastro() {
+		return carregarTela("/fxml/VendedorCadastro.fxml", VendedorCadastroController.class);
 	}
 	
 	@Bean(name = "telaRelatorioRecebimentosFiltro")

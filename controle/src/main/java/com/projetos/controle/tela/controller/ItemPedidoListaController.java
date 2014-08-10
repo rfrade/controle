@@ -14,6 +14,7 @@ import com.projetos.controle.tela.controller.base.BaseListController;
 import com.projetos.controle_entities.ItemPedido;
 import com.projetos.controle_negocio.service.base.EntidadeService;
 import com.projetos.controle_negocio.service.base.ItemPedidoService;
+import com.projetos.controle_util.validacao.ValidacaoException;
 
 @Deprecated
 @Controller
@@ -46,14 +47,10 @@ public class ItemPedidoListaController extends BaseListController<ItemPedido> {
 		return itemPedidoService;
 	}
 
-	/*@Override
-	public TableView<ItemPedido> getTabela() {
-		return null;
+	@Override
+	public void remover() throws ValidacaoException {
+		super.remover();
 	}
-
-	public void setTabela(TableView<ItemPedido> tabela) {
-		this.tabela = tabela;
-	}*/
 
 	@Override
 	protected BaseCadastroController<ItemPedido> getBaseCadastroController() {

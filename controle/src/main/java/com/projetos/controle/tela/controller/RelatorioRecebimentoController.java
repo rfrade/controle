@@ -20,7 +20,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.view.JasperViewer;
@@ -37,7 +36,6 @@ import com.projetos.controle.tela.report.RelatorioRecebimentoDataSource;
 import com.projetos.controle.tela.report.RelatorioUtil;
 import com.projetos.controle.tela.util.FiltroUtil;
 import com.projetos.controle_entities.Fornecedor;
-import com.projetos.controle_entities.Parametro;
 import com.projetos.controle_entities.Pedido;
 import com.projetos.controle_entities.Recebimento;
 import com.projetos.controle_negocio.filtro.Comparador;
@@ -48,6 +46,7 @@ import com.projetos.controle_negocio.service.base.FornecedorService;
 import com.projetos.controle_negocio.service.base.ParametroService;
 import com.projetos.controle_negocio.service.base.RecebimentoService;
 import com.projetos.controle_util.conversao.DateUtil;
+import com.projetos.controle_util.validacao.ValidacaoException;
 
 /**
  * 
@@ -126,11 +125,11 @@ public class RelatorioRecebimentoController extends BaseEntityController<Recebim
 	}
 
 	public void gerarRelatorio() {
-		bindFormToBean();
-		List<Filtro> camposFiltro = super.getCamposFiltro();
-		List<Recebimento> recebimentos = recebimentoService.filtrar(camposFiltro);
 
 		try {
+			bindFormToBean();
+			List<Filtro> camposFiltro = super.getCamposFiltro();
+			List<Recebimento> recebimentos = recebimentoService.filtrar(camposFiltro);
 
 			if (recebimentos == null) {
 				exibirMensagem("relatorio.nao_ha_recebimentos_no_periodo");
@@ -177,6 +176,8 @@ public class RelatorioRecebimentoController extends BaseEntityController<Recebim
 
 		} catch (JRException e) {
 			tratarErro(e);
+		} catch (ValidacaoException e) {
+			tratarErroValidacao(e);
 		}
 
 	}
@@ -185,8 +186,12 @@ public class RelatorioRecebimentoController extends BaseEntityController<Recebim
 		BigDecimal valor = BigDecimal.ZERO;
 
 		for (Pedido pedido : pedidos) {
-			String valueOf = String.valueOf(pedido.getRecebimento().getValorRecebimento());
-			valor = valor.add(new BigDecimal(valueOf));
+			
+			for (Recebimento recebimento : pedido.getRecebimentos()) {
+				String valueOf = String.valueOf(recebimento.getValorRecebimento());
+				valor = valor.add(new BigDecimal(valueOf));
+				
+			}
 		}
 
 		return valor.doubleValue();

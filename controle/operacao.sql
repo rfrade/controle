@@ -18,11 +18,15 @@ select id, id_pedido from recebimento;
 delete from recebimento where id = 28;
 delete from item_pedido where id in (26, 27);
 
+--delete from produto;
 --delete from pedido;
 --delete from item_pedido;
 --alter table pedido add valor_comissionado double;
 --alter table produto add id_fornecedor integer;
 
+update Produto p set p.ativo = false where p.referencia = 'asdf'  and p.ativo = true and p.id_fornecedor = 800;
+
 select * from recebimento;
+select * from produto where referencia in ('ABX', '6668', '6666') order by referencia;
 --alter table vendedor
 --	drop foreign key fk_vendedor;

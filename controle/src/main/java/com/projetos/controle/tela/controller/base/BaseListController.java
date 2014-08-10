@@ -15,6 +15,7 @@ import javafx.scene.input.MouseEvent;
 import com.projetos.controle.tela.base.MouseClickedDefault;
 import com.projetos.controle_entities.Entidade;
 import com.projetos.controle_negocio.filtro.Filtro;
+import com.projetos.controle_util.validacao.ValidacaoException;
 
 /**
  * @author Rafael
@@ -53,16 +54,15 @@ public abstract class BaseListController<T extends Entidade> extends BaseEntityC
 		bindBeanToForm();
 	}
 
-	public void remover() {
+	public void remover() throws ValidacaoException {
 		entidadeForm = getTabela().getSelectionModel().getSelectedItem();
 		if (entidadeForm == null) {
-			exibirMensagem("cadastro.selecione_um_registro_para_remover");
-			return;
+			throw new ValidacaoException("cadastro.selecione_um_registro_para_remover");
 		}
 		getEntidadeService().remover(entidadeForm);
 		getTabela().getItems().remove(entidadeForm);
 		exibirMensagem("cadastro.removido_com_sucesso");
-		pesquisar();
+//		pesquisar();
 	}
 
 	public void prepararInclusao() {

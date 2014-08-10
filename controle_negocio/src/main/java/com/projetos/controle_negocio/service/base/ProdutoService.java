@@ -20,4 +20,7 @@ public interface ProdutoService extends EntidadeService<Produto> {
 	 * @param fornecedor
 	 */
 	void removerTodos(Fornecedor fornecedor);
+
+	void desativarProdutos(String referencia, Fornecedor fornecedor);
+	
 }

@@ -46,7 +46,7 @@ public class BeanUtil {
 				Class<?> classe = new Mirror().on(objeto.getClass()).reflect().field(nomeNovaRaiz).getType();
 				novaRaiz = new Mirror().on(classe).invoke().constructor().bypasser();
 
-				new Mirror().on(objeto).set().field(nomeNovaRaiz).withValue(novaRaiz);
+				preencherValor(objeto, nomeNovaRaiz, novaRaiz, classe);
 			}
 
 			setPropriedade(novaRaiz, nomeNovaPropriedade, valor);
@@ -72,9 +72,22 @@ public class BeanUtil {
 				} else if (type == Double.class) {
 					valor = NumberUtil.convertStringToDouble((String) valor);
 				}
-				new Mirror().on(objeto).set().field(nomePropriedade).withValue(valor);
+				preencherValor(objeto, nomePropriedade, valor, type);
 			}
 		}
+	}
+
+	private static void preencherValor(Object objeto, String nomePropriedade, Object valor, Class<?> type) {
+		if (valor == null) {
+			if (type.getName() == "int") {
+				valor = 0;
+			} else if (type.getName() == "double") {
+				valor = 0D;
+			} else if (type.getName() == "long") {
+				valor = 0L;
+			}
+		}
+		new Mirror().on(objeto).set().field(nomePropriedade).withValue(valor);
 	}
 
 	public static Object invoke(Object objeto, String metodo, Object... args) {

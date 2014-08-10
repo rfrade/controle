@@ -1,10 +1,19 @@
 package com.projetos.controle_entities;
 
 import java.io.Serializable;
-
-import javax.persistence.*;
-
 import java.util.Date;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 
 /**
@@ -33,8 +42,11 @@ public class Recebimento implements Serializable, Entidade {
 	@Column(name="valor_recebimento")
 	private double valorRecebimento;
 
+	@Column(name="percentual_comissao")
+	private double percentualComissao;
+
 	//bi-directional many-to-one association to Pedido
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(name="id_pedido")
 	private Pedido pedido;
 
@@ -118,6 +130,14 @@ public class Recebimento implements Serializable, Entidade {
 
 	public void setPedido(Pedido pedido) {
 		this.pedido = pedido;
+	}
+
+	public double getPercentualComissao() {
+		return percentualComissao;
+	}
+
+	public void setPercentualComissao(double percentualComissao) {
+		this.percentualComissao = percentualComissao;
 	}
 
 }

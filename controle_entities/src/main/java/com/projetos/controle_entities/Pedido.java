@@ -16,7 +16,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -111,12 +110,12 @@ public class Pedido implements Entidade, Serializable {
 	@OneToMany(mappedBy="pedido", fetch = FetchType.EAGER, orphanRemoval=true, cascade = CascadeType.ALL)
 	private List<ItemPedido> itensPedido = new ArrayList<>();
 
-//	@OneToMany(mappedBy="pedido", fetch = FetchType.EAGER, orphanRemoval=true, cascade = CascadeType.REMOVE)
-//	private Recebimento recebimento = new ArrayList<>();
+	@OneToMany(mappedBy="pedido", fetch = FetchType.EAGER, orphanRemoval=true, cascade = CascadeType.ALL)
+	private List<Recebimento> recebimentos = new ArrayList<>();
 
-	@OneToOne(cascade = {CascadeType.ALL}, orphanRemoval = true)
+	/*@OneToOne(cascade = {CascadeType.ALL}, orphanRemoval = true)
 	@JoinColumn(name="id_recebimento", insertable=true, updatable=true)
-	private Recebimento recebimento;
+	private Recebimento recebimento;*/
 
 	@Transient
 	private Integer quantidadeItens;
@@ -186,12 +185,26 @@ public class Pedido implements Entidade, Serializable {
 
 		return itemPedido;
 	}
+	
+	public Recebimento addRecebimento(Recebimento recebimento) {
+		getRecebimentos().add(recebimento);
+		recebimento.setPedido(this);
+		
+		return recebimento;
+	}
 
 	public ItemPedido removeItemPedido(ItemPedido itemPedido) {
 		getItensPedido().remove(itemPedido);
 		itemPedido.setPedido(null);
 
 		return itemPedido;
+	}
+	
+	public Recebimento removeRecebimento(Recebimento recebimento) {
+		getRecebimentos().remove(recebimento);
+		recebimento.setPedido(null);
+		
+		return recebimento;
 	}
 
 	public Integer getQuantidadeItens() {
@@ -374,15 +387,6 @@ public class Pedido implements Entidade, Serializable {
 		return true;
 	}
 
-	public Recebimento getRecebimento() {
-		return recebimento;
-	}
-
-	public void setRecebimento(Recebimento recebimento) {
-		this.recebimento = recebimento;
-		recebimento.setPedido(this);
-	}
-
 	/**
 	 * Copia as propriedades, sem o id e com a data atual
 	 * @return novo pedido
@@ -413,6 +417,18 @@ public class Pedido implements Entidade, Serializable {
 		}
 		
 		return pedido;
+	}
+
+	public List<Recebimento> getRecebimentos() {
+		if (recebimentos == null) {
+			recebimentos = new ArrayList<>();
+		}
+		return recebimentos;
+		 
+	}
+
+	public void setRecebimentos(List<Recebimento> recebimentos) {
+		this.recebimentos = recebimentos;
 	}
 	
 }

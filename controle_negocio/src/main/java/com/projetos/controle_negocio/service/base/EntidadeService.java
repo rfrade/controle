@@ -23,4 +23,5 @@ public interface EntidadeService<T extends Entidade> {
     public List<T> filtrar(List<Filtro> filtros, List<Ordenacao> ordenacoes);
 
     public List<T> filtrar(Filtro... filtros);
+
 }

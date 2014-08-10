@@ -2,6 +2,7 @@ package com.projetos.controle_entities;
 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -70,7 +71,7 @@ public class ItemPedido implements Entidade, Serializable {
 
 	//bi-directional many-to-one association to Produto
 	@ManyToOne
-	@JoinColumn(name="id_produto", updatable = false)
+	@JoinColumn(name="id_produto")
 	private Produto produto;
 
 	//bi-directional many-to-one association to Pedido

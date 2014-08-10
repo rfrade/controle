@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane fx:id="" prefHeight="469.0" prefWidth="711.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.projetos.controle.tela.controller.FornecedorListaController">
+	<children>
+		<TableView fx:id="tabela" layoutX="108.0" layoutY="66.0" prefHeight="383.0" prefWidth="409.0" xmlns:fx="http://javafx.com/fxml">
+			<columns>
+				<TableColumn id="" fx:id="colunaVendedor" prefWidth="400.0" text="Vendedores" />
+			</columns>
+		</TableView>
+		<Button layoutX="116.0" layoutY="25.0" mnemonicParsing="false" onAction="#prepararInclusao" text="Adicionar Vendedor" />
+		<Button fx:id="remover" layoutX="250.0" layoutY="25.0" mnemonicParsing="false" onAction="#exibirPopupConfirmacao" prefHeight="25.0" prefWidth="125.0" text="Remover Vendedor" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" /><Button fx:id="" layoutX="385.0" layoutY="25.0" mnemonicParsing="false" onAction="#pesquisar" prefHeight="25.0" prefWidth="125.0" text="Listar" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
+	</children>
+</AnchorPane>

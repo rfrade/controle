@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -43,11 +45,10 @@ import com.projetos.controle.tela.base.ConfiguracaoBeanTela;
 import com.projetos.controle.tela.base.FiltroTela;
 import com.projetos.controle.tela.base.ItemCombo;
 import com.projetos.controle.tela.base.PropertiesLoader;
-import com.projetos.controle.tela.base.PropertiesPathLoader;
+import com.projetos.controle.tela.base.TipoCampo;
 import com.projetos.controle.tela.controller.PopupConfirmacaoController;
 import com.projetos.controle.tela.controller.PopupMensagemController;
 import com.projetos.controle.tela.controller.TelaPrincipalController;
-import com.projetos.controle.tela.field.DecimalNumberField;
 import com.projetos.controle.tela.util.CelulaFactory;
 import com.projetos.controle_entities.Entidade;
 import com.projetos.controle_negocio.filtro.Filtro;
@@ -103,8 +104,12 @@ public abstract class BaseEntityController<T extends Entidade> extends AbstractC
 	public class DefaultConfirmHandler implements EventHandler<ActionEvent> {
 		@Override
 		public void handle(ActionEvent event) {
-			remover();
-			fecharPopupConfirmacao();
+			try {
+				remover();
+				fecharPopupConfirmacao();
+			} catch (ValidacaoException e) {
+				tratarErroValidacao(e);
+			}
 		}
 	}
 
@@ -115,7 +120,7 @@ public abstract class BaseEntityController<T extends Entidade> extends AbstractC
 	protected void exibirMensagem(String mensagem) {
 		exibirMensagemNaoMapeada(propertiesLoader.getProperty(mensagem));
 	}
-	
+
 	protected void exibirMensagemNaoMapeada(String mensagem) {
 		popupMensagemController.setMensagem(mensagem);
 		telaPrincipalController.exibirPopupMensagem();
@@ -123,12 +128,16 @@ public abstract class BaseEntityController<T extends Entidade> extends AbstractC
 
 	@Autowired
 	protected PropertiesLoader propertiesLoader;
-	
-	/*@Autowired
-	protected PropertiesPathLoader propertiesPathLoader;*/
+
+	/*
+	 * @Autowired protected PropertiesPathLoader propertiesPathLoader;
+	 */
 
 	protected Logger log = Logger.getLogger(this.getClass());
 
+	/**
+	 * Preenche os dados da tela com os dados do bean (entidadeForm)
+	 */
 	@SuppressWarnings("unchecked")
 	protected void bindBeanToForm() {
 		MirrorList<Field> campos = new Mirror().on(this.getClass()).reflectAll().fields();
@@ -139,7 +148,7 @@ public abstract class BaseEntityController<T extends Entidade> extends AbstractC
 				Object value = BeanUtil.getPropriedade(entidadeForm, bean);
 
 				if (campo instanceof TextField) {
-					
+
 					preencherTextField((TextField) campo, value);
 
 				} else if (campo instanceof TextArea) {
@@ -160,8 +169,8 @@ public abstract class BaseEntityController<T extends Entidade> extends AbstractC
 					((ComboBox<ItemCombo<?>>) campo).getSelectionModel().select(item);
 
 				} else if (campo instanceof PasswordField && value != null) {
-					preencherTextField((PasswordField)campo, value);
-					
+					preencherTextField((PasswordField) campo, value);
+
 				}
 
 			}
@@ -261,11 +270,10 @@ public abstract class BaseEntityController<T extends Entidade> extends AbstractC
 		}
 	}
 
-	private void validate() {
-		
-	}
-
-	protected void bindFormToBean() {
+	/**
+	 * Preenche os dados do bean (entidadeForm) com os dados da tela 
+	 */
+	protected void bindFormToBean() throws ValidacaoException {
 		MirrorList<Field> campos = new Mirror().on(this.getClass()).reflectAll().fields();
 
 		for (Field field : campos) {
@@ -274,16 +282,18 @@ public abstract class BaseEntityController<T extends Entidade> extends AbstractC
 
 				Object campo = new Mirror().on(this).get().field(field);
 
-				String beanName = field.getAnnotation(CampoTela.class).bean();
+				CampoTela annotation = field.getAnnotation(CampoTela.class);
+				String beanName = annotation.bean();
+
 
 				if (campo instanceof TextField) {
-					BeanUtil.setPropriedade(entidadeForm, beanName, ((TextField) campo).getText());
+					validarTextField(campo, annotation, beanName);
 
 				} else if (campo instanceof TextArea) {
 					BeanUtil.setPropriedade(entidadeForm, beanName, ((TextArea) campo).getText());
 
-				} else if (campo instanceof DecimalNumberField) {
-					BeanUtil.setPropriedade(entidadeForm, beanName, ((DecimalNumberField) campo).getFormattedText());
+				/*} else if (campo instanceof DecimalNumberField) {
+					BeanUtil.setPropriedade(entidadeForm, beanName, ((DecimalNumberField) campo).getFormattedText());*/
 
 				} else if (campo instanceof RadioButton) {
 					BeanUtil.setPropriedade(entidadeForm, beanName, ((RadioButton) campo).isSelected());
@@ -300,12 +310,74 @@ public abstract class BaseEntityController<T extends Entidade> extends AbstractC
 
 					if (valor != null) {
 						BeanUtil.setPropriedade(entidadeForm, beanName, item.getValor());
-						
+
 					}
 
 				}
 			}
 		}
+	}
+
+	private void validarTextField(Object campo, CampoTela annotation, String beanName) throws ValidacaoException {
+		try {
+			String text = ((TextField) campo).getText();
+			validar(annotation, text);
+			BeanUtil.setPropriedade(entidadeForm, beanName, text);
+			if (text == null || text.equals("")) {
+				if (annotation.tipoCampo() == TipoCampo.INTEIRO) {
+					((TextField) campo).setText("0");
+					
+				} else if (annotation.tipoCampo() == TipoCampo.MOEDA) {
+					((TextField) campo).setText("0,00");
+					
+				}
+			}
+		} catch (ValidacaoException e) {
+			((TextField) campo).setText("");
+			((TextField) campo).requestFocus();
+			throw e;
+		}
+	}
+
+	public void validar(CampoTela annotation, Object campo) throws ValidacaoException {
+
+		Matcher matcher = null;
+		if (campo == null) {
+			return;
+		} else if (annotation.tipoCampo() == TipoCampo.MOEDA) {
+
+			matcher = getMatcherDouble(campo);
+
+
+		} else if (annotation.tipoCampo() == TipoCampo.INTEIRO) {
+
+			matcher = getMatcherInteiro(campo);
+			
+		} else {
+			return;
+		}
+
+		if (!matcher.matches()) {
+			String nome = annotation.nome();
+			throw new ValidacaoException("cadastro.campo_com_valor_invalido", nome);
+		}
+
+	}
+
+	private Matcher getMatcherDouble(Object campo) {
+		String string = campo.toString();
+		return getMatcher("(\\d*?)(\\,\\d{1,2})?", string);
+	}
+	
+	private Matcher getMatcherInteiro(Object campo) {
+		String string = campo.toString();
+		return getMatcher("(\\d*?)", string);
+	}
+	
+	private Matcher getMatcher(String patternString, String campo) {
+		Pattern pattern = Pattern.compile(patternString);
+		Matcher matcher = pattern.matcher(campo);
+		return matcher;
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
@@ -336,49 +408,38 @@ public abstract class BaseEntityController<T extends Entidade> extends AbstractC
 				throw new RuntimeException("Campo com valor nulo: " + field.getName());
 			}
 
-			/*campo.setOnKeyReleased(new MaskedTextFieldEventHandler(12));*/
+			/* campo.setOnKeyReleased(new MaskedTextFieldEventHandler(12)); */
 		}
 
 	}
 
-	/*public class MaskedTextFieldEventHandler implements EventHandler<KeyEvent> {
-
-		private int maxLength;
-		private String format;
-
-		public MaskedTextFieldEventHandler(int maxLength) {
-			this.maxLength = maxLength;
-		}
-
-		public MaskedTextFieldEventHandler(int maxLenth, String format) {
-			this(maxLenth);
-			this.format = format;
-		}
-
-		@Override
-		public void handle(KeyEvent paramT) {
-			TextField textField = (TextField) paramT.getSource();
-			String text = textField.getText();
-
-			if (text == null) {
-				return;
-			}
-
-			String typedText = paramT.getText();
-			if (text.length() >= maxLength) {
-				textField.setText(text.substring(0, maxLength));
-				return;
-			} else if (format != null) {
-				String valorMascarado = maskedInput(text + typedText);
-				textField.setText(valorMascarado);
-			}
-		}
-
-		private String maskedInput(String texto) {
-			return texto.replaceAll(format, texto);
-		}
-
-	}*/
+	/*
+	 * public class MaskedTextFieldEventHandler implements
+	 * EventHandler<KeyEvent> {
+	 * 
+	 * private int maxLength; private String format;
+	 * 
+	 * public MaskedTextFieldEventHandler(int maxLength) { this.maxLength =
+	 * maxLength; }
+	 * 
+	 * public MaskedTextFieldEventHandler(int maxLenth, String format) {
+	 * this(maxLenth); this.format = format; }
+	 * 
+	 * @Override public void handle(KeyEvent paramT) { TextField textField =
+	 * (TextField) paramT.getSource(); String text = textField.getText();
+	 * 
+	 * if (text == null) { return; }
+	 * 
+	 * String typedText = paramT.getText(); if (text.length() >= maxLength) {
+	 * textField.setText(text.substring(0, maxLength)); return; } else if
+	 * (format != null) { String valorMascarado = maskedInput(text + typedText);
+	 * textField.setText(valorMascarado); } }
+	 * 
+	 * private String maskedInput(String texto) { return
+	 * texto.replaceAll(format, texto); }
+	 * 
+	 * }
+	 */
 
 	/**
 	 * Convert de LocalDate para Date
@@ -443,11 +504,28 @@ public abstract class BaseEntityController<T extends Entidade> extends AbstractC
 
 	protected void tratarErro(Exception e) {
 		log.error(e.getMessage(), e);
-		exibirMensagem("Erro, tire um print da tela e envie o arquivo de log para o email rafaelfrade@live.com; " + e.getMessage());
+		exibirMensagemNaoMapeada("Erro, tire um print da tela e envie por email: " + e.getMessage());
 	}
 
 	protected void tratarErroValidacao(ValidacaoException e) {
-		exibirMensagem(e.getMensagem());
+		String mensagem = propertiesLoader.getProperty(e.getMensagem());
+
+		if (mensagem == null) {
+
+			if (e.getParam() != null) {
+				exibirMensagemNaoMapeada(e.getMensagem() + ": " + e.getParam()[0]);
+				return;
+			}
+
+			exibirMensagemNaoMapeada(e.getMensagem());
+			return;
+		
+		} else {
+			
+			exibirMensagemNaoMapeada(mensagem);
+
+		}
+
 	}
 
 	@Bean(name = "validator")
@@ -460,7 +538,7 @@ public abstract class BaseEntityController<T extends Entidade> extends AbstractC
 
 	protected abstract EntidadeService<T> getEntidadeService();
 
-	public abstract void remover();
+	public abstract void remover() throws ValidacaoException;
 
 	public T getEntidadeForm() {
 		return entidadeForm;

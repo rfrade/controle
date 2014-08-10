@@ -17,9 +17,6 @@ public class PropertiesLoader {
 
 	public String getProperty(String propriedade) {
 		String property = environment.getProperty(propriedade);
-		if (property == null || property.equals("")) {
-			property = "Propriedade não mapeada!";
-		}
 		return property;
 	}
 

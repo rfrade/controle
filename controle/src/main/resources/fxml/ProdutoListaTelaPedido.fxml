@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="516.0" prefWidth="701.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.projetos.controle.tela.controller.PedidoListaController">
+<children><Label layoutX="290.0" layoutY="27.0" style="-fx-font-size: 16;" text="Pesquisar Produtos" /><TableView fx:id="tabela" layoutX="36.0" layoutY="101.0" prefHeight="383.0" prefWidth="630.0" xmlns:fx="http://javafx.com/fxml">
+  <columns>
+    <TableColumn fx:id="colunaReferencia" prefWidth="75.0" text="Referencia" />
+    <TableColumn fx:id="colunaDescricao" prefWidth="300.0" text="Descrição" /><TableColumn fx:id="colunaValorVenda" prefWidth="100.0" text="Valor Venda" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" /><TableColumn fx:id="colunaTamanho" prefWidth="100.0" text="Tamanho" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
+  </columns>
+</TableView><Button fx:id="procurar" layoutX="450.0" layoutY="65.0" mnemonicParsing="false" onAction="#pesquisar" prefHeight="25.0" prefWidth="110.0" text="Pesquisar" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" /><Label layoutX="46.0" layoutY="69.0" text="Referência" /><TextField fx:id="filtroReferencia" layoutX="119.0" layoutY="65.0" prefHeight="25.0" prefWidth="83.0" /><Label layoutX="233.0" layoutY="69.0" text="Descrição" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" /><TextField fx:id="filtroDescricao" layoutX="289.0" layoutY="65.0" prefHeight="25.0" prefWidth="144.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
+</children></AnchorPane>

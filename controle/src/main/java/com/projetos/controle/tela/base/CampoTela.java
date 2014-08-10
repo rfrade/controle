@@ -11,5 +11,6 @@ public @interface CampoTela {
 
 	String bean();
 	int tamanho() default 200;
-
+	String nome() default "";
+	TipoCampo tipoCampo() default TipoCampo.STRING;
 }

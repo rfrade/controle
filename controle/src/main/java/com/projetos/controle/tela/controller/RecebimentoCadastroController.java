@@ -1,11 +1,13 @@
 package com.projetos.controle.tela.controller;
 
+import java.math.BigDecimal;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -20,6 +22,7 @@ import org.springframework.stereotype.Controller;
 
 import com.projetos.controle.tela.base.CampoTela;
 import com.projetos.controle.tela.base.ItemCombo;
+import com.projetos.controle.tela.base.TipoCampo;
 import com.projetos.controle.tela.controller.base.BaseCadastroController;
 import com.projetos.controle_entities.Recebimento;
 import com.projetos.controle_negocio.service.base.EntidadeService;
@@ -37,26 +40,26 @@ public class RecebimentoCadastroController extends BaseCadastroController<Recebi
 
 	@Autowired
 	private RecebimentoService recebimentoService;
-	
+
 	@Autowired
 	private PedidoService pedidoService;
 
 	@FXML
 	@CampoTela(bean = "dataRecebimento")
 	private DatePicker dataRecebimento;
-	
+
 	@FXML
-	@CampoTela(bean = "pedido.valorTotal")
+	@CampoTela(bean = "pedido.valorTotal", tipoCampo = TipoCampo.MOEDA, nome = "Valor Faturado")
 	private TextField valorFaturado;
-	
+
 	@FXML
-	@CampoTela(bean = "pedido.comissao")
+	@CampoTela(bean = "percentualComissao", tipoCampo = TipoCampo.MOEDA, nome = "Porcentagem")
 	private TextField porcentagem;
 
 	@FXML
-	@CampoTela(bean = "valorRecebimento")
+	@CampoTela(bean = "valorRecebimento", tipoCampo = TipoCampo.MOEDA, nome = "Valor Comissão")
 	private TextField valorComissao;
-	
+
 	@FXML
 	@CampoTela(bean = "recebido")
 	private ComboBox<ItemCombo<Boolean>> recebido;
@@ -67,29 +70,44 @@ public class RecebimentoCadastroController extends BaseCadastroController<Recebi
 	@Override
 	public void initialize(URL url, ResourceBundle resource) {
 		super.initialize(url, resource);
+
+		this.valorComissao.focusedProperty().addListener(new ComissaoChangeListener());
+
 		List<ItemCombo<Boolean>> lista = new ArrayList<>();
 		ItemCombo<Boolean> ativo = new ItemCombo<>("SIM", true);
 		ItemCombo<Boolean> naoAtivo = new ItemCombo<>("NÃO", false);
 		lista.add(ativo);
 		lista.add(naoAtivo);
 
-		if (entidadeForm.getDataRecebimento() == null) {
-			entidadeForm.setDataRecebimento(new Date());
-			
-		}
-
 		ObservableList<ItemCombo<Boolean>> itens = FXCollections.observableArrayList(lista);
 		recebido.setItems(itens);
 		bindBeanToForm();
 	}
 
-	@Override
-	public void salvar() throws ValidacaoException {
-		bindFormToBean();
-		super.validaPersistencia();
-		entidadeForm = getEntidadeService().salvar(entidadeForm);
+	public class ComissaoChangeListener implements ChangeListener<Boolean> {
+
+		@Override
+		public void changed(ObservableValue<? extends Boolean> arg0, Boolean arg1, Boolean focusIn) {
+			
+			// Handling only when focus is out.
+			String text = valorComissao.getText();
+			if (!focusIn && text != null && !text.equals("")) {
+				try {
+					bindFormToBean();
+					BigDecimal cem = new BigDecimal(100);
+					BigDecimal vComissao = new BigDecimal(text.replace(",", "."));
+					BigDecimal vTotal = new BigDecimal(entidadeForm.getPedido().getValorTotal());
+					BigDecimal valorPorcentagem = cem.multiply(vComissao).divide(vTotal);
+					
+					valorPorcentagem = valorPorcentagem.setScale(2, BigDecimal.ROUND_FLOOR);
+					entidadeForm.setPercentualComissao(valorPorcentagem.doubleValue());
+					bindBeanToForm();
+				} catch (ValidacaoException e) {
+					tratarErroValidacao(e);
+				}
+			}
+		}
 	}
-	
 
 	@Override
 	protected EntidadeService<Recebimento> getEntidadeService() {

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="raltorioClientes" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="db17e77f-9c52-4e4b-8873-dfe8661f3bda">
-	<property name="ireport.zoom" value="0.9090909090909091"/>
-	<property name="ireport.x" value="0"/>
+	<property name="ireport.zoom" value="1.4641000000000006"/>
+	<property name="ireport.x" value="258"/>
 	<property name="ireport.y" value="0"/>
 	<field name="firma" class="java.lang.String"/>
 	<field name="logradouro.endereco" class="java.lang.String"/>
@@ -14,6 +14,8 @@
 	<field name="logradouro.dddCelular" class="java.lang.String"/>
 	<field name="logradouro.celular" class="java.lang.String"/>
 	<field name="comprador" class="java.lang.String"/>
+	<field name="inscricao" class="java.lang.String"/>
+	<field name="cnpj" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -35,7 +37,7 @@
 		<band splitType="Stretch"/>
 	</columnHeader>
 	<detail>
-		<band height="27" splitType="Stretch">
+		<band height="58" splitType="Stretch">
 			<textField>
 				<reportElement x="0" y="0" width="140" height="20" uuid="94405aa2-7bbd-4134-9b5f-cb517b793b14"/>
 				<textElement>
@@ -105,6 +107,28 @@
 					<font isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{comprador}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="30" width="68" height="16" uuid="f332d85d-a305-42ba-86bb-2065d4f07dc3"/>
+				<text><![CDATA[Insc Estadual]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="68" y="30" width="153" height="16" uuid="d480114f-148f-4ce3-810f-9f3dbff1e8dd"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{inscricao}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="221" y="30" width="68" height="16" uuid="c716abde-191b-4c23-b039-51fb1f9f01d5"/>
+				<text><![CDATA[CNPJ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="289" y="30" width="161" height="16" uuid="2e4aaf35-ba4d-4e19-bd54-473ea6ea1231"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cnpj}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
