@@ -107,6 +107,10 @@ public class ItemPedidoCadastroController extends BaseCadastroController<ItemPed
 	@CampoTela(bean = "observacao")
 	private TextArea observacao;
 
+	@FXML
+	private Label labelMensagem;
+	
+
 	@Override
 	public void initialize(URL url, ResourceBundle resource) {
 		super.initialize(url, resource);
@@ -136,15 +140,17 @@ public class ItemPedidoCadastroController extends BaseCadastroController<ItemPed
 	}
 	
 	public Produto carregarProduto(String referencia) {
-		Produto produto = produtoService.getProdutoByReferencia(referencia);
+		Produto produto = produtoService.getProdutoByReferencia(referencia, entidadeForm.getPedido().getFornecedor());
 		return produto;
 	}
 
 	public void exibirTelaProcurarProduto() {
+		ProdutoListaTelaPedidoController controller = ApplicationConfig.getBean(ProdutoListaTelaPedidoController.class);
+		controller.setFornecedor(entidadeForm.getPedido().getFornecedor());
+
 		Parent tela = configuracaoBeanTela.carregarProdutoListaTelaPedido();
 		Stage popup = telaPrincipalController.exibirPopup(tela);
 
-		ProdutoListaTelaPedidoController controller = ApplicationConfig.getBean(ProdutoListaTelaPedidoController.class);
 		MouseClickedSelect mouseClickedSelecPedido = new MouseClickedSelect(controller.getTabela(), popup);
 		controller.getTabela().setOnMouseClicked(mouseClickedSelecPedido);
 	}
@@ -246,19 +252,25 @@ public class ItemPedidoCadastroController extends BaseCadastroController<ItemPed
 
 			Pedido pedido = entidadeForm.getPedido();
 			super.salvarSemMensagem();
-			super.exibirMensagem("cadastro.salvo_com_sucesso");
 
 			if (!pedido.getItensPedido().contains(entidadeForm)) {
 				pedido.addItemPedido(entidadeForm);
 			}
 			pedidoCadastroController.getEntidadeService().salvar(entidadeForm.getPedido());
+			pedidoCadastroController.setEntidadeForm(pedido);
 			pedidoCadastroController.atualizarValorPedido();
+			pedidoCadastroController.atualizaValorRecebimento();
 
 			entidadeForm = novaEntidadeForm();
 			super.bindBeanToForm();
 			entidadeForm.setPedido(pedido);
 
-			pedidoCadastroController.atualizaValorRecebimento();
+			atualizarTabela();
+
+			String mensagem = propertiesLoader.getProperty("cadastro.salvo_com_sucesso");
+			labelMensagem.setText(mensagem);
+			referencia.requestFocus();
+
 		} catch (ValidacaoException e) {
 			tratarErroValidacao(e);
 		}

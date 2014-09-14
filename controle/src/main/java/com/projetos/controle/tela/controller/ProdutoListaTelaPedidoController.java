@@ -72,6 +72,8 @@ public class ProdutoListaTelaPedidoController extends BaseListController<Produto
 	@FXML
 	private TableView<Produto> tabela;
 
+	private Fornecedor fornecedor;
+
 	@Override
 	public void initialize(URL url, ResourceBundle resource) {
 		super.initialize(url, resource);
@@ -86,7 +88,7 @@ public class ProdutoListaTelaPedidoController extends BaseListController<Produto
 			ItemCombo<Fornecedor> item = new ItemCombo<Fornecedor>(fornecedor.getFirma(), fornecedor);
 			lista.add(item);
 		}
-		
+
 	}
 
 	@Override
@@ -99,7 +101,10 @@ public class ProdutoListaTelaPedidoController extends BaseListController<Produto
 		List<Filtro> filtros = new ArrayList<>();
 
 		Filtro filtroAtivo = new Filtro("ativo", TipoFiltro.BOOLEAN, Comparador.EQUALS, true);
+		Filtro filtroFornecedor = new Filtro("fornecedor", TipoFiltro.OBJECT, Comparador.EQUALS, fornecedor);
+
 		filtros.add(filtroAtivo);
+		filtros.add(filtroFornecedor);
 
 		return filtros;
 	}
@@ -117,6 +122,14 @@ public class ProdutoListaTelaPedidoController extends BaseListController<Produto
 	@Override
 	protected BaseCadastroController<Produto> getBaseCadastroController() {
 		return null;
+	}
+
+	public Fornecedor getFornecedor() {
+		return fornecedor;
+	}
+
+	public void setFornecedor(Fornecedor fornecedor) {
+		this.fornecedor = fornecedor;
 	}
 
 }

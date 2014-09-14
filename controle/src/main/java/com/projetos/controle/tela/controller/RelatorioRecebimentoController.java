@@ -4,6 +4,7 @@ import java.io.InputStream;
 import java.math.BigDecimal;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -157,10 +158,11 @@ public class RelatorioRecebimentoController extends BaseEntityController<Recebim
 
 			}
 
-			RelatorioUtil.preencherParametro(param, RelatorioRecebimentoParam.VALOR_COMISSAO, this.getValorComissaoTotal(pedidos));
+			RelatorioUtil.preencherParametro(param, RelatorioRecebimentoParam.VALOR_COMISSAO, this.getValorComissaoTotal(recebimentos));
 			RelatorioUtil.preencherParametro(param, RelatorioRecebimentoParam.VALOR_PEDIDO, this.getValorTotalPedidos(pedidos));
 			RelatorioUtil.preencherParametro(param, RelatorioRecebimentoParam.OBSERVACAO, observacao.getText());
 
+			recebimentos.sort(new RelatorioRecebimentoComparator());
 			RelatorioRecebimentoDataSource dataSource = new RelatorioRecebimentoDataSource(recebimentos);
 
 			InputStream resource = getClass().getResourceAsStream("/report/relatorioRecebimento.jasper");
@@ -182,18 +184,30 @@ public class RelatorioRecebimentoController extends BaseEntityController<Recebim
 
 	}
 
-	private Double getValorComissaoTotal(List<Pedido> pedidos) {
+	class RelatorioRecebimentoComparator implements Comparator<Recebimento> {
+
+		public int compare(Recebimento o1, Recebimento o2) {
+			String firma1 = o1.getPedido().getFornecedor().getFirma();
+			String firma2 = o2.getPedido().getFornecedor().getFirma();
+
+			// Se for do mesmo fornecedor ordena pela data
+			if (firma1.compareToIgnoreCase(firma2) == 0) {
+				return o1.getPedido().getDataPedido().compareTo(o2.getPedido().getDataPedido());
+			}
+
+			return firma1.compareToIgnoreCase(firma2);
+		}
+		
+	}
+
+	private Double getValorComissaoTotal(List<Recebimento> recebimentos) {
 		BigDecimal valor = BigDecimal.ZERO;
 
-		for (Pedido pedido : pedidos) {
-			
-			for (Recebimento recebimento : pedido.getRecebimentos()) {
-				String valueOf = String.valueOf(recebimento.getValorRecebimento());
-				valor = valor.add(new BigDecimal(valueOf));
-				
-			}
-		}
+		for (Recebimento recebimento : recebimentos) {
+			String valueOf = String.valueOf(recebimento.getValorRecebimento());
+			valor = valor.add(new BigDecimal(valueOf));
 
+		}
 		return valor.doubleValue();
 	}
 

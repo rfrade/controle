@@ -20,10 +20,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Controller;
 
+import com.projetos.controle.tela.ApplicationConfig;
 import com.projetos.controle.tela.base.CampoTela;
 import com.projetos.controle.tela.base.ItemCombo;
 import com.projetos.controle.tela.base.TipoCampo;
 import com.projetos.controle.tela.controller.base.BaseCadastroController;
+import com.projetos.controle_entities.Pedido;
 import com.projetos.controle_entities.Recebimento;
 import com.projetos.controle_negocio.service.base.EntidadeService;
 import com.projetos.controle_negocio.service.base.PedidoService;
@@ -84,6 +86,18 @@ public class RecebimentoCadastroController extends BaseCadastroController<Recebi
 		bindBeanToForm();
 	}
 
+	@Override
+	protected void salvar() throws ValidacaoException {
+		super.salvar();
+		pedidoService.salvar(entidadeForm.getPedido());
+		Pedido pedido = pedidoService.findById(entidadeForm.getPedido().getId());
+		entidadeForm.setPedido(pedido);
+		pedidoService.salvar(entidadeForm.getPedido());
+		
+		PedidoCadastroController pedidoCadastroController = ApplicationConfig.getBean(PedidoCadastroController.class);
+		pedidoCadastroController.setEntidadeForm(pedido);
+	}
+
 	public class ComissaoChangeListener implements ChangeListener<Boolean> {
 
 		@Override
@@ -96,8 +110,10 @@ public class RecebimentoCadastroController extends BaseCadastroController<Recebi
 					bindFormToBean();
 					BigDecimal cem = new BigDecimal(100);
 					BigDecimal vComissao = new BigDecimal(text.replace(",", "."));
+//					vComissao = vComissao.setScale(2, BigDecimal.ROUND_FLOOR);
 					BigDecimal vTotal = new BigDecimal(entidadeForm.getPedido().getValorTotal());
-					BigDecimal valorPorcentagem = cem.multiply(vComissao).divide(vTotal);
+//					vTotal = vTotal.setScale(2, BigDecimal.ROUND_FLOOR);
+					BigDecimal valorPorcentagem = cem.multiply(vComissao).divide(vTotal, BigDecimal.ROUND_CEILING);
 					
 					valorPorcentagem = valorPorcentagem.setScale(2, BigDecimal.ROUND_FLOOR);
 					entidadeForm.setPercentualComissao(valorPorcentagem.doubleValue());

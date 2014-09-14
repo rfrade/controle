@@ -159,8 +159,8 @@ public class ProdutoServiceImpl extends EntidadeServiceImpl<Produto> implements 
 	 * Retorna somente produtos ativos
 	 */
 	@Override
-	public Produto getProdutoByReferencia(String referencia) {
-		return produtoRepository.getProdutoByReferenciaAndAtivo(referencia, true);
+	public Produto getProdutoByReferencia(String referencia, Fornecedor fornecedor) {
+		return produtoRepository.getProdutoByReferenciaAndAtivoAndFornecedor(referencia, true, fornecedor);
 	}
 
 }

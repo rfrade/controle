@@ -1,0 +1,32 @@
+1 - estive imprimindo alguns pedidos e o tamanho das letras estão muito grande e os espaçamentos também, 
+	as informações do cabeçalho podem ser bem menores, 
+	quando imprimo pro cliente o papel é térmico que recorto de bobinas de fax
+
+2 - Gerei um relatório de pedidos não recebidos e o valor da soma das comissões esta incorreto
+
+3 - Nos campos dos descontos a quantidade de zeros é muito grande e ao selecionar o 
+	primeiro campo os zeros permanecem gerando erro no calculo
+	### VERIFICAR
+
+4 - Na tela de pedidos o ideal seria que o cursor após a escolha do fornecedor fosse direto para procurar cliente, 
+	e depois direto para transportador, sem a necessidade de clicar nos campos
+	
+5 - No campo vendedor permanecer João Carlos como vendedor principal
+
+6 - Na tela incluir produtos depois de digitados, depois de salvo, 
+	a telinha que aparece avisando, poderia ser eliminada, 
+	e o cursor ir direto para o campo referência
+	
+7 - Na tela de impressão do pedido o ideal é que os zeros não aparecessem
+
+8 - abre quatro telas até salvar a alteração de recebido o não recebido, será que tem como eliminar essas telas
+
+9 - depois do clique em salvar, poderia voltar direto na tela para escolher um novo pedido para conferencia 
+
+10 - Verifiquei que o campo das cores ficou muito pequeno a palavra não  inteira(na tela de pedidos)
+
+11 - Na tela que digita as ref. E as quantidades,o campo observação o que é digitado nele não vai para o pedido
+
+12 - erro ao salvar documento
+
+13 - Preciso de uma cópia de segurança, em pendrive

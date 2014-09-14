@@ -12,6 +12,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -132,6 +134,9 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 	@FXML
 	@CampoTela(bean = "vendedor")
 	private ComboBox<ItemCombo<Vendedor>> vendedor;
+	
+	@FXML
+	private ComboBox<ItemCombo<Boolean>> comboRecebido;
 
 	@FXML
 	@CampoTela(bean = "colecao")
@@ -168,6 +173,9 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 	@FXML
 	@CampoTela(bean = "valorSubTotal", tipoCampo = TipoCampo.MOEDA, nome = "Valor SubTotal")
 	private Label valorSubTotal;
+
+	@FXML
+	private Label labelMensagem;
 
 	@FXML
 	@Coluna(bean = "produto.referencia")
@@ -222,7 +230,7 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 	private TableColumn<Produto, String> valorTotalItemPedido;
 
 	@FXML
-	@Coluna(bean = "descricao")
+	@Coluna(bean = "produto.descricao")
 	private TableColumn<Produto, String> descricao;
 
 	@FXML
@@ -231,6 +239,8 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 
 	@FXML
 	private TableView<ItemPedido> tabelaItensPedido;
+	
+	private Pedido entidadeFormAnterior;
 
 	@Override
 	public void initialize(URL url, ResourceBundle resource) {
@@ -242,18 +252,50 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 			entidadeForm.setItensPedido(new ArrayList<ItemPedido>());
 		}
 
-		Filtro filtro = new Filtro("ativo", TipoFiltro.BOOLEAN, Comparador.EQUALS, true);
-		List<Fornecedor> fornecedores = fornecedorService.filtrar(filtro);
-		ObservableList<ItemCombo<Fornecedor>> itensFornecedor = ItemCombo.novaListaCombo(fornecedores, "firma");
-		fornecedor.setItems(itensFornecedor);
-
-		ObservableList<ItemCombo<Vendedor>> itensVendedor = ItemCombo.novaListaCombo(vendedorService.listar(), "nome");
-		vendedor.setItems(itensVendedor);
+		carregarComboFornecedor();
+		carregarComboVendedor();
+		carregarComboRecebido();
 
 		carregarTabelaItensPedido();
 
 		InnerMouseClicked<ItemPedido> mouseClicked = new InnerMouseClicked<>(tabelaItensPedido, itemPedidoCadastroController);
 		tabelaItensPedido.setOnMouseClicked(mouseClicked);
+		
+		entidadeFormAnterior = entidadeForm.copy();
+	}
+
+	private void carregarComboFornecedor() {
+		Filtro filtro = new Filtro("ativo", TipoFiltro.BOOLEAN, Comparador.EQUALS, true);
+		List<Fornecedor> fornecedores = fornecedorService.filtrar(filtro);
+		ObservableList<ItemCombo<Fornecedor>> itensFornecedor = ItemCombo.novaListaCombo(fornecedores, "firma");
+		fornecedor.setItems(itensFornecedor);
+//		fornecedor.focusedProperty().addListener(new FornecedorChangeListener());
+	}
+
+	private void carregarComboVendedor() {
+		ObservableList<ItemCombo<Vendedor>> itensVendedor = ItemCombo.novaListaCombo(vendedorService.listar(), "nome");
+		vendedor.setItems(itensVendedor);
+		vendedor.getSelectionModel().select(0);
+	}
+
+	private void carregarComboRecebido() {
+		List<ItemCombo<Boolean>> itensRecebido = new ArrayList<>();
+		ItemCombo<Boolean> itemNaoRecebido = new ItemCombo<Boolean>("NÃO RECEBIDO", false);
+		ItemCombo<Boolean> itemRecebido = new ItemCombo<Boolean>("RECEBIDO", true);
+		itensRecebido.add(itemNaoRecebido);
+		itensRecebido.add(itemRecebido);
+		ObservableList<ItemCombo<Boolean>> itensRecebidoOL = FXCollections.observableArrayList(itensRecebido);
+		comboRecebido.setItems(itensRecebidoOL);
+		comboRecebido.focusedProperty().addListener(new RecebidoChangeListener());
+		
+		List<Recebimento> recebimentos = entidadeForm.getRecebimentos();
+		if (!recebimentos.isEmpty()) {
+			boolean recebido = recebimentos.get(0).getRecebido();
+			int index = recebido ? 1 : 0;
+			comboRecebido.getSelectionModel().select(index);
+		} else {
+			comboRecebido.getSelectionModel().select(0);
+		}
 	}
 
 	@Override
@@ -285,13 +327,26 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 
 	@Override
 	protected void salvar() throws ValidacaoException {
-		// A inclusão do recebimento não pode ser feita antes de salvar o pedido
-		// mas a comparação do id tem que ser feita antes
+		
 		boolean inclusao = entidadeForm.getId() == null;
 		super.salvar();
+
+		// A inclusão do recebimento não pode ser feita antes de salvar o pedido
+		// mas a comparação do id tem que ser feita antes
 		if (inclusao) {
 			incluirRecebimento();
 		}
+
+		if (entidadeFormAnterior.getComissao() != entidadeForm.getComissao()) {
+			atualizaComissaoRecebimento();
+			atualizaValorRecebimento();
+		}
+
+		if (entidadeFormAnterior.getValorTotal() != entidadeForm.getValorTotal()) {
+			atualizaValorRecebimento();
+		}
+
+		entidadeFormAnterior = entidadeForm.copy();
 	}
 
 	/**
@@ -317,7 +372,7 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 		Parent telaClienteLista = configuracaoBeanTela.carregarTelaClienteLista();
 		Stage popup = telaPrincipalController.exibirPopup(telaClienteLista);
 		ClienteListaController controller = ApplicationConfig.getBean(ClienteListaController.class);
-		MouseClickedSelect mouseClickedSelecPedido = new MouseClickedSelect(controller.getTabela(), popup);
+		ClienteSelect mouseClickedSelecPedido = new ClienteSelect(controller.getTabela(), popup);
 		controller.getTabela().setOnMouseClicked(mouseClickedSelecPedido);
 	}
 
@@ -504,7 +559,8 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 		try {
 			super.salvarSemMensagem();
 
-			exibirMensagem("cadastro.salvo_com_sucesso");
+			String mensagem = propertiesLoader.getProperty("cadastro.salvo_com_sucesso");
+			labelMensagem.setText(mensagem);
 		} catch (ValidacaoException e) {
 			tratarErroValidacao(e);
 		}
@@ -597,25 +653,14 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 
 		exibirMensagem("cadastro.removido_com_sucesso");
 	}
+	
+	public void atualizaComissaoRecebimento() {
+		Recebimento recebimento = getPrimeiroRecebimento();
+		recebimento.setPercentualComissao(entidadeForm.getComissao());;
+		recebimentoService.salvar(recebimento);
+	}
 
 	public void atualizaValorRecebimento() {
-		/*// Chamar o método que atualiza o valor do recebimento aqui e na
-		// inclusão de Item. o mesmo método
-		Filtro filtroPedido = new Filtro("pedido", TipoFiltro.OBJECT, Comparador.EQUALS, entidadeForm);
-
-		// procura o menor id para atualizar apenas o recebimento criado
-		// automaticamente
-		Ordenacao ordenacao = new Ordenacao("id", TipoOrdenacao.ASC);
-
-		List<Filtro> filtros = new ArrayList<>();
-		filtros.add(filtroPedido);
-
-		List<Ordenacao> ordenacoes = new ArrayList<>();
-		ordenacoes.add(ordenacao);
-
-		List<Recebimento> recebimentos = recebimentoService.filtrar(filtros, ordenacoes);
-		Recebimento recebimento = recebimentos.get(0);*/
-
 		Recebimento recebimento = getPrimeiroRecebimento();
 		recebimento.setValorRecebimento(getValorComissao());
 		recebimentoService.salvar(recebimento);
@@ -657,12 +702,12 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 		bindBeanToForm();
 	}
 
-	public class MouseClickedSelect implements EventHandler<MouseEvent> {
+	public class ClienteSelect implements EventHandler<MouseEvent> {
 
 		private TableView<Cliente> tabela;
 		private Stage popup;
 
-		public MouseClickedSelect(TableView<Cliente> tabela, Stage popup) {
+		public ClienteSelect(TableView<Cliente> tabela, Stage popup) {
 			this.tabela = tabela;
 			this.popup = popup;
 		}
@@ -675,134 +720,47 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 					entidadeForm.setCliente(selectedItem);
 					cliente.setText(selectedItem.getFirma());
 					popup.close();
+					transportador.requestFocus();
 				}
 			}
 		}
 	}
+	
+	private class RecebidoChangeListener implements ChangeListener<Boolean> {
+
+		@Override
+		public void changed(ObservableValue<? extends Boolean> arg0, Boolean arg1, Boolean focusIn) {
+			// Handling only when focus is out.
+			if (!focusIn) {
+				ItemCombo<Boolean> selectedItem = comboRecebido.getSelectionModel().getSelectedItem();
+				Boolean recebido = selectedItem.getValor();
+				List<Recebimento> recebimentos = entidadeForm.getRecebimentos();
+				for (Recebimento item : recebimentos) {
+					item.setRecebido(recebido);
+					recebimentoService.salvar(item);
+				}
+			}
+		}
+
+	}
+
+	private class FornecedorChangeListener implements ChangeListener<Boolean> {
+
+		@Override
+		public void changed(ObservableValue<? extends Boolean> arg0, Boolean arg1, Boolean focusIn) {
+			// Handling only when focus is out.
+			/*if (!focusIn) {*/
+//				exibirTelaCliente();
+//			exibirMensagemNaoMapeada("changed");
+			/*}*/
+		}
+
+	}
+
 
 	@Override
 	protected EntidadeService<Pedido> getEntidadeService() {
 		return pedidoService;
-	}
-
-	public Label getLabelNumeroPedido() {
-		return labelNumeroPedido;
-	}
-
-	public void setLabelNumeroPedido(Label labelNumeroPedido) {
-		this.labelNumeroPedido = labelNumeroPedido;
-	}
-
-	public ComboBox<ItemCombo<Fornecedor>> getFornecedor() {
-		return fornecedor;
-	}
-
-	public void setFornecedor(ComboBox<ItemCombo<Fornecedor>> fornecedor) {
-		this.fornecedor = fornecedor;
-	}
-
-	public Label getCliente() {
-		return cliente;
-	}
-
-	public void setCliente(Label cliente) {
-		this.cliente = cliente;
-	}
-
-	public TextField getTransportador() {
-		return transportador;
-	}
-
-	public void setTransportador(TextField transportador) {
-		this.transportador = transportador;
-	}
-
-	public TextField getCondicoes() {
-		return condicoes;
-	}
-
-	public void setCondicoes(TextField condicoes) {
-		this.condicoes = condicoes;
-	}
-
-	public TextField getCobranca() {
-		return cobranca;
-	}
-
-	public void setCobranca(TextField cobranca) {
-		this.cobranca = cobranca;
-	}
-
-	public TextField getEntrega() {
-		return entrega;
-	}
-
-	public void setEntrega(TextField entrega) {
-		this.entrega = entrega;
-	}
-
-	public ComboBox<ItemCombo<Vendedor>> getVendedor() {
-		return vendedor;
-	}
-
-	public void setVendedor(ComboBox<ItemCombo<Vendedor>> vendedor) {
-		this.vendedor = vendedor;
-	}
-
-	public TextField getColecao() {
-		return colecao;
-	}
-
-	public void setColecao(TextField colecao) {
-		this.colecao = colecao;
-	}
-
-	public TextArea getObservacao() {
-		return observacao;
-	}
-
-	public void setObservacao(TextArea observacao) {
-		this.observacao = observacao;
-	}
-
-	public TextField getDesconto1() {
-		return desconto1;
-	}
-
-	public void setDesconto1(TextField desconto1) {
-		this.desconto1 = desconto1;
-	}
-
-	public TextField getDesconto2() {
-		return desconto2;
-	}
-
-	public void setDesconto2(TextField desconto2) {
-		this.desconto2 = desconto2;
-	}
-
-	public TextField getDesconto3() {
-		return desconto3;
-	}
-
-	public void setDesconto3(TextField desconto3) {
-		this.desconto3 = desconto3;
-	}
-
-	public TextField getDesconto4() {
-		return desconto4;
-	}
-
-	public void setDesconto4(TextField desconto4) {
-		this.desconto4 = desconto4;
-	}
-
-	public TextField getDescontoTotal() {
-		return descontoTotal;
-	}
-
-	public void setDescontoTotal(TextField descontoTotal) {
-		this.descontoTotal = descontoTotal;
 	}
 
 }

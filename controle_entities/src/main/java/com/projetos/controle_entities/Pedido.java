@@ -396,6 +396,7 @@ public class Pedido implements Entidade, Serializable {
 		pedido.setCliente(cliente);
 		pedido.setCobranca(cobranca);
 		pedido.setColecao(colecao);
+		pedido.setComissao(comissao);
 		pedido.setCondicoes(condicoes);
 		pedido.setDataPedido(new Date());
 		pedido.setDesconto1(desconto1);

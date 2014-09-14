@@ -56,14 +56,13 @@ public abstract class BaseCadastroController<T extends Entidade> extends BaseEnt
 		atualizarTabela();
 	}
 
-	private void atualizarTabela() {
+	protected void atualizarTabela() {
 		if (!tabela.getItems().contains(entidadeForm)) {
 			tabela.getItems().add(entidadeForm);
 		} else {
 			tabela.getItems().remove(entidadeForm);
 			tabela.getItems().add(entidadeForm);
 		}
-		//TODO: Verificar ordenação padrão das tabelas
 	}
 
 	public void remover() {

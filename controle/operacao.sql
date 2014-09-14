@@ -27,6 +27,7 @@ delete from item_pedido where id in (26, 27);
 update Produto p set p.ativo = false where p.referencia = 'asdf'  and p.ativo = true and p.id_fornecedor = 800;
 
 select * from recebimento;
+select * from item_pedido;
 select * from produto where referencia in ('ABX', '6668', '6666') order by referencia;
 --alter table vendedor
 --	drop foreign key fk_vendedor;

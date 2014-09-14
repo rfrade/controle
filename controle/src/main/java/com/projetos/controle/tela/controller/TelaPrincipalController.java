@@ -25,6 +25,9 @@ public class TelaPrincipalController extends AbstractController {
 	@Autowired
 	private ConfiguracaoBeanTela configuracaoBeanTela;
 
+	@Autowired
+	private BackupController backupController;
+
 	private Stage primaryStage;
 
 	@FXML
@@ -63,6 +66,10 @@ public class TelaPrincipalController extends AbstractController {
 	public void exibirTelaVendedorLista() {
 		Parent telaLista = configuracaoBeanTela.carregarTelaVendedorLista();
 		exibirTela(telaLista);
+	}
+
+	public void exibirTelaBackUp() {
+		backupController.exibirTelaBackup(primaryStage);
 	}
 
 	private void exibirTela(Parent tela) {
