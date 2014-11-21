@@ -1,6 +1,7 @@
 package com.projetos.controle_negocio.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import com.mysema.query.types.path.EntityPathBase;
@@ -11,6 +12,7 @@ import com.projetos.controle_negocio.repositoy.ParametroRepository;
 import com.projetos.controle_negocio.service.base.ParametroService;
 
 @Service
+@Lazy
 public class ParametroServiceImpl extends EntidadeServiceImpl<Parametro> implements ParametroService {
 
 	@Autowired
@@ -47,6 +49,11 @@ public class ParametroServiceImpl extends EntidadeServiceImpl<Parametro> impleme
 	@Override
 	public Parametro getCaminhoRelatorioRecebimentos() {
 		return this.getParametroByChave("caminho_relatorio_recebimentos");
+	}
+
+	@Override
+	public Parametro getCaminhoBackupArquivos() {
+		return this.getParametroByChave("caminho_arquivos_backup");
 	}
 
 }

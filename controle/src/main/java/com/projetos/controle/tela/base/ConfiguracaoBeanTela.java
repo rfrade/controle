@@ -90,96 +90,112 @@ public class ConfiguracaoBeanTela {
 
 	@Bean(name = "telaClienteCadastro")
 	@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+	@Lazy
     public Parent carregarTelaClienteCadastro() {
     	return carregarTela("/fxml/ClienteCadastro.fxml", ClienteCadastroController.class);
     }
 	
 	@Bean(name = "telaFornecedorCadastro")
 	@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+	@Lazy
 	public Parent carregarTelaFornecedorCadastro() {
 		return carregarTela("/fxml/FornecedorCadastro.fxml", FornecedorCadastroController.class);
 	}
 	
 	@Bean(name = "telaRecebimentoCadastro")
 	@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+	@Lazy
 	public Parent carregarTelaRecebimentoCadastro() {
 		return carregarTela("/fxml/RecebimentoCadastro.fxml", RecebimentoCadastroController.class);
 	}
 	
 	@Bean(name = "telaPedidoCadastro")
 	@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+	@Lazy
 	public Parent carregarTelaPedidoCadastro() {
 		return carregarTela("/fxml/PedidoCadastro.fxml", PedidoCadastroController.class);
 	}
 	
 	@Bean(name = "telaProdutoCadastro")
 	@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+	@Lazy
 	public Parent carregarTelaProdutoCadastro() {
 		return carregarTela("/fxml/ProdutoCadastro.fxml", ProdutoCadastroController.class);
 	}
 	
 	@Bean(name = "telaRecebimentoLista")
 	@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+	@Lazy
 	public Parent carregarTelaRecebimentoLista() {
 		return carregarTela("/fxml/RecebimentoLista.fxml", RecebimentoListaController.class);
 	}
 	
 	@Bean(name = "telaRelatorioRecebimentosLista")
 	@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+	@Lazy
 	public Parent carregarTelaRelatorioRecebimentosLista() {
 		return carregarTela("/fxml/RelatorioRecebimentoLista.fxml", RelatorioRecebimentoController.class);
 	}
 	
 	@Bean(name = "telaParametroLista")
 	@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+	@Lazy
 	public Parent carregarTelaParametroLista() {
 		return carregarTela("/fxml/ParametroLista.fxml", ParametroListaController.class);
 	}
 	
 	@Bean(name = "telaVendedorLista")
 	@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+	@Lazy
 	public Parent carregarTelaVendedorLista() {
 		return carregarTela("/fxml/VendedorLista.fxml", VendedorListaController.class);
 	}
 	
 	@Bean(name = "telaParametroCadastro")
 	@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+	@Lazy
 	public Parent carregarTelaParametroCadastro() {
 		return carregarTela("/fxml/ParametroCadastro.fxml", ParametroCadastroController.class);
 	}
 	
 	@Bean(name = "telaVendedorCadastro")
 	@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+	@Lazy
 	public Parent carregarTelaVendedorCadastro() {
 		return carregarTela("/fxml/VendedorCadastro.fxml", VendedorCadastroController.class);
 	}
 	
 	@Bean(name = "telaRelatorioRecebimentosFiltro")
 	@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+	@Lazy
 	public Parent carregarTelaRelatorioRecebimentosFiltro() {
 		return carregarTela("/fxml/RelatorioRecebimentoFiltro.fxml", RelatorioRecebimentoController.class);
 	}
 	
 	@Bean(name = "telaItemPedidoCadastro")
 	@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+	@Lazy
 	public Parent carregarTelaItemPedidoCadastro() {
 		return carregarTela("/fxml/ItemPedidoCadastro.fxml", ItemPedidoCadastroController.class);
 	}
 	
 	@Bean(name = "popupConfirmacao")
 	@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+	@Lazy
 	public Parent carregarPopupConfirmacao() {
 		return carregarTela("/fxml/PopupConfirmacao.fxml", PopupConfirmacaoController.class);
 	}
 	
 	@Bean(name = "popupMensagem")
 	@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+	@Lazy
 	public Parent carregarPopupMensagem() {
 		return carregarTela("/fxml/PopupMensagem.fxml", PopupMensagemController.class);
 	}
 	
 	@Bean(name = "popupTexto")
 	@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+	@Lazy
 	public Parent carregarPopupTexto() {
 		return carregarTela("/fxml/PopupTexto.fxml", PopupTextoController.class);
 	}

@@ -1,6 +1,7 @@
 package com.projetos.controle_negocio.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import com.mysema.query.types.path.EntityPathBase;
@@ -11,6 +12,7 @@ import com.projetos.controle_negocio.repositoy.ItemPedidoRepository;
 import com.projetos.controle_negocio.service.base.ItemPedidoService;
 
 @Service
+@Lazy
 public class ItemPedidoServiceImpl extends EntidadeServiceImpl<ItemPedido> implements ItemPedidoService {
 
 	@Autowired

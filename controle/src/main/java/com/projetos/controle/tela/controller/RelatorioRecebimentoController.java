@@ -72,11 +72,19 @@ public class RelatorioRecebimentoController extends BaseEntityController<Recebim
 
 	@FXML
 	@FiltroTela(campo = "dataRecebimento", tipo = TipoFiltro.DATE, comparador = Comparador.GREATHER_OR_EQUALS)
-	private DatePicker dataApartir;
+	private DatePicker dataRecebimentoApartir;
 
 	@FXML
 	@FiltroTela(campo = "dataRecebimento", tipo = TipoFiltro.DATE, comparador = Comparador.LOWER_OR_EQUALS)
-	private DatePicker dataAte;
+	private DatePicker dataRecebimentoAte;
+	
+	@FXML
+	@FiltroTela(campo = "pedido.dataPedido", tipo = TipoFiltro.DATE, comparador = Comparador.GREATHER_OR_EQUALS)
+	private DatePicker dataPedidoDe;
+	
+	@FXML
+	@FiltroTela(campo = "pedido.dataPedido", tipo = TipoFiltro.DATE, comparador = Comparador.LOWER_OR_EQUALS)
+	private DatePicker dataPedidoAte;
 
 	@FXML
 	@FiltroTela(campo = "pedido.colecao", tipo = TipoFiltro.STRING, comparador = Comparador.CONTAINS_IGNORE_CASE)
@@ -146,17 +154,29 @@ public class RelatorioRecebimentoController extends BaseEntityController<Recebim
 				}
 			}
 
-			if (dataApartir.getValue() != null) {
-				Date dateApartir = fromLocalDateToDate(dataApartir.getValue());
+			if (dataRecebimentoApartir.getValue() != null) {
+				Date dateApartir = fromLocalDateToDate(dataRecebimentoApartir.getValue());
 				RelatorioUtil.preencherParametro(param, RelatorioRecebimentoParam.DATA_APARTIR, DateUtil.convertDateToString(dateApartir));
 
 			}
 
-			if (dataAte.getValue() != null) {
-				Date dateAte = fromLocalDateToDate(dataAte.getValue());
+			if (dataRecebimentoAte.getValue() != null) {
+				Date dateAte = fromLocalDateToDate(dataRecebimentoAte.getValue());
 				RelatorioUtil.preencherParametro(param, RelatorioRecebimentoParam.DATA_ATE, DateUtil.convertDateToString(dateAte));
 
 			}
+			
+			/*if (dataPedidoDe.getValue() != null) {
+				Date dateApartir = fromLocalDateToDate(dataPedidoDe.getValue());
+				RelatorioUtil.preencherParametro(param, RelatorioRecebimentoParam.DATA_APARTIR, DateUtil.convertDateToString(dateApartir));
+				
+			}
+			
+			if (dataPedidoAte.getValue() != null) {
+				Date dateAte = fromLocalDateToDate(dataPedidoAte.getValue());
+				RelatorioUtil.preencherParametro(param, RelatorioRecebimentoParam.DATA_ATE, DateUtil.convertDateToString(dateAte));
+				
+			}*/
 
 			RelatorioUtil.preencherParametro(param, RelatorioRecebimentoParam.VALOR_COMISSAO, this.getValorComissaoTotal(recebimentos));
 			RelatorioUtil.preencherParametro(param, RelatorioRecebimentoParam.VALOR_PEDIDO, this.getValorTotalPedidos(pedidos));

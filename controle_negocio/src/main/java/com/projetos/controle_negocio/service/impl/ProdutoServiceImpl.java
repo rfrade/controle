@@ -20,6 +20,7 @@ import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import com.mysema.query.types.path.EntityPathBase;
@@ -35,6 +36,7 @@ import com.projetos.controle_negocio.repositoy.ProdutoRepository;
 import com.projetos.controle_negocio.service.base.ProdutoService;
 
 @Service
+@Lazy
 public class ProdutoServiceImpl extends EntidadeServiceImpl<Produto> implements ProdutoService {
 
 	@Autowired

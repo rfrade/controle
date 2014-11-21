@@ -2,7 +2,7 @@ package com.projetos.controle_util.conversao;
 
 import java.text.DateFormat;
 import java.text.ParseException;
-import java.util.Calendar;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
@@ -29,6 +29,15 @@ public class DateUtil {
 		Locale local = new Locale("pt", "BR");  
 		DateFormat format = DateFormat.getDateInstance(DateFormat.MEDIUM, local);
 		return format.format(date);
+	}
+	
+	/**
+	 * @return data no formato ano_mes_dia_hora_minuto_segundo
+	 */
+	public static String fullDateTime() {
+		Locale locale = new Locale("pt", "BR");  
+		SimpleDateFormat format = new SimpleDateFormat("y_M_d_H_m_s", locale);
+		return format.format(new Date());
 	}
 
 }

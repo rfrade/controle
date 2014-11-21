@@ -1,6 +1,8 @@
 package com.projetos.controle.tela.controller;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -20,22 +22,47 @@ import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+
+import com.projetos.controle_negocio.service.base.ParametroService;
+import com.projetos.controle_util.conversao.DateUtil;
 
 @SuppressWarnings("deprecation")
 @Controller
+/**
+ * Controller da tela de backup
+ * @author Rafael
+ */
 public class BackupController {
 
+	@Autowired
+	private ParametroService parametroService;
+
+	/**
+	 * Objeto usado para controlar as threads envolvendo a geração do arquivo e
+	 * a barra de progresso
+	 */
+	private Object controle = new Object();
+
+	private String caminhoArquivo;
+
+	/**
+	 * Monta a tela de backup e exibe
+	 * 
+	 * @param primaryStage
+	 */
 	public void exibirTelaBackup(Stage primaryStage) {
+
 		Label statusLabel = new Label("");
 		ProgressBar progressBar = new ProgressBar();
 		Button runButton = new Button("Gerar Backup");
 		progressBar.setPrefWidth(320);
-		progressBar.setVisible(false);
+		progressBar.setVisible(true);
+		progressBar.setProgress(0);
 
 		final VBox layout = VBoxBuilder.create().spacing(8)
-				.children(VBoxBuilder.create().spacing(5).children(HBoxBuilder.create().spacing(10)
-						.children(runButton, statusLabel).build(), progressBar).build()).build();
+				.children(VBoxBuilder.create().spacing(5).children(HBoxBuilder.create().spacing(10).children(runButton, statusLabel).build(), progressBar).build()).build();
 		layout.setStyle("-fx-background-color: white; -fx-padding:20; -fx-font-size: 16;");
 
 		Stage popup = new Stage();
@@ -45,102 +72,39 @@ public class BackupController {
 		popup.setScene(scene);
 		popup.show();
 
-		runButton.setOnAction(new StartBackupButton(runButton, statusLabel, progressBar, popup));
+		runButton.setOnAction(new ControladorProgressBar(runButton, statusLabel, progressBar, popup));
 	}
 
-	class Backup implements EventHandler<ActionEvent> {
-
-		private Stage popup;
-		
-
-		public Backup(Stage popup) {
-			this.popup = popup;
-		}
-
-		public void runBackup() {
-
-//		    stage.setScene(scene);
-//		    stage.show();
-			
-			/*String novonome = null;
-			int numerodobackup = 0;
-			String arquivo = null;
-
-			JFileChooser chooser = new JFileChooser("C:");
-			chooser.setLocale(new Locale("ptBR"));
-			chooser.setVisible(true);
-			File file = new File("C:\\asdf.sql");
-			chooser.setSelectedFile(file);
-
-			int retorno = chooser.showSaveDialog(null);
-
-			if (retorno == JFileChooser.APPROVE_OPTION) {
-				try {
-					if (!bck.isFile()) {
-						String comando = "C:\\Program Files\\MySQL\\MySQL Server 5.6\\bin\\mysqldump.exe";
-						ProcessBuilder pb = new ProcessBuilder(comando, "--user=root", "--password=admin", "controle", "--result-file=" + arquivo);
-						pb.start();
-						JOptionPane.showMessageDialog(null, "Cópia de segurança realizada com sucesso", "Backup", JOptionPane.CLOSED_OPTION);
-					} else {
-						while (bck.isFile()) {
-							numerodobackup++;
-							bck = new File(arquivo + numerodobackup);
-							novonome = String.valueOf(bck);
-						}
-						String comando = "C:\\Program Files\\MySQL\\MySQL Server 5.0\\bin\\mysqldump.exe";
-						ProcessBuilder pb = new ProcessBuilder(comando, "--user=root", "--password=1234", "Empresa", "--result-file=" + novonome);
-						pb.start();
-						JOptionPane.showMessageDialog(null, "Cópia de segurança realizada com sucesso!", "Backup", JOptionPane.CLOSED_OPTION);
-					}
-				} catch (Exception e) {
-					JOptionPane.showMessageDialog(null, e, "Cópia de Segurança não pode ser realizada!", 2);
-				}
-
-			}*/
-		}
-
-		@Override
-		public void handle(ActionEvent event) {
-			FileChooser fileChooser = new FileChooser();
-			fileChooser.setInitialDirectory(new File("/"));
-			fileChooser.setInitialFileName("teste.sql");
-			File diretorio = fileChooser.showSaveDialog(popup);
-            if (diretorio != null) {
-                try {
-                	System.out.println(diretorio.getPath());
-                	popup.close();
-                    // salvar arquivo!
-                } catch (/*IO*/Exception ex) {
-                    System.out.println(ex.getMessage());
-                }
-            }
-		}
-	}
-
-	class StartBackupButton implements EventHandler<ActionEvent> {
+	private class ControladorProgressBar implements EventHandler<ActionEvent> {
 
 		private Label statusLabel = new Label("Status");
 		private ProgressBar progressBar = new ProgressBar();
 		private Button runButton;
 		private Stage popup;
 
-		public StartBackupButton(Button runButton, Label statusLabel, ProgressBar progressBar, Stage popup) {
+		public ControladorProgressBar(Button runButton, Label statusLabel, ProgressBar progressBar, Stage popup) {
 			this.runButton = runButton;
 			this.statusLabel = statusLabel;
 			this.progressBar = progressBar;
 			this.popup = popup;
 		}
 
+		@SuppressWarnings("unchecked")
 		@Override
 		public void handle(ActionEvent actionEvent) {
+			@SuppressWarnings("rawtypes")
 			final Task task = new Task() {
 
 				@Override
 				protected ObservableList<String> call() throws InterruptedException {
-//					progressBar.setVisible();
+					updateProgress(-1, 0);
 					updateMessage("Gerando Backup . . .");
-					for (int i = 0; i < 10; i++) {
-						Thread.sleep(200);
+
+					// salva o arquivo
+					synchronized (controle) {
+						new Thread(new ExecutorMysqlDump()).start();
+						controle.wait();
+
 					}
 					updateProgress(0, 0);
 					updateMessage("Backup completo");
@@ -156,13 +120,91 @@ public class BackupController {
 				public void changed(ObservableValue<? extends Worker.State> observableValue, Worker.State oldState, Worker.State newState) {
 					if (newState == Worker.State.SUCCEEDED) {
 						runButton.setText("Salvar Arquivo");
-						runButton.setOnAction(new Backup(popup));
+						runButton.setOnAction(new ControladorFileChooser(popup));
 					}
 				}
 			});
 
 			new Thread(task).start();
 		}
+	}
+
+	class ControladorFileChooser implements EventHandler<ActionEvent> {
+
+		private Stage popup;
+
+		public ControladorFileChooser(Stage popup) {
+			this.popup = popup;
+		}
+
+		@Override
+		public void handle(ActionEvent event) {
+			try {
+				FileChooser fileChooser = new FileChooser();
+				fileChooser.setInitialDirectory(new File("/"));
+				fileChooser.setInitialFileName("backup.sql");
+				File destino = fileChooser.showSaveDialog(popup);
+
+				if (destino != null) {
+					File from = new File(caminhoArquivo);
+					if (from.exists()) {
+						Files.copy(from.toPath(), destino.toPath());
+					}
+				}
+			} catch (IOException e) {
+				throw new BackupException(e);
+			}
+		}
+	}
+
+	/**
+	 * Thread que executará o mysqldum.exe
+	 * 
+	 * @author Rafael
+	 */
+	private class ExecutorMysqlDump implements Runnable {
+
+		@Override
+		public void run() {
+			gerarArquivo();
+		}
+
+		public void gerarArquivo() {
+			try {
+				synchronized (controle) {
+					// Gera o arquivo na pasta configurada (Provavelmente
+					// C:\controle\backup)
+					caminhoArquivo = parametroService.getCaminhoBackupArquivos().getValor();
+					String date = DateUtil.fullDateTime();
+					caminhoArquivo = caminhoArquivo.concat("\\backup").concat(date).concat(".sql");
+					String comando = "C:\\Program Files\\MySQL\\MySQL Server 5.6\\bin\\mysqldump.exe";
+					ProcessBuilder pb = new ProcessBuilder(comando, "--user=root", "--password=admin", "controle", "--result-file=" + caminhoArquivo);
+					Process process = pb.start();
+					while (process.isAlive()) {
+						System.out.println(process.isAlive());
+					}
+					controle.notifyAll();
+				}
+			} catch (IOException e) {
+				throw new BackupException(e);
+			}
+		}
+
+	}
+
+	/**
+	 * Exceção do processo de backup
+	 * 
+	 * @author Rafael
+	 */
+	private class BackupException extends RuntimeException {
+
+		public BackupException(Throwable cause) {
+			super(cause);
+		}
+
+		private static final long serialVersionUID = 0L;
+
 	}
 
 }

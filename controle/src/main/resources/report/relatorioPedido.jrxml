@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="relatorioRecebimento" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="0f7ee2be-b6ab-45db-b236-52d14156bbf1">
 	<property name="ireport.zoom" value="1.2100000000000217"/>
-	<property name="ireport.x" value="120"/>
-	<property name="ireport.y" value="144"/>
+	<property name="ireport.x" value="137"/>
+	<property name="ireport.y" value="0"/>
 	<style name="table">
 		<box>
 			<pen lineWidth="1.0" lineColor="#000000"/>
@@ -99,14 +99,14 @@
 				<textElement>
 					<font isBold="true"/>
 				</textElement>
-				<text><![CDATA[Vivo: (17) 9701 4596]]></text>
+				<text><![CDATA[Vivo: (17) 9 9701 4596]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="116" y="54" width="119" height="15" uuid="9039ed2d-c4cb-4e1e-a831-4c33729d8e2f"/>
 				<textElement>
 					<font isBold="true"/>
 				</textElement>
-				<text><![CDATA[Tim: (17) 8135 7185]]></text>
+				<text><![CDATA[Tim: (17) 9 8135 7185]]></text>
 			</staticText>
 			<line>
 				<reportElement x="-1" y="19" width="247" height="1" uuid="fbe0d0b1-3893-4368-8271-c8d44d52bb20"/>

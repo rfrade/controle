@@ -301,7 +301,12 @@ public abstract class BaseEntityController<T extends Entidade> extends AbstractC
 				} else if (campo instanceof DatePicker) {
 					LocalDate localDate = ((DatePicker) campo).getValue();
 					Date date = fromLocalDateToDate(localDate);
-					BeanUtil.setPropriedade(entidadeForm, beanName, date);
+
+					if (date == null) {
+						BeanUtil.setNull(entidadeForm, beanName);
+					} else {
+						BeanUtil.setPropriedade(entidadeForm, beanName, date);
+					}
 
 				} else if (campo instanceof ComboBox) {
 					@SuppressWarnings("unchecked")

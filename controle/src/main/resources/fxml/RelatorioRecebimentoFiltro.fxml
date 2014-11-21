@@ -5,18 +5,18 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane fx:id="" prefHeight="649.0" prefWidth="626.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.projetos.controle.tela.controller.ClienteListaController">
+<AnchorPane fx:id="" prefHeight="680.0" prefWidth="626.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.projetos.controle.tela.controller.ClienteListaController">
 	<children>
-		<TableView fx:id="tabela" layoutX="15.0" layoutY="196.0" prefHeight="333.0" prefWidth="597.0" xmlns:fx="http://javafx.com/fxml">
+		<TableView fx:id="tabela" layoutX="8.0" layoutY="234.0" prefHeight="333.0" prefWidth="597.0" xmlns:fx="http://javafx.com/fxml">
 			<columns>
 				<TableColumn id="" fx:id="colunaFirma" prefWidth="400.0" text="Firma" />
 				<TableColumn id="" fx:id="colunaCidade" prefWidth="200.0" text="Cidade" />
 			</columns>
 		</TableView>
-		<TextField fx:id="filtroColecao" layoutX="87.0" layoutY="99.0" prefHeight="25.0" prefWidth="174.0" />
-		<Button fx:id="" layoutX="87.0" layoutY="153.0" mnemonicParsing="false" onAction="#gerarRelatorio" prefHeight="3.0" prefWidth="107.0" text="Gerar Relatorio" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
-		<Label layoutX="14.0" layoutY="103.0" text="Coleção" />
-		<ComboBox fx:id="filtroRecebido" layoutX="359.0" layoutY="99.0" prefHeight="25.0" prefWidth="138.0" xmlns:fx="http://javafx.com/fxml">
+		<TextField fx:id="filtroColecao" layoutX="133.0" layoutY="150.0" prefHeight="25.0" prefWidth="149.0" />
+		<Button fx:id="" layoutX="87.0" layoutY="196.0" mnemonicParsing="false" onAction="#gerarRelatorio" prefHeight="3.0" prefWidth="107.0" text="Gerar Relatorio" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
+		<Label layoutX="71.0" layoutY="154.0" text="Coleção" />
+		<ComboBox fx:id="filtroRecebido" layoutX="361.0" layoutY="150.0" prefHeight="25.0" prefWidth="138.0" xmlns:fx="http://javafx.com/fxml">
 			<items>
 				<FXCollections fx:factory="observableArrayList">
 					<String fx:value="Item 1" />
@@ -25,11 +25,11 @@
 				</FXCollections>
 			</items>
 		</ComboBox>
-		<Label layoutX="300.0" layoutY="103.0" text="Recebido" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
+		<Label layoutX="297.0" layoutY="154.0" text="Recebido" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
 		<Label layoutX="228.0" layoutY="14.0" style="-fx-font-weight: bold; -fx-font-size: 14;" text="Relatorio de Recebimento" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
-		<Label layoutX="14.0" layoutY="58.0" text="A partir de" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
-		<Label layoutX="303.0" layoutY="58.0" text="Até" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
-		<DatePicker fx:id="dataApartir" layoutX="87.0" layoutY="54.0" />
-		<DatePicker fx:id="dataAte" layoutX="325.0" layoutY="55.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" /><Label layoutX="209.0" layoutY="546.0" text="Observação" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" /><TextArea fx:id="observacao" layoutX="313.0" layoutY="546.0" prefHeight="70.0" prefWidth="287.0" />
+		<Label layoutX="28.0" layoutY="58.0" text="Recebimento de" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
+		<Label layoutX="322.0" layoutY="58.0" text="Até" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
+		<DatePicker fx:id="dataRecebimentoApartir" layoutX="132.0" layoutY="54.0" prefHeight="25.0" prefWidth="149.0" />
+		<DatePicker fx:id="dataRecebimentoAte" layoutX="361.0" layoutY="54.0" prefHeight="25.0" prefWidth="149.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" /><Label layoutX="209.0" layoutY="590.0" text="Observação" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" /><TextArea fx:id="observacao" layoutX="305.0" layoutY="590.0" prefHeight="70.0" prefWidth="287.0" /><Label layoutX="14.0" layoutY="98.0" text="Data do pedido de" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" /><Label layoutX="322.0" layoutY="98.0" text="Até" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" /><DatePicker fx:id="dataPedidoDe" layoutX="132.0" layoutY="94.0" prefHeight="25.0" prefWidth="149.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" /><DatePicker fx:id="dataPedidoAte" layoutX="361.0" layoutY="94.0" prefHeight="25.0" prefWidth="149.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
 	</children>
 </AnchorPane>

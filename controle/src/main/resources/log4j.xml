@@ -2,26 +2,34 @@
 <!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
 <log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
 
-    <appender name="stdout" class="org.apache.log4j.ConsoleAppender">
-        <layout class="org.apache.log4j.PatternLayout">
-            <param name="ConversionPattern" 
-             value="%d{HH:mm:ss,SSS} %5p [%-20c{1}] %m%n" />
-        </layout>
-    </appender>
-  
-    <logger name="com.projetos.controle.tela">
-        <level value="debug"/> 
-        <appender-ref ref="stdout"/>
-    </logger>
-  
-      <logger name="org.hibernate.QueryTranslatorImpl">
-        <level value="trace"/> 
-        <appender-ref ref="stdout" />
-    </logger>
-  
-      <logger name="org.hibernate">
-        <level value="info"/> 
-        <appender-ref ref="stdout" />
-    </logger>
-  
+	<appender name="stdout" class="org.apache.log4j.ConsoleAppender">
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{HH:mm:ss,SSS} %5p [%-20c{1}] %m%n" />
+		</layout>
+	</appender>
+
+	<!-- <appender name="stdout" class="org.apache.log4j.FileAppender">
+	   <param name="file" value="C:/controle/log.txt"/>
+	   <param name="immediateFlush" value="true"/>
+	   <param name="append" value="false"/>
+	   <layout class="org.apache.log4j.PatternLayout">
+	      <param name="conversionPattern" value="%d{HH:mm:ss,SSS} %5p [%-20c{1}] %m%n"/>
+	   </layout>
+	</appender> -->
+
+	<logger name="com.projetos.controle.tela">
+		<level value="info" />
+		<appender-ref ref="stdout" />
+	</logger>
+
+	<logger name="org.hibernate">
+		<level value="error" />
+		<appender-ref ref="stdout" />
+	</logger>
+
+	<logger name="org.springframework">
+		<level value="error" />
+		<appender-ref ref="stdout" />
+	</logger>
+
 </log4j:configuration>

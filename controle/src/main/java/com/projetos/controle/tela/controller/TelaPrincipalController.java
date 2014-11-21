@@ -18,6 +18,7 @@ import org.springframework.stereotype.Controller;
 import com.projetos.controle.tela.base.AbstractController;
 import com.projetos.controle.tela.base.ConfiguracaoBeanTela;
 
+@SuppressWarnings("rawtypes")
 @Controller
 @Scope(ConfigurableBeanFactory.SCOPE_SINGLETON)
 public class TelaPrincipalController extends AbstractController {

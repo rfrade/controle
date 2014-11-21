@@ -15,4 +15,6 @@ public interface ParametroService extends EntidadeService<Parametro> {
 	Parametro getCaminhoRelatorioPedidos();
 
 	Parametro getCaminhoRelatorioRecebimentos();
+
+	Parametro getCaminhoBackupArquivos();
 }

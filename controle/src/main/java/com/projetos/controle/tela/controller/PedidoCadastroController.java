@@ -269,7 +269,6 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 		List<Fornecedor> fornecedores = fornecedorService.filtrar(filtro);
 		ObservableList<ItemCombo<Fornecedor>> itensFornecedor = ItemCombo.novaListaCombo(fornecedores, "firma");
 		fornecedor.setItems(itensFornecedor);
-//		fornecedor.focusedProperty().addListener(new FornecedorChangeListener());
 	}
 
 	private void carregarComboVendedor() {
@@ -487,10 +486,19 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 		RelatorioUtil.preencherParametro(param, RelatorioPedidoParam.NUM_PEDIDO, entidadeForm.getId());
 		RelatorioUtil.preencherParametro(param, RelatorioPedidoParam.DATA_PEDIDO, getDataPedido());
 		RelatorioUtil.preencherParametro(param, RelatorioPedidoParam.FIRMA_FORNECEDOR, entidadeForm.getFornecedor().getFirma());
-		RelatorioUtil.preencherParametro(param, RelatorioPedidoParam.LOGRADOURO_FORNECEDOR, entidadeForm.getFornecedor().getLogradouro().getEndereco());
+		
+		String endereco = entidadeForm.getFornecedor().getLogradouro().getEndereco();
+		int numero = entidadeForm.getFornecedor().getLogradouro().getNumero();
+		endereco = endereco.concat(", ").concat(String.valueOf(numero));
+		RelatorioUtil.preencherParametro(param, RelatorioPedidoParam.LOGRADOURO_FORNECEDOR, endereco);
+		
 		RelatorioUtil.preencherParametro(param, RelatorioPedidoParam.BAIRRO_FORNECEDOR, entidadeForm.getFornecedor().getLogradouro().getBairro());
 		RelatorioUtil.preencherParametro(param, RelatorioPedidoParam.CIDADE_FORNECEDOR, entidadeForm.getFornecedor().getLogradouro().getCidade());
-		RelatorioUtil.preencherParametro(param, RelatorioPedidoParam.TELEFONE_FORNECEDOR, entidadeForm.getFornecedor().getLogradouro().getTelefone());
+
+		String telefone = entidadeForm.getFornecedor().getLogradouro().getTelefone();
+		telefone = entidadeForm.getFornecedor().getLogradouro().getDdd().concat(" ").concat(telefone);
+		RelatorioUtil.preencherParametro(param, RelatorioPedidoParam.TELEFONE_FORNECEDOR, telefone);
+
 		RelatorioUtil.preencherParametro(param, RelatorioPedidoParam.TRANSPORTADOR, entidadeForm.getTransportador());
 		RelatorioUtil.preencherParametro(param, RelatorioPedidoParam.CONDICAO, entidadeForm.getCondicoes());
 		RelatorioUtil.preencherParametro(param, RelatorioPedidoParam.COBRANCA, entidadeForm.getCobranca());
@@ -501,11 +509,21 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 		RelatorioUtil.preencherParametro(param, RelatorioPedidoParam.DESCONTO, entidadeForm.getDescontoTotal());
 		RelatorioUtil.preencherParametro(param, RelatorioPedidoParam.TOTAL, entidadeForm.getValorTotal());
 		RelatorioUtil.preencherParametro(param, RelatorioPedidoParam.FIRMA_CLIENTE, entidadeForm.getCliente().getFirma());
-		RelatorioUtil.preencherParametro(param, RelatorioPedidoParam.LOGRADOURO_CLIENTE, entidadeForm.getCliente().getLogradouro().getEndereco());
+		
+		String enderecoCliente = entidadeForm.getCliente().getLogradouro().getEndereco();
+		int numeroCliente = entidadeForm.getCliente().getLogradouro().getNumero();
+		enderecoCliente = enderecoCliente.concat(", ").concat(String.valueOf(numeroCliente));
+		RelatorioUtil.preencherParametro(param, RelatorioPedidoParam.LOGRADOURO_CLIENTE, enderecoCliente);
+		
 		RelatorioUtil.preencherParametro(param, RelatorioPedidoParam.BAIRRO_CLIENTE, entidadeForm.getCliente().getLogradouro().getBairro());
 		RelatorioUtil.preencherParametro(param, RelatorioPedidoParam.CIDADE_CLIENTE, entidadeForm.getCliente().getLogradouro().getCidade());
 		RelatorioUtil.preencherParametro(param, RelatorioPedidoParam.ESTADO_CLIENTE, entidadeForm.getCliente().getLogradouro().getEstado());
-		RelatorioUtil.preencherParametro(param, RelatorioPedidoParam.FONE_CLIENTE, entidadeForm.getCliente().getLogradouro().getTelefone());
+		
+
+		String telefoneCliente = entidadeForm.getCliente().getLogradouro().getTelefone();
+		telefoneCliente = entidadeForm.getCliente().getLogradouro().getDdd().concat(" ").concat(telefoneCliente);
+		RelatorioUtil.preencherParametro(param, RelatorioPedidoParam.FONE_CLIENTE, telefoneCliente);
+		
 		RelatorioUtil.preencherParametro(param, RelatorioPedidoParam.CEP_CLIENTE, entidadeForm.getCliente().getLogradouro().getCep());
 		RelatorioUtil.preencherParametro(param, RelatorioPedidoParam.CNPJ_CLIENTE, entidadeForm.getCliente().getCnpj());
 		RelatorioUtil.preencherParametro(param, RelatorioPedidoParam.INS_EST_CLIENTE, entidadeForm.getCliente().getInscricao());
@@ -737,6 +755,9 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 				List<Recebimento> recebimentos = entidadeForm.getRecebimentos();
 				for (Recebimento item : recebimentos) {
 					item.setRecebido(recebido);
+					if (item.getDataRecebimento() == null && recebido) {
+						item.setDataRecebimento(new Date());
+					}
 					recebimentoService.salvar(item);
 				}
 			}

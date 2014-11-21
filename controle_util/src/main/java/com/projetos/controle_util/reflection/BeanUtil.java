@@ -77,6 +77,21 @@ public class BeanUtil {
 		}
 	}
 
+	/**
+	 * Criado pois o método setPropriedade não seta null.
+	 * Utilizado a princípio para DatePickers
+	 */
+	public static void setNull(Object objeto, String nomePropriedade) {
+		Field field = new Mirror().on(objeto.getClass()).reflect().field(nomePropriedade);
+		if (field == null) {
+			throw new IllegalArgumentException("There is no field with name: " + nomePropriedade + " on class: " + objeto.getClass());
+		}
+		Class<?> type = field.getType();
+
+		preencherValor(objeto, nomePropriedade, null, type);
+	}
+
+
 	private static void preencherValor(Object objeto, String nomePropriedade, Object valor, Class<?> type) {
 		if (valor == null) {
 			if (type.getName() == "int") {
