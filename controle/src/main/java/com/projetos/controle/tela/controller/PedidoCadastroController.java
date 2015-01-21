@@ -1,5 +1,6 @@
 package com.projetos.controle.tela.controller;
 
+import java.io.File;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -51,6 +52,7 @@ import com.projetos.controle_entities.Cliente;
 import com.projetos.controle_entities.Entidade;
 import com.projetos.controle_entities.Fornecedor;
 import com.projetos.controle_entities.ItemPedido;
+import com.projetos.controle_entities.Parametro;
 import com.projetos.controle_entities.Pedido;
 import com.projetos.controle_entities.Produto;
 import com.projetos.controle_entities.Recebimento;
@@ -457,16 +459,34 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 	public void salvarRelatorio() {
 
 		try {
+			Parametro caminhoRelatorio = parametroService.getCaminhoRelatorioPedidos();
+
+			if (caminhoRelatorio == null || caminhoRelatorio.getValor() == null 
+					|| caminhoRelatorio.getValor().equals("")) {
+				throw new ValidacaoException("pedido.caminho_dos_relatorios_nao_configurado");
+			}
+
+			String caminho = caminhoRelatorio.getValor();
+			if (!new File(caminho).isDirectory()) {
+				throw new ValidacaoException("pedido.caminho_configurado_nao_existe");
+			}
+
 			bindFormToBean();
 			JasperPrint print = gerarRelatorio();
 
-//			String caminho = propertiesPathLoader.getProperty(PropertiesPathLoader.RELATORIO_PEDIDO_CLIENTE);
-//			String caminho = propertiesPathLoader.getProperty(PropertiesPathLoader.RELATORIO_PEDIDO_CLIENTE);
-			String nomeRelatorio = "/relatorio_pedidos" + getDataAgora() + ".pdf";
+			String nomeRelatorio = caminho + "\\Pedido-" + entidadeForm.getId() + ".pdf";
 
-			JasperExportManager.exportReportToPdfFile(print, /*caminho +*/ nomeRelatorio);
+			File arquivo = new File(nomeRelatorio);
 			
-			exibirMensagem("relatorio.salvo_na_pasta = Relatório salvo na pasta");
+			if (arquivo.exists()) {
+				throw new ValidacaoException("pedido.ja_existe_relatorio");
+			}
+			
+			JasperExportManager.exportReportToPdfFile(print, nomeRelatorio);
+			
+			String mensagemRelatorio = "Relatório\n " + nomeRelatorio + " \nsalvo";
+			
+			exibirMensagemNaoMapeada(mensagemRelatorio);
 
 		} catch (JRException e) {
 			tratarErro(e);

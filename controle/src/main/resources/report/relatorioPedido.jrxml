@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.0.1.final using JasperReports Library version 6.0.0  -->
+<!-- 2015-01-19T12:58:16 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="relatorioRecebimento" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="0f7ee2be-b6ab-45db-b236-52d14156bbf1">
 	<property name="ireport.zoom" value="1.2100000000000217"/>
 	<property name="ireport.x" value="137"/>
@@ -71,7 +73,7 @@
 				<reportElement x="0" y="0" width="258" height="113" uuid="60fbbe9e-249a-4144-8323-83f4d241487c"/>
 			</rectangle>
 			<rectangle>
-				<reportElement x="258" y="0" width="295" height="113" uuid="49176249-561c-488c-b977-603edd918c9d"/>
+				<reportElement x="258" y="0" width="297" height="113" uuid="49176249-561c-488c-b977-603edd918c9d"/>
 			</rectangle>
 			<staticText>
 				<reportElement mode="Transparent" x="3" y="0" width="166" height="19" uuid="6ad51308-fd20-4484-9948-7f01f018e67e"/>
@@ -165,7 +167,7 @@ CEP: 15150-000 - Monte Aprazível - SP]]></text>
 				<textFieldExpression><![CDATA[$P{BAIRRO_FORNECEDOR}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="271" y="54" width="100" height="15" uuid="367aa9e8-1948-40d1-be9d-ee0ae93f6a12"/>
+				<reportElement x="271" y="54" width="172" height="15" uuid="367aa9e8-1948-40d1-be9d-ee0ae93f6a12"/>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$P{CIDADE_FORNECEDOR}]]></textFieldExpression>
 			</textField>
@@ -183,7 +185,7 @@ CEP: 15150-000 - Monte Aprazível - SP]]></text>
 				<text><![CDATA[Transportador:]]></text>
 			</staticText>
 			<rectangle>
-				<reportElement x="0" y="113" width="553" height="60" uuid="1b75981e-c247-4371-988e-6025afbd12aa"/>
+				<reportElement x="0" y="113" width="555" height="60" uuid="1b75981e-c247-4371-988e-6025afbd12aa"/>
 			</rectangle>
 			<textField>
 				<reportElement x="339" y="73" width="57" height="13" uuid="cecc9b9e-7ae1-451a-8459-f5e74e981bc8"/>
@@ -213,22 +215,22 @@ CEP: 15150-000 - Monte Aprazível - SP]]></text>
 				<textFieldExpression><![CDATA[$P{FIRMA_CLIENTE}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="12" y="133" width="235" height="20" uuid="f5e3d992-8ffe-42cf-9224-d27987861918"/>
+				<reportElement x="12" y="133" width="198" height="20" uuid="f5e3d992-8ffe-42cf-9224-d27987861918"/>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$P{LOGRADOURO_CLIENTE}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="246" y="133" width="96" height="20" uuid="ba867756-07f4-4a7e-b432-682ffd7057b2"/>
+				<reportElement x="210" y="133" width="132" height="20" uuid="ba867756-07f4-4a7e-b432-682ffd7057b2"/>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$P{BAIRRO_CLIENTE}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="246" y="113" width="268" height="20" uuid="216810e4-dec7-4a33-8b40-06b3d8e707c5"/>
+				<reportElement x="246" y="113" width="226" height="20" uuid="216810e4-dec7-4a33-8b40-06b3d8e707c5"/>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$P{CIDADE_CLIENTE}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="342" y="133" width="47" height="20" uuid="6cd72ef9-6c5c-48f1-81cd-5466c8f1a2b7"/>
+				<reportElement x="472" y="113" width="47" height="20" uuid="6cd72ef9-6c5c-48f1-81cd-5466c8f1a2b7"/>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$P{ESTADO_CLIENTE}]]></textFieldExpression>
 			</textField>
@@ -238,12 +240,12 @@ CEP: 15150-000 - Monte Aprazível - SP]]></text>
 				<textFieldExpression><![CDATA[$P{FONE_CLIENTE}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="389" y="133" width="68" height="20" uuid="7a366fbc-71a1-4161-b7b5-e118a8f80ff4"/>
+				<reportElement x="410" y="133" width="68" height="20" uuid="7a366fbc-71a1-4161-b7b5-e118a8f80ff4"/>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$P{CEP_CLIENTE}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="169" y="153" width="25" height="20" uuid="e7beaf9b-a047-47ae-b13b-152a9684b104"/>
+				<reportElement x="160" y="153" width="34" height="20" uuid="e7beaf9b-a047-47ae-b13b-152a9684b104"/>
 				<textElement verticalAlignment="Middle">
 					<font size="9"/>
 				</textElement>
@@ -257,14 +259,14 @@ CEP: 15150-000 - Monte Aprazível - SP]]></text>
 				<textFieldExpression><![CDATA[$P{CNPJ_CLIENTE}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="334" y="153" width="82" height="20" uuid="47fb1abb-4b3d-4f8a-85ae-304a38f01400"/>
+				<reportElement x="334" y="153" width="86" height="20" uuid="47fb1abb-4b3d-4f8a-85ae-304a38f01400"/>
 				<textElement verticalAlignment="Middle">
 					<font size="9"/>
 				</textElement>
 				<text><![CDATA[Inscrição Estadual]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="416" y="153" width="112" height="20" uuid="e8f25366-b1de-4181-b2dc-5b6e6c96635b"/>
+				<reportElement x="420" y="153" width="112" height="20" uuid="e8f25366-b1de-4181-b2dc-5b6e6c96635b"/>
 				<textElement verticalAlignment="Middle">
 					<font size="9"/>
 				</textElement>
@@ -284,6 +286,11 @@ CEP: 15150-000 - Monte Aprazível - SP]]></text>
 				<reportElement x="397" y="86" width="69" height="13" uuid="dddf832c-cea5-4e82-accf-0ac6f59fc445"/>
 				<textElement verticalAlignment="Middle"/>
 				<text><![CDATA[Entrega:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="380" y="133" width="28" height="20" uuid="b423752c-25fe-4f9d-9746-8864362ff896"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[CEP]]></text>
 			</staticText>
 		</band>
 	</title>
@@ -425,75 +432,132 @@ M]]></text>
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="21" splitType="Stretch">
+		<band height="14" splitType="Stretch">
 			<textField>
-				<reportElement style="table_TD" x="0" y="0" width="58" height="21" uuid="46190736-57e6-43c8-a869-bc5386c9bebd"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<reportElement style="table_TD" x="0" y="0" width="58" height="14" uuid="46190736-57e6-43c8-a869-bc5386c9bebd">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{produto.referencia}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement style="table_TD" x="58" y="0" width="52" height="21" uuid="c6e921ef-841b-4995-a6e9-e882f20e988e"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<reportElement style="table_TD" x="58" y="0" width="52" height="14" uuid="c6e921ef-841b-4995-a6e9-e882f20e988e">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{cor}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement style="table_TD" x="432" y="0" width="40" height="21" uuid="936d7995-87de-4cb1-b7c7-5a3167a755ac"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<reportElement style="table_TD" x="432" y="0" width="40" height="14" uuid="936d7995-87de-4cb1-b7c7-5a3167a755ac">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{quantidadeTotal}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement style="table_TD" x="110" y="0" width="136" height="21" uuid="4ef830d6-5fca-4876-80cb-7d0cd033a528"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<reportElement style="table_TD" x="110" y="0" width="136" height="14" uuid="4ef830d6-5fca-4876-80cb-7d0cd033a528">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{produto.descricao}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement style="table_TD" x="246" y="0" width="22" height="21" uuid="95603d45-973c-4ed8-a5c7-199dd0a185e4"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<reportElement style="table_TD" x="246" y="0" width="22" height="14" uuid="95603d45-973c-4ed8-a5c7-199dd0a185e4">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{quantidadeTamanho1}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement style="table_TD" x="268" y="0" width="23" height="21" uuid="354d4d2d-f93a-46d4-9f9b-a9b355a655da"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<reportElement style="table_TD" x="268" y="0" width="23" height="14" uuid="354d4d2d-f93a-46d4-9f9b-a9b355a655da">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{quantidadeTamanho2}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement style="table_TD" x="291" y="0" width="23" height="21" uuid="72eab345-bfb2-4c53-9eb8-67cb0e7afccb"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<reportElement style="table_TD" x="291" y="0" width="23" height="14" uuid="72eab345-bfb2-4c53-9eb8-67cb0e7afccb">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{quantidadeTamanho3}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement style="table_TD" x="314" y="0" width="23" height="21" uuid="13c5d46f-1e01-433d-93be-b0cea5642592"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<reportElement style="table_TD" x="314" y="0" width="23" height="14" uuid="13c5d46f-1e01-433d-93be-b0cea5642592">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{quantidadeTamanho4}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement style="table_TD" x="337" y="0" width="24" height="21" uuid="e5a2a61d-88dd-4966-a338-d79bc7cdbc7b"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<reportElement style="table_TD" x="337" y="0" width="24" height="14" uuid="e5a2a61d-88dd-4966-a338-d79bc7cdbc7b">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{quantidadeTamanho5}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement style="table_TD" x="361" y="0" width="24" height="21" uuid="89307cae-c822-4a3f-abd4-752eb838e5ee"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<reportElement style="table_TD" x="361" y="0" width="24" height="14" uuid="89307cae-c822-4a3f-abd4-752eb838e5ee">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{quantidadeTamanho6}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement style="table_TD" x="385" y="0" width="24" height="21" uuid="9758d69e-6ca1-42df-83a4-fe0c98be3896"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<reportElement style="table_TD" x="385" y="0" width="24" height="14" uuid="9758d69e-6ca1-42df-83a4-fe0c98be3896">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{quantidadeTamanho7}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement style="table_TD" x="409" y="0" width="23" height="21" uuid="e61e937b-b8a5-4e12-b2cb-d503c475d03f"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<reportElement style="table_TD" x="409" y="0" width="23" height="14" uuid="e61e937b-b8a5-4e12-b2cb-d503c475d03f">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{quantidadeTamanho8}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement style="table_TD" x="472" y="0" width="38" height="21" uuid="9764f67b-9a6e-4dea-8592-b59d1eb69c5b"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<reportElement style="table_TD" x="472" y="0" width="38" height="14" uuid="9764f67b-9a6e-4dea-8592-b59d1eb69c5b">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{produto.valorUnitario}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement style="table_TD" x="510" y="0" width="45" height="21" uuid="217f53e6-8a6d-489f-97e5-89011eaadfc5"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<reportElement style="table_TD" x="510" y="0" width="45" height="14" uuid="217f53e6-8a6d-489f-97e5-89011eaadfc5">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{valorTotal}]]></textFieldExpression>
 			</textField>
 		</band>

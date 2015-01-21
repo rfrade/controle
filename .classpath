@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="controle_entities/src/main/java"/>
+	<classpathentry kind="src" path="controle_entities/src/test/java"/>
+	<classpathentry kind="src" path="controle_migracao/src/main/java"/>
+	<classpathentry kind="src" path="controle_migracao/src/test/java"/>
+	<classpathentry kind="src" path="controle_negocio/src/main/java"/>
+	<classpathentry kind="src" path="controle_negocio/src/test/java"/>
+	<classpathentry kind="src" path="controle_util/src/main/java"/>
+	<classpathentry kind="src" path="controle_util/src/test/java"/>
+	<classpathentry kind="src" path="controle/src/main/java"/>
+	<classpathentry kind="src" path="controle/src/test/java"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="output" path="controle_migracao/target/test-classes"/>
+</classpath>

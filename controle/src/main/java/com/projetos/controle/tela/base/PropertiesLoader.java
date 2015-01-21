@@ -20,14 +20,4 @@ public class PropertiesLoader {
 		return property;
 	}
 
-	/*@Bean
-	public static PropertySourcesPlaceholderConfigurer properties() {
-		PropertySourcesPlaceholderConfigurer pspc = new PropertySourcesPlaceholderConfigurer();
-		ClassPathResource classPathResource = new ClassPathResource("foo.properties");
-		Resource[] resources = new ClassPathResource[] { classPathResource };
-		pspc.setLocations(resources);
-		pspc.setIgnoreUnresolvablePlaceholders(true);
-		return pspc;
-	}*/
-
 }

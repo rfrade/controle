@@ -124,6 +124,9 @@ public class Logradouro implements Entidade, Serializable {
 	}
 
 	public String getDdd() {
+		if (ddd == null) {
+			return "";
+		}
 		return this.ddd;
 	}
 
@@ -164,6 +167,9 @@ public class Logradouro implements Entidade, Serializable {
 	}
 
 	public String getTelefone() {
+		if (telefone == null) {
+			return "";
+		}
 		return this.telefone;
 	}
 

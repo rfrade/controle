@@ -129,10 +129,6 @@ public abstract class BaseEntityController<T extends Entidade> extends AbstractC
 	@Autowired
 	protected PropertiesLoader propertiesLoader;
 
-	/*
-	 * @Autowired protected PropertiesPathLoader propertiesPathLoader;
-	 */
-
 	protected Logger log = Logger.getLogger(this.getClass());
 
 	/**
@@ -478,7 +474,7 @@ public abstract class BaseEntityController<T extends Entidade> extends AbstractC
 		int year = cal.get(Calendar.YEAR);
 		int month = cal.get(Calendar.MONTH);
 		int dayOfMonth = cal.get(Calendar.DAY_OF_MONTH);
-		LocalDate localDate = LocalDate.of(year, month, dayOfMonth);
+		LocalDate localDate = LocalDate.of(year, month + 1, dayOfMonth);
 		return localDate;
 	}
 
