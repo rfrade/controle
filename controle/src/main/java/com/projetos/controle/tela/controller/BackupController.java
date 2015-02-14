@@ -177,8 +177,9 @@ public class BackupController {
 					caminhoArquivo = parametroService.getCaminhoBackupArquivos().getValor();
 					String date = DateUtil.fullDateTime();
 					caminhoArquivo = caminhoArquivo.concat("\\backup").concat(date).concat(".sql");
-					String comando = "C:\\Program Files\\MySQL\\MySQL Server 5.6\\bin\\mysqldump.exe";
-					ProcessBuilder pb = new ProcessBuilder(comando, "--user=root", "--password=admin", "controle", "--result-file=" + caminhoArquivo);
+
+					String caminhoMysqldump = parametroService.getCaminhoMysqldump().getValor();
+					ProcessBuilder pb = new ProcessBuilder(caminhoMysqldump, "--user=root", "--password=admin", "controle", "--result-file=" + caminhoArquivo);
 					Process process = pb.start();
 					while (process.isAlive()) {
 						System.out.println(process.isAlive());

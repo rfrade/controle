@@ -18,4 +18,9 @@ public interface ParametroService extends EntidadeService<Parametro> {
 
 	Parametro getCaminhoBackupArquivos();
 
+	/**
+	 * @return alguma coisa do tipo C:\Program Files\MySQL\MySQL Server 5.5\bin\mysqldump.exe
+	 */
+	Parametro getCaminhoMysqldump();
+
 }

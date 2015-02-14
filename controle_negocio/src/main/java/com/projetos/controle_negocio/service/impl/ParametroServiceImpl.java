@@ -55,5 +55,10 @@ public class ParametroServiceImpl extends EntidadeServiceImpl<Parametro> impleme
 	public Parametro getCaminhoBackupArquivos() {
 		return this.getParametroByChave("caminho_arquivos_backup");
 	}
+	
+	@Override
+	public Parametro getCaminhoMysqldump() {
+		return this.getParametroByChave("caminho_mysql_dump");
+	}
 
 }

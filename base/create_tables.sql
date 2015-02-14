@@ -154,19 +154,26 @@ insert into parametro(chave,
 					valor, 
 					descricao)
 	values('caminho_diretorio_importacao', 
-		   'C:/Users/JoãoCarlos/arquivo_importacao.xls',
+		   'Alterar',
 		   'Caminho do diretório de importação da planilha de produtos');
 		   
 insert into parametro(chave, 
 					valor, 
 					descricao)
 	values('caminho_relatorio_recebimentos', 
-		   'C:\Users\JoãoCarlos\Documents\relatorios',
+		   'Alterar',
 		   'Diretório onde será salvo o relatorio de recebimentos');
 		   
 insert into parametro(chave, 
 					valor, 
 					descricao)
 	values('caminho_relatorio_pedido', 
-		   'C:\Users\JoãoCarlos\Documents\relatorios',
+		   'Alterar',
 		   'Diretório onde será salvo o relatorio do pedido');
+		   
+insert into parametro(chave, 
+					valor, 
+					descricao)
+	values('caminho_mysql_dump', 
+		   'Alterar',
+		   'Caminho na instalação do mysql onde se encontra o mysqldump.exe');
