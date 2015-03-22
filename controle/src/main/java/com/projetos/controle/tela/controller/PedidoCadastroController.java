@@ -719,13 +719,13 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 		BigDecimal subTotal = BigDecimal.ZERO;
 		// for (ItemPedido itemPedido : tabelaItensPedido.getItems()) {
 		for (ItemPedido itemPedido : entidadeForm.getItensPedido()) {
-			BigDecimal valorItem = new BigDecimal(itemPedido.getValorTotal());
+			BigDecimal valorItem = BigDecimal.valueOf(itemPedido.getValorTotal());
 			subTotal = subTotal.add(valorItem);
 		}
 		subTotal = subTotal.setScale(2, RoundingMode.DOWN);
 		entidadeForm.setValorSubTotal(subTotal.doubleValue());
 
-		BigDecimal descontoTotalBigDecimal = new BigDecimal(entidadeForm.getDescontoTotal());
+		BigDecimal descontoTotalBigDecimal = BigDecimal.valueOf(entidadeForm.getDescontoTotal());
 		BigDecimal cem = new BigDecimal(100);
 		
 		BigDecimal desconto = descontoTotalBigDecimal.divide(cem).multiply(subTotal);

@@ -236,8 +236,8 @@ public class ItemPedidoCadastroController extends BaseCadastroController<ItemPed
 
 	private void calcularValorTotal() {
 		if (entidadeForm.getProduto() != null && entidadeForm.getQuantidadeTotal() != null) {
-			BigDecimal valorUnitario = new BigDecimal(entidadeForm.getProduto().getValorUnitario());
-			BigDecimal quantidade = new BigDecimal(entidadeForm.getQuantidadeTotal());
+			BigDecimal valorUnitario = BigDecimal.valueOf(entidadeForm.getProduto().getValorUnitario());
+			BigDecimal quantidade = BigDecimal.valueOf(entidadeForm.getQuantidadeTotal());
 			BigDecimal valorTotal = valorUnitario.multiply(quantidade);
 			valorTotal.setScale(2, RoundingMode.DOWN);
 			entidadeForm.setValorTotal(valorTotal.doubleValue());

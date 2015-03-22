@@ -11,7 +11,7 @@ public class NumberUtil {
 	}
 	
 	public static String convertDoubleToString(Double d) {
-		BigDecimal bigDecimal = new BigDecimal(d);
+		BigDecimal bigDecimal = BigDecimal.valueOf(d);
 		bigDecimal = bigDecimal.setScale(2, BigDecimal.ROUND_FLOOR);
 
 		return bigDecimal.toString().replace(".", ",");
