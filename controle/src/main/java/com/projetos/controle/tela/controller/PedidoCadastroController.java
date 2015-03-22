@@ -604,6 +604,16 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 		}
 	}
 
+	/**
+	 * Método para ser chamado quando for necessário salvar o pedido a partir de outra tela
+	 */
+	public void salvarDeOutraTela(Pedido pedido) {
+		getEntidadeService().salvar(pedido);
+		setEntidadeForm(pedido);
+		atualizarValorPedido();
+		atualizaValorRecebimento();
+	}
+
 	private void incluirRecebimento() {
 		Recebimento recebimento = new Recebimento();
 		recebimento.setDataRecebimento(null);
@@ -683,12 +693,17 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 		itemPedidoService.salvar(itemPedido);
 		itemPedidoService.remover(itemPedido);
 		tabelaItensPedido.getItems().remove(itemPedido);
-		entidadeForm = getEntidadeService().salvar(entidadeForm);
-		entidadeForm = getEntidadeService().findById(entidadeForm.getId());
+//		entidadeForm = getEntidadeService().findById(entidadeForm.getId());
 		this.atualizarValorPedido();
 
 		this.atualizaValorRecebimento();
 
+		try {
+			salvar();
+		} catch (ValidacaoException e) {
+			// uma exceção aqui não deve ocorrer
+			e.printStackTrace();
+		}
 		exibirMensagem("cadastro.removido_com_sucesso");
 	}
 	

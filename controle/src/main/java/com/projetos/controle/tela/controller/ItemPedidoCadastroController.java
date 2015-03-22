@@ -256,10 +256,12 @@ public class ItemPedidoCadastroController extends BaseCadastroController<ItemPed
 			if (!pedido.getItensPedido().contains(entidadeForm)) {
 				pedido.addItemPedido(entidadeForm);
 			}
-			pedidoCadastroController.getEntidadeService().salvar(entidadeForm.getPedido());
+			
+			pedidoCadastroController.salvarDeOutraTela(pedido);
+			/*pedidoCadastroController.getEntidadeService().salvar(entidadeForm.getPedido());
 			pedidoCadastroController.setEntidadeForm(pedido);
 			pedidoCadastroController.atualizarValorPedido();
-			pedidoCadastroController.atualizaValorRecebimento();
+			pedidoCadastroController.atualizaValorRecebimento();*/
 
 			entidadeForm = novaEntidadeForm();
 			super.bindBeanToForm();
