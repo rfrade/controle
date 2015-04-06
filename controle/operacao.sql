@@ -26,8 +26,12 @@ delete from item_pedido where id in (26, 27);
 
 update Produto p set p.ativo = false where p.referencia = 'asdf'  and p.ativo = true and p.id_fornecedor = 800;
 
-select * from recebimento;
-select * from item_pedido;
-select * from produto where referencia in ('ABX', '6668', '6666') order by referencia;
---alter table vendedor
---	drop foreign key fk_vendedor;
+
+-- Alteração do valor faturado 06/04/2015
+
+alter table recebimento add column valor_faturado double;
+
+update recebimento as r inner join pedido as p on r.id_pedido = p.id
+	set r.valor_faturado = p.valor_total;
+
+select pedido.id, pedido.valor_sub_total, recebimento.valor_faturado from recebimento inner join pedido on recebimento.id_pedido = pedido.id;

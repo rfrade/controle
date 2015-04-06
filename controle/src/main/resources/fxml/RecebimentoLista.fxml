@@ -17,7 +17,7 @@
 				<TableColumn prefWidth="170.0" text="Fornecedor" fx:id="colunaFornecedor"/>
 				<TableColumn text="Data" xmlns="http://javafx.com/javafx/8"
 					xmlns:fx="http://javafx.com/fxml/1" fx:id="colunaDataRecebimento"/>
-				<TableColumn prefWidth="100.0" text="Valor Faturado"
+				<TableColumn prefWidth="100.0" text="Valor Recebimento"
 					xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" 
 					fx:id="colunaValorRecebimento"/>
 				<TableColumn prefWidth="75.0" text="Recebido" fx:id="colunaRecebido"

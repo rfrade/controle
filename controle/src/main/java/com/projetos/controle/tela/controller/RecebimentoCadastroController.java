@@ -52,8 +52,8 @@ public class RecebimentoCadastroController extends BaseCadastroController<Recebi
 	private DatePicker dataRecebimento;
 
 	@FXML
-	@CampoTela(bean = "pedido.valorTotal", tipoCampo = TipoCampo.MOEDA, nome = "Valor Faturado")
-	private Label valorFaturado;
+	@CampoTela(bean = "valorFaturado", tipoCampo = TipoCampo.MOEDA, nome = "Valor Faturado")
+	private TextField valorFaturado;
 
 	@FXML
 	@CampoTela(bean = "percentualComissao", tipoCampo = TipoCampo.MOEDA, nome = "Porcentagem")

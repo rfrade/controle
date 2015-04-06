@@ -88,6 +88,7 @@ create table recebimento (
 	valor_recebimento double,
 	recebido boolean,
 	percentual_comissao double,
+	valor_faturado double,
 	primary key(id)
 );
 

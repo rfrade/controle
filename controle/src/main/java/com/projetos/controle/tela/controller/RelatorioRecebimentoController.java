@@ -37,6 +37,7 @@ import com.projetos.controle.tela.report.RelatorioRecebimentoDataSource;
 import com.projetos.controle.tela.report.RelatorioUtil;
 import com.projetos.controle.tela.util.FiltroUtil;
 import com.projetos.controle_entities.Fornecedor;
+import com.projetos.controle_entities.ItemPedido;
 import com.projetos.controle_entities.Pedido;
 import com.projetos.controle_entities.Recebimento;
 import com.projetos.controle_negocio.filtro.Comparador;
@@ -131,6 +132,7 @@ public class RelatorioRecebimentoController extends BaseEntityController<Recebim
 		private static final String VALOR_COMISSAO = "VALOR_COMISSAO";
 		private static final String VALOR_PEDIDO = "VALOR_PEDIDO";
 		private static final String OBSERVACAO = "OBSERVACAO";
+		private static final String QTDD_ITENS = "QTDD_ITENS";
 	}
 
 	public void gerarRelatorio() {
@@ -181,6 +183,7 @@ public class RelatorioRecebimentoController extends BaseEntityController<Recebim
 			RelatorioUtil.preencherParametro(param, RelatorioRecebimentoParam.VALOR_COMISSAO, this.getValorComissaoTotal(recebimentos));
 			RelatorioUtil.preencherParametro(param, RelatorioRecebimentoParam.VALOR_PEDIDO, this.getValorTotalPedidos(pedidos));
 			RelatorioUtil.preencherParametro(param, RelatorioRecebimentoParam.OBSERVACAO, observacao.getText());
+			RelatorioUtil.preencherParametro(param, RelatorioRecebimentoParam.QTDD_ITENS, this.getQuantidadeItensPedido(pedidos));
 
 			recebimentos.sort(new RelatorioRecebimentoComparator());
 			RelatorioRecebimentoDataSource dataSource = new RelatorioRecebimentoDataSource(recebimentos);
@@ -242,6 +245,16 @@ public class RelatorioRecebimentoController extends BaseEntityController<Recebim
 		return valor.doubleValue();
 	}
 
+	private String getQuantidadeItensPedido(List<Pedido> pedidos) {
+		int qtdd = 0;
+		for (Pedido pedido : pedidos) {
+			for (ItemPedido item : pedido.getItensPedido()) {
+				qtdd += item.getQuantidadeTotal();
+			}
+		}
+		return String.valueOf(qtdd);
+	}
+	
 	public void exibirTelaLista() {
 		telaPrincipalController.exibirTelaClienteLista();
 	}

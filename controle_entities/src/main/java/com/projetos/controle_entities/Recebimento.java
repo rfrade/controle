@@ -41,6 +41,9 @@ public class Recebimento implements Serializable, Entidade {
 
 	@Column(name="valor_recebimento")
 	private double valorRecebimento;
+	
+	@Column(name="valor_faturado")
+	private double valorFaturado;
 
 	@Column(name="percentual_comissao")
 	private double percentualComissao;
