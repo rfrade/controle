@@ -143,4 +143,12 @@ public class Recebimento implements Serializable, Entidade {
 		this.percentualComissao = percentualComissao;
 	}
 
+	public double getValorFaturado() {
+		return valorFaturado;
+	}
+
+	public void setValorFaturado(double valorFaturado) {
+		this.valorFaturado = valorFaturado;
+	}
+
 }
