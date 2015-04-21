@@ -70,11 +70,17 @@ public class RecebimentoCadastroController extends BaseCadastroController<Recebi
 	@FXML
 	private TableView<Recebimento> tabela;
 
+	// Criado para evitar que o fato de desconsiderar valores depois de 2 casas
+	// decimais não resulte em uma diminuição constante do percentual de comssão
+	private BigDecimal percentualAnterior;
+
 	@Override
 	public void initialize(URL url, ResourceBundle resource) {
 		super.initialize(url, resource);
 
-		this.valorComissao.focusedProperty().addListener(new ComissaoChangeListener());
+//		this.valorComissao.focusedProperty().addListener(new ComissaoChangeListener());
+		this.porcentagem.focusedProperty().addListener(new PercentualChangeListener());
+		this.valorFaturado.focusedProperty().addListener(new ValorFaturadoChangeListener());
 
 		List<ItemCombo<Boolean>> lista = new ArrayList<>();
 		ItemCombo<Boolean> ativo = new ItemCombo<>("SIM", true);
@@ -84,6 +90,9 @@ public class RecebimentoCadastroController extends BaseCadastroController<Recebi
 
 		ObservableList<ItemCombo<Boolean>> itens = FXCollections.observableArrayList(lista);
 		recebido.setItems(itens);
+		
+		percentualAnterior = BigDecimal.valueOf(entidadeForm.getPercentualComissao());
+		
 		bindBeanToForm();
 	}
 
@@ -100,8 +109,80 @@ public class RecebimentoCadastroController extends BaseCadastroController<Recebi
 		pedidoCadastroController.salvarSemMensagem();
 	}
 
-	public class ComissaoChangeListener implements ChangeListener<Boolean> {
+	/**
+	 * Se alterar o percentual, tem que recalcular o valor do recebimento
+	 */
+	public class PercentualChangeListener implements ChangeListener<Boolean> {
 
+		@Override
+		public void changed(ObservableValue<? extends Boolean> arg0,
+				Boolean arg1, Boolean focusIn) {
+
+			// Handling only when focus is out.
+			String text = valorComissao.getText();
+			if (!focusIn && text != null && !text.equals("")) {
+				try {
+					bindFormToBean();
+
+					if (percentualAnterior.doubleValue() != entidadeForm.getPercentualComissao()) {
+						calcularValorComissao();
+					}
+
+					bindBeanToForm();
+				} catch (ValidacaoException e) {
+					tratarErroValidacao(e);
+				}
+			}
+
+		}
+
+	}
+		
+	/*public class ComissaoChangeListener implements ChangeListener<Boolean> {
+
+		@Override
+		public void changed(ObservableValue<? extends Boolean> arg0,
+				Boolean arg1, Boolean focusIn) {
+
+			// Handling only when focus is out.
+			String text = valorComissao.getText();
+			if (!focusIn && text != null && !text.equals("")) {
+				try {
+					bindFormToBean();
+					alterarValorComissao(focusIn, text);
+					bindBeanToForm();
+				} catch (ValidacaoException e) {
+					tratarErroValidacao(e);
+				}
+			}
+
+		}
+
+		private void alterarValorComissao(Boolean focusIn, String text) {
+			BigDecimal cem = new BigDecimal(100);
+			BigDecimal vComissao = new BigDecimal(text.replace(",", "."));
+			BigDecimal vTotal = BigDecimal.valueOf(entidadeForm.getValorFaturado()).setScale(2,	BigDecimal.ROUND_FLOOR);;
+			
+			BigDecimal valorPorcentagem = cem.multiply(vComissao).setScale(2, BigDecimal.ROUND_FLOOR)
+					.divide(vTotal, BigDecimal.ROUND_FLOOR);
+
+			valorPorcentagem = valorPorcentagem.setScale(2,	BigDecimal.ROUND_FLOOR);
+			
+			BigDecimal diferencaPercentuais = percentualAnterior.subtract(valorPorcentagem);
+			
+			// Só altera o percentual se a alteração do valor tiver ocorrido.
+			// Devido ao "setScale(2,BigDecimal.ROUND_FLOOR)" o valor da porcentagem
+			// variava 0,01 a cada recálculo.
+			if (diferencaPercentuais.doubleValue() > 0.02d || diferencaPercentuais.doubleValue() < -0.02d) {
+				percentualAnterior = valorPorcentagem;
+				entidadeForm.setPercentualComissao(valorPorcentagem.doubleValue());
+			}
+
+		}
+	}*/
+
+	public class ValorFaturadoChangeListener implements ChangeListener<Boolean> {
+		
 		@Override
 		public void changed(ObservableValue<? extends Boolean> arg0, Boolean arg1, Boolean focusIn) {
 			
@@ -110,16 +191,10 @@ public class RecebimentoCadastroController extends BaseCadastroController<Recebi
 			if (!focusIn && text != null && !text.equals("")) {
 				try {
 					bindFormToBean();
-					BigDecimal cem = new BigDecimal(100);
-					BigDecimal vComissao = new BigDecimal(text.replace(",", "."));
-//					vComissao = vComissao.setScale(2, BigDecimal.ROUND_FLOOR);
-					BigDecimal vTotal = BigDecimal.valueOf(entidadeForm.getPedido().getValorTotal());
-//					vTotal = vTotal.setScale(2, BigDecimal.ROUND_FLOOR);
-					BigDecimal valorPorcentagem = cem.multiply(vComissao).setScale(2, BigDecimal.ROUND_FLOOR)
-							.divide(vTotal, BigDecimal.ROUND_FLOOR);
 
-					valorPorcentagem = valorPorcentagem.setScale(2, BigDecimal.ROUND_FLOOR);
-					entidadeForm.setPercentualComissao(valorPorcentagem.doubleValue());
+					// Calcula a comissão a partir do novo valor faturado
+					calcularValorComissao();
+
 					bindBeanToForm();
 				} catch (ValidacaoException e) {
 					tratarErroValidacao(e);
@@ -128,6 +203,17 @@ public class RecebimentoCadastroController extends BaseCadastroController<Recebi
 		}
 	}
 
+	private void calcularValorComissao() {
+		BigDecimal valorFaturado = BigDecimal.valueOf(entidadeForm.getValorFaturado());
+		BigDecimal cem = new BigDecimal(100);
+		BigDecimal percentualComissao = BigDecimal.valueOf(entidadeForm.getPercentualComissao());
+		BigDecimal novoValorComissao = valorFaturado.setScale(2, BigDecimal.ROUND_FLOOR).multiply(percentualComissao)
+				.divide(cem, BigDecimal.ROUND_FLOOR);
+
+		novoValorComissao = novoValorComissao.setScale(2,	BigDecimal.ROUND_FLOOR);
+		entidadeForm.setValorRecebimento(novoValorComissao.doubleValue());
+	}
+	
 	@Override
 	protected EntidadeService<Recebimento> getEntidadeService() {
 		return recebimentoService;
