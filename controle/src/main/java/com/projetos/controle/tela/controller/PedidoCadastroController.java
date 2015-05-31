@@ -621,7 +621,8 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 		recebimento.setRecebido(false);
 		recebimento.setPercentualComissao(entidadeForm.getComissao());
 		recebimento.setValorRecebimento(getValorComissao());
-
+		recebimento.setValorFaturado(entidadeForm.getValorTotal());
+		
 		recebimento = recebimentoService.salvar(recebimento);
 
 		entidadeForm.addRecebimento(recebimento);
