@@ -56,6 +56,7 @@ public abstract class BaseCadastroController<T extends Entidade> extends BaseEnt
 		atualizarTabela();
 	}
 
+	@SuppressWarnings("restriction")
 	protected void atualizarTabela() {
 		if (!tabela.getItems().contains(entidadeForm)) {
 			tabela.getItems().add(entidadeForm);
@@ -91,4 +92,8 @@ public abstract class BaseCadastroController<T extends Entidade> extends BaseEnt
 		this.tabela = tabela;
 	}
 
+	protected TableView<T> getTabela() {
+		return tabela;
+	}
+	
 }

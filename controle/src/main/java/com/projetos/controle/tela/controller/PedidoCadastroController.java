@@ -315,6 +315,7 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 		}
 	}
 
+
 	public void exibirTelaRecebimentoLista() {
 		try {
 			salvarSemMensagem();
@@ -441,6 +442,7 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 		private static final String CEP_CLIENTE = "CEP_CLIENTE";
 		private static final String CNPJ_CLIENTE = "CNPJ_CLIENTE";
 		private static final String INS_EST_CLIENTE = "INS_EST_CLIENTE";
+		private static final String EMAIL_CLIENTE = "EMAIL_CLIENTE";
 	}
 
 	public void imprimir() {
@@ -547,6 +549,7 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 		RelatorioUtil.preencherParametro(param, RelatorioPedidoParam.CEP_CLIENTE, entidadeForm.getCliente().getLogradouro().getCep());
 		RelatorioUtil.preencherParametro(param, RelatorioPedidoParam.CNPJ_CLIENTE, entidadeForm.getCliente().getCnpj());
 		RelatorioUtil.preencherParametro(param, RelatorioPedidoParam.INS_EST_CLIENTE, entidadeForm.getCliente().getInscricao());
+		RelatorioUtil.preencherParametro(param, RelatorioPedidoParam.EMAIL_CLIENTE, entidadeForm.getCliente().getLogradouro().getEmail());
 
 		JRDataSourceGenerico<ItemPedido> dataSource = new JRDataSourceGenerico<>(entidadeForm.getItensPedido());
 
@@ -612,6 +615,8 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 		setEntidadeForm(pedido);
 		atualizarValorPedido();
 		atualizaValorRecebimento();
+		atualizarTabela();
+		labelMensagem.setText("");
 	}
 
 	private void incluirRecebimento() {
@@ -654,6 +659,7 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 		super.remover();
 	}
 
+	// Abre tela de alteração dos itens do pedido
 	public class InnerMouseClicked<T extends Entidade> implements EventHandler<MouseEvent> {
 
 		private TableView<T> tabela;
@@ -705,7 +711,9 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 			// uma exceção aqui não deve ocorrer
 			e.printStackTrace();
 		}
-		exibirMensagem("cadastro.removido_com_sucesso");
+		//exibirMensagem("cadastro.removido_com_sucesso");
+		String mensagem = propertiesLoader.getProperty("cadastro.removido_com_sucesso");
+		labelMensagem.setText(mensagem);
 	}
 	
 	public void atualizaComissaoRecebimento() {

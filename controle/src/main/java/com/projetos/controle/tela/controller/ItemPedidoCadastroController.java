@@ -9,6 +9,8 @@ import java.util.ResourceBundle;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
@@ -31,6 +33,9 @@ import com.projetos.controle.tela.controller.base.BaseCadastroController;
 import com.projetos.controle_entities.ItemPedido;
 import com.projetos.controle_entities.Pedido;
 import com.projetos.controle_entities.Produto;
+import com.projetos.controle_negocio.filtro.Comparador;
+import com.projetos.controle_negocio.filtro.Filtro;
+import com.projetos.controle_negocio.filtro.TipoFiltro;
 import com.projetos.controle_negocio.service.base.EntidadeService;
 import com.projetos.controle_negocio.service.base.ItemPedidoService;
 import com.projetos.controle_negocio.service.base.ProdutoService;
@@ -98,7 +103,7 @@ public class ItemPedidoCadastroController extends BaseCadastroController<ItemPed
 	@FXML
 	@CampoTela(bean = "quantidadeTamanho8", tipoCampo = TipoCampo.INTEIRO, nome = "Tamanho 8")
 	private TextField quantidadeTamanho8;
-
+	
 	@FXML
 	@CampoTela(bean = "produto.descricao")
 	private TextArea descricao;
@@ -109,7 +114,10 @@ public class ItemPedidoCadastroController extends BaseCadastroController<ItemPed
 
 	@FXML
 	private Label labelMensagem;
-	
+
+	// item pra add e remover um item nulo da tabela para ela atualizar
+	// foda a vida
+	private final ItemPedido itemFakeParaTabela = new ItemPedido();
 
 	@Override
 	public void initialize(URL url, ResourceBundle resource) {
@@ -123,6 +131,7 @@ public class ItemPedidoCadastroController extends BaseCadastroController<ItemPed
 		for (TextField textFieldQuantidade : camposQuantidade) {
 			textFieldQuantidade.focusedProperty().addListener(new FormBindingListener());
 		}
+
 	}
 
 	@Override
@@ -245,29 +254,43 @@ public class ItemPedidoCadastroController extends BaseCadastroController<ItemPed
 		}
 	}
 
+	@SuppressWarnings("restriction")
 	@Override
 	public void salvarComMensagem() {
 		try {
-			PedidoCadastroController pedidoCadastroController = ApplicationConfig.getBean(PedidoCadastroController.class);
 
-			Pedido pedido = entidadeForm.getPedido();
 			super.salvarSemMensagem();
 
+			PedidoCadastroController pedidoCadastroController = ApplicationConfig.getBean(PedidoCadastroController.class);
+			Pedido pedido = entidadeForm.getPedido();
+			
 			if (!pedido.getItensPedido().contains(entidadeForm)) {
 				pedido.addItemPedido(entidadeForm);
 			}
 			
 			pedidoCadastroController.salvarDeOutraTela(pedido);
-			/*pedidoCadastroController.getEntidadeService().salvar(entidadeForm.getPedido());
-			pedidoCadastroController.setEntidadeForm(pedido);
-			pedidoCadastroController.atualizarValorPedido();
-			pedidoCadastroController.atualizaValorRecebimento();*/
-
-			entidadeForm = novaEntidadeForm();
-			super.bindBeanToForm();
-			entidadeForm.setPedido(pedido);
+			
+			// Tem que reconsultar senão não exclui o pedido que acabou de ser adicionado.
+			
+			this.atualizarItensPedido(pedido);
+			
+			pedidoCadastroController.salvarDeOutraTela(pedido);
+			
+			// a tabela de itens de pedido da tela de pedido
+			// só vai atualizar se tiver itens adicionados
+			// ou retirados e não só com a alteração de um item
+			// existente
 
 			atualizarTabela();
+			if (getTabela().getItems().contains(itemFakeParaTabela)) {
+				getTabela().getItems().remove(itemFakeParaTabela);
+			} else {
+				getTabela().getItems().add(itemFakeParaTabela);
+			}
+			
+			entidadeForm = novaEntidadeForm();
+			entidadeForm.setPedido(pedido);
+			super.bindBeanToForm();
 
 			String mensagem = propertiesLoader.getProperty("cadastro.salvo_com_sucesso");
 			labelMensagem.setText(mensagem);
@@ -276,6 +299,16 @@ public class ItemPedidoCadastroController extends BaseCadastroController<ItemPed
 		} catch (ValidacaoException e) {
 			tratarErroValidacao(e);
 		}
+	}
+
+	/**
+	 * Reconsulta os itens e os adiciona no pedido para que a tela atualize.
+	 * @param pedido
+	 */
+	private void atualizarItensPedido(Pedido pedido) {
+		Filtro filtro = new Filtro("pedido.id", TipoFiltro.INTEGER, Comparador.EQUALS, pedido.getId());
+		List<ItemPedido> itens = getEntidadeService().filtrar(filtro);
+		pedido.setItensPedido(itens);
 	}
 
 	@Override

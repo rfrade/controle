@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.1.0.final using JasperReports Library version 6.1.0  -->
+<!-- 2015-07-26T16:28:53 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="raltorioClientes" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="db17e77f-9c52-4e4b-8873-dfe8661f3bda">
 	<property name="ireport.zoom" value="1.4641000000000006"/>
 	<property name="ireport.x" value="258"/>
@@ -16,6 +18,7 @@
 	<field name="comprador" class="java.lang.String"/>
 	<field name="inscricao" class="java.lang.String"/>
 	<field name="cnpj" class="java.lang.String"/>
+	<field name="logradouro.email" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -37,7 +40,7 @@
 		<band splitType="Stretch"/>
 	</columnHeader>
 	<detail>
-		<band height="58" splitType="Stretch">
+		<band height="51" splitType="Stretch">
 			<textField>
 				<reportElement x="0" y="0" width="140" height="20" uuid="94405aa2-7bbd-4134-9b5f-cb517b793b14"/>
 				<textElement>
@@ -109,26 +112,33 @@
 				<textFieldExpression><![CDATA[$F{comprador}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="0" y="30" width="68" height="16" uuid="f332d85d-a305-42ba-86bb-2065d4f07dc3"/>
+				<reportElement x="0" y="20" width="68" height="16" uuid="f332d85d-a305-42ba-86bb-2065d4f07dc3"/>
 				<text><![CDATA[Insc Estadual]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="68" y="30" width="153" height="16" uuid="d480114f-148f-4ce3-810f-9f3dbff1e8dd"/>
+				<reportElement x="68" y="20" width="102" height="16" uuid="d480114f-148f-4ce3-810f-9f3dbff1e8dd"/>
 				<textElement>
 					<font isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{inscricao}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="221" y="30" width="68" height="16" uuid="c716abde-191b-4c23-b039-51fb1f9f01d5"/>
+				<reportElement x="180" y="20" width="39" height="16" uuid="c716abde-191b-4c23-b039-51fb1f9f01d5"/>
 				<text><![CDATA[CNPJ]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="289" y="30" width="161" height="16" uuid="2e4aaf35-ba4d-4e19-bd54-473ea6ea1231"/>
+				<reportElement x="220" y="20" width="110" height="16" uuid="2e4aaf35-ba4d-4e19-bd54-473ea6ea1231"/>
 				<textElement>
 					<font isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{cnpj}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="340" y="20" width="161" height="16" uuid="c341e01b-7ab0-4692-9e56-e61591a92c31"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{logradouro.email}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

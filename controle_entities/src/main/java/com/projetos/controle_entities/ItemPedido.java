@@ -20,7 +20,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name="item_pedido")
 @NamedQuery(name="ItemPedido.findAll", query="SELECT i FROM ItemPedido i")
-public class ItemPedido implements Entidade, Serializable {
+public class ItemPedido implements Entidade, Serializable, Comparable<ItemPedido> {
 
 	private static final long serialVersionUID = 1L;
 
@@ -104,6 +104,24 @@ public class ItemPedido implements Entidade, Serializable {
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
+	}
+
+	@Override
+	public String toString() {
+		String toString = ( this.id == null ) ? "null" : "[ id = " + this.id;
+
+		toString += ( this.produto == null ) ? "null" : ", ref = " + this.produto.getReferencia();
+		
+		toString += ( this.quantidadeTamanho1 == null ) ? "null" : ", qtdds = " + this.quantidadeTamanho1;
+		toString += ( this.quantidadeTamanho2 == null ) ? "null" : "-" + this.quantidadeTamanho2;
+		toString += ( this.quantidadeTamanho3 == null ) ? "null" : "-" + this.quantidadeTamanho3;
+		toString += ( this.quantidadeTamanho4 == null ) ? "null" : "-" + this.quantidadeTamanho4;
+		toString += ( this.quantidadeTamanho5 == null ) ? "null" : "-" + this.quantidadeTamanho5;
+		toString += ( this.quantidadeTamanho6 == null ) ? "null" : "-" + this.quantidadeTamanho6;
+		toString += ( this.quantidadeTamanho7 == null ) ? "null" : "-" + this.quantidadeTamanho7;
+		toString += ( this.quantidadeTamanho8 == null ) ? "null" : "-" + this.quantidadeTamanho8 + " ]";
+		
+		return toString;
 	}
 
 	public ItemPedido copy() {
@@ -253,6 +271,14 @@ public class ItemPedido implements Entidade, Serializable {
 
 	public void setValorTotal(Double valorTotal) {
 		this.valorTotal = valorTotal;
+	}
+
+	@Override
+	public int compareTo(ItemPedido ip) {
+		if (ip == null) {
+			return -1;
+		}
+		return this.getId().compareTo(ip.id);
 	}
 
 }
