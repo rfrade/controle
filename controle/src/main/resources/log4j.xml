@@ -18,7 +18,7 @@
 	</appender> -->
 
 	<logger name="com.projetos.controle.tela">
-		<level value="info" />
+		<level value="error" />
 		<appender-ref ref="stdout" />
 	</logger>
 

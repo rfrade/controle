@@ -8,14 +8,12 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 
 import org.springframework.context.annotation.Lazy;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
-import com.projetos.controle.tela.base.AbstractController;
-
+@SuppressWarnings("restriction")
 @Controller
 @Lazy
-public class PopupMensagemController extends AbstractController implements Initializable {
+public class PopupMensagemController implements Initializable {
 
 	private String mensagem;
 

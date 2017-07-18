@@ -1,5 +1,8 @@
 package com.projetos.controle_negocio.repository;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -16,5 +19,8 @@ public abstract class BaseRepositoryTest extends BaseNegocioTest {
 	protected ClienteRepository clienteRepositoy;
 	
 	protected Logger log = Logger.getLogger(this.getClass());
+
+	@PersistenceContext
+	public EntityManager entityManager;
 
 }

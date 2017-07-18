@@ -15,7 +15,6 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Label;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -37,6 +36,7 @@ import com.projetos.controle_util.validacao.ValidacaoException;
  * 
  * @author Rafael
  */
+@SuppressWarnings("restriction")
 @Controller
 @Lazy
 public class RecebimentoCadastroController extends BaseCadastroController<Recebimento> {
@@ -100,13 +100,13 @@ public class RecebimentoCadastroController extends BaseCadastroController<Recebi
 	protected void salvar() throws ValidacaoException {
 		super.salvar();
 		pedidoService.salvar(entidadeForm.getPedido());
-		Pedido pedido = pedidoService.findById(entidadeForm.getPedido().getId());
-		entidadeForm.setPedido(pedido);
+//		Pedido pedido = pedidoService.findById(entidadeForm.getPedido().getId());
+//		entidadeForm.setPedido(pedido);
 //		pedidoService.salvar(entidadeForm.getPedido());
 		
 		PedidoCadastroController pedidoCadastroController = ApplicationConfig.getBean(PedidoCadastroController.class);
-		pedidoCadastroController.setEntidadeForm(pedido);
-		pedidoCadastroController.salvarSemMensagem();
+		pedidoCadastroController.setEntidadeForm(entidadeForm.getPedido());
+		//pedidoCadastroController.salvarSemMensagem();
 	}
 
 	/**

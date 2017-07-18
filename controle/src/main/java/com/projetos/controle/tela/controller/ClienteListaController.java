@@ -43,6 +43,7 @@ import com.projetos.controle_negocio.service.base.EntidadeService;
  * 
  * @author Rafael
  */
+@SuppressWarnings("restriction")
 @Controller
 @Lazy
 public class ClienteListaController extends BaseListController<Cliente> {

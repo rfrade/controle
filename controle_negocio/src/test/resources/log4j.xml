@@ -15,22 +15,22 @@
     </root>
   
     <logger name="com.projetos.controle_negocio.services">
-        <level value="debug"/> 
+        <level value="error"/> 
         <appender-ref ref="stdout" />
     </logger>
   
     <logger name="org.springframework">
-        <level value="warn"/> 
+        <level value="error"/> 
         <appender-ref ref="stdout" />
     </logger>
   
     <logger name="org.hibernate">
-        <level value="warn"/> 
+        <level value="error"/> 
         <appender-ref ref="stdout" />
     </logger>
   
     <logger name="org.hibernate.QueryTranslatorImpl">
-        <level value="trace"/> 
+        <level value="error"/> 
         <appender-ref ref="stdout" />
     </logger>
   

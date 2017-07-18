@@ -6,15 +6,17 @@
 <?import javafx.scene.layout.*?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.projetos.controle.tela.controller.PedidoListaController">
-	<children><TextField fx:id="numeroPedido" layoutX="150.0" layoutY="54.0" prefHeight="25.0" prefWidth="115.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
+	<children>
+		<TextField fx:id="numeroPedido" layoutX="150.0" layoutY="54.0" prefHeight="25.0" prefWidth="115.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
 		<Label layoutX="457.0" layoutY="22.0" text="Lista de Pedidos" />
-<Group layoutX="-15.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
-<children><TextField fx:id="filtroCidade" layoutX="356.0" layoutY="54.0" prefHeight="25.0" prefWidth="203.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
-		<Label layoutX="571.0" layoutY="58.0" text="Cliente" />
-		<TextField fx:id="filtroCliente" layoutX="621.0" layoutY="54.0" prefHeight="25.0" prefWidth="164.0" />
-		<Label layoutX="310.0" layoutY="58.0" text="Cidade" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
-</children>
-</Group>
+		<Group layoutX="-15.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+			<children>
+				<TextField fx:id="filtroCidade" layoutX="356.0" layoutY="54.0" prefHeight="25.0" prefWidth="203.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
+				<Label layoutX="571.0" layoutY="58.0" text="Cliente" />
+				<TextField fx:id="filtroCliente" layoutX="621.0" layoutY="54.0" prefHeight="25.0" prefWidth="164.0" />
+				<Label layoutX="310.0" layoutY="58.0" text="Cidade" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
+			</children>
+		</Group>
 		<TableView fx:id="tabela" layoutX="40.0" layoutY="152.0" prefHeight="422.0" prefWidth="917.0" xmlns:fx="http://javafx.com/fxml">
 			<columns>
 				<TableColumn fx:id="colunaNumeroPedido" prefWidth="75.0" text="Pedido" />
@@ -28,6 +30,10 @@
 			</columns>
 		</TableView>
 		<Button layoutX="40.0" layoutY="116.0" mnemonicParsing="false" onAction="#prepararInclusao" prefHeight="25.0" prefWidth="134.0" text="Novo Pedido" />
-		<Button layoutX="187.0" layoutY="116.0" mnemonicParsing="false" onAction="#exibirPopupConfirmacao" prefHeight="25.0" prefWidth="134.0" text="Excluir Pedido" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" /><Label layoutX="40.0" layoutY="58.0" text="Número do Pedido" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" /><Button layoutX="332.0" layoutY="116.0" mnemonicParsing="false" onAction="#pesquisar" prefHeight="25.0" prefWidth="134.0" text="Pesquisar" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
+		<Button layoutX="187.0" layoutY="116.0" mnemonicParsing="false" onAction="#exibirPopupConfirmacao" prefHeight="25.0" prefWidth="134.0" text="Excluir Pedido" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
+		<Label layoutX="40.0" layoutY="58.0" text="Número do Pedido" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
+		<Button layoutX="332.0" layoutY="116.0" mnemonicParsing="false" onAction="#pesquisar" prefHeight="25.0" prefWidth="134.0" text="Pesquisar" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
+		<Button layoutX="623.0" layoutY="116.0" mnemonicParsing="false" onAction="#exibirTelaMovimentacao" prefHeight="25.0" prefWidth="134.0" text="Movimentação" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
+      <Button layoutX="476.0" layoutY="116.0" mnemonicParsing="false" onAction="#pesquisarTodos" prefHeight="25.0" prefWidth="134.0" text="Pesquisar Todos" />
 	</children>
 </AnchorPane>

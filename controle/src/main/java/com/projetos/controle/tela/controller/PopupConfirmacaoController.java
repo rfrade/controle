@@ -12,14 +12,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Controller;
 
-import com.projetos.controle.tela.base.AbstractController;
-
+@SuppressWarnings("restriction")
 @Controller
-@Lazy
-public class PopupConfirmacaoController extends AbstractController implements Initializable {
+public class PopupConfirmacaoController implements Initializable {
 
 	private String mensagem;
 	private Stage stage;

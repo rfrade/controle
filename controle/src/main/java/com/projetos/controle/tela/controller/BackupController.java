@@ -2,7 +2,9 @@ package com.projetos.controle.tela.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.nio.file.Files;
+import java.util.ResourceBundle;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -23,18 +25,24 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Controller;
 
+import com.projetos.controle.tela.base.AbstractController;
+import com.projetos.controle_negocio.exception.NegocioException;
 import com.projetos.controle_negocio.service.base.ParametroService;
 import com.projetos.controle_util.conversao.DateUtil;
 
-@SuppressWarnings("deprecation")
+@SuppressWarnings({"deprecation", "restriction"})
 @Controller
+@Lazy
 /**
  * Controller da tela de backup
  * @author Rafael
  */
-public class BackupController {
+// TODO: Adicionar tratamento para quando der erro ao gerar o backup,
+// atualmente não existe (17/07/2017)
+public class BackupController extends AbstractController {
 
 	@Autowired
 	private ParametroService parametroService;
@@ -44,8 +52,9 @@ public class BackupController {
 	 * a barra de progresso
 	 */
 	private Object controle = new Object();
-
+	
 	private String caminhoArquivo;
+	private ControladorProgressBar controladorProgressBar;
 
 	/**
 	 * Monta a tela de backup e exibe
@@ -72,7 +81,8 @@ public class BackupController {
 		popup.setScene(scene);
 		popup.show();
 
-		runButton.setOnAction(new ControladorProgressBar(runButton, statusLabel, progressBar, popup));
+		this.controladorProgressBar = new ControladorProgressBar(runButton, statusLabel, progressBar, popup);
+		runButton.setOnAction(controladorProgressBar);
 	}
 
 	private class ControladorProgressBar implements EventHandler<ActionEvent> {
@@ -92,30 +102,13 @@ public class BackupController {
 		@SuppressWarnings("unchecked")
 		@Override
 		public void handle(ActionEvent actionEvent) {
-			@SuppressWarnings("rawtypes")
-			final Task task = new Task() {
 
-				@Override
-				protected ObservableList<String> call() throws InterruptedException {
-					updateProgress(-1, 0);
-					updateMessage("Gerando Backup . . .");
+			final ThreadBackup threadBackup = new ThreadBackup();
 
-					// salva o arquivo
-					synchronized (controle) {
-						new Thread(new ExecutorMysqlDump()).start();
-						controle.wait();
-
-					}
-					updateProgress(0, 0);
-					updateMessage("Backup completo");
-					return null;
-				}
-			};
-
-			statusLabel.textProperty().bind(task.messageProperty());
-			runButton.disableProperty().bind(task.runningProperty());
-			progressBar.progressProperty().bind(task.progressProperty());
-			task.stateProperty().addListener(new ChangeListener<Worker.State>() {
+			statusLabel.textProperty().bind(threadBackup.messageProperty());
+			runButton.disableProperty().bind(threadBackup.runningProperty());
+			progressBar.progressProperty().bind(threadBackup.progressProperty());
+			threadBackup.stateProperty().addListener(new ChangeListener<Worker.State>() {
 				@Override
 				public void changed(ObservableValue<? extends Worker.State> observableValue, Worker.State oldState, Worker.State newState) {
 					if (newState == Worker.State.SUCCEEDED) {
@@ -125,10 +118,35 @@ public class BackupController {
 				}
 			});
 
-			new Thread(task).start();
+			new Thread(threadBackup).start();
+				
 		}
+		
+		public void fecharPopup() {
+			popup.close();
+		}
+		
 	}
 
+	private class ThreadBackup extends Task {
+
+		@Override
+		protected ObservableList<String> call() throws InterruptedException {
+			updateProgress(-1, 0);
+			updateMessage("Gerando Backup . . .");
+
+			// salva o arquivo
+			synchronized (controle) {
+				new Thread(new ExecutorMysqlDump()).start();
+				controle.wait();
+
+			}
+			updateProgress(0, 0);
+			updateMessage("Backup completo");
+			return null;
+		}
+	}
+	
 	class ControladorFileChooser implements EventHandler<ActionEvent> {
 
 		private Stage popup;
@@ -152,7 +170,8 @@ public class BackupController {
 					}
 				}
 			} catch (IOException e) {
-				throw new BackupException(e);
+				popup.close();
+				tratarErro(e);
 			}
 		}
 	}
@@ -182,30 +201,34 @@ public class BackupController {
 					ProcessBuilder pb = new ProcessBuilder(caminhoMysqldump, "--user=root", "--password=admin", "controle", "--result-file=" + caminhoArquivo);
 					Process process = pb.start();
 					while (process.isAlive()) {
-						System.out.println(process.isAlive());
 					}
 					controle.notifyAll();
 				}
 			} catch (IOException e) {
-				throw new BackupException(e);
+				// Provavelmente o arquivo não foi encontrado
+				NegocioException ne = new NegocioException("backup.verifique_se_o_diretorio_existe", e);
+				tratarExcecaoBackup(ne);
+			} catch (NegocioException e) {
+				tratarExcecaoBackup(e);
 			}
+			
 		}
 
 	}
 
 	/**
-	 * Exceção do processo de backup
-	 * 
-	 * @author Rafael
+	 * Exibe a mensagem de erro e fecha a tela de backup
 	 */
-	private class BackupException extends RuntimeException {
+	private void tratarExcecaoBackup(NegocioException e) {
+		this.controladorProgressBar.fecharPopup();
+		tratarErro(e);
+	}
+	
 
-		public BackupException(Throwable cause) {
-			super(cause);
-		}
-
-		private static final long serialVersionUID = 0L;
-
+	// Não utilizado
+	@Override
+	public void initialize(URL arg0, ResourceBundle arg1) {
+		
 	}
 
 }

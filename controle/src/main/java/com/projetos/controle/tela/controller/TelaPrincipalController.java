@@ -1,9 +1,12 @@
 package com.projetos.controle.tela.controller;
 
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
@@ -15,19 +18,16 @@ import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
-import com.projetos.controle.tela.base.AbstractController;
+import com.projetos.controle.tela.ApplicationConfig;
 import com.projetos.controle.tela.base.ConfiguracaoBeanTela;
 
-@SuppressWarnings("rawtypes")
+@SuppressWarnings({ "rawtypes", "restriction" })
 @Controller
 @Scope(ConfigurableBeanFactory.SCOPE_SINGLETON)
-public class TelaPrincipalController extends AbstractController {
+public class TelaPrincipalController implements Initializable {
 
 	@Autowired
 	private ConfiguracaoBeanTela configuracaoBeanTela;
-
-	@Autowired
-	private BackupController backupController;
 
 	private Stage primaryStage;
 
@@ -70,6 +70,7 @@ public class TelaPrincipalController extends AbstractController {
 	}
 
 	public void exibirTelaBackUp() {
+		BackupController backupController = ApplicationConfig.getBean(BackupController.class);
 		backupController.exibirTelaBackup(primaryStage);
 	}
 
@@ -77,14 +78,31 @@ public class TelaPrincipalController extends AbstractController {
 		paneTelaAtiva.getChildren().setAll(tela);
 	}
 
-	public Stage exibirPopup(Parent tela) {
-		Stage popup = new Stage();
-		popup.initOwner(primaryStage);
-		popup.initModality(Modality.APPLICATION_MODAL);
-		Scene scene = new Scene(tela);
-		popup.setScene(scene);
-		popup.show();
-		return popup;
+	
+	Map<Class, Stage> mapaPopups = new HashMap<Class, Stage>();
+	/**
+	 *  Verifica se o popup já foi criado, senão o cria e o adiciona no mapa
+	 */
+	public Stage exibirPopup(Class classeControler, Parent tela) {
+		
+		if (!this.mapaPopups.containsKey(classeControler)) {
+			Stage popup = new Stage();
+			popup.initOwner(primaryStage);
+			popup.initModality(Modality.APPLICATION_MODAL);
+			Scene scene = new Scene(tela);
+			popup.setScene(scene);
+			
+			this.mapaPopups.put(classeControler, popup);
+			popup.show();
+			return popup;
+			
+		} else {
+			Stage popup = this.mapaPopups.get(classeControler);
+			popup.show();
+			return popup;
+		}
+
+		
 	}
 
 	public void exibirTelaPrincipal() {
@@ -94,72 +112,86 @@ public class TelaPrincipalController extends AbstractController {
 	}
 
 	public Stage exibirTelaRecebimentoCadastro() {
-		Stage popup = this.exibirPopup(configuracaoBeanTela.carregarTelaRecebimentoCadastro());
+		Parent tela = configuracaoBeanTela.carregarTelaRecebimentoCadastro();
+		Stage popup = this.exibirPopup(RecebimentoCadastroController.class, tela);
 		return popup;
 	}
 
 	public Stage exibirTelaClienteCadastro() {
-		Stage popup = this.exibirPopup(configuracaoBeanTela.carregarTelaClienteCadastro());
+		Parent tela = configuracaoBeanTela.carregarTelaClienteCadastro();
+		Stage popup = this.exibirPopup(ClienteCadastroController.class, tela);
 		return popup;
 	}
 
 	public Stage exibirTelaFornecedorCadastro() {
-		Stage popup = this.exibirPopup(configuracaoBeanTela.carregarTelaFornecedorCadastro());
+		Parent tela = configuracaoBeanTela.carregarTelaFornecedorCadastro();
+		Stage popup = this.exibirPopup(FornecedorCadastroController.class, tela);
 		return popup;
 	}
 
 	public Stage exibirTelaPedidoCadastro() {
-		Stage popup = this.exibirPopup(configuracaoBeanTela.carregarTelaPedidoCadastro());
+		Parent tela = configuracaoBeanTela.carregarTelaPedidoCadastro();
+		Stage popup = this.exibirPopup(PedidoCadastroController.class, tela);
 		return popup;
 	}
 
 	public Stage exibirTelaProdutoCadastro() {
-		Stage popup = this.exibirPopup(configuracaoBeanTela.carregarTelaProdutoCadastro());
+		Parent tela = configuracaoBeanTela.carregarTelaProdutoCadastro();
+		Stage popup = this.exibirPopup(ProdutoCadastroController.class, tela);
 		return popup;
 	}
 
 	public Stage exibirTelaItemPedidoCadastro() {
-		Stage popup = this.exibirPopup(configuracaoBeanTela.carregarTelaItemPedidoCadastro());
+		Parent tela = configuracaoBeanTela.carregarTelaItemPedidoCadastro();
+		Stage popup = this.exibirPopup(ItemPedidoCadastroController.class, tela);
 		return popup;
 	}
 
 	public Stage exibirTelaParametroCadastro() {
-		Stage popup = this.exibirPopup(configuracaoBeanTela.carregarTelaParametroCadastro());
+		Parent tela = configuracaoBeanTela.carregarTelaParametroCadastro();
+		Stage popup = this.exibirPopup(ParametroCadastroController.class, tela);
 		return popup;
 	}
 	
 	public Stage exibirTelaVendedorCadastro() {
-		Stage popup = this.exibirPopup(configuracaoBeanTela.carregarTelaVendedorCadastro());
+		Parent tela = configuracaoBeanTela.carregarTelaVendedorCadastro();
+		Stage popup = this.exibirPopup(VendedorCadastroController.class, tela);
 		return popup;
 	}
 	
 	public Stage exibirProdutoListaTelaPedido() {
-		Stage popup = this.exibirPopup(configuracaoBeanTela.carregarProdutoListaTelaPedido());
+		Parent tela = configuracaoBeanTela.carregarProdutoListaTelaPedido();
+		Stage popup = this.exibirPopup(ProdutoListaTelaPedidoController.class, tela);
 		return popup;
 	}
 
 	public Stage exibirTelaRecebimentoLista() {
-		Stage popup = this.exibirPopup(configuracaoBeanTela.carregarTelaRecebimentoLista());
+		Parent tela = configuracaoBeanTela.carregarTelaRecebimentoLista();
+		Stage popup = this.exibirPopup(RecebimentoListaController.class, tela);
 		return popup;
 	}
 
 	public Stage exibirTelaRelatorioRecebimentosFiltro() {
-		Stage popup = this.exibirPopup(configuracaoBeanTela.carregarTelaRelatorioRecebimentosFiltro());
+		Parent tela = configuracaoBeanTela.carregarTelaRelatorioRecebimentosFiltro();
+		Stage popup = this.exibirPopup(RelatorioRecebimentoController.class, tela);
 		return popup;
 	}
 
 	public Stage exibirPopupMensagem() {
-		Stage popup = this.exibirPopup(configuracaoBeanTela.carregarPopupMensagem());
+		Parent tela = configuracaoBeanTela.carregarPopupMensagem();
+		Stage popup = this.exibirPopup(PopupMensagemController.class, tela);
 		return popup;
 	}
 
 	public Stage exibirPopupTexto() {
-		Stage popup = this.exibirPopup(configuracaoBeanTela.carregarPopupTexto());
+		Parent tela = configuracaoBeanTela.carregarPopupTexto();
+		Stage popup = this.exibirPopup(PopupTextoController.class, tela);
 		return popup;
 	}
 
 	public Stage exibirPopupConfirmacao() {
-		Stage popup = this.exibirPopup(configuracaoBeanTela.carregarPopupConfirmacao());
+		Parent tela = configuracaoBeanTela.carregarPopupConfirmacao();
+		Stage popup = this.exibirPopup(PopupConfirmacaoController.class, tela);
 		return popup;
 	}
 

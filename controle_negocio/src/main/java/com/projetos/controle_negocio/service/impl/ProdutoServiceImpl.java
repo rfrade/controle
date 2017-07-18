@@ -18,7 +18,12 @@ import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.poifs.filesystem.OfficeXmlFileException;
 import org.apache.poi.ss.usermodel.DateUtil;
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
@@ -35,6 +40,11 @@ import com.projetos.controle_negocio.repositoy.EntidadeRepository;
 import com.projetos.controle_negocio.repositoy.ProdutoRepository;
 import com.projetos.controle_negocio.service.base.ProdutoService;
 
+/**
+ * Responsável pela importação dos dados do arquivo XLS/XLSX e persistência na base
+ * 
+ * @author Rafael
+ */
 @Service
 @Lazy
 public class ProdutoServiceImpl extends EntidadeServiceImpl<Produto> implements ProdutoService {
@@ -62,11 +72,10 @@ public class ProdutoServiceImpl extends EntidadeServiceImpl<Produto> implements 
 	}
 
 	@Override
-	public String importarProdutosPlanilha(File file, Fornecedor fornecedor) throws NegocioException {
-		List<Produto> produtos = getProdutosImportacao(file, fornecedor);
-		String retorno = produtos.size() + " produtos foram importados. \nVerifique se esta é a quantidade de produtos no arquivo.";
+	public Integer importarProdutosPlanilha(File file, Fornecedor fornecedor) throws NegocioException {
+		List<Produto> produtos = this.getProdutosImportacao(file, fornecedor);
 		produtoRepository.save(produtos);
-		return retorno;
+		return produtos.size();
 	}
 
 	/**
@@ -90,46 +99,130 @@ public class ProdutoServiceImpl extends EntidadeServiceImpl<Produto> implements 
 		try {
 			List<Produto> produtos = new ArrayList<>();
 
-			InputStream inp = new FileInputStream(file);
-			HSSFWorkbook wb = new HSSFWorkbook(inp);
-			HSSFSheet sheet = wb.getSheetAt(0);
+			/*
+			 * Arquivos XLS devem serimportados utilizando as classes HSSF;
+			 * Arquivos XLSX devem serimportados utilizando as classes XSSF
+			 */
+			if (file.getName().endsWith(".xls")) {
+				produtos = importarXLS(file, fornecedor, produtos);
 
-			for (int numeroLinha = 1; numeroLinha < sheet.getPhysicalNumberOfRows(); numeroLinha++) {
-				HSSFRow linha = sheet.getRow(numeroLinha);
-				if (linha.getCell(0).getCellType() != HSSFCell.CELL_TYPE_BLANK) {
-					Produto produto = getProdutoLinha(linha);
-
-					desativarProdutos(produto.getReferencia(), fornecedor);
-
-					produto.setFornecedor(fornecedor);
-					produtos.add(produto);
-				}
+			} else if (file.getName().endsWith(".xlsx")) {
+				produtos = importarXLSX(file, fornecedor, produtos);
+				
 			}
 
 			return produtos;
-		} catch (FileNotFoundException e) {
-			throw new NegocioException(e);
+		
 		} catch (IOException e) {
 			throw new NegocioException(e);
+		
+		} catch (IllegalStateException e) {
+			String message = "produto.colunas_erradas";
+			NegocioException negocioException = new NegocioException(message, e);
+			throw negocioException;
+	
 		}
 	}
 
-	private Produto getProdutoLinha(HSSFRow linha) {
-		Produto produto = new Produto();
+	private List<Produto> importarXLS(File file, Fornecedor fornecedor,
+			List<Produto> produtos) throws FileNotFoundException, IOException {
+		InputStream inp = new FileInputStream(file);
+		
+		HSSFWorkbook wb = new HSSFWorkbook(inp);
+		HSSFSheet sheet = wb.getSheetAt(0);
+
+		for (int numeroLinha = 0; numeroLinha < sheet.getPhysicalNumberOfRows(); numeroLinha++) {
+			HSSFRow linha = sheet.getRow(numeroLinha);
+			if ((linha.getCell(0) != null && linha.getCell(0).getCellType() != HSSFCell.CELL_TYPE_BLANK)) {
+
+				Produto produto = getProdutoLinhaXLS(linha);
+
+				desativarProdutos(produto.getReferencia(), fornecedor);
+
+				produto.setFornecedor(fornecedor);
+				produtos.add(produto);
+			}
+		}
+		return produtos;
+	}
+
+	private List<Produto> importarXLSX(File file, Fornecedor fornecedor,
+			List<Produto> produtos) throws FileNotFoundException, IOException {
+		InputStream inp = new FileInputStream(file);
+
+		XSSFWorkbook wb = new XSSFWorkbook(inp);
+		XSSFSheet sheet = wb.getSheetAt(0);
+
+		for (int numeroLinha = 1; numeroLinha < sheet.getPhysicalNumberOfRows(); numeroLinha++) {
+			XSSFRow linha = sheet.getRow(numeroLinha);
+			if (linha.getCell(0).getCellType() != XSSFCell.CELL_TYPE_BLANK) {
+				Produto produto = getProdutoLinhaXLSX(linha);
+
+				desativarProdutos(produto.getReferencia(), fornecedor);
+
+				produto.setFornecedor(fornecedor);
+				produtos.add(produto);
+			}
+		}
+		return produtos;
+	}
+
+
+	private Produto getProdutoLinhaXLS(HSSFRow linha) {
 
 		HSSFCell celulaReferencia = linha.getCell(0);
 		celulaReferencia.setCellType(HSSFCell.CELL_TYPE_STRING);
-		produto.setReferencia(celulaReferencia.getStringCellValue());
-		produto.setDescricao(linha.getCell(1).getStringCellValue());
-		produto.setValorUnitario(linha.getCell(2).getNumericCellValue());
 
-		produto.setAtivo(true);
 		HSSFCell celulaTamanho = linha.getCell(3);
-		produto.setTamanho(getValorCelulaTamnho(celulaTamanho));
+		String referencia = celulaReferencia.getStringCellValue();
+		String descricao = linha.getCell(1).getStringCellValue();
+		String tamanho = getValorCelulaTamanhoXLS(celulaTamanho);
+		double valorUnitario = linha.getCell(2).getNumericCellValue();
+
+		Produto produto = novoObjetoProduto(referencia, descricao, tamanho, valorUnitario);
+
 		return produto;
 	}
 
-	private String getValorCelulaTamnho(HSSFCell celulaTamanho) {
+	private Produto getProdutoLinhaXLSX(XSSFRow linha) {
+
+		XSSFCell celulaReferencia = linha.getCell(0);
+		celulaReferencia.setCellType(HSSFCell.CELL_TYPE_STRING);
+
+		XSSFCell celulaTamanho = linha.getCell(3);
+		String referencia = celulaReferencia.getStringCellValue();
+		String descricao = linha.getCell(1).getStringCellValue();
+		String tamanho = getValorCelulaTamanhoXLSX(celulaTamanho);
+		double valorUnitario = linha.getCell(2).getNumericCellValue();
+
+		Produto produto = novoObjetoProduto(referencia, descricao, tamanho, valorUnitario);
+
+		return produto;
+	}
+
+	/**
+	 * Cria um objeto produto, não faz nenhuma persistência
+	 * 
+	 * @param produto
+	 * @param referencia
+	 * @param descricao
+	 * @param tamanho
+	 * @param valorUnitario
+	 */
+	private Produto novoObjetoProduto(String referencia,
+			String descricao, String tamanho, double valorUnitario) {
+		Produto produto = new Produto();
+		
+		produto.setReferencia(referencia);
+		produto.setDescricao(descricao);
+		produto.setValorUnitario(valorUnitario);
+		produto.setAtivo(true);
+		produto.setTamanho(tamanho);
+		
+		return produto;
+	}
+
+	private String getValorCelulaTamanhoXLS(HSSFCell celulaTamanho) {
 		String tamanho = null;
 		switch (celulaTamanho.getCellType()) {
 		case HSSFCell.CELL_TYPE_STRING:
@@ -148,6 +241,27 @@ public class ProdutoServiceImpl extends EntidadeServiceImpl<Produto> implements 
 		return tamanho;
 	}
 
+
+	private String getValorCelulaTamanhoXLSX(XSSFCell celulaTamanho) {
+		String tamanho = null;
+		switch (celulaTamanho.getCellType()) {
+		case XSSFCell.CELL_TYPE_STRING:
+			tamanho = celulaTamanho.getStringCellValue();
+			break;
+		case XSSFCell.CELL_TYPE_NUMERIC:
+			if (DateUtil.isCellDateFormatted(celulaTamanho)) {
+				Calendar cal = Calendar.getInstance();
+				cal.setTime(celulaTamanho.getDateCellValue());
+				tamanho = cal.get(Calendar.DAY_OF_MONTH) + "/" + (cal.get(Calendar.MONTH) + 1);
+			}
+			break;
+		default:
+			break;
+		}
+		return tamanho;
+	}
+
+	
 	public void desativarProdutos(String referencia, Fornecedor fornecedor) {
 		String queryString = "update Produto p set p.ativo = false where p.referencia = :referencia ";
 		queryString += " and p.ativo = true and p.fornecedor = :fornecedor";

@@ -1,12 +1,14 @@
 package com.projetos.controle.tela.base;
 
+import javafx.fxml.Initializable;
 import javafx.util.Callback;
 
+@SuppressWarnings("restriction")
 public class CallbackTela implements Callback<Class<?>, Object> {
 
-	private AbstractController controller;
+	private Initializable controller;
 
-	public CallbackTela(AbstractController controller) {
+	public CallbackTela(Initializable controller) {
 		this.controller = controller;
 	}
 

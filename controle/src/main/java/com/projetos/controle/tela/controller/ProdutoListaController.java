@@ -42,6 +42,7 @@ import com.projetos.controle_util.validacao.ValidacaoException;
  * 
  * @author Rafael
  */
+@SuppressWarnings("restriction")
 @Controller
 @Lazy
 public class ProdutoListaController extends BaseListController<Produto> {
@@ -134,11 +135,24 @@ public class ProdutoListaController extends BaseListController<Produto> {
 			validarImportacao(parametroCaminho);
 
 			File file = new File(parametroCaminho.getValor());
+
 			Fornecedor fornecedor = filtroFornecedor.getSelectionModel().getSelectedItem().getValor();
-			String resultadoImportacao = produtoService.importarProdutosPlanilha(file, fornecedor);
-			popupTextoController.setTitulo("Importação finalizada.");
-			popupTextoController.setMensagem(resultadoImportacao);
-			telaPrincipalController.exibirPopupTexto();
+			Integer numeroProdutosImportados = produtoService.importarProdutosPlanilha(file, fornecedor);
+			
+			if (numeroProdutosImportados == 0) {
+				throw new ValidacaoException("produto.nenhum_produto_importado");
+			} else {
+				String importacaoFinalizada = propertiesLoader.getProperty("produto.importacao_finalizada");
+				popupTextoController.setTitulo(importacaoFinalizada);
+
+				String importacaoComSucesso = propertiesLoader.getProperty("produto.importacao_finalizada").concat("\n");
+				String mensagemFinal = propertiesLoader.getProperty("produto.numero_produtos_importados");
+				String resultadoImportacao = importacaoComSucesso.concat(numeroProdutosImportados.toString().concat(" " + mensagemFinal));
+				
+				exibirMensagemNaoMapeada(resultadoImportacao);
+				
+			}
+			
 		} catch (NegocioException e) {
 			tratarErro(e);
 		} catch (ValidacaoException e) {
@@ -205,6 +219,10 @@ public class ProdutoListaController extends BaseListController<Produto> {
 		
 		} else if (!file.exists()) {
 			throw new ValidacaoException("produto.arquivo_nao_econtrado");
+
+		} else if (!(file.getName().endsWith(".xls") || file.getName().endsWith(".xlsx"))) {
+			throw new ValidacaoException("produto.nao_e_excel");
+
 		}
 	}
 	

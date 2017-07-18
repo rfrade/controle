@@ -10,7 +10,7 @@ public enum Comparador {
 	STARTS_WITH("startsWith"),
 	STARTS_WITH_IGNORE_CASE("startsWithIgnoreCase"),
 	GREATER_THAN("gt"),
-	GREATHER_OR_EQUALS("goe"),
+	GREATER_OR_EQUALS("goe"),
 	LOWER_THAN("lt"),
 	LOWER_OR_EQUALS("loe"),
 	IN("in");

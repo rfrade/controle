@@ -107,10 +107,10 @@ public class Pedido implements Entidade, Serializable {
 	@Column(name="valor_sub_total")
 	private double valorSubTotal;
 	
-	@OneToMany(mappedBy="pedido", fetch = FetchType.EAGER, orphanRemoval=true, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy="pedido", fetch = FetchType.LAZY, orphanRemoval=true, cascade = CascadeType.ALL)
 	private List<ItemPedido> itensPedido = new ArrayList<>();
 
-	@OneToMany(mappedBy="pedido", fetch = FetchType.EAGER, orphanRemoval=true, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy="pedido", fetch = FetchType.LAZY, orphanRemoval=true, cascade = CascadeType.ALL)
 	private List<Recebimento> recebimentos = new ArrayList<>();
 
 	/*@OneToOne(cascade = {CascadeType.ALL}, orphanRemoval = true)

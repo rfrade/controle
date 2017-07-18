@@ -9,8 +9,6 @@ import java.util.ResourceBundle;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
@@ -38,9 +36,11 @@ import com.projetos.controle_negocio.filtro.Filtro;
 import com.projetos.controle_negocio.filtro.TipoFiltro;
 import com.projetos.controle_negocio.service.base.EntidadeService;
 import com.projetos.controle_negocio.service.base.ItemPedidoService;
+import com.projetos.controle_negocio.service.base.PedidoService;
 import com.projetos.controle_negocio.service.base.ProdutoService;
 import com.projetos.controle_util.validacao.ValidacaoException;
 
+@SuppressWarnings("restriction")
 @Controller
 @Lazy
 @Scope
@@ -51,6 +51,9 @@ public class ItemPedidoCadastroController extends BaseCadastroController<ItemPed
 
 	@Autowired
 	private ProdutoService produtoService;
+
+	@Autowired
+	private PedidoService pedidoService;
 
 	@FXML
 	@CampoTela(bean = "produto.referencia")
@@ -132,6 +135,7 @@ public class ItemPedidoCadastroController extends BaseCadastroController<ItemPed
 			textFieldQuantidade.focusedProperty().addListener(new FormBindingListener());
 		}
 
+		labelMensagem.setText("");
 	}
 
 	@Override
@@ -158,7 +162,7 @@ public class ItemPedidoCadastroController extends BaseCadastroController<ItemPed
 		controller.setFornecedor(entidadeForm.getPedido().getFornecedor());
 
 		Parent tela = configuracaoBeanTela.carregarProdutoListaTelaPedido();
-		Stage popup = telaPrincipalController.exibirPopup(tela);
+		Stage popup = telaPrincipalController.exibirPopup(ProdutoListaTelaPedidoController.class, tela);
 
 		MouseClickedSelect mouseClickedSelecPedido = new MouseClickedSelect(controller.getTabela(), popup);
 		controller.getTabela().setOnMouseClicked(mouseClickedSelecPedido);
@@ -254,7 +258,6 @@ public class ItemPedidoCadastroController extends BaseCadastroController<ItemPed
 		}
 	}
 
-	@SuppressWarnings("restriction")
 	@Override
 	public void salvarComMensagem() {
 		try {
@@ -263,6 +266,7 @@ public class ItemPedidoCadastroController extends BaseCadastroController<ItemPed
 
 			PedidoCadastroController pedidoCadastroController = ApplicationConfig.getBean(PedidoCadastroController.class);
 			Pedido pedido = entidadeForm.getPedido();
+			pedido = pedidoService.consultarPedido(pedido.getId());
 			
 			if (!pedido.getItensPedido().contains(entidadeForm)) {
 				pedido.addItemPedido(entidadeForm);
@@ -314,6 +318,10 @@ public class ItemPedidoCadastroController extends BaseCadastroController<ItemPed
 	@Override
 	protected void validaPersistencia() throws ValidacaoException {
 		super.validaPersistencia();
+		
+		if (entidadeForm.getProduto() == null || entidadeForm.getProduto().getId() == null) {
+			throw new ValidacaoException("item_pedido.escolha_um_produto");
+		}
 		
 		int quantidades = 0;
 		quantidades += entidadeForm.getQuantidadeTamanho1();

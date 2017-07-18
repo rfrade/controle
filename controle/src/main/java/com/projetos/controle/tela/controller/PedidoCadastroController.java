@@ -57,6 +57,7 @@ import com.projetos.controle_entities.Pedido;
 import com.projetos.controle_entities.Produto;
 import com.projetos.controle_entities.Recebimento;
 import com.projetos.controle_entities.Vendedor;
+import com.projetos.controle_negocio.exception.NegocioException;
 import com.projetos.controle_negocio.filtro.Comparador;
 import com.projetos.controle_negocio.filtro.Filtro;
 import com.projetos.controle_negocio.filtro.TipoFiltro;
@@ -70,6 +71,7 @@ import com.projetos.controle_negocio.service.base.VendedorService;
 import com.projetos.controle_util.conversao.DateUtil;
 import com.projetos.controle_util.validacao.ValidacaoException;
 
+@SuppressWarnings("restriction")
 @Controller
 @Lazy
 public class PedidoCadastroController extends BaseCadastroController<Pedido> {
@@ -245,9 +247,15 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 	private Pedido entidadeFormAnterior;
 
 	@Override
+	//@Transactional
 	public void initialize(URL url, ResourceBundle resource) {
 		super.initialize(url, resource);
 
+		if (entidadeForm.getId() != null && entidadeForm.getId() != 0) {
+			// reconsulta o pedido para trazer as entidades lazy
+			entidadeForm = pedidoService.consultarPedido(entidadeForm.getId());
+		}
+		
 		if (entidadeForm.getItensPedido() == null) {
 			// Inicialização para evitar: collection cascade="all-delete-orphan"
 			// no longer referenced
@@ -264,6 +272,7 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 		tabelaItensPedido.setOnMouseClicked(mouseClicked);
 		
 		entidadeFormAnterior = entidadeForm.copy();
+		labelMensagem.setText("");
 	}
 
 	private void carregarComboFornecedor() {
@@ -372,7 +381,7 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 
 	public void exibirTelaCliente() {
 		Parent telaClienteLista = configuracaoBeanTela.carregarTelaClienteLista();
-		Stage popup = telaPrincipalController.exibirPopup(telaClienteLista);
+		Stage popup = telaPrincipalController.exibirPopup(ClienteListaController.class, telaClienteLista);
 		ClienteListaController controller = ApplicationConfig.getBean(ClienteListaController.class);
 		ClienteSelect mouseClickedSelecPedido = new ClienteSelect(controller.getTabela(), popup);
 		controller.getTabela().setOnMouseClicked(mouseClickedSelecPedido);
@@ -494,6 +503,8 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 			tratarErro(e);
 		} catch (ValidacaoException e) {
 			tratarErroValidacao(e);
+		} catch (NegocioException e) {
+			tratarErro(e);
 		}
 	}
 
@@ -644,6 +655,7 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 
 	@Override
 	public void remover() {
+		entidadeForm = pedidoService.consultarPedido(entidadeForm.getId());
 		List<ItemPedido> itensPedido = entidadeForm.getItensPedido();
 
 		for (ItemPedido itemPedido : itensPedido) {
@@ -695,10 +707,11 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 	}
 
 	public void removerItemPedido() {
+		entidadeForm = pedidoService.consultarPedido(entidadeForm.getId());
 		ItemPedido itemPedido = tabelaItensPedido.getSelectionModel().getSelectedItem();
 		entidadeForm.removeItemPedido(itemPedido);
-		itemPedidoService.salvar(itemPedido);
-		itemPedidoService.remover(itemPedido);
+		//itemPedidoService.salvar(itemPedido);
+		//itemPedidoService.remover(itemPedido);
 		tabelaItensPedido.getItems().remove(itemPedido);
 //		entidadeForm = getEntidadeService().findById(entidadeForm.getId());
 		this.atualizarValorPedido();
@@ -724,8 +737,10 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 
 	public void atualizaValorRecebimento() {
 		Recebimento recebimento = getPrimeiroRecebimento();
-		recebimento.setValorRecebimento(getValorComissao());
-		recebimentoService.salvar(recebimento);
+		if (recebimento != null) {
+			recebimento.setValorRecebimento(getValorComissao());
+			recebimentoService.salvar(recebimento);
+		}
 	}
 	
 	private Recebimento getPrimeiroRecebimento() {
@@ -809,6 +824,7 @@ public class PedidoCadastroController extends BaseCadastroController<Pedido> {
 
 	}
 
+	@SuppressWarnings("unused")
 	private class FornecedorChangeListener implements ChangeListener<Boolean> {
 
 		@Override

@@ -5,5 +5,5 @@
 <?import javafx.scene.layout.*?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="116.0" prefWidth="360.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.projetos.controle.tela.controller.PopupMensagemController">
-<children><Label fx:id="labelMensagem" alignment="CENTER" ellipsisString="" layoutX="10.0" layoutY="14.0" prefHeight="93.0" prefWidth="341.0" style="-fx-font-size: 16; -fx-font-weight: bold; -fx-font-family: calibri;" textAlignment="CENTER" />
+<children><Label fx:id="labelMensagem" alignment="CENTER" ellipsisString="" layoutX="10.0" layoutY="14.0" prefHeight="93.0" prefWidth="341.0" style="-fx-font-size: 16; -fx-font-weight: bold; -fx-font-family: calibri;" textAlignment="CENTER" wrapText="true" />
 </children></AnchorPane>

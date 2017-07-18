@@ -40,13 +40,13 @@ public class Recebimento implements Serializable, Entidade {
 	private boolean recebido;
 
 	@Column(name="valor_recebimento")
-	private double valorRecebimento;
+	private Double valorRecebimento;
 	
 	@Column(name="valor_faturado")
-	private double valorFaturado;
+	private Double valorFaturado;
 
 	@Column(name="percentual_comissao")
-	private double percentualComissao;
+	private Double percentualComissao;
 
 	//bi-directional many-to-one association to Pedido
 	@ManyToOne
@@ -119,11 +119,11 @@ public class Recebimento implements Serializable, Entidade {
 		this.recebido = recebido;
 	}
 
-	public double getValorRecebimento() {
+	public Double getValorRecebimento() {
 		return this.valorRecebimento;
 	}
 
-	public void setValorRecebimento(double valorRecebimento) {
+	public void setValorRecebimento(Double valorRecebimento) {
 		this.valorRecebimento = valorRecebimento;
 	}
 
@@ -135,19 +135,19 @@ public class Recebimento implements Serializable, Entidade {
 		this.pedido = pedido;
 	}
 
-	public double getPercentualComissao() {
+	public Double getPercentualComissao() {
 		return percentualComissao;
 	}
 
-	public void setPercentualComissao(double percentualComissao) {
+	public void setPercentualComissao(Double percentualComissao) {
 		this.percentualComissao = percentualComissao;
 	}
 
-	public double getValorFaturado() {
+	public Double getValorFaturado() {
 		return valorFaturado;
 	}
 
-	public void setValorFaturado(double valorFaturado) {
+	public void setValorFaturado(Double valorFaturado) {
 		this.valorFaturado = valorFaturado;
 	}
 

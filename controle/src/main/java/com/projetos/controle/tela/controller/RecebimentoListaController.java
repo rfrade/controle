@@ -12,10 +12,13 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Controller;
 
+import com.projetos.controle.tela.ApplicationConfig;
 import com.projetos.controle.tela.base.Coluna;
 import com.projetos.controle.tela.controller.base.BaseCadastroController;
 import com.projetos.controle.tela.controller.base.BaseListController;
@@ -132,15 +135,33 @@ public class RecebimentoListaController extends BaseListController<Recebimento> 
 	@Override
 	public void remover() {
 		try {
-			super.remover();
-			Pedido pedido = entidadeForm.getPedido();
+			entidadeForm = getTabela().getSelectionModel().getSelectedItem();
+			if (entidadeForm == null) {
+				throw new ValidacaoException("cadastro.selecione_um_registro_para_remover");
+			}
 			entidadeForm = pedido.removeRecebimento(entidadeForm);
-			entidadeForm = getEntidadeService().salvar(entidadeForm);
 			pedido = pedidoService.salvar(pedido);
+//			getEntidadeService().remover(entidadeForm);
+			getTabela().getItems().remove(entidadeForm);
+
+			PedidoCadastroController pedidoCadastroController = ApplicationConfig.getBean(PedidoCadastroController.class);
+			pedidoCadastroController.setEntidadeForm(pedido);
+			//pedidoCadastroController.salvarSemMensagem();
+
+			exibirMensagem("cadastro.removido_com_sucesso");
+			
+			//pedido = pedidoService.consultarPedido(pedido.getId());
+			//pedido = pedidoService.salvar(pedido);
+			// Pedido pedido = entidadeForm.getPedido();
+			// entidadeForm = getEntidadeService().salvar(entidadeForm);
 		} catch (ValidacaoException e) {
 			tratarErroValidacao(e);
-		}
-	}
+		} catch (Exception e) {
+			e.printStackTrace();
+			log.error(e.getMessage());
+			exibirMensagemNaoMapeada("Não foi possível excluir: "
+					+ e.getMessage());
+		}}
 
 	@Override
 	protected EntidadeService<Recebimento> getEntidadeService() {

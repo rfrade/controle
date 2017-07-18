@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 
 import com.projetos.controle.tela.base.AbstractController;
 
+@SuppressWarnings({ "rawtypes", "restriction" })
 @Controller
 @Lazy
 public class PopupTextoController extends AbstractController implements Initializable {

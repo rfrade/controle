@@ -24,6 +24,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
+import javax.transaction.Transactional;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
@@ -51,6 +52,7 @@ import com.projetos.controle.tela.controller.PopupMensagemController;
 import com.projetos.controle.tela.controller.TelaPrincipalController;
 import com.projetos.controle.tela.util.CelulaFactory;
 import com.projetos.controle_entities.Entidade;
+import com.projetos.controle_negocio.exception.NegocioException;
 import com.projetos.controle_negocio.filtro.Filtro;
 import com.projetos.controle_negocio.service.base.EntidadeService;
 import com.projetos.controle_util.conversao.DateUtil;
@@ -66,23 +68,15 @@ import com.projetos.controle_util.validacao.ValidacaoException;
  * @param <T>
  *            Entidade à qual a controller realizará manutenção
  */
-public abstract class BaseEntityController<T extends Entidade> extends AbstractController<T> {
+@SuppressWarnings("restriction")
+public abstract class BaseEntityController<T extends Entidade> extends AbstractController {
 
 	protected T entidadeForm;
 
 	protected ObservableList<T> listaEntidades;
 
 	@Autowired
-	protected TelaPrincipalController telaPrincipalController;
-
-	@Autowired
-	private PopupConfirmacaoController popupConfirmacaoController;
-
-	@Autowired
 	protected ConfiguracaoBeanTela configuracaoBeanTela;
-
-	@Autowired
-	protected PopupMensagemController popupMensagemController;
 
 	public void exibirPopupConfirmacao() {
 		exibirPopupConfirmacao(new DefaultConfirmHandler());
@@ -116,20 +110,6 @@ public abstract class BaseEntityController<T extends Entidade> extends AbstractC
 	protected void fecharPopupConfirmacao() {
 		popupConfirmacaoController.close();
 	}
-
-	protected void exibirMensagem(String mensagem) {
-		exibirMensagemNaoMapeada(propertiesLoader.getProperty(mensagem));
-	}
-
-	protected void exibirMensagemNaoMapeada(String mensagem) {
-		popupMensagemController.setMensagem(mensagem);
-		telaPrincipalController.exibirPopupMensagem();
-	}
-
-	@Autowired
-	protected PropertiesLoader propertiesLoader;
-
-	protected Logger log = Logger.getLogger(this.getClass());
 
 	/**
 	 * Preenche os dados da tela com os dados do bean (entidadeForm)
@@ -501,32 +481,6 @@ public abstract class BaseEntityController<T extends Entidade> extends AbstractC
 		int minuto = localTime.getMinute();
 		int segundo = localTime.getSecond();
 		return ano + "_" + mes + "_" + dia + "_" + hora + "_" + minuto + "_" + segundo;
-	}
-
-	protected void tratarErro(Exception e) {
-		log.error(e.getMessage(), e);
-		exibirMensagemNaoMapeada("Erro, tire um print da tela e envie por email: " + e.getMessage());
-	}
-
-	protected void tratarErroValidacao(ValidacaoException e) {
-		String mensagem = propertiesLoader.getProperty(e.getMensagem());
-
-		if (mensagem == null) {
-
-			if (e.getParam() != null) {
-				exibirMensagemNaoMapeada(e.getMensagem() + ": " + e.getParam()[0]);
-				return;
-			}
-
-			exibirMensagemNaoMapeada(e.getMensagem());
-			return;
-		
-		} else {
-			
-			exibirMensagemNaoMapeada(mensagem);
-
-		}
-
 	}
 
 	@Bean(name = "validator")

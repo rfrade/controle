@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -46,6 +47,7 @@ import com.projetos.controle_negocio.filtro.TipoFiltro;
 import com.projetos.controle_negocio.service.base.EntidadeService;
 import com.projetos.controle_negocio.service.base.FornecedorService;
 import com.projetos.controle_negocio.service.base.ParametroService;
+import com.projetos.controle_negocio.service.base.PedidoService;
 import com.projetos.controle_negocio.service.base.RecebimentoService;
 import com.projetos.controle_util.conversao.DateUtil;
 import com.projetos.controle_util.validacao.ValidacaoException;
@@ -54,6 +56,7 @@ import com.projetos.controle_util.validacao.ValidacaoException;
  * 
  * @author Rafael
  */
+@SuppressWarnings("restriction")
 @Controller
 @Lazy
 public class RelatorioRecebimentoController extends BaseEntityController<Recebimento> {
@@ -67,12 +70,15 @@ public class RelatorioRecebimentoController extends BaseEntityController<Recebim
 	@Autowired
 	private ParametroService parametroService;
 
+	@Autowired
+	private PedidoService pedidoService;
+	
 	@FXML
 	@Coluna(bean = "firma")
 	private TableColumn<Fornecedor, String> colunaFirma;
 
 	@FXML
-	@FiltroTela(campo = "dataRecebimento", tipo = TipoFiltro.DATE, comparador = Comparador.GREATHER_OR_EQUALS)
+	@FiltroTela(campo = "dataRecebimento", tipo = TipoFiltro.DATE, comparador = Comparador.GREATER_OR_EQUALS)
 	private DatePicker dataRecebimentoApartir;
 
 	@FXML
@@ -80,7 +86,7 @@ public class RelatorioRecebimentoController extends BaseEntityController<Recebim
 	private DatePicker dataRecebimentoAte;
 	
 	@FXML
-	@FiltroTela(campo = "pedido.dataPedido", tipo = TipoFiltro.DATE, comparador = Comparador.GREATHER_OR_EQUALS)
+	@FiltroTela(campo = "pedido.dataPedido", tipo = TipoFiltro.DATE, comparador = Comparador.GREATER_OR_EQUALS)
 	private DatePicker dataPedidoDe;
 	
 	@FXML
@@ -151,8 +157,17 @@ public class RelatorioRecebimentoController extends BaseEntityController<Recebim
 
 			List<Pedido> pedidos = new ArrayList<>();
 			for (Recebimento recebimento : recebimentos) {
-				if (!pedidos.contains(recebimento.getPedido())) {
-					pedidos.add(recebimento.getPedido());
+				Pedido pedido = recebimento.getPedido();
+				if (!pedidos.contains(pedido) && pedido != null) {
+					Pedido pedidoConsultado = pedidoService.consultarPedido(pedido.getId());
+					recebimento.setPedido(pedidoConsultado);
+					pedidos.add(pedidoConsultado);
+				} else {
+					// Se o pedido já está na lista, tem que preencher o recebimento com
+					// o pedido do recebimento que já está na lista, porque esse pedido
+					// já vai ter tido os itensPedido consultados pela pedidoService.consultarPedido
+					Pedido pedidoConsultado = this.getPedidoRecebimento(recebimentos, pedido);
+					recebimento.setPedido(pedidoConsultado);
 				}
 			}
 
@@ -168,18 +183,6 @@ public class RelatorioRecebimentoController extends BaseEntityController<Recebim
 
 			}
 			
-			/*if (dataPedidoDe.getValue() != null) {
-				Date dateApartir = fromLocalDateToDate(dataPedidoDe.getValue());
-				RelatorioUtil.preencherParametro(param, RelatorioRecebimentoParam.DATA_APARTIR, DateUtil.convertDateToString(dateApartir));
-				
-			}
-			
-			if (dataPedidoAte.getValue() != null) {
-				Date dateAte = fromLocalDateToDate(dataPedidoAte.getValue());
-				RelatorioUtil.preencherParametro(param, RelatorioRecebimentoParam.DATA_ATE, DateUtil.convertDateToString(dateAte));
-				
-			}*/
-
 			RelatorioUtil.preencherParametro(param, RelatorioRecebimentoParam.VALOR_COMISSAO, this.getValorComissaoTotal(recebimentos));
 			RelatorioUtil.preencherParametro(param, RelatorioRecebimentoParam.VALOR_PEDIDO, this.getValorTotalPedidos(pedidos));
 			RelatorioUtil.preencherParametro(param, RelatorioRecebimentoParam.OBSERVACAO, observacao.getText());
@@ -205,6 +208,23 @@ public class RelatorioRecebimentoController extends BaseEntityController<Recebim
 			tratarErroValidacao(e);
 		}
 
+	}
+
+	/**
+	 * Esse método só deverá ser utilizado para pedidos com mais de um recebimento
+	 * 
+	 * @param recebimentos
+	 * @param pedido
+	 * @return pedido já adicionado na lista de recebimentos com os itensPEdido já consultados
+	 */
+	private Pedido getPedidoRecebimento(List<Recebimento> recebimentos, Pedido pedido) {
+		for (Recebimento recebimento : recebimentos) {
+			if (recebimento.getPedido().equals(pedido)) {
+				return recebimento.getPedido();
+			}
+		}
+
+		return null;
 	}
 
 	class RelatorioRecebimentoComparator implements Comparator<Recebimento> {
@@ -248,6 +268,7 @@ public class RelatorioRecebimentoController extends BaseEntityController<Recebim
 	private String getQuantidadeItensPedido(List<Pedido> pedidos) {
 		int qtdd = 0;
 		for (Pedido pedido : pedidos) {
+			//pedido = pedidoService.consultarPedido(pedido.getId());
 			for (ItemPedido item : pedido.getItensPedido()) {
 				qtdd += item.getQuantidadeTotal();
 			}

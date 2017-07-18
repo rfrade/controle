@@ -21,30 +21,39 @@ import com.projetos.controle_util.validacao.ValidacaoException;
  * @author Rafael
  * @param <T> Entidade à qual a controller realizará manutenção
  */
+@SuppressWarnings("restriction")
 public abstract class BaseListController<T extends Entidade> extends BaseEntityController<T> implements Initializable {
 
     protected ObservableList<T> listaEntidades;
     private EventHandler<MouseEvent> defaultClickHandler;
-    private List<Filtro> filtros = new ArrayList<>();
+    protected List<Filtro> filtros = new ArrayList<>();
 
 	public void prepararAlteracao(MouseEvent event) {
 	}
 
 	public abstract void exibirTelaLista();
 
-	protected void loadTable(List<T> lista) {
+    public void pesquisar() {
+    	atualizarFiltros();
+    	List<T> listaTabela = getEntidadeService().filtrar(filtros);
+    	this.preencherTabela(listaTabela);
+    }
+
+	protected void atualizarFiltros() {
+		filtros.clear();
+    	filtros.addAll(getFiltrosFixos());
+    	filtros.addAll(getCamposFiltro());
+	}
+
+    protected void preencherTabela(List<T> listaTabela) {
+    	loadTable(listaTabela);
+    }
+
+    protected void loadTable(List<T> lista) {
 		listaEntidades = FXCollections.observableArrayList(lista);
 		getTabela().getItems().setAll(listaEntidades);
 		loadColumns();
 	}
-
-    public void pesquisar() {
-    	filtros.clear();
-    	filtros.addAll(getFiltrosFixos());
-    	filtros.addAll(getCamposFiltro());
-    	List<T> listaTabela = getEntidadeService().filtrar(filtros);
-    	loadTable(listaTabela);
-    }
 
 	@Override
 	public void initialize(URL url, ResourceBundle resource) {
@@ -55,13 +64,19 @@ public abstract class BaseListController<T extends Entidade> extends BaseEntityC
 	}
 
 	public void remover() throws ValidacaoException {
-		entidadeForm = getTabela().getSelectionModel().getSelectedItem();
-		if (entidadeForm == null) {
-			throw new ValidacaoException("cadastro.selecione_um_registro_para_remover");
+		try {
+			entidadeForm = getTabela().getSelectionModel().getSelectedItem();
+			if (entidadeForm == null) {
+				throw new ValidacaoException("cadastro.selecione_um_registro_para_remover");
+			}
+			getEntidadeService().remover(entidadeForm);
+			getTabela().getItems().remove(entidadeForm);
+			exibirMensagem("cadastro.removido_com_sucesso");
+
+		} catch (Exception e) {
+			log.error(e.getMessage());
+			exibirMensagemNaoMapeada("Não foi possível excluir: " + e.getMessage());
 		}
-		getEntidadeService().remover(entidadeForm);
-		getTabela().getItems().remove(entidadeForm);
-		exibirMensagem("cadastro.removido_com_sucesso");
 //		pesquisar();
 	}
 

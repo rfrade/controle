@@ -1,6 +1,7 @@
 package com.projetos.controle.tela.controller.base;
 
 import java.net.URL;
+import java.util.Comparator;
 import java.util.ResourceBundle;
 import java.util.Set;
 
@@ -18,11 +19,12 @@ import com.projetos.controle_util.validacao.ValidacaoException;
  * @author Rafael
  * @param <T> Entidade à qual a controller realizará manutenção
  */
+@SuppressWarnings("restriction")
 public abstract class BaseCadastroController<T extends Entidade> extends BaseEntityController<T> {
 
-    protected ObservableList<T> listaEntidades;
+	protected ObservableList<T> listaEntidades;
     
-    private TableView<T> tabela;
+	private TableView<T> tabela;
 	
 	@Override
 	public void initialize(URL url, ResourceBundle resource) {
@@ -56,16 +58,22 @@ public abstract class BaseCadastroController<T extends Entidade> extends BaseEnt
 		atualizarTabela();
 	}
 
-	@SuppressWarnings("restriction")
+	/**
+	 * Somente atualizar o bean não atualiza a tabela, por isso é
+	 * necessário atualizar tabela.getItems()
+	 */
 	protected void atualizarTabela() {
-		if (!tabela.getItems().contains(entidadeForm)) {
-			tabela.getItems().add(entidadeForm);
-		} else {
-			tabela.getItems().remove(entidadeForm);
-			tabela.getItems().add(entidadeForm);
+		if (tabela != null) {
+			if (!tabela.getItems().contains(entidadeForm)) {
+				//adiciona no começo da lista
+				tabela.getItems().add(0, entidadeForm);
+			} else {
+				int index = tabela.getItems().indexOf(entidadeForm);
+				tabela.getItems().set(index, entidadeForm);
+			}
 		}
 	}
-
+	
 	public void remover() {
 		getEntidadeService().remover(entidadeForm);
 		exibirMensagem("cadastro.removido_com_sucesso");

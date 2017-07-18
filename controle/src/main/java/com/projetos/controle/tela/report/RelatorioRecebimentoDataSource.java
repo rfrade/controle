@@ -9,7 +9,6 @@ import org.apache.log4j.Logger;
 
 import com.projetos.controle_entities.ItemPedido;
 import com.projetos.controle_entities.Recebimento;
-import com.projetos.controle_util.reflection.BeanUtil;
 
 /**
  * Classe que representa um DataSource genérico do JasperReports. <br>

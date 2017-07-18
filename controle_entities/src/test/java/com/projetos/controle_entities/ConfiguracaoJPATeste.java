@@ -7,6 +7,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 
+import org.apache.log4j.Logger;
 import org.junit.Test;
 
 /**
@@ -17,14 +18,16 @@ import org.junit.Test;
  */
 public class ConfiguracaoJPATeste {
 
+	private static Logger log = Logger.getLogger(ConfiguracaoJPATeste.class);
+	
 	@Test
 	@SuppressWarnings("unchecked")
 	public void testarConfiguracaoJPA() {
 		EntityManagerFactory factory = Persistence.createEntityManagerFactory("com.inovacao.controle_entities");
 		EntityManager em = factory.createEntityManager();
-		Query q = em.createQuery("select t from Logradouro t");
+		Query q = em.createQuery("select t from Pedido t");
 		List<Logradouro> todoList = q.getResultList();
-	    System.out.println(todoList);
+		log.info(todoList.size());
 	}
 	
 }

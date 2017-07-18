@@ -1,6 +1,10 @@
 package com.projetos.controle.tela.controller;
 
 import java.net.URL;
+import java.util.Calendar;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import javafx.fxml.FXML;
@@ -16,14 +20,19 @@ import com.projetos.controle.tela.base.Coluna;
 import com.projetos.controle.tela.base.FiltroTela;
 import com.projetos.controle.tela.controller.base.BaseCadastroController;
 import com.projetos.controle.tela.controller.base.BaseListController;
+import com.projetos.controle_entities.Parametro;
 import com.projetos.controle_entities.Pedido;
 import com.projetos.controle_entities.Produto;
+import com.projetos.controle_negocio.exception.NegocioException;
 import com.projetos.controle_negocio.filtro.Comparador;
+import com.projetos.controle_negocio.filtro.Filtro;
 import com.projetos.controle_negocio.filtro.TipoFiltro;
 import com.projetos.controle_negocio.service.base.EntidadeService;
 import com.projetos.controle_negocio.service.base.FornecedorService;
+import com.projetos.controle_negocio.service.base.ParametroService;
 import com.projetos.controle_negocio.service.base.PedidoService;
 
+@SuppressWarnings("restriction")
 @Controller
 @Lazy
 public class PedidoListaController extends BaseListController<Pedido> {
@@ -35,7 +44,13 @@ public class PedidoListaController extends BaseListController<Pedido> {
 	private FornecedorService fornecedorService;
 
 	@Autowired
+	private ParametroService parametroService;
+
+	@Autowired
 	private PedidoCadastroController pedidoCadastroController;
+	
+	@Autowired
+	private RecebimentoListaController recebimentoListaController;
 	
 	@FXML
 	@FiltroTela(campo = "cliente.firma", tipo = TipoFiltro.STRING, comparador = Comparador.CONTAINS_IGNORE_CASE)
@@ -100,7 +115,84 @@ public class PedidoListaController extends BaseListController<Pedido> {
 	public void exibirTelaLista() {
 		telaPrincipalController.exibirTelaPedidoLista();
 	}
+	
+	/**
+	 * abre a tela de movimentação direto da lista
+	 */
+	public void exibirTelaMovimentacao() {
+		Pedido pedido = getTabela().getSelectionModel().getSelectedItem();
+		if (pedido == null || pedido.getId() == null) {
+			exibirMensagem("cadastro.selecione_um_item");
+			return;
+		}
 
+		// essa consulta é necessária para carregar os itensPedido e recebimentos
+		pedido = pedidoService.consultarPedido(pedido.getId());
+		recebimentoListaController.setPedido(pedido);
+		telaPrincipalController.exibirTelaRecebimentoLista();
+	}
+
+	@Override
+	public void pesquisar() {
+		try {
+			atualizarFiltros();
+
+			// Se algum filtro foi selecionado, usa o filtro
+			if (filtros.size() > 0) {
+				super.pesquisar();
+				
+			} else {
+				// Senão faz a pesquisa normal
+				pesquisarUltimosMeses();
+				
+			}
+
+		} catch (NegocioException e) {
+			tratarErro(e);
+		}
+	}
+
+	private void pesquisarUltimosMeses() throws NegocioException {
+		Calendar calendar = Calendar.getInstance();
+
+		Parametro parametro;
+		parametro = parametroService.getNumeroDeMesesConsultaPedido();
+		Integer numeroDeMesesParaConsultar = new Integer(parametro.getValor());
+		// altera o mês para 3 meses antes
+		calendar.set(Calendar.MONTH, calendar.get(Calendar.MONTH)
+				- numeroDeMesesParaConsultar);
+
+		Date data = calendar.getTime();
+
+		Filtro filtro = new Filtro("dataPedido", TipoFiltro.DATE,
+				Comparador.GREATER_OR_EQUALS, data);
+
+		List<Pedido> pedidos = getEntidadeService().filtrar(filtro);
+		preencherTabela(pedidos);
+	}
+
+	public void pesquisarTodos() {
+		super.pesquisar();
+	}
+
+	@Override
+	protected void preencherTabela(List<Pedido> listaTabela) {
+		listaTabela.sort(new ComparadorPedido());
+		super.preencherTabela(listaTabela);
+	}
+	
+	/**
+	 * Compara de modo a retornar a lista em ordem decrescente
+	 */
+	private class ComparadorPedido implements Comparator<Pedido> {
+
+		@Override
+		public int compare(Pedido o1, Pedido o2) {
+			return o2.getId().compareTo(o1.getId());
+		}
+
+	}
+	
 	@Override
 	protected EntidadeService<Pedido> getEntidadeService() {
 		return pedidoService;

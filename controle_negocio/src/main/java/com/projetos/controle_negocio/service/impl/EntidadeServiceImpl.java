@@ -42,7 +42,7 @@ public abstract class EntidadeServiceImpl<T extends Entidade> implements Entidad
 	}
 
 	public void remover(T t) {
-		getRepository().delete(t);
+		this.remover(t.getId());
 	}
 
 	public void remover(Integer k) {

@@ -11,7 +11,7 @@ public interface ProdutoService extends EntidadeService<Produto> {
 
 	List<Produto> getProdutosImportacao(File file, Fornecedor fornecedor) throws NegocioException;
 
-	String importarProdutosPlanilha(File file, Fornecedor fornecedor) throws NegocioException;
+	Integer importarProdutosPlanilha(File file, Fornecedor fornecedor) throws NegocioException;
 
 	Produto getProdutoByReferencia(String referencia, Fornecedor fornecedor);
 	

@@ -1,8 +1,11 @@
 package com.projetos.controle.tela.base;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 
 import org.apache.log4j.Logger;
@@ -37,6 +40,7 @@ import com.projetos.controle.tela.controller.TelaPrincipalController;
 import com.projetos.controle.tela.controller.VendedorCadastroController;
 import com.projetos.controle.tela.controller.VendedorListaController;
 
+@SuppressWarnings("restriction")
 @Configuration
 @Scope(ConfigurableBeanFactory.SCOPE_SINGLETON)
 public class ConfiguracaoBeanTela {
@@ -46,6 +50,7 @@ public class ConfiguracaoBeanTela {
 	@Autowired
 	private ApplicationContext applicationContext;
 
+	private Map<Class<AbstractController>, Parent> telas = new HashMap<Class<AbstractController>, Parent>();
 	
 	@Bean(name = "telaPrincipal")
 	@Scope(ConfigurableBeanFactory.SCOPE_SINGLETON)
@@ -199,20 +204,29 @@ public class ConfiguracaoBeanTela {
 	public Parent carregarPopupTexto() {
 		return carregarTela("/fxml/PopupTexto.fxml", PopupTextoController.class);
 	}
-
-	public <T extends AbstractController> Parent carregarTela(String fxml, Class<T> classe) {
+	
+	@SuppressWarnings("unchecked")
+	public <T extends Initializable> Parent carregarTela(String fxml, Class<T> classe) {
 		try {
-			FXMLLoader loader = getLoader(fxml, classe);
-			Parent tela = (Parent) loader.load();
-			return tela;
+			if (!telas.containsKey(classe)) {
+				FXMLLoader loader = getLoader(fxml, classe);
+				Parent tela = (Parent) loader.load();
+				telas.put((Class<AbstractController>) classe, tela);
+				
+				return tela;
+			} else {
+				Initializable controller = applicationContext.getBean(classe);
+				controller.initialize(null, null);
+				return telas.get(classe);
+			}
 		} catch (IOException e) {
 			log.error("Erro ao carregar o arquivo: " + fxml);
 			throw new RuntimeException(e);
 		}
 	}
 	
-	private <T extends AbstractController> FXMLLoader getLoader(String fxml, Class<T> classe) {
-		AbstractController controller = applicationContext.getBean(classe);
+	private <T extends Initializable> FXMLLoader getLoader(String fxml, Class<T> classe) {
+		Initializable controller = applicationContext.getBean(classe);
 		CallbackTela callback = new CallbackTela(controller);
 		
 		FXMLLoader loader = new FXMLLoader(getClass().getResource(fxml));

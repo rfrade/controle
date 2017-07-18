@@ -11,14 +11,9 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<org.springframework.version>4.0.0.RELEASE</org.springframework.version>
 	</properties>
-	<!-- <repositories>
-		<repository>
-			<url>http://download.eclipse.org/rt/eclipselink/maven.repo/</url>
-			<id>eclipselink</id>
-			<layout>default</layout>
-			<name>Repository for library EclipseLink (JPA 2.1)</name>
-		</repository>
-	</repositories> -->
+	<!-- <repositories> <repository> <url>http://download.eclipse.org/rt/eclipselink/maven.repo/</url> 
+		<id>eclipselink</id> <layout>default</layout> <name>Repository for library 
+		EclipseLink (JPA 2.1)</name> </repository> </repositories> -->
 
 	<dependencies>
 		<dependency>
@@ -152,6 +147,12 @@
 			<version>3.9</version>
 			<scope>provided</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml</artifactId>
+			<version>3.9</version>
+		</dependency>
+
 
 	</dependencies>
 	<build>
