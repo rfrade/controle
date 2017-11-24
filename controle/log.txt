@@ -1,0 +1,44 @@
+22:27:33,737  INFO [ClassPathXmlApplicationContext] Refreshing org.springframework.context.support.ClassPathXmlApplicationContext@280974b5: startup date [Thu Jul 27 22:27:33 BRT 2017]; root of context hierarchy
+22:27:33,942  INFO [XmlBeanDefinitionReader] Loading XML bean definitions from class path resource [applicationContext.xml]
+22:27:35,350  INFO [XmlBeanDefinitionReader] Loading XML bean definitions from class path resource [services.xml]
+22:27:36,638  INFO [AutowiredAnnotationBeanPostProcessor] JSR-330 'javax.inject.Inject' annotation found and supported for autowiring
+22:27:37,007  INFO [LocalEntityManagerFactoryBean] Building JPA EntityManagerFactory for persistence unit 'com.inovacao.controle_entities'
+22:27:37,062  WARN [HibernatePersistence] HHH015016: Encountered a deprecated javax.persistence.spi.PersistenceProvider [org.hibernate.ejb.HibernatePersistence]; use [org.hibernate.jpa.HibernatePersistenceProvider] instead.
+22:27:37,063  WARN [HibernatePersistence] HHH015016: Encountered a deprecated javax.persistence.spi.PersistenceProvider [org.hibernate.ejb.HibernatePersistence]; use [org.hibernate.jpa.HibernatePersistenceProvider] instead.
+22:27:37,063  WARN [HibernatePersistence] HHH015016: Encountered a deprecated javax.persistence.spi.PersistenceProvider [org.hibernate.ejb.HibernatePersistence]; use [org.hibernate.jpa.HibernatePersistenceProvider] instead.
+22:27:37,118  INFO [LogHelper           ] HHH000204: Processing PersistenceUnitInfo [
+	name: com.inovacao.controle_entities
+	...]
+22:27:37,238  INFO [Version             ] HHH000412: Hibernate Core {4.3.0.Final}
+22:27:37,242  INFO [Environment         ] HHH000206: hibernate.properties not found
+22:27:37,245  INFO [Environment         ] HHH000021: Bytecode provider name : javassist
+22:27:37,552  INFO [Version             ] HCANN000001: Hibernate Commons Annotations {4.0.4.Final}
+22:27:37,666  INFO [DriverManagerConnectionProviderImpl] HHH000402: Using Hibernate built-in connection pool (not for production use!)
+22:27:37,674  INFO [DriverManagerConnectionProviderImpl] HHH000401: using driver [com.mysql.jdbc.Driver] at URL [jdbc:mysql://localhost:3306/controle?zeroDateTimeBehavior=convertToNull]
+22:27:37,675  INFO [DriverManagerConnectionProviderImpl] HHH000046: Connection properties: {user=root, password=****}
+22:27:37,675  INFO [DriverManagerConnectionProviderImpl] HHH000006: Autocommit mode: false
+22:27:37,677  INFO [DriverManagerConnectionProviderImpl] HHH000115: Hibernate connection pool size: 20 (min=1)
+22:27:38,002  INFO [Dialect             ] HHH000400: Using dialect: org.hibernate.dialect.MySQLDialect
+22:27:38,013  INFO [LobCreatorBuilder   ] HHH000423: Disabling contextual LOB creation as JDBC driver reported JDBC version [3] less than 4
+22:27:38,266  INFO [ASTQueryTranslatorFactory] HHH000397: Using ASTQueryTranslatorFactory
+22:27:38,330  INFO [Version             ] HV000001: Hibernate Validator 5.1.1.Final
+22:27:39,204  INFO [SchemaValidator     ] HHH000229: Running schema validator
+22:27:39,205  INFO [SchemaValidator     ] HHH000102: Fetching database metadata
+22:27:39,229  INFO [TableMetadata       ] HHH000261: Table found: controle.parametro
+22:27:39,230  INFO [TableMetadata       ] HHH000037: Columns: [chave, valor, id, descricao]
+22:27:39,239  INFO [TableMetadata       ] HHH000261: Table found: controle.cliente
+22:27:39,239  INFO [TableMetadata       ] HHH000037: Columns: [ativo, inscricao, comprador, id, cnpj, id_logradouro, firma]
+22:27:39,249  INFO [TableMetadata       ] HHH000261: Table found: controle.fornecedor
+22:27:39,249  INFO [TableMetadata       ] HHH000037: Columns: [ativo, inscricao, comprador, id, cnpj, id_logradouro, firma]
+22:27:39,258  INFO [TableMetadata       ] HHH000261: Table found: controle.item_pedido
+22:27:39,258  INFO [TableMetadata       ] HHH000037: Columns: [quantidade_total, quantidade_tamanho_8, observacao, quantidade_tamanho_6, quantidade_tamanho_7, cor, id_produto, descricao, valor_total, quantidade_tamanho_1, id, quantidade_tamanho_4, id_pedido, quantidade_tamanho_5, quantidade_tamanho_2, quantidade_tamanho_3]
+22:27:39,271  INFO [TableMetadata       ] HHH000261: Table found: controle.logradouro
+22:27:39,271  INFO [TableMetadata       ] HHH000037: Columns: [cidade, estado, telefone, endereco, numero, ddd, bairro, ddd_celular, cep, complemento, celular, id, email]
+22:27:39,284  INFO [TableMetadata       ] HHH000261: Table found: controle.pedido
+22:27:39,284  INFO [TableMetadata       ] HHH000037: Columns: [condicoes, observacao, id_vendedor, id_cliente, valor_sub_total, cobranca, valor_total, transportador, data_pedido, desconto_total, comissao, id_fornecedor, desconto3, desconto4, colecao, desconto1, desconto2, entrega, id]
+22:27:39,293  INFO [TableMetadata       ] HHH000261: Table found: controle.produto
+22:27:39,294  INFO [TableMetadata       ] HHH000037: Columns: [tamanho, ativo, id_fornecedor, id, quantidade, referencia, descricao, valor_unitario]
+22:27:39,303  INFO [TableMetadata       ] HHH000261: Table found: controle.recebimento
+22:27:39,304  INFO [TableMetadata       ] HHH000037: Columns: [valor_faturado, valor_recebimento, percentual_comissao, id, id_pedido, data_recebimento, recebido]
+22:27:39,315  INFO [TableMetadata       ] HHH000261: Table found: controle.vendedor
+22:27:39,315  INFO [TableMetadata       ] HHH000037: Columns: [nome, id, id_logradouro]

@@ -39,7 +39,8 @@ delete from item_pedido where id in (26, 27);
 
 update Produto p set p.ativo = false where p.referencia = 'asdf'  and p.ativo = true and p.id_fornecedor = 800;
 
-source C:/desenvolvimento/projetos/controle/base/backup.sql;
+source C:/desenvolvimento/projetos/controle/base/backup2017_11_18.sql;
+*** a barra tem que ser / e não \
 
 -- Alteração do valor faturado 06/04/2015
 

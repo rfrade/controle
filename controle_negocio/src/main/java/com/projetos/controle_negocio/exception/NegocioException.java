@@ -20,6 +20,10 @@ public class NegocioException extends Exception {
 		super(cause);
 		this.parametroMensagem = parametro;
 	}
+	
+	public static NegocioException criarNegocioException(String parametro) {
+		return new NegocioException(parametro, null);
+	}
 
 	public String getParametroMensagem() {
 		return parametroMensagem;

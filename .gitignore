@@ -2,3 +2,10 @@
 *.cache
 *.cfs
 *.index
+*.ini
+*.dat
+*.zip
+*.top
+*.inn
+metadata/
+.metadata/

@@ -33,7 +33,7 @@ import com.projetos.controle_negocio.exception.NegocioException;
 import com.projetos.controle_negocio.service.base.ParametroService;
 import com.projetos.controle_util.conversao.DateUtil;
 
-@SuppressWarnings({"deprecation", "restriction"})
+@SuppressWarnings({ "deprecation", "restriction" })
 @Controller
 @Lazy
 /**
@@ -52,7 +52,7 @@ public class BackupController extends AbstractController {
 	 * a barra de progresso
 	 */
 	private Object controle = new Object();
-	
+
 	private String caminhoArquivo;
 	private ControladorProgressBar controladorProgressBar;
 
@@ -63,6 +63,13 @@ public class BackupController extends AbstractController {
 	 */
 	public void exibirTelaBackup(Stage primaryStage) {
 
+		try {
+			validarCaminhos();
+		} catch (NegocioException e) {
+			exibirMensagem(e.getParametroMensagem());
+			return;
+		}
+
 		Label statusLabel = new Label("");
 		ProgressBar progressBar = new ProgressBar();
 		Button runButton = new Button("Gerar Backup");
@@ -70,8 +77,20 @@ public class BackupController extends AbstractController {
 		progressBar.setVisible(true);
 		progressBar.setProgress(0);
 
-		final VBox layout = VBoxBuilder.create().spacing(8)
-				.children(VBoxBuilder.create().spacing(5).children(HBoxBuilder.create().spacing(10).children(runButton, statusLabel).build(), progressBar).build()).build();
+		final VBox layout = VBoxBuilder
+				.create()
+				.spacing(8)
+				.children(
+						VBoxBuilder
+								.create()
+								.spacing(5)
+								.children(
+										HBoxBuilder
+												.create()
+												.spacing(10)
+												.children(runButton,
+														statusLabel).build(),
+										progressBar).build()).build();
 		layout.setStyle("-fx-background-color: white; -fx-padding:20; -fx-font-size: 16;");
 
 		Stage popup = new Stage();
@@ -81,8 +100,19 @@ public class BackupController extends AbstractController {
 		popup.setScene(scene);
 		popup.show();
 
-		this.controladorProgressBar = new ControladorProgressBar(runButton, statusLabel, progressBar, popup);
+		this.controladorProgressBar = new ControladorProgressBar(runButton,
+				statusLabel, progressBar, popup);
 		runButton.setOnAction(controladorProgressBar);
+	}
+
+	private void validarCaminhos() throws NegocioException {
+		caminhoArquivo = parametroService.getCaminhoBackupArquivos().getValor();
+		File caminhoBackup = new File(caminhoArquivo);
+
+		if (!caminhoBackup.exists()) {
+			throw NegocioException.criarNegocioException("backup.verifique_se_o_diretorio_existe");
+		}
+
 	}
 
 	private class ControladorProgressBar implements EventHandler<ActionEvent> {
@@ -92,7 +122,8 @@ public class BackupController extends AbstractController {
 		private Button runButton;
 		private Stage popup;
 
-		public ControladorProgressBar(Button runButton, Label statusLabel, ProgressBar progressBar, Stage popup) {
+		public ControladorProgressBar(Button runButton, Label statusLabel,
+				ProgressBar progressBar, Stage popup) {
 			this.runButton = runButton;
 			this.statusLabel = statusLabel;
 			this.progressBar = progressBar;
@@ -107,27 +138,42 @@ public class BackupController extends AbstractController {
 
 			statusLabel.textProperty().bind(threadBackup.messageProperty());
 			runButton.disableProperty().bind(threadBackup.runningProperty());
-			progressBar.progressProperty().bind(threadBackup.progressProperty());
-			threadBackup.stateProperty().addListener(new ChangeListener<Worker.State>() {
-				@Override
-				public void changed(ObservableValue<? extends Worker.State> observableValue, Worker.State oldState, Worker.State newState) {
-					if (newState == Worker.State.SUCCEEDED) {
-						runButton.setText("Salvar Arquivo");
-						runButton.setOnAction(new ControladorFileChooser(popup));
-					}
-				}
-			});
+			progressBar.progressProperty()
+					.bind(threadBackup.progressProperty());
+			threadBackup.stateProperty().addListener(
+					new ChangeListener<Worker.State>() {
+						@Override
+						public void changed(
+								ObservableValue<? extends Worker.State> observableValue,
+								Worker.State oldState, Worker.State newState) {
+							if (newState == Worker.State.SUCCEEDED) {
+								runButton.setText("Salvar Arquivo");
+								runButton
+										.setOnAction(new ControladorFileChooser(
+												popup));
+							}
+						}
+					});
 
 			new Thread(threadBackup).start();
-				
+
 		}
-		
+
 		public void fecharPopup() {
+			/*
+			 * Platform.runLater(new Runnable() {
+			 * 
+			 * @Override public void run() {
+			 */
 			popup.close();
+			/*
+			 * } });
+			 */
 		}
-		
+
 	}
 
+	@SuppressWarnings("rawtypes")
 	private class ThreadBackup extends Task {
 
 		@Override
@@ -146,7 +192,7 @@ public class BackupController extends AbstractController {
 			return null;
 		}
 	}
-	
+
 	class ControladorFileChooser implements EventHandler<ActionEvent> {
 
 		private Stage popup;
@@ -191,14 +237,16 @@ public class BackupController extends AbstractController {
 		public void gerarArquivo() {
 			try {
 				synchronized (controle) {
-					// Gera o arquivo na pasta configurada (Provavelmente
-					// C:\controle\backup)
-					caminhoArquivo = parametroService.getCaminhoBackupArquivos().getValor();
-					String date = DateUtil.fullDateTime();
-					caminhoArquivo = caminhoArquivo.concat("\\backup").concat(date).concat(".sql");
 
-					String caminhoMysqldump = parametroService.getCaminhoMysqldump().getValor();
-					ProcessBuilder pb = new ProcessBuilder(caminhoMysqldump, "--user=root", "--password=admin", "controle", "--result-file=" + caminhoArquivo);
+					String date = DateUtil.fullDateTime();
+					caminhoArquivo = caminhoArquivo.concat("\\backup")
+							.concat(date).concat(".sql");
+
+					String caminhoMysqldump = parametroService
+							.getCaminhoMysqldump().getValor();
+					ProcessBuilder pb = new ProcessBuilder(caminhoMysqldump,
+							"--user=root", "--password=admin", "controle",
+							"--result-file=" + caminhoArquivo);
 					Process process = pb.start();
 					while (process.isAlive()) {
 					}
@@ -206,12 +254,13 @@ public class BackupController extends AbstractController {
 				}
 			} catch (IOException e) {
 				// Provavelmente o arquivo não foi encontrado
-				NegocioException ne = new NegocioException("backup.verifique_se_o_diretorio_existe", e);
+				NegocioException ne = new NegocioException(
+						"backup.verifique_se_o_diretorio_existe", e);
 				tratarExcecaoBackup(ne);
 			} catch (NegocioException e) {
 				tratarExcecaoBackup(e);
 			}
-			
+
 		}
 
 	}
@@ -223,12 +272,11 @@ public class BackupController extends AbstractController {
 		this.controladorProgressBar.fecharPopup();
 		tratarErro(e);
 	}
-	
 
 	// Não utilizado
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		
+
 	}
 
 }
