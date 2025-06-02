@@ -103,13 +103,6 @@
 				</textElement>
 				<text><![CDATA[Vivo: (17) 9 9701 4596]]></text>
 			</staticText>
-			<staticText>
-				<reportElement x="116" y="54" width="119" height="15" uuid="9039ed2d-c4cb-4e1e-a831-4c33729d8e2f"/>
-				<textElement>
-					<font isBold="true"/>
-				</textElement>
-				<text><![CDATA[Tim: (17) 9 8135 7185]]></text>
-			</staticText>
 			<line>
 				<reportElement x="-1" y="19" width="247" height="1" uuid="fbe0d0b1-3893-4368-8271-c8d44d52bb20"/>
 			</line>
@@ -118,7 +111,8 @@
 				<textElement>
 					<font isBold="true"/>
 				</textElement>
-				<text><![CDATA[email: contato@genesysnet.com.br]]></text>
+				<text><![CDATA[email: jcan19729@gmail.com
+]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="0" y="83" width="232" height="30" uuid="95011680-85a4-4ea6-9c41-6121fc958668"/>
@@ -126,7 +120,7 @@
 					<font size="9"/>
 				</textElement>
 				<text><![CDATA[Rua Oswaldo Aranha 1033, Centro
-CEP: 15150-000 - Monte Aprazível - SP]]></text>
+CEP: 15150-025 - Monte Aprazível - SP]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="394" y="0" width="82" height="19" uuid="c678ff2d-479f-456b-ba68-30e69ef10d7f"/>
