@@ -18,6 +18,11 @@
 			<layout>default</layout>
 			<name>Repository for library EclipseLink (JPA 2.1)</name>
 		</repository>
+		<repository>
+			<id>jaspersoft-third-party</id>
+			<url>https://jaspersoft.jfrog.io/jaspersoft/third-party-ce-artifacts/</url>
+		</repository>
+
 	</repositories>
 
 	<dependencies>
