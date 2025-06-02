@@ -4,7 +4,7 @@
 
 	<groupId>com.projeto</groupId>
 	<artifactId>controle</artifactId>
-	<version>1.0</version>
+	<version>marquinhos</version>
 	<packaging>jar</packaging>
 
 	<properties>

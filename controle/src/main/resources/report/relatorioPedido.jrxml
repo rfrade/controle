@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.1.0.final using JasperReports Library version 6.1.0  -->
-<!-- 2017-07-18T17:06:43 -->
+<!-- Created with Jaspersoft Studio version 6.21.3.final using JasperReports Library version 6.21.3-4a3078d20785ebe464f18037d738d12fc98c13cf  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="relatorioRecebimento" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="0f7ee2be-b6ab-45db-b236-52d14156bbf1">
 	<property name="ireport.zoom" value="1.2100000000000217"/>
 	<property name="ireport.x" value="137"/>
@@ -84,49 +83,35 @@
 				<text><![CDATA[Representações Martins]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="3" y="20" width="166" height="18" uuid="16e916d8-565d-4225-a50f-2b9d957d3594"/>
+				<reportElement x="3" y="20" width="207" height="18" uuid="16e916d8-565d-4225-a50f-2b9d957d3594"/>
 				<textElement>
 					<font size="12" isBold="true"/>
 				</textElement>
-				<text><![CDATA[João Carlos Martins]]></text>
+				<text><![CDATA[Antônio Marcos Pereira da Silva]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="3" y="38" width="113" height="16" uuid="a920b855-0596-4e7c-b935-4582cdc1d8bc"/>
+				<reportElement x="3" y="38" width="127" height="16" uuid="a920b855-0596-4e7c-b935-4582cdc1d8bc"/>
 				<textElement>
 					<font isBold="true"/>
 				</textElement>
-				<text><![CDATA[Fone: (17) 3275 2292]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="116" y="38" width="119" height="16" uuid="a3404bb3-b810-4f55-a5bc-9bb17d30a156"/>
-				<textElement>
-					<font isBold="true"/>
-				</textElement>
-				<text><![CDATA[Vivo: (17) 9 9701 4596]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="116" y="54" width="119" height="15" uuid="9039ed2d-c4cb-4e1e-a831-4c33729d8e2f"/>
-				<textElement>
-					<font isBold="true"/>
-				</textElement>
-				<text><![CDATA[Tim: (17) 9 8135 7185]]></text>
+				<text><![CDATA[Fone: (17) 99774-4433]]></text>
 			</staticText>
 			<line>
 				<reportElement x="-1" y="19" width="247" height="1" uuid="fbe0d0b1-3893-4368-8271-c8d44d52bb20"/>
 			</line>
 			<staticText>
-				<reportElement x="0" y="69" width="232" height="14" uuid="a46539ca-90bc-40ea-b150-783bd012016a"/>
+				<reportElement x="0" y="68" width="232" height="14" uuid="a46539ca-90bc-40ea-b150-783bd012016a"/>
 				<textElement>
 					<font isBold="true"/>
 				</textElement>
-				<text><![CDATA[email: contato@genesysnet.com.br]]></text>
+				<text><![CDATA[email: marcobfs@hotmail.com]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="83" width="232" height="30" uuid="95011680-85a4-4ea6-9c41-6121fc958668"/>
+				<reportElement x="0" y="83" width="232" height="27" uuid="95011680-85a4-4ea6-9c41-6121fc958668"/>
 				<textElement>
 					<font size="9"/>
 				</textElement>
-				<text><![CDATA[Rua Oswaldo Aranha 1033, Centro
+				<text><![CDATA[Rua Tiradentes n.70, Centro
 CEP: 15150-000 - Monte Aprazível - SP]]></text>
 			</staticText>
 			<staticText>
@@ -230,7 +215,7 @@ CEP: 15150-000 - Monte Aprazível - SP]]></text>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$P{CIDADE_CLIENTE}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true">
+			<textField textAdjust="StretchHeight">
 				<reportElement x="361" y="113" width="47" height="20" uuid="6cd72ef9-6c5c-48f1-81cd-5466c8f1a2b7"/>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$P{ESTADO_CLIENTE}]]></textFieldExpression>
@@ -298,6 +283,13 @@ CEP: 15150-000 - Monte Aprazível - SP]]></text>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$P{EMAIL_CLIENTE}]]></textFieldExpression>
 			</textField>
+			<staticText>
+				<reportElement x="131" y="38" width="127" height="16" uuid="451ad1ac-f3f9-43de-ad9e-f4efd624fc55"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[PIX: 121.629.338-45]]></text>
+			</staticText>
 		</band>
 	</title>
 	<pageHeader>
@@ -328,7 +320,7 @@ CEP: 15150-000 - Monte Aprazível - SP]]></text>
 8
 40
 56
-G]]></text>
+GG]]></text>
 			</staticText>
 			<staticText>
 				<reportElement style="table_TH" x="268" y="3" width="23" height="64" uuid="a061ae37-1f0b-4010-8665-a29e9e9d8e06"/>
@@ -339,7 +331,7 @@ G]]></text>
 4
 36
 52
-P]]></text>
+M]]></text>
 			</staticText>
 			<staticText>
 				<reportElement style="table_TH" x="472" y="3" width="38" height="64" uuid="175c51b3-ece3-4da9-aaa9-9878022dfc55"/>
@@ -358,7 +350,7 @@ Unitario]]></text>
 12
 44
 60
-G1]]></text>
+G2]]></text>
 			</staticText>
 			<staticText>
 				<reportElement style="table_TH" x="385" y="3" width="24" height="64" uuid="8656967c-516c-4368-915e-8432e001a07d"/>
@@ -369,7 +361,7 @@ G1]]></text>
 14
 46
 62
-G2]]></text>
+G3]]></text>
 			</staticText>
 			<staticText>
 				<reportElement style="table_TH" x="0" y="3" width="58" height="64" uuid="afffe7c2-ba51-48ef-a12c-86b62e053325"/>
@@ -387,7 +379,7 @@ G2]]></text>
 10
 42
 58
-GG]]></text>
+G1]]></text>
 			</staticText>
 			<staticText>
 				<reportElement style="table_TH" x="246" y="3" width="22" height="64" uuid="0c6d3505-9db5-4eb2-951c-d8c3a69a3d12"/>
@@ -396,9 +388,9 @@ GG]]></text>
 				</textElement>
 				<text><![CDATA[1
 2
-34
+PP
 50
-PP]]></text>
+P]]></text>
 			</staticText>
 			<staticText>
 				<reportElement style="table_TH" x="409" y="3" width="23" height="64" uuid="7842555a-1188-4c84-8bd5-3a92a225ecd3"/>
@@ -409,7 +401,7 @@ PP]]></text>
 16
 48
 64
-G3]]></text>
+G4]]></text>
 			</staticText>
 			<staticText>
 				<reportElement style="table_TH" x="510" y="3" width="45" height="64" uuid="649190b6-551a-4631-b207-de870efc7933"/>
@@ -426,7 +418,7 @@ Total]]></text>
 6
 38
 54
-M]]></text>
+G]]></text>
 			</staticText>
 			<staticText>
 				<reportElement style="table_TH" x="110" y="3" width="136" height="64" uuid="71d014fe-d427-40c2-a10f-e69c5f2fde68"/>
