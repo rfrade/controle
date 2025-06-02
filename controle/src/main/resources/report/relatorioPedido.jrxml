@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.1.0.final using JasperReports Library version 6.1.0  -->
-<!-- 2017-07-18T17:06:43 -->
+<!-- Created with Jaspersoft Studio version 6.21.3.final using JasperReports Library version 6.21.3-4a3078d20785ebe464f18037d738d12fc98c13cf  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="relatorioRecebimento" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="0f7ee2be-b6ab-45db-b236-52d14156bbf1">
 	<property name="ireport.zoom" value="1.2100000000000217"/>
 	<property name="ireport.x" value="137"/>
@@ -230,7 +229,7 @@ CEP: 15150-000 - Monte Aprazível - SP]]></text>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$P{CIDADE_CLIENTE}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true">
+			<textField textAdjust="StretchHeight">
 				<reportElement x="361" y="113" width="47" height="20" uuid="6cd72ef9-6c5c-48f1-81cd-5466c8f1a2b7"/>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$P{ESTADO_CLIENTE}]]></textFieldExpression>
@@ -434,6 +433,94 @@ M]]></text>
 					<font isBold="false"/>
 				</textElement>
 				<text><![CDATA[Descrição]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table_TH" x="246" y="3" width="22" height="64" uuid="e62a7cde-3750-4934-9698-3e29d81c84a5"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[1
+2
+PP
+50
+P]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table_TH" x="268" y="3" width="23" height="64" uuid="e3df2327-0a11-4423-a588-b3eab18facb0"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[2
+4
+36
+52
+M]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table_TH" x="291" y="3" width="23" height="64" uuid="1a6837f2-20d8-4d62-8da8-627140807203"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[3
+6
+38
+54
+G]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table_TH" x="314" y="3" width="23" height="64" uuid="e6bddb47-52ee-465b-9ece-2fa76d03c428"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[32
+8
+40
+56
+GG]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table_TH" x="337" y="3" width="24" height="64" uuid="b35f2172-f509-4551-b1fe-b32c94183e45"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[66
+10
+42
+58
+G1]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table_TH" x="361" y="3" width="24" height="64" uuid="3522e566-3ab2-4962-91db-c2b5e7c12e17"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[XX1
+12
+44
+60
+G2]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table_TH" x="385" y="3" width="24" height="64" uuid="a883981b-dc9b-4f12-8189-d335b1a225c5"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[XX2
+14
+46
+62
+G3]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table_TH" x="409" y="3" width="23" height="64" uuid="27908257-98eb-43ae-af88-27b2c48c96d5"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[XX3
+16
+48
+64
+G4]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
