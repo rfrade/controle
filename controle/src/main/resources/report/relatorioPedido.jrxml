@@ -90,18 +90,11 @@
 				<text><![CDATA[João Carlos Martins]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="3" y="38" width="113" height="16" uuid="a920b855-0596-4e7c-b935-4582cdc1d8bc"/>
+				<reportElement x="3" y="37" width="166" height="16" uuid="a3404bb3-b810-4f55-a5bc-9bb17d30a156"/>
 				<textElement>
 					<font isBold="true"/>
 				</textElement>
-				<text><![CDATA[Fone: (17) 3275 2292]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="116" y="38" width="119" height="16" uuid="a3404bb3-b810-4f55-a5bc-9bb17d30a156"/>
-				<textElement>
-					<font isBold="true"/>
-				</textElement>
-				<text><![CDATA[Vivo: (17) 9 9701 4596]]></text>
+				<text><![CDATA[Fone: (17) 9 9701 4596]]></text>
 			</staticText>
 			<line>
 				<reportElement x="-1" y="19" width="247" height="1" uuid="fbe0d0b1-3893-4368-8271-c8d44d52bb20"/>
