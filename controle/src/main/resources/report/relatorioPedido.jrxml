@@ -90,11 +90,11 @@
 				<text><![CDATA[Antônio Marcos Pereira da Silva]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="3" y="38" width="127" height="16" uuid="a920b855-0596-4e7c-b935-4582cdc1d8bc"/>
+				<reportElement x="3" y="38" width="255" height="16" uuid="a920b855-0596-4e7c-b935-4582cdc1d8bc"/>
 				<textElement>
 					<font isBold="true"/>
 				</textElement>
-				<text><![CDATA[Fone: (17) 99774-4433]]></text>
+				<text><![CDATA[Fone: 17 99774-4433 / PIX: 121.629.338-45]]></text>
 			</staticText>
 			<line>
 				<reportElement x="-1" y="19" width="247" height="1" uuid="fbe0d0b1-3893-4368-8271-c8d44d52bb20"/>
@@ -283,13 +283,6 @@ CEP: 15150-000 - Monte Aprazível - SP]]></text>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$P{EMAIL_CLIENTE}]]></textFieldExpression>
 			</textField>
-			<staticText>
-				<reportElement x="131" y="38" width="127" height="16" uuid="451ad1ac-f3f9-43de-ad9e-f4efd624fc55"/>
-				<textElement>
-					<font isBold="true"/>
-				</textElement>
-				<text><![CDATA[PIX: 121.629.338-45]]></text>
-			</staticText>
 		</band>
 	</title>
 	<pageHeader>
