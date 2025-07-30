@@ -76,7 +76,7 @@
 				<reportElement x="258" y="0" width="297" height="113" uuid="49176249-561c-488c-b977-603edd918c9d"/>
 			</rectangle>
 			<staticText>
-				<reportElement mode="Transparent" x="3" y="0" width="166" height="19" uuid="6ad51308-fd20-4484-9948-7f01f018e67e"/>
+				<reportElement mode="Transparent" x="3" y="0" width="207" height="19" uuid="6ad51308-fd20-4484-9948-7f01f018e67e"/>
 				<textElement>
 					<font fontName="SansSerif" size="14" isBold="true" isUnderline="false"/>
 				</textElement>
@@ -166,19 +166,9 @@ CEP: 15150-025 - Monte Aprazível - SP]]></text>
 			<line>
 				<reportElement x="260" y="69" width="295" height="1" uuid="78fb69ab-bb43-41f0-ab58-3cb564f6ce40"/>
 			</line>
-			<staticText>
-				<reportElement x="270" y="73" width="69" height="13" uuid="b51c1235-06a7-4837-9b3a-279559f9e96c"/>
-				<textElement verticalAlignment="Middle"/>
-				<text><![CDATA[Transportador:]]></text>
-			</staticText>
 			<rectangle>
 				<reportElement x="0" y="113" width="555" height="60" uuid="1b75981e-c247-4371-988e-6025afbd12aa"/>
 			</rectangle>
-			<textField>
-				<reportElement x="339" y="73" width="57" height="13" uuid="cecc9b9e-7ae1-451a-8459-f5e74e981bc8"/>
-				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$P{TRANSPORTADOR}]]></textFieldExpression>
-			</textField>
 			<textField>
 				<reportElement x="340" y="86" width="57" height="13" uuid="e48c972c-09ef-4b6a-bf53-037def8deffb"/>
 				<textElement verticalAlignment="Middle"/>
@@ -190,7 +180,7 @@ CEP: 15150-025 - Monte Aprazível - SP]]></text>
 				<textFieldExpression><![CDATA[$P{ENTREGA}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="465" y="73" width="81" height="13" uuid="a657b4fb-0f7a-45fb-9a07-318e3bf3fbb1"/>
+				<reportElement x="330" y="73" width="216" height="13" uuid="a657b4fb-0f7a-45fb-9a07-318e3bf3fbb1"/>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$P{CONDICAO}]]></textFieldExpression>
 			</textField>
@@ -265,7 +255,7 @@ CEP: 15150-025 - Monte Aprazível - SP]]></text>
 				<text><![CDATA[Cobrança por:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="396" y="73" width="69" height="13" uuid="d324fa87-d5d5-4150-b264-ec0e8239b95e"/>
+				<reportElement x="272" y="73" width="69" height="13" uuid="d324fa87-d5d5-4150-b264-ec0e8239b95e"/>
 				<textElement verticalAlignment="Middle"/>
 				<text><![CDATA[Condição:]]></text>
 			</staticText>
